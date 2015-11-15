@@ -1,21 +1,44 @@
 package studentcompany.sportgest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    //Interface
+    private Button eventCategoiesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //EventCategoryButton
+        eventCategoiesButton = (Button)findViewById(R.id.event_category_button);
+        eventCategoiesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*int id_To_Search = arg2 + 1;
+                Bundle dataBundle = new Bundle();
+                dataBundle.putInt("id", id_To_Search);
+                */
+                Intent intent = new Intent(getApplicationContext(), ListEventCategoryActivity.class);
+
+                //intent.putExtras(dataBundle);
+                startActivity(intent);
+            }
+        });
+
+
+        //Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
