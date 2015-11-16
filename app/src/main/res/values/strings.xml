@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">SportGest</string>
     <string name="action_settings">Settings</string>
+    <string name="are_you_sure">Are you sure</string>
+    <string name="delete_confirmation">Are you sure, you want to delete it?</string>
+    <string name="delete_sucessful">Deleted Successfully</string>
+    <string name="updated">Updated</string>
+    <string name="not_updated">Not updated</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="done">Done</string>
+    <string name="not_done">Not done</string>
+    <string name="event_category_button">Event Categories</string>
+    <string name="event_category_add_menu">Add Categories</string>
+    <string name="event_category_edit_menu">Edit Categories</string>
+    <string name="event_category_delete_menu">Delete Category</string>
+    <string name="category">Category</string>
+    <string name="save_button">Save</string>
 </resources>
