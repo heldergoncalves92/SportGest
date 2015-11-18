@@ -16,4 +16,6 @@
     <string name="event_category_delete_menu">Delete Category</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
+    <string name="deselectAttribute"><![CDATA[< <]]></string>
+    <string name="selectAttribute"><![CDATA[> >]]></string>
 </resources>

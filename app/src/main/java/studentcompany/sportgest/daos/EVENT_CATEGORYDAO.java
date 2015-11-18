@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class EVENT_CATEGORYDAO extends SQLiteOpenHelper {
+
+
 	public static final String DATABASE_NAME = "SportGest.db";
 	public static final String EVENT_CATEGORY_TABLE_NAME = "EVENT_CATEGORY";
 	public static final String EVENT_CATEGORY_COLUMN_ID = "ID";
@@ -33,7 +35,8 @@ public class EVENT_CATEGORYDAO extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(
-				"CREATE TABLE EVENT_CATEGORY (ID INTEGER NOT NULL PRIMARY KEY, CATEGORY text NOT NULL)"
+				"CREATE TABLE "+ EVENT_CATEGORY_TABLE_NAME +" ("+
+					"ID INTEGER NOT NULL PRIMARY KEY, CATEGORY text NOT NULL)"
 		);
 	}
 
@@ -55,8 +58,7 @@ public class EVENT_CATEGORYDAO extends SQLiteOpenHelper {
 
 	public Cursor getData(int id){
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor res =  db.rawQuery( "select * from "+EVENT_CATEGORY_TABLE_NAME+" where ID="+id+"", null );
-		return res;
+		return db.rawQuery( "select * from "+EVENT_CATEGORY_TABLE_NAME+" where ID="+id+"", null );
 	}
 
 	public int numberOfRows(){
