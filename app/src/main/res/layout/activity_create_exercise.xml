@@ -9,19 +9,28 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Name"
-            android:id="@+id/editText"
-            android:layout_weight="1" />
+            android:layout_marginLeft="20dp"
+            android:layout_weight="7" />
 
         <EditText
+            android:id="@+id/duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Duration"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText2" />
+            android:ems="5"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="min"
+            android:layout_marginRight="20dp"
+            android:id="@+id/textView"/>
 
     </LinearLayout>
 
@@ -32,9 +41,10 @@
 
 
         <ListView
-            android:layout_width="435dp"
+            android:id="@+id/exerciseAvailableAttributes"
+            android:layout_width="420dp"
             android:layout_height="fill_parent"
-            android:id="@+id/listView1" />
+            android:layout_marginLeft="20dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -44,98 +54,43 @@
             android:gravity="center">
 
             <Button
+                android:id="@+id/addAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"
-                android:id="@+id/addAtribute" />
+                android:text="+" />
 
             <Button
+                android:id="@+id/selectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=">"
-                android:id="@+id/button1" />
+                android:text=">" />
             <Button
+                android:id="@+id/deselectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="<"
-                android:id="@+id/button2" />
+                android:text="<" />
 
             <Button
+                android:id="@+id/removeAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/removeAtribute" />
+                android:text="-" />
         </LinearLayout>
 
         <ListView
-            android:layout_width="435dp"
+            android:id="@+id/selectedAttributes"
+            android:layout_width="420dp"
             android:layout_height="fill_parent"
-            android:id="@+id/listView2" />
+            android:layout_marginRight="20dp" />
     </LinearLayout>
 
     <EditText
+        android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/editText3"
         android:hint="Description"
         android:textAlignment="gravity"
         android:gravity="top"
-        />
-</LinearLayout>
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <EditText
-        android:id="@+id/valueEditText"
-        android:layout_width="700dip"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
-        android:hint="Title"
-        android:singleLine="true"
-        android:gravity="left"
-    />
-
-    <EditText
-        android:hint="Duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignBottom="@+id/valueEditText"
-        android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:layout_marginRight="20dip"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Atributes"
-        android:id="@+id/textView"
-        android:layout_below="@+id/valueEditText"
-        android:layout_alignLeft="@+id/valueEditText"
-        android:layout_alignStart="@+id/valueEditText" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText2"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/listView"
-        android:layout_alignStart="@+id/listView" />
-
-
-</RelativeLayout>-->
+        android:layout_marginRight="20dp"/>
+</LinearLayout>
