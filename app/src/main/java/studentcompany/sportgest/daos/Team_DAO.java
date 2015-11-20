@@ -1,29 +1,63 @@
 package studentcompany.sportgest.daos;
+//TODO all
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-//TEAM
-//PLAYER
-//PLAYER_POSITION
-//POSITION
-//SQUAD_CALL
-//MISSING
-public class Team_DAO extends SQLiteOpenHelper {
+import java.util.List;
 
-    public Team_DAO(Context context, String db_name, int version) {
-        super(context, db_name, null, version);
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Team;
+
+public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
+    //Database name
+    private SQLiteDatabase db;
+
+    //Table names
+    public static final String TABLE_NAME         = "";
+
+    //Table columns
+    public static final String COLUMN_ID          = "";
+
+    //Create table
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+            "";
+
+    //Drop table
+    public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
+
+
+    @Override
+    public List<Team> getAll() throws GenericDAOException {
+        return null;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-
+    public Team getById(int id) throws GenericDAOException {
+        return null;
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public boolean insert(Team object) throws GenericDAOException {
+        return false;
     }
 
+    @Override
+    public boolean delete(Team object) throws GenericDAOException {
+        return false;
+    }
+
+    @Override
+    public boolean update(Team object) throws GenericDAOException {
+        return false;
+    }
+
+    @Override
+    public boolean exists(Team object) throws GenericDAOException {
+        return false;
+    }
+
+    @Override
+    public List<Team> getByCriteria(Team object) throws GenericDAOException {
+        return null;
+    }
 }

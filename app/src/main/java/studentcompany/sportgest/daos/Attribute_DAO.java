@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.User;
+import studentcompany.sportgest.domains.Attribute;
 
-public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
+public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<Attribute>{
     //Database name
     private SQLiteDatabase db;
 
@@ -26,37 +26,37 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
 
     @Override
-    public List<User> getAll() throws GenericDAOException {
+    public List<Attribute> getAll() throws GenericDAOException {
         return null;
     }
 
     @Override
-    public User getById(int id) throws GenericDAOException {
+    public Attribute getById(int id) throws GenericDAOException {
         return null;
     }
 
     @Override
-    public boolean insert(User object) throws GenericDAOException {
+    public boolean insert(Attribute object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean delete(User object) throws GenericDAOException {
+    public boolean delete(Attribute object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean update(User object) throws GenericDAOException {
+    public boolean update(Attribute object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean exists(User object) throws GenericDAOException {
+    public boolean exists(Attribute object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public List<User> getByCriteria(User object) throws GenericDAOException {
+    public List<Attribute> getByCriteria(Attribute object) throws GenericDAOException {
         return null;
     }
 }

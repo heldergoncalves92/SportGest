@@ -1,14 +1,16 @@
 package studentcompany.sportgest.daos;
 //TODO all
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
+import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.User;
+import studentcompany.sportgest.domains.Player;
 
-public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
+public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player>{
     //Database name
     private SQLiteDatabase db;
 
@@ -25,38 +27,42 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
 
+    public Player_DAO(Context context) {
+        this.db = MyDB.getInstance(context).db;
+    }
+
     @Override
-    public List<User> getAll() throws GenericDAOException {
+    public List<Player> getAll() throws GenericDAOException {
         return null;
     }
 
     @Override
-    public User getById(int id) throws GenericDAOException {
+    public Player getById(int id) throws GenericDAOException {
         return null;
     }
 
     @Override
-    public boolean insert(User object) throws GenericDAOException {
+    public boolean insert(Player object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean delete(User object) throws GenericDAOException {
+    public boolean delete(Player object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean update(User object) throws GenericDAOException {
+    public boolean update(Player object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public boolean exists(User object) throws GenericDAOException {
+    public boolean exists(Player object) throws GenericDAOException {
         return false;
     }
 
     @Override
-    public List<User> getByCriteria(User object) throws GenericDAOException {
+    public List<Player> getByCriteria(Player object) throws GenericDAOException {
         return null;
     }
 }
