@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Event_DAO;
+import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Obs_Category_DAO;
 import studentcompany.sportgest.daos.Observation_DAO;
@@ -53,6 +55,8 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(Event_DAO.CREATE_TABLE);
         db.execSQL(Observation_DAO.CREATE_TABLE);
         db.execSQL(Game_DAO.CREATE_TABLE);
+        db.execSQL(Attribute_DAO.CREATE_TABLE);
+        db.execSQL(Exercise_DAO.CREATE_TABLE);
     }
 
     @Override
