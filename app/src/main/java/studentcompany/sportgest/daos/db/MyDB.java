@@ -5,12 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import studentcompany.sportgest.daos.Attribute_DAO;
+import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Event_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Obs_Category_DAO;
 import studentcompany.sportgest.daos.Observation_DAO;
+import studentcompany.sportgest.daos.Permision_DAO;
+import studentcompany.sportgest.daos.Training_DAO;
+import studentcompany.sportgest.daos.Training_Exercise_DAO;
 
 /**
  * Created by MrFabio on 18/11/2015.
@@ -57,6 +61,10 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(Game_DAO.CREATE_TABLE);
         db.execSQL(Attribute_DAO.CREATE_TABLE);
         db.execSQL(Exercise_DAO.CREATE_TABLE);
+        db.execSQL(Attribute_Exercise_DAO.CREATE_TABLE);
+        db.execSQL(Training_DAO.CREATE_TABLE);
+        db.execSQL(Training_Exercise_DAO.CREATE_TABLE);
+        db.execSQL(Permision_DAO.CREATE_TABLE);
     }
 
     @Override

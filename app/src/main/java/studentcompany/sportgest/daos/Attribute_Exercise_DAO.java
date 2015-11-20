@@ -18,8 +18,8 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     private SQLiteDatabase db;
 
     //Dependencies DAOs
-    private Exercise_DAO exercise_dao;
     private Attribute_DAO attribute_dao;
+    private Exercise_DAO exercise_dao;
 
     //Table names
     public static final String TABLE_NAME = "ATTRIBUTE_EXERCISE";

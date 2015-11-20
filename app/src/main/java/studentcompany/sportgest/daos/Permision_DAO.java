@@ -18,16 +18,16 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
     private SQLiteDatabase db;
 
     //Table names
-    public static final String TABLE_NAME         = "";
+    public static final String TABLE_NAME         = "PERMISSION";
 
     //Table columns
-    public static final String COLUMN_ID          = "";
-    public static final String COLUMN_DESCRIPTION = "";
+    public static final String COLUMN_ID          = "ID";
+    public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-            COLUMN_DESCRIPTION + " varchar(1023) NOT NULL"
+            COLUMN_DESCRIPTION + " TEXT NOT NULL"
             +"); ";
 
     //Drop table

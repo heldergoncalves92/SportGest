@@ -15,10 +15,10 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
     private SQLiteDatabase db;
 
     //Table names
-    public static final String TABLE_NAME         = "";
+    public static final String TABLE_NAME         = "TEAM";
 
     //Table columns
-    public static final String COLUMN_ID          = "";
+    public static final String COLUMN_ID          = "ID";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
