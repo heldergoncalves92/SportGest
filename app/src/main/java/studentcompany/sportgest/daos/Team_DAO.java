@@ -1,10 +1,12 @@
 package studentcompany.sportgest.daos;
 //TODO all
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
+import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 
@@ -24,6 +26,10 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
+
+    public Team_DAO(Context context) {
+        this.db = MyDB.getInstance(context).db;
+    }
 
 
     @Override
