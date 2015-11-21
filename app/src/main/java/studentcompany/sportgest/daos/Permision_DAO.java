@@ -127,10 +127,9 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
         if(object==null)
             return false;
 
-        List<Permission> permissions = new ArrayList<>();
         int fields = 0;
-        String tmpString = null;
-        int tmpInt = 0;
+        String tmpString;
+        int tmpInt;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
@@ -138,7 +137,7 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '%" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
 
@@ -158,8 +157,8 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
 
         List<Permission> permissions = new ArrayList<>();
         int fields = 0;
-        String tmpString = null;
-        int tmpInt = 0;
+        String tmpString;
+        int tmpInt;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
