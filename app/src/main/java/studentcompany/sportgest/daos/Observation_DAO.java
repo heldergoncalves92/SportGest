@@ -1,11 +1,32 @@
 package studentcompany.sportgest.daos;
 //TODO methods
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import studentcompany.sportgest.daos.db.MyDB;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Game;
+import studentcompany.sportgest.domains.Observation;
+import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.User;
+
 
 public class Observation_DAO {
     //Database name
     private SQLiteDatabase db;
+
+    //Dependencies DAOs
+    private Obs_Category_DAO    obsCategory_dao;
+    private Game_DAO            game_dao;
+    private Player_DAO          player_dao;
+    private User_DAO            user_dao;
 
     //Table names
     public static final String TABLE_NAME            = "OBSERVATION";
@@ -37,4 +58,154 @@ public class Observation_DAO {
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
+
+    public Observation_DAO(Context context) {
+        this.db = MyDB.getInstance(context).db;
+        this.obsCategory_dao = new Obs_Category_DAO(context);
+        this.game_dao = new Game_DAO(context);
+        this.player_dao = new Player_DAO(context);
+        this.user_dao =new User_DAO(context);
+    }
+
+    @Override
+    public ArrayList<Observation> getAll() throws GenericDAOException {
+
+        //aux variables;
+        ArrayList<Observation> resObservation = new ArrayList<>();
+        int id;
+        String title;
+        String description;
+        int date;
+        int obsCatId;
+        int playerId;
+        int gameId;
+        int userId;
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
+        res.moveToFirst();
+
+        //Parse data
+        while(res.isAfterLast() == false) {
+            id = res.getInt(res.getColumnIndex(COLUMN_ID));
+            title = res.getString(res.getColumnIndex(COLUMN_TITLE));
+            description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            obsCatId = res.getInt(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
+            playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+            gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
+            userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+
+            //esta a dar um erro no gameid e userid
+            resObservation.add(new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId), player_dao.getById(playerId),
+                    game_dao.getById(gameId),user_dao.getById(userId)));
+            res.moveToNext();
+        }
+
+        return resObservation;
+    }
+
+    @Override
+    public Observation getById(int id) throws GenericDAOException {
+
+        //aux variables;
+        Observation resObservation;
+        String title;
+        String description;
+        int date;
+        int obsCatId;
+        int playerId;
+        int gameId;
+        int userId;
+
+
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
+        res.moveToFirst();
+
+        //Parse data
+        title = res.getString(res.getColumnIndex(COLUMN_TITLE));
+        description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        obsCatId = res.getInt(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
+        playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+        gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
+        userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+
+        //esta a dar um erro no gameid e userid
+        resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
+                game_dao.getById(gameId),user_dao.getById(userId)));
+
+        return resObservation;
+    }
+
+
+    public long insert(Observation object) throws GenericDAOException {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TITLE, object.getTitle());
+        contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
+        contentValues.put(COLUMN_DATE, object.getDate());
+        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
+        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
+        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
+        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
+
+        return db.insert(TABLE_NAME, null, contentValues);
+    }
+
+
+    public boolean delete(Observation object) throws GenericDAOException {
+        int deletedCount = db.delete(TABLE_NAME,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(object.getId()) });
+        return true;
+    }
+
+    public boolean deleteById(int id) {
+
+        int deletedCount = db.delete(TABLE_NAME,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(id) });
+        return true;
+    }
+
+
+    public boolean update(Observation object) throws GenericDAOException {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TITLE, object.getTitle());
+        contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
+        contentValues.put(COLUMN_DATE, object.getDate());
+        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
+        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
+        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
+        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
+
+        db.update(TABLE_NAME,
+                contentValues,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(object.getId()) } );
+        return true;
+    }
+
+    public int numberOfRows(){
+        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+    }
+
+
+    public boolean exists(Observation object) throws GenericDAOException {
+        //TODO implement exists
+        return false;
+    }
+
+
+    public List<Observation> getByCriteria(Observation object) throws GenericDAOException {
+        //TODO implement getByCriteria
+        return null;
+    }
+
+
+
 }
