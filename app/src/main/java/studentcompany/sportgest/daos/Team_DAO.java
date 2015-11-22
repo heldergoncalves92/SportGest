@@ -43,8 +43,8 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
     }
 
     @Override
-    public boolean insert(Team object) throws GenericDAOException {
-        return false;
+    public long insert(Team object) throws GenericDAOException {
+        return -1;
     }
 
     @Override

@@ -36,8 +36,8 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
     }
 
     @Override
-    public boolean insert(Record object) throws GenericDAOException {
-        return false;
+    public long insert(Record object) throws GenericDAOException {
+        return -1;
     }
 
     @Override

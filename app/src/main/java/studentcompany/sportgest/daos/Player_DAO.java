@@ -42,8 +42,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     }
 
     @Override
-    public boolean insert(Player object) throws GenericDAOException {
-        return false;
+    public long insert(Player object) throws GenericDAOException {
+        return -1;
     }
 
     @Override

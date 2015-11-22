@@ -16,7 +16,7 @@ public interface IGenericPairDAO<A,B> {
 
     List<Pair<A,B>> getBySecondId(int id) throws GenericDAOException;
 
-    boolean insert(Pair<A,B> object) throws GenericDAOException;
+    long insert(Pair<A,B> object) throws GenericDAOException;
 
     boolean delete(Pair<A,B> object) throws GenericDAOException;
 

@@ -76,13 +76,12 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     }
 
     @Override
-    public boolean insert(EventCategory object) throws GenericDAOException{
+    public long insert(EventCategory object) throws GenericDAOException{
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getName());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

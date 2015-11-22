@@ -122,13 +122,12 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     }
 
     @Override
-    public boolean insert(Pair<Attribute, Exercise> object) throws GenericDAOException {
+    public long insert(Pair<Attribute, Exercise> object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ATTRIBUTE_ID, object.getFirst().getId());
         contentValues.put(COLUMN_EXERCISE_ID, object.getSecond().getId());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

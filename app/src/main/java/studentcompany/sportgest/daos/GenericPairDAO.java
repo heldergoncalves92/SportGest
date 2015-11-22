@@ -46,7 +46,7 @@ public abstract class GenericPairDAO<A extends DomainPojo, B extends DomainPojo>
     public abstract List<Pair<A, B>> getBySecondId(int id) throws GenericDAOException;
 
     @Override
-    public abstract boolean insert(Pair<A,B> object) throws GenericDAOException;
+    public abstract long insert(Pair<A,B> object) throws GenericDAOException;
 
     @Override
     public abstract boolean delete(Pair<A,B> object) throws GenericDAOException;

@@ -110,7 +110,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     }
 
     @Override
-    public boolean insert(Training object) throws GenericDAOException {
+    public long insert(Training object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
@@ -119,8 +119,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         contentValues.put(COLUMN_TOTAL_DURATION, object.getTotalDuration());
         contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override
