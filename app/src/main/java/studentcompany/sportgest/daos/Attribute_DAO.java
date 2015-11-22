@@ -88,14 +88,13 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
     }
 
     @Override
-    public boolean insert(Attribute object) throws GenericDAOException {
+    public long insert(Attribute object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TYPE, object.getType());
         contentValues.put(COLUMN_NAME, object.getName());
         contentValues.put(COLUMN_DELETED, object.getDeleted());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

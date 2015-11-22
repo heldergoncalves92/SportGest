@@ -139,7 +139,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     }
 
     @Override
-    public boolean insert(Event object) throws GenericDAOException {
+    public long insert(Event object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
@@ -150,8 +150,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         contentValues.put(COLUMN_GAMEID, object.getGame().getId());
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

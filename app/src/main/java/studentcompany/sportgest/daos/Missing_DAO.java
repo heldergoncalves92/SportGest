@@ -36,8 +36,8 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
     }
 
     @Override
-    public boolean insert(Missing object) throws GenericDAOException {
-        return false;
+    public long insert(Missing object) throws GenericDAOException {
+        return -1;
     }
 
     @Override

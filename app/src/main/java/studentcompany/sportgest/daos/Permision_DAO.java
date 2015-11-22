@@ -77,14 +77,14 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
     }
 
     @Override
-    public boolean insert(Permission object) throws GenericDAOException {
+    public long insert(Permission object) throws GenericDAOException {
 
         if(object==null)
-            return false;
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
-        return db.insert(TABLE_NAME, null, contentValues) >0 ? true : false ;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

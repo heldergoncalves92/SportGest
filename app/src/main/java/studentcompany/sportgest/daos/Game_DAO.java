@@ -58,8 +58,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     }
 
     @Override
-    public boolean insert(Game object) throws GenericDAOException {
-        return false;
+    public long insert(Game object) throws GenericDAOException {
+        return -1;
     }
 
     @Override

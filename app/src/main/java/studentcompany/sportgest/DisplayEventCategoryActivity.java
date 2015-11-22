@@ -153,7 +153,7 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
             }
             else{
                 try {
-                    res = event_category_dao.insert(new EventCategory(-1, category.getText().toString()));
+                    res = event_category_dao.insert(new EventCategory(-1, category.getText().toString())) > 0;
                 } catch (GenericDAOException ex){
                     //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);

@@ -123,12 +123,12 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
     }
 
     @Override
-    public boolean insert(Pair<User, Team> object) throws GenericDAOException {
+    public long insert(Pair<User, Team> object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_USER_ID, object.getFirst().getId());
         contentValues.put(COLUMN_TEAM_ID, object.getSecond().getId());
 
-        return db.insert(TABLE_NAME, null, contentValues) > 0 ? true : false;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

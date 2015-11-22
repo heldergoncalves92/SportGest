@@ -106,15 +106,14 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
     }
 
     @Override
-    public boolean insert(TrainingExercise object) throws GenericDAOException {
+    public long insert(TrainingExercise object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
         contentValues.put(COLUMN_EXERCISE_ID, object.getExercise().getId());
         contentValues.put(COLUMN_REPETITIONS, object.getRepetitions());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

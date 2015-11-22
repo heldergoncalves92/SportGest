@@ -88,14 +88,13 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
     }
 
     @Override
-    public boolean insert(Exercise object) throws GenericDAOException {
+    public long insert(Exercise object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DURATION, object.getDuration());
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

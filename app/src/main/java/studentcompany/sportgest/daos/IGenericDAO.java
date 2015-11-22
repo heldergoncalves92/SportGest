@@ -18,7 +18,7 @@ public interface IGenericDAO<T> {
 
     T getById(int id) throws GenericDAOException;
 
-    boolean insert(T object) throws GenericDAOException;
+    long insert(T object) throws GenericDAOException;
 
     boolean delete(T object) throws GenericDAOException;
 

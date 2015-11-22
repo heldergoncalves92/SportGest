@@ -102,10 +102,10 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     }
 
     @Override
-    public boolean insert(User object) throws GenericDAOException {
+    public long insert(User object) throws GenericDAOException {
 
         if(object==null)
-            return false;
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
@@ -113,7 +113,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
         contentValues.put(COLUMN_ROLE_ID, object.getRole().getId());
-        return db.insert(TABLE_NAME, null, contentValues) >0 ? true : false ;
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override

@@ -36,8 +36,8 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     }
 
     @Override
-    public boolean insert(Position object) throws GenericDAOException {
-        return false;
+    public long insert(Position object) throws GenericDAOException {
+        return -1;
     }
 
     @Override
