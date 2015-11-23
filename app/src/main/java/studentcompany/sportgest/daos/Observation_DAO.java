@@ -18,7 +18,7 @@ import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.User;
 
 
-public class Observation_DAO {
+public class Observation_DAO extends GenericDAO<Observation> implements IGenericDAO<Observation> {
     //Database name
     private SQLiteDatabase db;
 
@@ -98,7 +98,7 @@ public class Observation_DAO {
 
             //esta a dar um erro no gameid e userid
             resObservation.add(new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId), player_dao.getById(playerId),
-                    game_dao.getById(gameId),user_dao.getById(userId)));
+                    user_dao.getById(userId),game_dao.getById(gameId)));
             res.moveToNext();
         }
 
@@ -135,7 +135,7 @@ public class Observation_DAO {
 
         //esta a dar um erro no gameid e userid
         resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
-                game_dao.getById(gameId),user_dao.getById(userId)));
+                user_dao.getById(userId),game_dao.getById(gameId)));
 
         return resObservation;
     }
