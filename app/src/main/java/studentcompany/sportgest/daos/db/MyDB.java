@@ -12,7 +12,7 @@ import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Obs_Category_DAO;
 import studentcompany.sportgest.daos.Observation_DAO;
-import studentcompany.sportgest.daos.Permision_DAO;
+import studentcompany.sportgest.daos.Permission_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
 
@@ -64,7 +64,7 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(Attribute_Exercise_DAO.CREATE_TABLE);
         db.execSQL(Training_DAO.CREATE_TABLE);
         db.execSQL(Training_Exercise_DAO.CREATE_TABLE);
-        db.execSQL(Permision_DAO.CREATE_TABLE);
+        db.execSQL(Permission_DAO.CREATE_TABLE);
     }
 
     @Override
