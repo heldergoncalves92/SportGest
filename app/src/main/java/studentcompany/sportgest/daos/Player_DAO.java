@@ -13,8 +13,6 @@ import java.util.List;
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Team;
-import studentcompany.sportgest.domains.Position;
 
 public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player>{
     //Database name
@@ -203,7 +201,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     }
 
     @Override
-    boolean deleteById(int id) {
+    public boolean deleteById(int id) {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(id) });
@@ -236,17 +234,219 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     }
 
     @Override
-    int numberOfRows() {
+    public int numberOfRows() {
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     @Override
     public boolean exists(Player object) throws GenericDAOException {
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getNickname()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NICKNAME + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getNationality()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NATIONALITY + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getMarital_status()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_MARITAL_STATUS + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpInt = object.getBirthDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getHeight()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HEIGHT + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpFloat = object.getWeight()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_WEIGHT + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpString = object.getAddress()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_ADDRESS + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getGender()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GENDER + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getPhoto()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PHOTO + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getEmail()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getPreferedFoot()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERED_FOOT + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpInt = object.getNumber()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NUMBER + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPosition().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Player> getByCriteria(Player object) throws GenericDAOException {
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Player> resPlayer = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getNickname()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NICKNAME + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getNationality()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NATIONALITY + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getMarital_status()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_MARITAL_STATUS + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getBirthDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getHeight()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HEIGHT + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpFloat = object.getWeight()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_WEIGHT + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpString = object.getAddress()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_ADDRESS + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getGender()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GENDER + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getPhoto()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PHOTO + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getEmail()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getPreferedFoot()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERED_FOOT + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getNumber()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NUMBER + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPosition().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            int id;
+            String nickname;
+            String name;
+            String nationality;
+            String marital_status;
+            int dob;
+            float height;
+            float weight;
+            String address;
+            String gender;
+            String photo;
+            String email;
+            String prefered_foot;
+            int number;
+            int team;
+            int position;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    nickname = res.getString(res.getColumnIndex(COLUMN_NICKNAME));
+                    name = res.getString(res.getColumnIndex(COLUMN_NAME));
+                    nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
+                    marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
+                    dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
+                    height = res.getFloat(res.getColumnIndex(COLUMN_HEIGHT));
+                    weight = res.getInt(res.getColumnIndex(COLUMN_WEIGHT));
+                    address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
+                    gender= res.getString(res.getColumnIndex(COLUMN_GENDER));
+                    photo= res.getString(res.getColumnIndex(COLUMN_PHOTO));
+                    email= res.getString(res.getColumnIndex(COLUMN_EMAIL));
+                    prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERED_FOOT));
+                    number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
+                    team=res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+                    position=res.getInt(res.getColumnIndex(COLUMN_BETTER_POSITION));
+
+                    resPlayer.add(new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
+                            team_dao.getById(team),position_dao.getById(position)));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resPlayer;
     }
 }

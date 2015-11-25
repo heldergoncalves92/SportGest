@@ -110,7 +110,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         contentValues.put(COLUMN_NAME       , object.getName());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_LOGO       , object.getLogo());
-        contentValues.put(COLUMN_SEASON     , object.getSeason());
+        contentValues.put(COLUMN_SEASON, object.getSeason());
         contentValues.put(COLUMN_IS_COM     , object.getIs_com());
 
         return db.insert(TABLE_NAME, null, contentValues);
@@ -124,17 +124,13 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         return true;
     }
 
+    @Override
     public boolean deleteById(int id) {
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(id) });
         return true;
-    }
-
-    @Override
-    boolean deleteById(int id) {
-        return false;
     }
 
     @Override
@@ -154,13 +150,9 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         return true;
     }
 
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
-    }
-
-    @Override
-    int numberOfRows() {
-        return 0;
     }
 
     @Override

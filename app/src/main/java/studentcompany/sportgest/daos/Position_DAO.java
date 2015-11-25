@@ -91,7 +91,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     }
 
     @Override
-    boolean deleteById(int id) {
+    public boolean deleteById(int id) {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(id) });
@@ -110,7 +110,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     }
 
     @Override
-    int numberOfRows() {
+    public int numberOfRows() {
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 

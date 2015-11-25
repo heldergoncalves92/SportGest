@@ -92,6 +92,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         return true;
     }
 
+    @Override
     public boolean deleteById(int id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
@@ -110,6 +111,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         return true;
     }
 
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }

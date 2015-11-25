@@ -22,7 +22,11 @@ public interface IGenericDAO<T> {
 
     boolean delete(T object) throws GenericDAOException;
 
+    boolean deleteById(int id) throws GenericDAOException;
+
     boolean update(T object) throws GenericDAOException;
+
+    int numberOfRows() throws GenericDAOException;
 
     boolean exists(T object) throws GenericDAOException;
 

@@ -1,7 +1,6 @@
 package studentcompany.sportgest.daos;
 //TODO methods
 
-import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -122,16 +121,73 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
-   @Override
-    public boolean exists(ObsCategory object) throws GenericDAOException{
-        //TODO implement exists
-        return false;
+    @Override
+    public boolean exists(ObsCategory object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getCategory()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_CATEGORY + " = '" + tmpString + "'");
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
-   @Override
+    @Override
     public List<ObsCategory> getByCriteria(ObsCategory object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<ObsCategory> resObsCategory = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getCategory()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_CATEGORY + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String category;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
+                    resObsCategory.add(new ObsCategory(id, category));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resObsCategory;
     }
 
 }

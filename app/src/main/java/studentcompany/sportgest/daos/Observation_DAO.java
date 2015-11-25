@@ -12,10 +12,7 @@ import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Observation;
-import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.User;
 
 
 public class Observation_DAO extends GenericDAO<Observation> implements IGenericDAO<Observation> {
@@ -96,9 +93,11 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
             userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
 
-            //esta a dar um erro no gameid e userid
-            resObservation.add(new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId), player_dao.getById(playerId),
-                    user_dao.getById(userId),game_dao.getById(gameId)));
+            resObservation.add(new Observation(id,title,description,
+                    date,obsCategory_dao.getById(obsCatId),
+                    player_dao.getById(playerId),
+                    user_dao.getById(userId),
+                    game_dao.getById(gameId)));
             res.moveToNext();
         }
 
@@ -195,14 +194,137 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
 
     @Override
     public boolean exists(Observation object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getObservationcategory().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getGame().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getUser().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
-
+    @Override
     public List<Observation> getByCriteria(Observation object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Observation> resObservation = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getObservationcategory().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getGame().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getUser().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String title;
+            String description;
+            int date;
+            int obsCatId;
+            int playerId;
+            int gameId;
+            int userId;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    title = res.getString(res.getColumnIndex(COLUMN_TITLE));
+                    description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    obsCatId = res.getInt(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
+                    playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+                    gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
+                    userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+
+                    resObservation.add(new Observation(id,title,description,
+                            date,obsCategory_dao.getById(obsCatId),
+                            player_dao.getById(playerId),
+                            user_dao.getById(userId),
+                            game_dao.getById(gameId)));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resObservation;
     }
 
 }

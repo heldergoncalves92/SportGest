@@ -13,7 +13,6 @@ import java.util.List;
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
-import studentcompany.sportgest.domains.Team;
 
 public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     //Database name
@@ -182,11 +181,131 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
 
     @Override
     public boolean exists(Game object) throws GenericDAOException {
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getHome_team().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HOME_TEAMID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getVisitor_team().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_TEAMID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpString = object.getReport()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPORT + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpInt = object.getHome_score()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HOME_SCORE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getVisitor_score()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_SCORE + " = " + tmpInt );
+            fields++;
+        }if ((tmpFloat = object.getDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpFloat );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Game> getByCriteria(Game object) throws GenericDAOException {
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Game> resGame = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getHome_team().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HOME_TEAMID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getVisitor_team().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_TEAMID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpString = object.getReport()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPORT + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getHome_score()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HOME_SCORE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getVisitor_score()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_SCORE + " = " + tmpInt );
+            fields++;
+        }if ((tmpFloat = object.getDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpFloat );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            int home_teamid;
+            int visitor_teamid;
+            int date;
+            String report;
+            int home_score;
+            int visitor_score;
+            float duration;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    home_teamid = res.getInt(res.getColumnIndex(COLUMN_HOME_TEAMID));
+                    visitor_teamid = res.getInt(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    report = res.getString(res.getColumnIndex(COLUMN_REPORT));
+                    home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
+                    visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
+                    duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
+                    resGame.add(new Game(id,team_dao.getById(home_teamid),team_dao.getById(visitor_teamid), date, report,
+                            home_score,visitor_score, duration));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resGame;
     }
 }

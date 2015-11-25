@@ -105,6 +105,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         return true;
     }
 
+    @Override
     public boolean deleteById(int id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
@@ -125,6 +126,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         return true;
     }
 
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }

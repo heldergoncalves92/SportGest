@@ -12,10 +12,7 @@ import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
-import studentcompany.sportgest.domains.Position;
-import android.database.sqlite.SQLiteDatabase;
 
 public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements IGenericDAO<PlayerPosition> {
     //Database name
@@ -161,11 +158,11 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             statement.append(COLUMN_ID + "=" + tmpInt);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) <= 0) {
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt + "");
             fields++;
         }
-        if ((tmpInt = object.getPosition().getId()) <= 0) {
+        if ((tmpInt = object.getPosition().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpInt + "");
             fields++;
         }
@@ -197,11 +194,11 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             statement.append(COLUMN_ID + "=" + tmpInt);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) <= 0) {
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt + "");
             fields++;
         }
-        if ((tmpInt = object.getPosition().getId()) <= 0) {
+        if ((tmpInt = object.getPosition().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpInt + "");
             fields++;
         }

@@ -129,8 +129,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         eventCategoryId = res.getInt(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
         gameId = res.getInt(res.getColumnIndex(COLUMN_GAMEID));
         playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
-
-        resEvent = new Event(id, description, date, posx, posy,
+        resEvent=new Event(id, description, date, posx, posy,
                 event_category_dao.getById(eventCategoryId),
                 game_dao.getById(gameId),
                 player_dao.getById(playerId));
@@ -161,6 +160,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         return true;
     }
 
+    @Override
     public boolean deleteById(int id) {
 
         int deletedCount = db.delete(TABLE_NAME,
@@ -188,6 +188,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         return true;
     }
 
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }

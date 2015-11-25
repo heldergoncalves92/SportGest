@@ -52,12 +52,14 @@ public abstract class GenericDAO<T extends DomainPojo> implements IGenericDAO<T>
     @Override
     public abstract boolean delete(T object) throws GenericDAOException;
 
-    abstract boolean deleteById(int id);
+    @Override
+    public abstract boolean deleteById(int id) throws GenericDAOException;;
 
     @Override
     public abstract boolean update(T object) throws GenericDAOException;
 
-    abstract int numberOfRows();
+    @Override
+    public abstract int numberOfRows() throws GenericDAOException;;
 
     @Override
     public abstract boolean exists(T object) throws GenericDAOException;
