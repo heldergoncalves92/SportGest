@@ -53,8 +53,18 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
     }
 
     @Override
+    boolean deleteById(int id) {
+        return false;
+    }
+
+    @Override
     public boolean update(Team object) throws GenericDAOException {
         return false;
+    }
+
+    @Override
+    int numberOfRows() {
+        return 0;
     }
 
     @Override
