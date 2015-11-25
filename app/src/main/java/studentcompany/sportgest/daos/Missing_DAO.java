@@ -174,7 +174,7 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
 

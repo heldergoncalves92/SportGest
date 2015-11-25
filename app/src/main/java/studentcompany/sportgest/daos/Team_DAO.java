@@ -170,15 +170,15 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpString = object.getLogo()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_LOGO + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_LOGO + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpInt = object.getSeason()) >= 0) {

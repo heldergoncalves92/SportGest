@@ -145,11 +145,11 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpInt = object.getDuration()) >= 0) {

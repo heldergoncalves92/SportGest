@@ -176,11 +176,11 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpInt = object.getDate()) >= 0) {

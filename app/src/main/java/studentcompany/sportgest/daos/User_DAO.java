@@ -218,19 +218,19 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
             fields++;
         }
         if ((tmpString = object.getPassword()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PASSWORD + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PASSWORD + " LIKE '%" + tmpString + "%'");
             fields++;
         }
         if ((tmpString = object.getPhoto()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PHOTO + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PHOTO + " LIKE '%" + tmpString + "%'");
             fields++;
         }
         if ((tmpString = object.getEmail()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " LIKE '%" + tmpString + "%'");
             fields++;
         }
         if ((tmpInt = object.getRole().getId()) >= 0) {
