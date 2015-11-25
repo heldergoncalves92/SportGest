@@ -16,7 +16,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.ObsCategory;
 
 
-public class Obs_Category_DAO {
+public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGenericDAO<ObsCategory> {
     //Database name
     private SQLiteDatabase db;
 
@@ -45,7 +45,7 @@ public class Obs_Category_DAO {
 
     }
 
-   // @Override
+   @Override
     public ArrayList<ObsCategory> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<ObsCategory> resObsCategory = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Obs_Category_DAO {
         return resObsCategory;
     }
 
-  //  @Override
+  @Override
     public ObsCategory getById(int id) throws GenericDAOException{
         //aux variables;
         ObsCategory resObsCategory;
@@ -84,7 +84,7 @@ public class Obs_Category_DAO {
         return resObsCategory;
     }
 
-   //@Override
+    @Override
     public long insert(ObsCategory object) throws GenericDAOException{
 
         ContentValues contentValues = new ContentValues();
@@ -93,22 +93,21 @@ public class Obs_Category_DAO {
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
-  //  @Override
+    @Override
     public boolean delete(ObsCategory object) throws GenericDAOException{
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(object.getId()) });
         return true;
     }
-
+    @Override
     public boolean deleteById(int id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(id) });
         return true;
     }
-
-    //@Override
+    @Override
     public boolean update(ObsCategory object) throws GenericDAOException{
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getCategory());
@@ -118,18 +117,18 @@ public class Obs_Category_DAO {
                 new String[] { Integer.toString(object.getId()) } );
         return true;
     }
-
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
-   // @Override
+   @Override
     public boolean exists(ObsCategory object) throws GenericDAOException{
         //TODO implement exists
         return false;
     }
 
-   // @Override
+   @Override
     public List<ObsCategory> getByCriteria(ObsCategory object) throws GenericDAOException {
         //TODO implement getByCriteria
         return null;

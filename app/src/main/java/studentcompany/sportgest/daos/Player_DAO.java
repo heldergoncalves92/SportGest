@@ -52,8 +52,18 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     }
 
     @Override
+    boolean deleteById(int id) {
+        return false;
+    }
+
+    @Override
     public boolean update(Player object) throws GenericDAOException {
         return false;
+    }
+
+    @Override
+    int numberOfRows() {
+        return 0;
     }
 
     @Override

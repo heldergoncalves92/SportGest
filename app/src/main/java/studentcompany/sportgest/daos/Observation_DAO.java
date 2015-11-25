@@ -133,14 +133,13 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
         userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
 
-        //esta a dar um erro no gameid e userid
         resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
                 user_dao.getById(userId),game_dao.getById(gameId)));
 
         return resObservation;
     }
 
-
+    @Override
     public long insert(Observation object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
@@ -155,14 +154,14 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
-
+    @Override
     public boolean delete(Observation object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(object.getId()) });
         return true;
     }
-
+    @Override
     public boolean deleteById(int id) {
 
         int deletedCount = db.delete(TABLE_NAME,
@@ -171,7 +170,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         return true;
     }
 
-
+    @Override
     public boolean update(Observation object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
@@ -189,12 +188,12 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
                 new String[] { Integer.toString(object.getId()) } );
         return true;
     }
-
+    @Override
     public int numberOfRows(){
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
-
+    @Override
     public boolean exists(Observation object) throws GenericDAOException {
         //TODO implement exists
         return false;
@@ -205,7 +204,5 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         //TODO implement getByCriteria
         return null;
     }
-
-
 
 }

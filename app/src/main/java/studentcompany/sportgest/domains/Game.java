@@ -4,8 +4,8 @@ package studentcompany.sportgest.domains;
 public class Game extends DomainPojo {
 
     private int id;
-    private Team home_teamid;
-    private Team visitor_teamid;
+    private Team home_team;
+    private Team visitor_team;
     private int date;
     private String report;
     private int home_score;
@@ -13,17 +13,18 @@ public class Game extends DomainPojo {
     private float duration;
 
 
-    public Game(int id,Team home_teamid, Team visitor_teamid, int date, String report, Integer home_score, Integer visitor_score, float duration) {
-        this.id=id;
-        this.home_teamid = home_teamid;
-        this.visitor_teamid = visitor_teamid;
+    public Game(int id, Team home_team, Team visitor_team, int date, String report, Integer home_score, Integer visitor_score, float duration) {
+        this.id = id;
+        this.home_team = home_team;
+        this.visitor_team = visitor_team;
         this.date = date;
-        this.report=report;
+        this.report = report;
         this.home_score = home_score;
         this.visitor_score = visitor_score;
         this.duration = duration;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -32,20 +33,20 @@ public class Game extends DomainPojo {
         this.id = id;
     }
 
-    public Team getIdTeamHome() {
-        return home_teamid;
+    public Team getHome_team() {
+        return home_team;
     }
 
-    public void setIdTeamHome(Team idHomeTeam) {
-        this.home_teamid = idHomeTeam;
+    public void setHome_team(Team home_team) {
+        this.home_team = home_team;
     }
 
-    public Team getIdTeamVisitor() {
-        return visitor_teamid;
+    public Team getVisitor_team() {
+        return visitor_team;
     }
 
-    public void setIdTeamVisitor(Team idVisitorTeam ) {
-        this.visitor_teamid = idVisitorTeam;
+    public void setVisitor_team(Team visitor_team) {
+        this.visitor_team = visitor_team;
     }
 
     public int getDate() {
@@ -63,7 +64,6 @@ public class Game extends DomainPojo {
     public void setReport(String report) {
         this.report = report;
     }
-
 
     public int getHome_score() {
         return home_score;
@@ -85,24 +85,8 @@ public class Game extends DomainPojo {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(float duration) {
         this.duration = duration;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", Home team =" + home_teamid +
-                ", Vistor team =" + visitor_teamid +
-                ", date=" + date +
-                ", report =" + report +
-                ", Home Score=" + home_score +
-                ", Visitor Score=" + visitor_score +
-                ", Duration=" + duration +
-                '}';
     }
 
     @Override
@@ -117,8 +101,8 @@ public class Game extends DomainPojo {
         if (getHome_score() != game.getHome_score()) return false;
         if (getVisitor_score() != game.getVisitor_score()) return false;
         if (Float.compare(game.getDuration(), getDuration()) != 0) return false;
-        if (!home_teamid.equals(game.home_teamid)) return false;
-        if (!visitor_teamid.equals(game.visitor_teamid)) return false;
+        if (!getHome_team().equals(game.getHome_team())) return false;
+        if (!getVisitor_team().equals(game.getVisitor_team())) return false;
         return getReport().equals(game.getReport());
 
     }
@@ -126,8 +110,8 @@ public class Game extends DomainPojo {
     @Override
     public int hashCode() {
         int result = getId();
-        result = 31 * result + home_teamid.hashCode();
-        result = 31 * result + visitor_teamid.hashCode();
+        result = 31 * result + getHome_team().hashCode();
+        result = 31 * result + getVisitor_team().hashCode();
         result = 31 * result + getDate();
         result = 31 * result + getReport().hashCode();
         result = 31 * result + getHome_score();

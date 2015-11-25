@@ -127,8 +127,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     public long insert(Game object) throws GenericDAOException {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOME_TEAMID, object.getIdTeamHome().getId());
-        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getIdTeamVisitor().getId());
+        contentValues.put(COLUMN_HOME_TEAMID, object.getHome_team().getId());
+        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_REPORT, object.getReport());
         contentValues.put(COLUMN_DATE, object.getDate());
@@ -149,10 +149,17 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     }
 
     @Override
+    public boolean deleteById(int id){
+        int deletedCount = db.delete(TABLE_NAME,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(id) });
+        return true;
+    }
+    @Override
     public boolean update(Game object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOME_TEAMID,object.getIdTeamHome().getId());
-        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getIdTeamVisitor().getId());
+        contentValues.put(COLUMN_HOME_TEAMID,object.getHome_team().getId());
+        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_REPORT, object.getReport());
         contentValues.put(COLUMN_DATE, object.getDate());
@@ -166,6 +173,11 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
                 COLUMN_ID + " = ? ",
                 new String[] { Integer.toString(object.getId()) } );
         return true;
+    }
+
+    @Override
+    public int numberOfRows(){
+        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     @Override
