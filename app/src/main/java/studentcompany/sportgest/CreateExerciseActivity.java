@@ -6,10 +6,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Exercise;
 
 public class CreateExerciseActivity extends AppCompatActivity {
 
@@ -18,36 +24,38 @@ public class CreateExerciseActivity extends AppCompatActivity {
     private Attribute_DAO attribute_dao;
     private Attribute_Exercise_DAO attribute_exercise_dao;
 
-    TextView category;
+    TextView title, description, duration;
     int id_To_Update = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_exercise);
-        //category = (TextView) findViewById(R.id.event_category_editText);
+        title = (TextView) findViewById(R.id.name);
+        duration = (TextView) findViewById(R.id.duration);
+        description = (TextView) findViewById(R.id.description);
+
 
         exercise_dao = new Exercise_DAO(this);
         attribute_dao = new Attribute_DAO(this);
         attribute_exercise_dao = new Attribute_Exercise_DAO(this);
 
         Bundle extras = getIntent().getExtras();
+
         if(extras !=null)
         {
-            int Value = extras.getInt("id");
 
-            if(Value>0){
-                //means this is the view part not the add contact part.
-                /*
-                EventCategory res;
+            int id = extras.getInt("id");
+            if(id>0){
+                Exercise res;
                 try {
-                    res = event_category_dao.getById(Value);
+                    res = exercise_dao.getById(id);
                 } catch (GenericDAOException ex){
-                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+                    //System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
                     res = null;
                 }
-                id_To_Update = Value;
+                id_To_Update = id;
 
                 Button b = (Button)findViewById(R.id.event_category_button);
                 b.setVisibility(View.INVISIBLE);
@@ -57,9 +65,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
                     category.setFocusable(false);
                     category.setClickable(false);
                 }
-                */
-            }
-        }
+
 
         //Toolbar
         //Toolbar toolbar = (Toolbar) findViewById(R.id.display_event_category_toolbar);
@@ -138,11 +144,13 @@ public class CreateExerciseActivity extends AppCompatActivity {
 
         if(extras !=null)
         {
-            /*
-            int Value = extras.getInt("id");
-            if(Value>0){
+
+            int id = extras.getInt("id");
+            if(id>0){
                 try {
-                    res = event_category_dao.update(new EventCategory(id_To_Update, category.getText().toString()));
+                    res = exercise_dao.update(new Exercise(id, title.getText().toString(), description.getText().toString(),
+                            Integer.parseInt(duration.getText().toString())
+                    ));
                 } catch (GenericDAOException ex){
                     //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
@@ -156,10 +164,13 @@ public class CreateExerciseActivity extends AppCompatActivity {
             }
             else{
                 try {
-                    res = event_category_dao.insert(new EventCategory(-1, category.getText().toString())) > 0;
-                } catch (GenericDAOException ex){
-                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+                    res = exercise_dao.insert(
+                            new Exercise(-1, title.getText().toString(), description.getText().toString(),
+                            Integer.parseInt(duration.getText().toString())
+                            )) > 0;
+                } catch (Exception ex){
+                    //System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
                 }
                 if(res){
                     Toast.makeText(getApplicationContext(), R.string.done, Toast.LENGTH_SHORT).show();
@@ -170,7 +181,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
                 }
             }
             this.finish();
-            */
+
         }
 
     }
