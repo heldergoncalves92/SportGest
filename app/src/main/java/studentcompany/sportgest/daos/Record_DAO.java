@@ -1,10 +1,15 @@
 package studentcompany.sportgest.daos;
-//TODO all
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Record;
 
@@ -12,51 +17,332 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
     //Database name
     private SQLiteDatabase db;
 
+    //Dependencies DAOs
+    private Training_DAO training_dao;
+    private Exercise_DAO exercise_dao;
+    private Attribute_DAO attribute_dao;
+    private Player_DAO player_dao;
+    private User_DAO user_dao;
+
     //Table names
-    public static final String TABLE_NAME         = "";
+    public static final String TABLE_NAME           = "RECORD";
 
     //Table columns
-    public static final String COLUMN_ID          = "";
+    public static final String COLUMN_ID            = "ID";
+    public static final String COLUMN_DATE          = "\"DATE\"";
+    public static final String COLUMN_VALUE         = "VALUE";
+    public static final String COLUMN_STATE         = "STATE";
+    public static final String COLUMN_TRAINING_ID   = "TRAINING_ID";
+    public static final String COLUMN_EXERCISE_ID   = "EXERCISE_ID";
+    public static final String COLUMN_ATTRIBUTE_ID  = "ATTRIBUTE_ID";
+    public static final String COLUMN_PLAYER_ID     = "PLAYER_ID";
+    public static final String COLUMN_USER_ID       = "USER_ID";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-            "";
+            COLUMN_ID           + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_DATE         + " INTEGER NOT NULL, " +
+            COLUMN_VALUE        + " REAL NOT NULL, " +
+            COLUMN_STATE        + " INTEGER NOT NULL, " +
+            COLUMN_TRAINING_ID  + " INTEGER NOT NULL, " +
+            COLUMN_EXERCISE_ID  + " INTEGER NOT NULL, " +
+            COLUMN_ATTRIBUTE_ID + " INTEGER NOT NULL, " +
+            COLUMN_PLAYER_ID    + " INTEGER NOT NULL, " +
+            COLUMN_USER_ID      + " INTEGER NOT NULL, " +
+            "FOREIGN KEY("+COLUMN_TRAINING_ID +") REFERENCES "+Training_DAO.TABLE_NAME+"("+Training_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY("+COLUMN_EXERCISE_ID +") REFERENCES "+Exercise_DAO.TABLE_NAME+"("+Exercise_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY("+COLUMN_ATTRIBUTE_ID+") REFERENCES "+Attribute_DAO.TABLE_NAME+"("+Attribute_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY("+COLUMN_PLAYER_ID   +") REFERENCES "+Player_DAO.TABLE_NAME+"("+Player_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY("+COLUMN_USER_ID     +") REFERENCES "+User_DAO.TABLE_NAME+"("+User_DAO.COLUMN_ID+"));";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
 
+    public Record_DAO(Context context) {
+        this.db = MyDB.getInstance(context).db;
+        this.training_dao = new Training_DAO(context);
+        this.exercise_dao = new Exercise_DAO(context);
+        this.attribute_dao = new Attribute_DAO(context);
+        this.player_dao = new Player_DAO(context);
+        this.user_dao = new User_DAO(context);
+    }
+
     @Override
-    public List<Record> getAll() throws GenericDAOException {
-        return null;
+    public ArrayList<Record> getAll() throws GenericDAOException {
+
+        //aux variables;
+        ArrayList<Record> resRecord = new ArrayList<>();
+        int id;
+        int date;
+        float value;
+        int state;
+        int trainingId;
+        int exerciseId;
+        int attributeId;
+        int playerId;
+        int userId;
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
+        res.moveToFirst();
+
+        //Parse data
+        while(res.isAfterLast() == false) {
+            id = res.getInt(res.getColumnIndex(COLUMN_ID));
+            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
+            state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
+            trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+            exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+            attributeId = res.getInt(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
+            playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+            userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+            resRecord.add(new Record(id, date, value, state,
+                    training_dao.getById(trainingId),
+                    exercise_dao.getById(exerciseId),
+                    attribute_dao.getById(attributeId),
+                    player_dao.getById(playerId),
+                    user_dao.getById(userId)));
+            res.moveToNext();
+        }
+
+        return resRecord;
     }
 
     @Override
     public Record getById(int id) throws GenericDAOException {
-        return null;
+
+        //aux variables;
+        Record resRecord;
+        int date;
+        float value;
+        int state;
+        int trainingId;
+        int exerciseId;
+        int attributeId;
+        int playerId;
+        int userId;
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
+        res.moveToFirst();
+
+        //Parse data
+        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
+        state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
+        trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+        exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+        attributeId = res.getInt(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
+        playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+        userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+        resRecord = new Record(id, date, value, state,
+                training_dao.getById(trainingId),
+                exercise_dao.getById(exerciseId),
+                attribute_dao.getById(attributeId),
+                player_dao.getById(playerId),
+                user_dao.getById(userId));
+
+        return resRecord;
     }
 
     @Override
     public long insert(Record object) throws GenericDAOException {
-        return -1;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_DATE        , object.getDate());
+        contentValues.put(COLUMN_VALUE       , object.getValue());
+        contentValues.put(COLUMN_STATE       , object.getState());
+        contentValues.put(COLUMN_TRAINING_ID , object.getTraining().getId());
+        contentValues.put(COLUMN_EXERCISE_ID , object.getExercise().getId());
+        contentValues.put(COLUMN_ATTRIBUTE_ID, object.getAttribute().getId());
+        contentValues.put(COLUMN_PLAYER_ID   , object.getPlayer().getId());
+
+        return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override
     public boolean delete(Record object) throws GenericDAOException {
-        return false;
+        int deletedCount = db.delete(TABLE_NAME,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(object.getId()) });
+        return true;
+    }
+
+    public boolean deleteById(int id) {
+
+        int deletedCount = db.delete(TABLE_NAME,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(id) });
+        return true;
     }
 
     @Override
     public boolean update(Record object) throws GenericDAOException {
-        return false;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_DATE        , object.getDate());
+        contentValues.put(COLUMN_VALUE       , object.getValue());
+        contentValues.put(COLUMN_STATE       , object.getState());
+        contentValues.put(COLUMN_TRAINING_ID , object.getTraining().getId());
+        contentValues.put(COLUMN_EXERCISE_ID , object.getExercise().getId());
+        contentValues.put(COLUMN_ATTRIBUTE_ID, object.getAttribute().getId());
+        contentValues.put(COLUMN_PLAYER_ID   , object.getPlayer().getId());
+
+        db.update(TABLE_NAME,
+                contentValues,
+                COLUMN_ID + " = ? ",
+                new String[] { Integer.toString(object.getId()) } );
+        return true;
+    }
+
+    public int numberOfRows(){
+        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     @Override
     public boolean exists(Record object) throws GenericDAOException {
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getValue()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VALUE + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpInt = object.getState()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_STATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getAttribute().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getUser().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Record> getByCriteria(Record object) throws GenericDAOException {
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Record> resRecord = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getValue()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_VALUE + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpInt = object.getState()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_STATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getAttribute().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getUser().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            int date;
+            float value;
+            int state;
+            int trainingId;
+            int exerciseId;
+            int attributeId;
+            int playerId;
+            int userId;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
+                    state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
+                    trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+                    exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+                    attributeId = res.getInt(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
+                    playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+                    userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
+                    resRecord.add(new Record(id, date, value, state,
+                            training_dao.getById(trainingId),
+                            exercise_dao.getById(exerciseId),
+                            attribute_dao.getById(attributeId),
+                            player_dao.getById(playerId),
+                            user_dao.getById(userId)));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resRecord;
     }
 }

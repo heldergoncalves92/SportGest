@@ -131,13 +131,90 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
 
     @Override
     public boolean exists(Exercise object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Exercise> getByCriteria(Exercise object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Exercise> resExercise = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String title;
+            String description;
+            int duration;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
+                    description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
+                    duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));
+                    resExercise.add(new Exercise(id, title, description, duration));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resExercise;
     }
 }

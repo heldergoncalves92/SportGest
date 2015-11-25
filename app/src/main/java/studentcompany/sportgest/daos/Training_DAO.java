@@ -161,13 +161,112 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
 
     @Override
     public boolean exists(Training object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTotalDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Training> getByCriteria(Training object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Training> resTraining = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getTitle()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TITLE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTotalDuration()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String title;
+            String description;
+            int date;
+            int totalDuration;
+            int teamId;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    title = res.getString(res.getColumnIndex(COLUMN_TITLE));
+                    description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
+                    teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+                    resTraining.add(new Training(id, title, description, date, totalDuration,
+                            team_dao.getById(teamId)));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resTraining;
     }
 }

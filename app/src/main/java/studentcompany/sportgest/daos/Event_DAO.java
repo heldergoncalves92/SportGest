@@ -194,13 +194,135 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
     @Override
     public boolean exists(Event object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getPosx()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSX + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpFloat = object.getPosy()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSY + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpInt = object.getEventCategory().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getGame().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Event> getByCriteria(Event object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Event> resEvent = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getDescription()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpFloat = object.getPosx()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSX + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpFloat = object.getPosy()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSY + " = " + tmpFloat );
+            fields++;
+        }
+        if ((tmpInt = object.getEventCategory().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getGame().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String description;
+            int date;
+            float posx;
+            float posy;
+            int eventCategoryId;
+            int gameId;
+            int playerId;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    posx = res.getFloat(res.getColumnIndex(COLUMN_POSX));
+                    posy = res.getFloat(res.getColumnIndex(COLUMN_POSY));
+                    eventCategoryId = res.getInt(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
+                    gameId = res.getInt(res.getColumnIndex(COLUMN_GAMEID));
+                    playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+                    resEvent.add(new Event(id, description, date, posx, posy,
+                            event_category_dao.getById(eventCategoryId),
+                            game_dao.getById(gameId),
+                            player_dao.getById(playerId)));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resEvent;
     }
 }

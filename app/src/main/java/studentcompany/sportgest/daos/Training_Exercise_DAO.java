@@ -153,14 +153,94 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
 
     @Override
     public boolean exists(TrainingExercise object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+        float tmpFloat;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getRepetitions()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<TrainingExercise> getByCriteria(TrainingExercise object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<TrainingExercise> resTrainingExercise = new ArrayList<>();
+        int fields = 0;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+            fields++;
+        }
+        if ((tmpInt = object.getRepetitions()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            int trainingId;
+            int exerciseId;
+            int repetitions;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+                    exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+                    repetitions = res.getInt(res.getColumnIndex(COLUMN_REPETITIONS));
+                    resTrainingExercise.add(new TrainingExercise(id,
+                            training_dao.getById(trainingId),
+                            exercise_dao.getById(exerciseId),
+                            repetitions));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resTrainingExercise;
     }
 
 }

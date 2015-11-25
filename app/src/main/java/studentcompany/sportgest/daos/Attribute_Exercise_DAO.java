@@ -140,7 +140,27 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
 
     @Override
     public boolean exists(Pair<Attribute, Exercise> object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getFirst().getId()) >= 0) {
+            statement.append(COLUMN_ATTRIBUTE_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpInt = object.getSecond().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt);
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 }

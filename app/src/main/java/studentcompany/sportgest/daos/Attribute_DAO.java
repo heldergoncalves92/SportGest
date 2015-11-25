@@ -131,13 +131,90 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
 
     @Override
     public boolean exists(Attribute object) throws GenericDAOException {
-        //TODO implement exists
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getType()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TYPE + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
+            fields++;
+        }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt);
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Attribute> getByCriteria(Attribute object) throws GenericDAOException {
-        //TODO implement getByCriteria
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Attribute> resAttribute = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        int tmpInt;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpInt = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpInt);
+            fields++;
+        }
+        if ((tmpString = object.getType()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TYPE + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt );
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            int id;
+            String type;
+            String name;
+            int deleted;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    type = res.getString(res.getColumnIndexOrThrow(COLUMN_TYPE));
+                    name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+                    deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
+                    resAttribute.add(new Attribute(id, type, name, deleted));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resAttribute;
     }
 }
