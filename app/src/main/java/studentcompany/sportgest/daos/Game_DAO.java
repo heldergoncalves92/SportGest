@@ -60,8 +60,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         //aux variables
         ArrayList<Game> resGame = new ArrayList<>();
         int id;
-        int home_teamid;
-        int visitor_teamid;
+        int home_team;
+        int visitor_team;
         int date;
         String report;
         int home_score;
@@ -75,15 +75,15 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         //Parse data
         while(res.isAfterLast() == false) {
             id = res.getInt(res.getColumnIndex(COLUMN_ID));
-            home_teamid = res.getInt(res.getColumnIndex(COLUMN_HOME_TEAMID));
-            visitor_teamid = res.getInt(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
+            home_team = res.getInt(res.getColumnIndex(COLUMN_HOME_TEAMID));
+            visitor_team = res.getInt(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
             date = res.getInt(res.getColumnIndex(COLUMN_DATE));
             report = res.getString(res.getColumnIndex(COLUMN_REPORT));
             home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
             visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
             duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
 
-            resGame.add(new Game(id,team_dao.getById(home_teamid),team_dao.getById(visitor_teamid), date, report,
+            resGame.add(new Game(id,team_dao.getById(home_team),team_dao.getById(visitor_team), date, report,
                     home_score,visitor_score, duration));
             res.moveToNext();
         }
