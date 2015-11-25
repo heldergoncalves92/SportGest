@@ -1,6 +1,5 @@
 package studentcompany.sportgest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,23 +12,38 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import studentcompany.sportgest.daos.EVENT_CATEGORYDAO;
+import studentcompany.sportgest.daos.Event_Category_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.EventCategory;
 
 public class ListEventCategoryActivity extends AppCompatActivity {
     //Interface
     private ListView listView;
 
     //DAOs
-    private EVENT_CATEGORYDAO event_categorydao;
+    private Event_Category_DAO event_categorydao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_event_category);
 
-        event_categorydao = new EVENT_CATEGORYDAO(this);
-        ArrayList array_list = event_categorydao.getAllEventCategories();
+        event_categorydao = new Event_Category_DAO(this);
+        ArrayList<EventCategory> eventCategorylist;
+        try {
+            eventCategorylist = event_categorydao.getAll();
+        } catch (GenericDAOException ex){
+            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(ListEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+            eventCategorylist = null;
+        }
+        ArrayList<String> array_list = new ArrayList<>();
+        for(EventCategory ec : eventCategorylist){
+            array_list.add(ec.getName());
+        }
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
         listView = (ListView)findViewById(R.id.event_category_ListView);
@@ -59,7 +73,18 @@ public class ListEventCategoryActivity extends AppCompatActivity {
     public void onResume() {//update list
         super.onResume();  // Always call the superclass method first
 
-        ArrayList array_list = event_categorydao.getAllEventCategories();
+        ArrayList<EventCategory> eventCategorylist;
+        try {
+            eventCategorylist = event_categorydao.getAll();
+        } catch (GenericDAOException ex){
+            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(ListEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+            eventCategorylist = null;
+        }
+        ArrayList<String> array_list = new ArrayList<>();
+        for(EventCategory ec : eventCategorylist){
+            array_list.add(ec.getName());
+        }
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
         listView = (ListView)findViewById(R.id.event_category_ListView);
         listView.setAdapter(arrayAdapter);

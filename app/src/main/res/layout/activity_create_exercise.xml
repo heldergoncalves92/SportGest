@@ -63,12 +63,12 @@
                 android:id="@+id/selectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=">" />
+                android:text="@string/selectAttribute" />
             <Button
                 android:id="@+id/deselectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="<" />
+                android:text="@string/deselectAttribute" />
 
             <Button
                 android:id="@+id/removeAttribute"

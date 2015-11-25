@@ -1,10 +1,7 @@
 package studentcompany.sportgest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +12,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import studentcompany.sportgest.daos.EVENT_CATEGORYDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import studentcompany.sportgest.daos.Event_Category_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.EventCategory;
 
 public class DisplayEventCategoryActivity extends AppCompatActivity {
 
     //DAOs
-    private EVENT_CATEGORYDAO event_categorydao;
+    private Event_Category_DAO event_category_dao;
 
     TextView category;
     int id_To_Update = 0;
@@ -31,7 +33,7 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_event_category);
         category = (TextView) findViewById(R.id.event_category_editText);
 
-        event_categorydao = new EVENT_CATEGORYDAO(this);
+        event_category_dao = new Event_Category_DAO(this);
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
@@ -40,22 +42,24 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
 
             if(Value>0){
                 //means this is the view part not the add contact part.
-                Cursor rs = event_categorydao.getData(Value);
-                id_To_Update = Value;
-                rs.moveToFirst();
-
-                String eventCategory = rs.getString(rs.getColumnIndex(EVENT_CATEGORYDAO.EVENT_CATEGORY_COLUMN_CATEGORY));
-
-                if (!rs.isClosed())
-                {
-                    rs.close();
+                EventCategory res;
+                try {
+                    res = event_category_dao.getById(Value);
+                } catch (GenericDAOException ex){
+                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+                    res = null;
                 }
+                id_To_Update = Value;
+
                 Button b = (Button)findViewById(R.id.event_category_button);
                 b.setVisibility(View.INVISIBLE);
 
-                category.setText(eventCategory);
-                category.setFocusable(false);
-                category.setClickable(false);
+                if(res != null) {
+                    category.setText(res.getName());
+                    category.setFocusable(false);
+                    category.setClickable(false);
+                }
             }
         }
 
@@ -102,7 +106,7 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
                 builder.setMessage(R.string.delete_confirmation)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                event_categorydao.deleteEventCategory(id_To_Update);
+                                event_category_dao.deleteById(id_To_Update);
                                 Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
                                 finish();
                                 //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
@@ -127,12 +131,20 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
 
     public void run(View view)
     {
+        Boolean res = false;
         Bundle extras = getIntent().getExtras();
+
         if(extras !=null)
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(event_categorydao.updateEventCategory(id_To_Update, category.getText().toString() )){
+                try {
+                    res = event_category_dao.update(new EventCategory(id_To_Update, category.getText().toString()));
+                } catch (GenericDAOException ex){
+                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+                }
+                if(res){
                     Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -140,7 +152,13 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
                 }
             }
             else{
-                if(event_categorydao.insertEventCategory(category.getText().toString())){
+                try {
+                    res = event_category_dao.insert(new EventCategory(-1, category.getText().toString())) > 0;
+                } catch (GenericDAOException ex){
+                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+                }
+                if(res){
                     Toast.makeText(getApplicationContext(), R.string.done, Toast.LENGTH_SHORT).show();
                 }
 
