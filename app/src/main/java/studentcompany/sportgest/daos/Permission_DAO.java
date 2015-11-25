@@ -13,7 +13,7 @@ import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Permission;
 
-public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO<Permission>{
+public class Permission_DAO extends GenericDAO<Permission> implements IGenericDAO<Permission>{
     //Database name
     private SQLiteDatabase db;
 
@@ -34,7 +34,7 @@ public class Permision_DAO extends GenericDAO<Permission> implements IGenericDAO
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
 
 
-    public Permision_DAO(Context context) {
+    public Permission_DAO(Context context) {
         this.db = MyDB.getInstance(context).db;
     }
 
