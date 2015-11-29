@@ -96,7 +96,7 @@ public class ListExerciseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_crud, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         MenuItem editItem = menu.findItem(R.id.Edit);
         editItem.setVisible(false);
         MenuItem remItem = menu.findItem(R.id.Delete);

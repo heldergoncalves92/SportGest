@@ -8,16 +8,32 @@
     <string name="delete_sucessful">Deleted Successfully</string>
     <string name="updated">Updated</string>
     <string name="not_updated">Not updated</string>
+    <string name="inserted">Inserted</string>
+    <string name="not_inserted">Not Inserted</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="done">Done</string>
     <string name="not_done">Not done</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
     <string name="event_category_button">Event Categories</string>
     <string name="event_category_add_menu">Add Categories</string>
     <string name="event_category_edit_menu">Edit Categories</string>
     <string name="event_category_delete_menu">Delete Category</string>
+    <string name="exercise_button">Exercise</string>
+    <string name="exercise_add_menu">Add Exercise</string>
+    <string name="exercise_edit_menu">Edit Exercise</string>
+    <string name="exercise_delete_menu">Delete Exercise</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
+Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.
+Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
+</string>
+    <string name="exerciseDurationUnit">min</string>
 </resources>
