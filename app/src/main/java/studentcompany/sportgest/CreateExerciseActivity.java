@@ -2,19 +2,26 @@ package studentcompany.sportgest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
+import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
 public class CreateExerciseActivity extends AppCompatActivity {
@@ -24,16 +31,22 @@ public class CreateExerciseActivity extends AppCompatActivity {
     private Attribute_DAO attribute_dao;
     private Attribute_Exercise_DAO attribute_exercise_dao;
 
-    TextView title, description, duration;
-    int id_To_Update = 0;
+    int exerciseID = -1;
+    Exercise exercise = null;
+    ArrayList<Attribute> exerciseAttributesAdapter = new ArrayList<>();
+    ArrayList<Attribute> selectedExerciseAttributesAdapter = new ArrayList<>();
+    ArrayList<Attribute> allAttributesAdapter = new ArrayList<>();
+    ArrayList<Attribute> selectedAllAttributesAdapter = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_exercise);
-        title = (TextView) findViewById(R.id.name);
-        duration = (TextView) findViewById(R.id.duration);
-        description = (TextView) findViewById(R.id.description);
+        TextView title = (TextView) findViewById(R.id.name);
+        TextView duration = (TextView) findViewById(R.id.duration);
+        TextView description = (TextView) findViewById(R.id.description);
+        ListView currExerciseAttributes = (ListView) findViewById(R.id.selectedAttributes);
+        ListView currAttributes = (ListView) findViewById(R.id.exerciseAvailableAttributes);
 
 
         exercise_dao = new Exercise_DAO(this);
@@ -42,147 +55,206 @@ public class CreateExerciseActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        if(extras !=null)
-        {
-
-            int id = extras.getInt("id");
-            if(id>0){
-                Exercise res;
+        if(extras !=null) {
+            exerciseID = extras.getInt(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID);
+            //if the intetion is to edit, pre-load exercise information
+            if (exerciseID > 0) {
                 try {
-                    res = exercise_dao.getById(id);
-                } catch (GenericDAOException ex){
-                    //System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                    exercise = exercise_dao.getById(exerciseID);
+                } catch (GenericDAOException ex) {
+                    System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
-                    res = null;
+                    exercise = null;
                 }
-                id_To_Update = id;
 
-                Button b = (Button)findViewById(R.id.event_category_button);
-                b.setVisibility(View.INVISIBLE);
+                if (exercise != null) {
+                    title.setText(exercise.getTitle());
+                    title.setFocusable(true);
+                    title.setClickable(true);
 
-                if(res != null) {
-                    category.setText(res.getName());
-                    category.setFocusable(false);
-                    category.setClickable(false);
+                    duration.setText(exercise.getDuration());
+                    title.setFocusable(true);
+                    title.setClickable(true);
+
+                    description.setText(exercise.getDescription());
+                    description.setFocusable(true);
+                    description.setClickable(true);
+
+                    //get list of attributes allocated to some exerciseID
+                    ArrayList<Pair<Attribute, Exercise>> exerciseAttributes;
+                    try {
+                        exerciseAttributes = new ArrayList<>(attribute_exercise_dao.getBySecondId(exerciseID));
+                    } catch (GenericDAOException ex) {
+                        System.err.println(ListExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(ListExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                        exerciseAttributes = null;
+                    }
+
+                    for (Pair<Attribute, Exercise> ec : exerciseAttributes) {
+                        exerciseAttributesAdapter.add(ec.getFirst());
+                    }
+                    ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
+                    currExerciseAttributes.setAdapter(selectedArrayAdapter);
+                    currExerciseAttributes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    currExerciseAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //check if the item has been clicked twice (deselect)
+                            Attribute a = exerciseAttributesAdapter.get(position);
+                            if (selectedExerciseAttributesAdapter.contains(a)) {
+                                selectedExerciseAttributesAdapter.remove(a);
+                            } else {
+                                selectedExerciseAttributesAdapter.add(a);
+                            }
+                        }
+                    });
+
+                    //get all registered attributes
+                    ArrayList<Attribute> attributeList;
+                    try {
+                        attributeList = new ArrayList<>(attribute_dao.getAll());
+                    } catch (GenericDAOException ex) {
+                        System.err.println(ListExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(ListExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                        attributeList = null;
+                    }
+
+                    //select only the attributes not selected for some exercise
+                    for (Attribute a : attributeList) {
+                        if (!exerciseAttributesAdapter.contains(a)) {
+                            allAttributesAdapter.add(a);
+                        }
+                    }
+                    ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
+                    currAttributes.setAdapter(allAttrArrayAdapter);
+                    currAttributes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    currAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //check if the item has been clicked twice (deselect)
+                            Attribute a = allAttributesAdapter.get(position);
+                            if(selectedAllAttributesAdapter.contains(a)){
+                                selectedAllAttributesAdapter.remove(a);
+                            }else {
+                                selectedAllAttributesAdapter.add(a);
+                            }
+                        }
+                    });
                 }
+            }
+        }
 
 
         //Toolbar
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.display_event_category_toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.create_exercise_toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Bundle extras = getIntent().getExtras();
-
-        if(extras !=null)
-        {
-            int Value = extras.getInt("id");
-            /*
-            if(Value>0){
-                getMenuInflater().inflate(R.menu.menu_display_event_category, menu);
-            }
-
-            else{
-                getMenuInflater().inflate(R.menu.menu_list_event_category, menu);
-            }
-            */
-        }
+        getMenuInflater().inflate(R.menu.menu_crud, menu);
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        MenuItem delItem = menu.findItem(R.id.Delete);
+        editItem.setVisible(false);
+        delItem.setVisible(false);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
         super.onOptionsItemSelected(item);
-        /*
+
+        ListView currExerciseAttributes = (ListView) findViewById(R.id.selectedAttributes);
+        ListView currAttributes = (ListView) findViewById(R.id.exerciseAvailableAttributes);
+
         switch(item.getItemId())
         {
-            case R.id.Edit_Event_Category:
-                Button b = (Button)findViewById(R.id.event_category_button);
-                b.setVisibility(View.VISIBLE);
-                category.setEnabled(true);
-                category.setFocusableInTouchMode(true);
-                category.setClickable(true);
+            //add action
+            case R.id.Add:
+                TextView title = (TextView) findViewById(R.id.name);
+                TextView duration = (TextView) findViewById(R.id.duration);
+                TextView description = (TextView) findViewById(R.id.description);
 
-                return true;
-            case R.id.Delete_Event_Category:
+                // TODO validate inputs
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.delete_confirmation)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                event_category_dao.deleteById(id_To_Update);
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
-                                finish();
-                                //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                //startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
-                AlertDialog d = builder.create();
-                d.setTitle(R.string.are_you_sure);
-                d.show();
+                exercise = new Exercise(
+                        exerciseID,
+                        title.getText().toString(),
+                        description.getText().toString(),
+                        Integer.parseInt(duration.getText().toString()));
+
+                //insert/update database
+                try {
+                    if(exerciseID > 0){
+                        exercise_dao.update(exercise);
+                    } else {
+                        exercise_dao.insert(exercise);
+                    }
+                }catch (GenericDAOException ex){
+                    System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                }
+
+                //get attributes selected
+                for(int i=0 ; i< exerciseAttributesAdapter.size() ; i++){
+                    //for each one insert them on the relation table
+                    try {
+                        attribute_exercise_dao.insert(new Pair<>(exerciseAttributesAdapter.get(i), exercise));
+                    } catch (GenericDAOException ex) {
+                        System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                    }
+                }
+                Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
+                finish();
 
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
-        }*/
-        return super.onOptionsItemSelected(item);
+        }
     }
 
-    public void run(View view)
-    {
-        Boolean res = false;
-        Bundle extras = getIntent().getExtras();
+    public void addSelectAttribute(View view){
+        ListView currExerciseAttributes = (ListView) findViewById(R.id.selectedAttributes);
+        ListView currAttributes = (ListView) findViewById(R.id.exerciseAvailableAttributes);
 
-        if(extras !=null)
-        {
-
-            int id = extras.getInt("id");
-            if(id>0){
-                try {
-                    res = exercise_dao.update(new Exercise(id, title.getText().toString(), description.getText().toString(),
-                            Integer.parseInt(duration.getText().toString())
-                    ));
-                } catch (GenericDAOException ex){
-                    //System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
-                }
-                if(res){
-                    Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), R.string.not_updated, Toast.LENGTH_SHORT).show();
-                }
+        for(int i=0; i<selectedAllAttributesAdapter.size(); i++){
+            Attribute a = selectedAllAttributesAdapter.get(i);
+            if(!exerciseAttributesAdapter.contains(a)){
+                exerciseAttributesAdapter.add(a);
             }
-            else{
-                try {
-                    res = exercise_dao.insert(
-                            new Exercise(-1, title.getText().toString(), description.getText().toString(),
-                            Integer.parseInt(duration.getText().toString())
-                            )) > 0;
-                } catch (Exception ex){
-                    //System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
-                }
-                if(res){
-                    Toast.makeText(getApplicationContext(), R.string.done, Toast.LENGTH_SHORT).show();
-                }
-
-                else{
-                    Toast.makeText(getApplicationContext(), R.string.not_done, Toast.LENGTH_SHORT).show();
-                }
-            }
-            this.finish();
-
+            //remove from available list
+            allAttributesAdapter.remove(a);
+            //remove from selected list
+            selectedAllAttributesAdapter.remove(a);
         }
 
+        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
+        currExerciseAttributes.setAdapter(selectedArrayAdapter);
+        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
+        currAttributes.setAdapter(allAttrArrayAdapter);
+    }
+
+    public void remSelectAttribute(View view){
+        ListView currExerciseAttributes = (ListView) findViewById(R.id.selectedAttributes);
+        ListView currAttributes = (ListView) findViewById(R.id.exerciseAvailableAttributes);
+
+        for(int i=0; i<selectedExerciseAttributesAdapter.size(); i++){
+            Attribute a = selectedExerciseAttributesAdapter.get(i);
+            if(!allAttributesAdapter.contains(a)){
+                allAttributesAdapter.add(a);
+            }
+            //remove from available list
+            exerciseAttributesAdapter.remove(a);
+            //remove from selected list
+            selectedExerciseAttributesAdapter.remove(a);
+        }
+
+        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
+        currExerciseAttributes.setAdapter(selectedArrayAdapter);
+        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
+        currAttributes.setAdapter(allAttrArrayAdapter);
     }
 }

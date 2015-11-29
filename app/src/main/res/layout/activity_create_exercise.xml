@@ -73,12 +73,14 @@
                 android:id="@+id/selectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/selectAttribute" />
+                android:text="@string/selectAttribute"
+                android:onClick="addSelectAttribute"/>
             <Button
                 android:id="@+id/deselectAttribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/deselectAttribute" />
+                android:text="@string/deselectAttribute"
+                android:onClick="remSelectAttribute"/>
 
             <Button
                 android:id="@+id/removeAttribute"
@@ -89,8 +91,8 @@
 
         <ListView
             android:id="@+id/selectedAttributes"
-            android:layout_width="420dp"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="20dp" />
     </LinearLayout>
 

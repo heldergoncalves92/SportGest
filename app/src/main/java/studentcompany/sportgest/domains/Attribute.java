@@ -48,12 +48,7 @@ public class Attribute extends DomainPojo {
 
     @Override
     public String toString() {
-        return "Attribute{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", deleted=" + deleted +
-                '}';
+        return name;
     }
 
     @Override

@@ -52,15 +52,16 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             COLUMN_BIRTHDATE + " INTEGER, \n" +
             COLUMN_HEIGHT + " FLOAT, \n" +
             COLUMN_WEIGHT + " FLOAT, \n" +
-            COLUMN_GENDER + " FLOAT, \n" +
-            COLUMN_PHOTO + " FLOAT, \n" +
             COLUMN_ADDRESS + " TEXT, \n" +
+            COLUMN_GENDER + " TEXT, \n" +
             COLUMN_PHOTO + " TEXT, \n" +
             COLUMN_EMAIL + " TEXT, \n" +
             COLUMN_PREFERED_FOOT + " TEXT, \n" +
             COLUMN_NUMBER + " INTEGER, \n" +
-            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES TEAM(ID), \n" +
-            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES POSITION(ID));\n";
+            COLUMN_TEAM_ID + " INTEGER, \n" +
+            COLUMN_BETTER_POSITION + " INTEGER, \n" +
+            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"), \n" +
+            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES "+Position_DAO.TABLE_NAME+"("+ Position_DAO.COLUMN_ID+"));\n";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
