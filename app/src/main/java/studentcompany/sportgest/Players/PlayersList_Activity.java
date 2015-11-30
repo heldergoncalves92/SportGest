@@ -31,8 +31,8 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_list);
 
-        this.testPlayers();
-        /*try {
+        //this.testPlayers();
+        try {
             playerDao = new Player_DAO(getApplicationContext());
             insertUserTest(playerDao);
             players = playerDao.getAll();
@@ -40,7 +40,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
         // Get a reference to the FragmentManager
@@ -78,15 +78,17 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player(0,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 1.76f ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
-            Player p2 = new Player(1,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 1.70f ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
-            Player p3 = new Player(2,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 1.80f ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
-            Player p4 = new Player(3,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 1.94f ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
+            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
+            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
+            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
+            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
 
-            p_dao.insert(p1);
-            p_dao.insert(p2);
-            p_dao.insert(p3);
-            p_dao.insert(p4);
+            long id;
+
+            id = p_dao.insert(p1);
+            id = p_dao.insert(p2);
+            id = p_dao.insert(p3);
+            id = p_dao.insert(p4);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -96,10 +98,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     private void testPlayers(){
 
-        Player p1 = new Player(0,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 1.76f ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
-        Player p2 = new Player(1,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 1.70f ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
-        Player p3 = new Player(2,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 1.80f ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
-        Player p4 = new Player(3,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 1.94f ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
+        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
+        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
+        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
+        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
 
         players = new ArrayList<Player>();
         players.add(p1);

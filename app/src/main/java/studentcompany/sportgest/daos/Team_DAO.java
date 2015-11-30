@@ -90,7 +90,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
         res.moveToFirst();
-
+        if(res.getCount()==1){
         //Parse data
         id = res.getInt(res.getColumnIndex(COLUMN_ID));
         name = res.getString(res.getColumnIndex(COLUMN_NAME));
@@ -100,7 +100,9 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         is_com = res.getInt(res.getColumnIndex(COLUMN_IS_COM));
         resTeam = new Team(id, name, description, logo, season, is_com);
 
-        return resTeam;
+        return resTeam;}
+        else
+            return null;
     }
 
     @Override

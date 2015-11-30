@@ -3,13 +3,13 @@ package studentcompany.sportgest.domains;
 
 public class Player extends DomainPojo{
 
-    private int id;
+    private int id = 0;
     private String nickname;
     private String name;
     private String nationality;
     private String marital_status;
     private int birthDate;
-    private float height;
+    private int height;
     private float weight;
     private String address;
     private String gender;
@@ -20,8 +20,25 @@ public class Player extends DomainPojo{
     private Team team;
     private Position position;
 
-    public Player(int id,String nickname, String name, String nationality, String marital_status, int birthDate, float height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(int id,String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.id = id;
+        this.nickname = nickname;
+        this.name = name;
+        this.nationality = nationality;
+        this.marital_status = marital_status;
+        this.birthDate = birthDate;
+        this.height = height;
+        this.weight = weight;
+        this.address = address;
+        this.gender = gender;
+        this.photo = photo;
+        this.email = email;
+        this.preferedFoot = preferedFoot;
+        this.number = number;
+        this.team = team;
+        this.position=position;
+    }
+    public Player(String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.nickname = nickname;
         this.name = name;
         this.nationality = nationality;
@@ -88,11 +105,11 @@ public class Player extends DomainPojo{
         this.birthDate = birthDate;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -100,7 +117,7 @@ public class Player extends DomainPojo{
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
@@ -136,11 +153,11 @@ public class Player extends DomainPojo{
         this.email = email;
     }
 
-    public String getPreferedFoot() {
+    public String getPreferredFoot() {
         return preferedFoot;
     }
 
-    public void setPreferedFoot(String preferedFoot) {
+    public void setPreferredFoot(String preferedFoot) {
         this.preferedFoot = preferedFoot;
     }
 
@@ -188,7 +205,7 @@ public class Player extends DomainPojo{
         if (!getGender().equals(player.getGender())) return false;
         if (!getPhoto().equals(player.getPhoto())) return false;
         if (!getEmail().equals(player.getEmail())) return false;
-        if (!getPreferedFoot().equals(player.getPreferedFoot())) return false;
+        if (!getPreferredFoot().equals(player.getPreferredFoot())) return false;
         return getTeam().equals(player.getTeam());
 
     }
@@ -207,7 +224,7 @@ public class Player extends DomainPojo{
         result = 31 * result + getGender().hashCode();
         result = 31 * result + getPhoto().hashCode();
         result = 31 * result + getEmail().hashCode();
-        result = 31 * result + getPreferedFoot().hashCode();
+        result = 31 * result + getPreferredFoot().hashCode();
         result = 31 * result + getNumber();
         result = 31 * result + getTeam().hashCode();
         return result;

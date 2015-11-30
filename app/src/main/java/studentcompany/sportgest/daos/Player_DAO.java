@@ -37,30 +37,31 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     public final static String COLUMN_GENDER = "GENDER";
     public final static String COLUMN_PHOTO = "PHOTO";
     public final static String COLUMN_EMAIL = "EMAIL";
-    public final static String COLUMN_PREFERED_FOOT = "PREFERED_FOOT";
+    public final static String COLUMN_PREFERRED_FOOT = "PREFERRED_FOOT";
     public final static String COLUMN_NUMBER = "NUMBER";
     public final static String COLUMN_TEAM_ID = "TEAM_ID";
     public final static String COLUMN_BETTER_POSITION = "BETTER_POSITION";
 
     //Create table
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (\n" +
-            COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +
-            COLUMN_NICKNAME + " TEXT, \n" +
-            COLUMN_NAME + " TEXT, \n" +
-            COLUMN_NATIONALITY + " TEXT, \n" +
-            COLUMN_MARITAL_STATUS + " TEXT, \n" +
-            COLUMN_BIRTHDATE + " INTEGER, \n" +
-            COLUMN_HEIGHT + " FLOAT, \n" +
-            COLUMN_WEIGHT + " FLOAT, \n" +
-            COLUMN_GENDER + " FLOAT, \n" +
-            COLUMN_PHOTO + " FLOAT, \n" +
-            COLUMN_ADDRESS + " TEXT, \n" +
-            COLUMN_PHOTO + " TEXT, \n" +
-            COLUMN_EMAIL + " TEXT, \n" +
-            COLUMN_PREFERED_FOOT + " TEXT, \n" +
-            COLUMN_NUMBER + " INTEGER, \n" +
-            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES TEAM(ID), \n" +
-            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES POSITION(ID));\n";
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+            COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_NICKNAME + " TEXT, " +
+            COLUMN_NAME + " TEXT, " +
+            COLUMN_NATIONALITY + " TEXT, " +
+            COLUMN_MARITAL_STATUS + " TEXT, " +
+            COLUMN_BIRTHDATE + " INTEGER, " +
+            COLUMN_HEIGHT + " INTEGER, " +
+            COLUMN_WEIGHT + " INTEGER, " +
+            COLUMN_GENDER + " TEXT, " +
+            COLUMN_ADDRESS + " TEXT, " +
+            COLUMN_PHOTO + " TEXT, " +
+            COLUMN_EMAIL + " TEXT, " +
+            COLUMN_PREFERRED_FOOT + " INTEGER, " +
+            COLUMN_NUMBER + " INTEGER, " +
+            COLUMN_TEAM_ID + " INTEGER, " +
+            COLUMN_BETTER_POSITION + " INTEGER, " +
+            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES TEAM(ID), " +
+            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES POSITION(ID));";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -81,7 +82,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         String nationality;
         String marital_status;
         int dob;
-        float height;
+        int height;
         float weight;
         String address;
         String gender;
@@ -104,13 +105,13 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
             marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
             dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
-            height = res.getFloat(res.getColumnIndex(COLUMN_HEIGHT));
-            weight = res.getInt(res.getColumnIndex(COLUMN_WEIGHT));
+            height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
+            weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
             address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
             gender= res.getString(res.getColumnIndex(COLUMN_GENDER));
             photo= res.getString(res.getColumnIndex(COLUMN_PHOTO));
             email= res.getString(res.getColumnIndex(COLUMN_EMAIL));
-            prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERED_FOOT));
+            prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
             number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
             team=res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
             position=res.getInt(res.getColumnIndex(COLUMN_BETTER_POSITION));
@@ -132,7 +133,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         String nationality;
         String marital_status;
         int dob;
-        float height;
+        int height;
         float weight;
         String address;
         String gender;
@@ -154,13 +155,13 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
             marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
             dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
-            height = res.getFloat(res.getColumnIndex(COLUMN_HEIGHT));
-            weight = res.getInt(res.getColumnIndex(COLUMN_WEIGHT));
+            height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
+            weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
             address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
             gender= res.getString(res.getColumnIndex(COLUMN_GENDER));
             photo= res.getString(res.getColumnIndex(COLUMN_PHOTO));
             email= res.getString(res.getColumnIndex(COLUMN_EMAIL));
-            prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERED_FOOT));
+            prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
             number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
             team=res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
             position=res.getInt(res.getColumnIndex(COLUMN_BETTER_POSITION));
@@ -174,7 +175,9 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     @Override
     public long insert(Player object) throws GenericDAOException {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_ID, object.getId());
+
+        if(object.getId()>0)
+            contentValues.put(COLUMN_ID, object.getId());
         contentValues.put(COLUMN_NICKNAME,  object.getNickname());
         contentValues.put(COLUMN_NAME,  object.getName());
         contentValues.put(COLUMN_NATIONALITY,  object.getNationality());
@@ -185,9 +188,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_GENDER, object.getGender());
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
-        contentValues.put(COLUMN_PREFERED_FOOT, object.getNumber());
-        contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
-        contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
+        contentValues.put(COLUMN_PREFERRED_FOOT, object.getPreferredFoot());
+        contentValues.put(COLUMN_NUMBER, object.getNumber());
+        contentValues.put(COLUMN_TEAM_ID, object.getTeam() != null ? object.getTeam().getId() : null);
+        contentValues.put(COLUMN_BETTER_POSITION, object.getPosition() != null ? object.getPosition().getId() : null);
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -222,7 +226,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_GENDER, object.getGender());
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
-        contentValues.put(COLUMN_PREFERED_FOOT, object.getNumber());
+        contentValues.put(COLUMN_PREFERRED_FOOT, object.getNumber());
         contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
         contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
 
@@ -298,8 +302,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpString = object.getPreferedFoot()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERED_FOOT + " = '" + tmpString + "'");
+        if ((tmpString = object.getPreferredFoot()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERRED_FOOT + " = '" + tmpString + "'");
             fields++;
         }
         if ((tmpInt = object.getNumber()) >= 0) {
@@ -360,8 +364,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
             fields++;
         }
-        if ((tmpFloat = object.getHeight()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HEIGHT + " = " + tmpFloat );
+        if ((tmpInt = object.getHeight()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_HEIGHT + " = " + tmpInt );
             fields++;
         }
         if ((tmpFloat = object.getWeight()) >= 0) {
@@ -384,8 +388,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EMAIL + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpString = object.getPreferedFoot()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERED_FOOT + " LIKE '%" + tmpString + "%'");
+        if ((tmpString = object.getPreferredFoot()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERRED_FOOT + " LIKE '%" + tmpString + "%'");
             fields++;
         }
         if ((tmpInt = object.getNumber()) >= 0) {
@@ -408,7 +412,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             String nationality;
             String marital_status;
             int dob;
-            float height;
+            int height;
             float weight;
             String address;
             String gender;
@@ -429,13 +433,13 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
                     nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
                     marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
                     dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
-                    height = res.getFloat(res.getColumnIndex(COLUMN_HEIGHT));
-                    weight = res.getInt(res.getColumnIndex(COLUMN_WEIGHT));
+                    height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
+                    weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
                     address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
                     gender= res.getString(res.getColumnIndex(COLUMN_GENDER));
                     photo= res.getString(res.getColumnIndex(COLUMN_PHOTO));
                     email= res.getString(res.getColumnIndex(COLUMN_EMAIL));
-                    prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERED_FOOT));
+                    prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
                     number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
                     team=res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
                     position=res.getInt(res.getColumnIndex(COLUMN_BETTER_POSITION));
