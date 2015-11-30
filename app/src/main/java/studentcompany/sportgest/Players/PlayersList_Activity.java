@@ -1,9 +1,14 @@
 package studentcompany.sportgest.Players;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +31,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private Menu mOptionsMenu;
 
 
+    private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
     private DetailsPlayers_Fragment mDetailsPlayer = new DetailsPlayers_Fragment();
@@ -73,6 +79,18 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         return list;
     }
 
+    public void removePlayer(){
+        mDetailsPlayer.clearDetails();
+        mListPlayer.removeItem(currentPos);
+
+        playerDao.deleteById(players.get(currentPos).getId());
+        players.remove(currentPos);
+
+        currentPos = -1;
+        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+        item.setVisible(false);
+    }
+
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -114,17 +132,52 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
                 return true;
 
             case R.id.action_del:
-                mDetailsPlayer.clearDetails();
-                mListPlayer.removeItem(currentPos);
-
-                playerDao.deleteById(players.get(currentPos).getId());
-                players.remove(currentPos);
-
-                currentPos = -1;
-                item.setVisible(false);
+                mDialog = AlertToDelete_DialogFragment.newInstance();
+                mDialog.show(mFragmentManager,"Alert");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /************************************
+     ****      Dialog Functions      ****
+     ************************************/
+
+    public void DialogDismiss(){
+        mDialog.dismiss();
+    }
+
+    public static class AlertToDelete_DialogFragment extends DialogFragment {
+
+        public static AlertToDelete_DialogFragment newInstance(){
+            return new AlertToDelete_DialogFragment();
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            Resources res = getResources();
+
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(res.getString(R.string.are_you_sure))
+                    .setCancelable(false)
+                    .setNegativeButton(res.getString(R.string.negative_answer),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    PlayersList_Activity activity = (PlayersList_Activity) getActivity();
+                                    activity.DialogDismiss();
+                                }
+                            })
+                    .setPositiveButton(res.getString(R.string.positive_answer),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    PlayersList_Activity activity = (PlayersList_Activity) getActivity();
+                                    activity.DialogDismiss();
+                                    activity.removePlayer();
+                                }
+                            }).create();
         }
     }
 

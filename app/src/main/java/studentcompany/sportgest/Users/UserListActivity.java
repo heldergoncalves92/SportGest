@@ -1,9 +1,14 @@
 package studentcompany.sportgest.Users;
 
 import android.app.ActionBar;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +19,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
@@ -27,7 +33,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
-
+    private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListUser_Fragment mListUsers = new ListUser_Fragment();
     private DetailsUser_Fragment mDetailsUser = new DetailsUser_Fragment();
@@ -77,6 +83,17 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         return list;
     }
 
+    public void removeUser(){
+        mDetailsUser.clearDetails();
+        mListUsers.removeItem(currentPos);
+
+        userDao.deleteById(users.get(currentPos).getId());
+        users.remove(currentPos);
+
+        currentPos = -1;
+        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+        item.setVisible(false);
+    }
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -92,6 +109,47 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
             currentPos = position;
             mDetailsUser.showUser(user);
+        }
+    }
+
+    /************************************
+     ****      Dialog Functions      ****
+     ************************************/
+
+    public void DialogDismiss(){
+        mDialog.dismiss();
+    }
+
+    public static class AlertToDelete_DialogFragment extends DialogFragment {
+
+        public static AlertToDelete_DialogFragment newInstance(){
+            return new AlertToDelete_DialogFragment();
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            Resources res = getResources();
+
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(res.getString(R.string.are_you_sure))
+                    .setCancelable(false)
+                    .setNegativeButton(res.getString(R.string.negative_answer),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    activity.DialogDismiss();
+                                }
+                            })
+                    .setPositiveButton(res.getString(R.string.positive_answer),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    activity.DialogDismiss();
+                                    activity.removeUser();
+                                }
+                            }).create();
         }
     }
 
@@ -115,15 +173,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 Intent intent = new Intent(this, CreateUser_Activity.class);
                 startActivity(intent);
                 return true;
+
             case R.id.action_del:
-                mDetailsUser.clearDetails();
-                mListUsers.removeItem(currentPos);
-
-                userDao.deleteById(users.get(currentPos).getId());
-                users.remove(currentPos);
-
-                currentPos = -1;
-                item.setVisible(false);
+                mDialog = AlertToDelete_DialogFragment.newInstance();
+                mDialog.show(mFragmentManager, "Alert");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
