@@ -1,9 +1,14 @@
 package studentcompany.sportgest.Users;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +31,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+
 
         //this.testUsers();
         try {
@@ -66,6 +73,9 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         return list;
     }
 
+    /************************************
+     ****     Listener Functions     ****
+     ************************************/
 
     public void itemSelected(int position) {
         User user = users.get(position);
@@ -74,6 +84,35 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             mDetailsUser.showUser(user);
         }
     }
+
+    /************************************
+     ****       Menu Functions       ****
+     ************************************/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_users_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent intent = new Intent(this, CreateUser_Activity.class);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /************************************
+     ****        Test Functions      ****
+     ************************************/
 
     private void insertUserTest(User_DAO u_dao){
 
@@ -91,7 +130,6 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void testUsers(){

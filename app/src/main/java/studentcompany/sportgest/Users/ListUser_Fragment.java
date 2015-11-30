@@ -23,15 +23,11 @@ public class ListUser_Fragment extends ListFragment {
     private List<String> list;
     OnItemSelected mListener;
 
-    // Container Activity must implement this interface
-    public interface OnItemSelected{
-        void itemSelected(int position);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Active Listener to this activity
         try {
             mListener = (OnItemSelected)getActivity();
         } catch (ClassCastException e) {
@@ -54,6 +50,19 @@ public class ListUser_Fragment extends ListFragment {
 
     }
 
+    public void setUserList(List<String> list){
+        this.list = list;
+    }
+
+    /************************************
+     ****     Listener Functions     ****
+     ************************************/
+
+    // Container Activity must implement this interface
+    public interface OnItemSelected{
+        void itemSelected(int position);
+    }
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onListItemClick()");
@@ -62,9 +71,7 @@ public class ListUser_Fragment extends ListFragment {
         mListener.itemSelected(position);
     }
 
-    public void setUserList(List<String> list){
-        this.list = list;
-    }
+
 
 
 }

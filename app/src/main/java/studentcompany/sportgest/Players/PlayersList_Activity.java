@@ -1,14 +1,19 @@
 package studentcompany.sportgest.Players;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Users.CreateUser_Activity;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
@@ -66,6 +71,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         return list;
     }
 
+    /************************************
+     ****     Listener Functions     ****
+     ************************************/
+
 
     public void itemSelected(int position) {
         Player player = players.get(position);
@@ -74,6 +83,35 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             mDetailsPlayer.showPlayer(player);
         }
     }
+
+    /************************************
+     ****       Menu Functions       ****
+     ************************************/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_users_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent intent = new Intent(this, CreatePlayer_Activity.class);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /************************************
+     ****        Test Functions      ****
+     ************************************/
 
     private void insertUserTest(Player_DAO p_dao){
 

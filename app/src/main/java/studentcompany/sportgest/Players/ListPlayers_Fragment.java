@@ -25,15 +25,11 @@ public class ListPlayers_Fragment extends ListFragment {
     private List<String> list;
     OnItemSelected mListener;
 
-    // Container Activity must implement this interface
-    public interface OnItemSelected{
-        void itemSelected(int position);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Active Listener to this activity
         try {
             mListener = (OnItemSelected)getActivity();
         } catch (ClassCastException e) {
@@ -46,14 +42,26 @@ public class ListPlayers_Fragment extends ListFragment {
         Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
         super.onActivityCreated(savedState);
 
-
         // Set the list adapter for the ListView
         if(list != null)
             setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_players_list, list));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
 
+    public void setPlayerList(List<String> list){
+        this.list = list;
+    }
+
+
+    /************************************
+     ****     Listener Functions     ****
+     ************************************/
+
+    // Container Activity must implement this interface
+    public interface OnItemSelected{
+        void itemSelected(int position);
     }
 
     @Override
@@ -62,10 +70,6 @@ public class ListPlayers_Fragment extends ListFragment {
         getListView().setItemChecked(position, true);
 
         mListener.itemSelected(position);
-    }
-
-    public void setPlayerList(List<String> list){
-        this.list = list;
     }
 
 }
