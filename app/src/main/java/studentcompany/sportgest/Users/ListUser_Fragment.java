@@ -7,6 +7,7 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class ListUser_Fragment extends ListFragment {
         if(list != null)
             setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_user_list, list));
 
+
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
@@ -52,6 +54,11 @@ public class ListUser_Fragment extends ListFragment {
 
     public void setUserList(List<String> list){
         this.list = list;
+    }
+
+    public void removeItem(int position){
+        list.remove(position);
+        getListView().invalidateViews();
     }
 
     /************************************

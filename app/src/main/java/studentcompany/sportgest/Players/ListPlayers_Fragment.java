@@ -54,6 +54,10 @@ public class ListPlayers_Fragment extends ListFragment {
         this.list = list;
     }
 
+    public void removeItem(int position){
+        list.remove(position);
+        getListView().invalidateViews();
+    }
 
     /************************************
      ****     Listener Functions     ****

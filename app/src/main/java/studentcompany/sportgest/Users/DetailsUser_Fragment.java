@@ -44,4 +44,9 @@ public class DetailsUser_Fragment extends Fragment {
         tv_email.setText(user.getEmail());
     }
 
+    public void clearDetails(){
+        tv_id.setText("");
+        tv_name.setText("");
+        tv_email.setText("");
+    }
 }

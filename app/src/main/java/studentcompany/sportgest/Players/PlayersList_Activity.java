@@ -22,6 +22,8 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     private Player_DAO playerDao;
     private List<Player> players;
+    private int currentPos = -1;
+    private Menu mOptionsMenu;
 
 
     private FragmentManager mFragmentManager;
@@ -80,6 +82,12 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         Player player = players.get(position);
 
         if(player != null){
+            if(currentPos == -1) {
+                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+                item.setVisible(true);
+            }
+
+            currentPos = position;
             mDetailsPlayer.showPlayer(player);
         }
     }
@@ -90,6 +98,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
         return true;
@@ -102,7 +111,17 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             case R.id.action_add:
                 Intent intent = new Intent(this, CreatePlayer_Activity.class);
                 startActivity(intent);
+                return true;
 
+            case R.id.action_del:
+                mDetailsPlayer.clearDetails();
+                mListPlayer.removeItem(currentPos);
+
+                playerDao.deleteById(players.get(currentPos).getId());
+                players.remove(currentPos);
+
+                currentPos = -1;
+                item.setVisible(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

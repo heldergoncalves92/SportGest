@@ -30,4 +30,5 @@
     <string name="select_user">Select a user</string>
     <string name="app_newUser">SportGest - New User</string>
     <string name="app_newPlayer">SportGest - New Player</string>
+    <string name="action_del_user">Delete User</string>
 </resources>

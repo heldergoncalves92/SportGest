@@ -44,4 +44,10 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_name.setText(player.getName());
         tv_email.setText(player.getEmail());
     }
+
+    public void clearDetails(){
+        tv_id.setText("");
+        tv_name.setText("");
+        tv_email.setText("");
+    }
 }

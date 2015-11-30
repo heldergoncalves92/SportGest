@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Users;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,8 +21,11 @@ import studentcompany.sportgest.domains.User;
 
 public class UserListActivity extends AppCompatActivity implements ListUser_Fragment.OnItemSelected {
 
+
     private User_DAO userDao;
     private List<User> users;
+    private int currentPos = -1;
+    private Menu mOptionsMenu;
 
 
     private FragmentManager mFragmentManager;
@@ -81,6 +85,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         User user = users.get(position);
 
         if(user != null){
+            if(currentPos == -1) {
+                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+                item.setVisible(true);
+            }
+
+            currentPos = position;
             mDetailsUser.showUser(user);
         }
     }
@@ -91,6 +101,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
         return true;
@@ -103,7 +114,16 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             case R.id.action_add:
                 Intent intent = new Intent(this, CreateUser_Activity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_del:
+                mDetailsUser.clearDetails();
+                mListUsers.removeItem(currentPos);
 
+                userDao.deleteById(users.get(currentPos).getId());
+                users.remove(currentPos);
+
+                currentPos = -1;
+                item.setVisible(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
