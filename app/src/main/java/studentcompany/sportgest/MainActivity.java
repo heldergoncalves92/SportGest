@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.Users.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Users(View v){
         Intent intent = new Intent(this, UserListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Players(View v){
+        Intent intent = new Intent(this, PlayersList_Activity.class);
         startActivity(intent);
     }
 }

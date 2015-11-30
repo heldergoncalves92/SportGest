@@ -1,11 +1,13 @@
-package studentcompany.sportgest.Users;
+package studentcompany.sportgest.Players;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,10 +18,10 @@ import studentcompany.sportgest.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListUser_Fragment extends ListFragment {
+public class ListPlayers_Fragment extends ListFragment {
 
 
-    private static final String TAG = "LIST_USER_FRAGMENT";
+    private static final String TAG = "LIST_PLAYER_FRAGMENT";
     private List<String> list;
     OnItemSelected mListener;
 
@@ -47,7 +49,7 @@ public class ListUser_Fragment extends ListFragment {
 
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_user_list, list));
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_players_list, list));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -62,9 +64,8 @@ public class ListUser_Fragment extends ListFragment {
         mListener.itemSelected(position);
     }
 
-    public void setUserList(List<String> list){
+    public void setPlayerList(List<String> list){
         this.list = list;
     }
-
 
 }

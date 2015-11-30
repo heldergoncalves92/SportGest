@@ -20,7 +20,7 @@ public class Player extends DomainPojo{
     private Team team;
     private Position position;
 
-    public Player(int id,String nickname, String name, String nationality, String marital_status, int birthDate, float height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team,Position position) {
+    public Player(int id,String nickname, String name, String nationality, String marital_status, int birthDate, float height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.id = id;
         this.nickname = nickname;
         this.name = name;

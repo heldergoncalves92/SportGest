@@ -3,3 +3,4 @@
 *.class
 build/
 local.properties
+*.DS_Store

@@ -31,7 +31,7 @@ public class DetailsUser_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_details_user, container, false);
+        View view =  lf.inflate(R.layout.fragment_user_details, container, false);
         tv_id = (TextView) view.findViewById(R.id.user_id);
         tv_name = (TextView) view.findViewById(R.id.user_name);
         tv_email = (TextView) view.findViewById(R.id.user_email);

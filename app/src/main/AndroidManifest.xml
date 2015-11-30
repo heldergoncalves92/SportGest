@@ -20,11 +20,12 @@
         </activity>
         <activity
             android:name=".DisplayEventCategoryActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListEventCategoryActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Users.UserListActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Users.UserListActivity" />
+        <activity android:name=".Players.PlayersList_Activity"></activity>
     </application>
 
 </manifest>
