@@ -39,9 +39,15 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             COLUMN_PASSWORD + " TEXT NOT NULL," +
             COLUMN_PHOTO + " TEXT NOT NULL," +
             COLUMN_EMAIL + " TEXT NOT NULL," +
-            COLUMN_ROLE_ID + " INTEGER NOT NULL," +
-            "FOREIGN KEY(" + COLUMN_ROLE_ID + ") REFERENCES " + Role_DAO.TABLE_NAME + "(" + Role_DAO.COLUMN_ID+
-            ")); ";
+
+            /**************************************
+             *****  CAREFUL!!!! JUST FOR TEST  ****
+             **************************************/
+
+            COLUMN_ROLE_ID + // " INTEGER NOT NULL," +
+            //"FOREIGN KEY(" + COLUMN_ROLE_ID + ") REFERENCES " + Role_DAO.TABLE_NAME + "(" + Role_DAO.COLUMN_ID+
+            //")); ";
+            "); ";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -112,7 +118,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         contentValues.put(COLUMN_PASSWORD, object.getPassword());
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
-        contentValues.put(COLUMN_ROLE_ID, object.getRole().getId());
+        contentValues.put(COLUMN_ROLE_ID, object.getRole() != null ? object.getRole().getId() : null);
         return db.insert(TABLE_NAME, null, contentValues);
     }
 

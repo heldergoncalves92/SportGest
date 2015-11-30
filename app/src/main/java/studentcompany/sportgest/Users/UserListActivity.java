@@ -31,16 +31,16 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
-        this.testUsers();
-        /*try {
+        //this.testUsers();
+        try {
             userDao = new User_DAO(getApplicationContext());
-            insertUserTest(userDao);
+            //insertUserTest(userDao);
             users = userDao.getAll();
             mListUsers.setUserList(getNamesList(users));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
         // Get a reference to the FragmentManager
@@ -78,10 +78,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private void insertUserTest(User_DAO u_dao){
 
         try {
-            User u1 = new User(0,"user0","password","photo0","António Joaquim","user0@email.com",null);
-            User u2 = new User(1,"user1","password","photo1","João Dias","user1@email.com",null);
-            User u3 = new User(2,"user2","password","photo2","Maria Andrade","user2@email.com",null);
-            User u4 = new User(3,"user3","password","photo3","José Alves","user3@email.com",null);
+            User u1 = new User("user0","password","photo0","António Joaquim","user0@email.com",null);
+            User u2 = new User("user1","password","photo1","João Dias","user1@email.com",null);
+            User u3 = new User("user2","password","photo2","Maria Andrade","user2@email.com",null);
+            User u4 = new User("user3","password","photo3","José Alves","user3@email.com",null);
 
             u_dao.insert(u1);
             u_dao.insert(u2);

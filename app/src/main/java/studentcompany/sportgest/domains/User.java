@@ -21,6 +21,15 @@ public class User extends DomainPojo {
         this.role = role;
     }
 
+    public User(String username, String password, String photo, String name, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.photo = photo;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
+
     @Override
     public int getId() {
         return this.id;
@@ -70,9 +79,7 @@ public class User extends DomainPojo {
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    public Role getRole() { return this.role;}
 
     public void setRole(Role role) {
         this.role = role;

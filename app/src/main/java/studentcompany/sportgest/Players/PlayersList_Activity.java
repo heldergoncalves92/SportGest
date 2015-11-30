@@ -34,7 +34,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         //this.testPlayers();
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            insertUserTest(playerDao);
+            //insertUserTest(playerDao);
             players = playerDao.getAll();
             mListPlayer.setPlayerList(getNamesList(players));
 
