@@ -20,4 +20,8 @@
     <string name="save_button">Save</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
+    <string name="goTo_users_button">Manage Users</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

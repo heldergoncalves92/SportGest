@@ -23,7 +23,7 @@ public class User extends DomainPojo {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     public void setId(int id) {
