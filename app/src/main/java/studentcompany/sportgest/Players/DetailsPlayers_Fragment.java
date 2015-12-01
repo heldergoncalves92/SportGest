@@ -23,7 +23,7 @@ public class DetailsPlayers_Fragment extends Fragment {
     private TextView tv_nickname, tv_name, tv_nationality, tv_married, tv_single;
     private TextView tv_address, tv_male, tv_female, tv_email, tv_left, tv_right;
     private DatePicker tv_birthday;
-    private EditText tv_height, tv_weight, tv_number;
+    private TextView tv_height, tv_weight, tv_number;
 
 
     public DetailsPlayers_Fragment() {
@@ -44,15 +44,15 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_married = (TextView) view.findViewById(R.id.married);
         tv_single = (TextView) view.findViewById(R.id.single);
         tv_birthday = (DatePicker) view.findViewById(R.id.birthday);
-        tv_height = (EditText) view.findViewById(R.id.height);
-        tv_weight = (EditText) view.findViewById(R.id.weight);
+        tv_height = (TextView) view.findViewById(R.id.height);
+        tv_weight = (TextView) view.findViewById(R.id.weight);
         tv_address = (TextView) view.findViewById(R.id.address);
         tv_male = (TextView) view.findViewById(R.id.male);
         tv_female = (TextView) view.findViewById(R.id.female);
         tv_email = (TextView) view.findViewById(R.id.email);
         tv_left = (TextView) view.findViewById(R.id.left);
         tv_right = (TextView) view.findViewById(R.id.right);
-        tv_number = (EditText) view.findViewById(R.id.male);
+        tv_number = (TextView) view.findViewById(R.id.male);
 
         return view;
     }
