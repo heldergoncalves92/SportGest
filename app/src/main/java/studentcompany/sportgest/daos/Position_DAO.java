@@ -65,13 +65,15 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
         res.moveToFirst();
-
+        if(res.getCount()==1){
         //Parse data
             id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             resPosition= new Position(id, name);
 
-        return resPosition;
+        return resPosition;}
+        else
+            return null;
     }
 
     @Override

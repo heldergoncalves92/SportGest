@@ -68,6 +68,7 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(User_DAO.CREATE_TABLE);
         db.execSQL(Team_DAO.CREATE_TABLE);
         db.execSQL(User_Team_DAO.CREATE_TABLE);
+        db.execSQL(Position_DAO.CREATE_TABLE);
         db.execSQL(Player_DAO.CREATE_TABLE);
         db.execSQL(Observation_DAO.CREATE_TABLE);
         db.execSQL(Obs_Category_DAO.CREATE_TABLE);
@@ -85,7 +86,6 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(Role_DAO.CREATE_TABLE);
         db.execSQL(Permission_DAO.CREATE_TABLE);
         db.execSQL(Role_Permission_DAO.CREATE_TABLE);
-        db.execSQL(Position_DAO.CREATE_TABLE);
         db.execSQL(Player_Position_DAO.CREATE_TABLE);
     }
 

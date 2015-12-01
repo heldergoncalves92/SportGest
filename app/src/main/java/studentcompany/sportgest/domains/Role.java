@@ -14,9 +14,7 @@ public class Role extends DomainPojo {
 
 
     @Override
-    public int getId() {
-        return 0;
-    }
+    public int getId() { return this.id; }
 
     public void setId(int id) {
         this.id = id;
