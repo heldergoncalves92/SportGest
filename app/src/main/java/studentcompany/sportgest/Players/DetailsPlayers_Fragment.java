@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import studentcompany.sportgest.R;
@@ -20,10 +21,11 @@ import studentcompany.sportgest.domains.User;
 public class DetailsPlayers_Fragment extends Fragment {
 
     private static final String TAG = "DETAILS_PLAYER_FRAGMENT";
-    private TextView tv_nickname, tv_name, tv_nationality, tv_married, tv_single;
-    private TextView tv_address, tv_male, tv_female, tv_email, tv_left, tv_right;
+    private TextView tv_nickname, tv_name, tv_nationality;
+    private TextView tv_address, tv_email;
     private DatePicker tv_birthday;
-    private EditText tv_height, tv_weight, tv_number;
+    private TextView tv_height, tv_weight, tv_number;
+    private RadioButton tv_male, tv_female, tv_left, tv_right, tv_married, tv_single;
 
 
     public DetailsPlayers_Fragment() {
@@ -41,18 +43,18 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_nickname = (TextView) view.findViewById(R.id.nickname);
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_nationality = (TextView) view.findViewById(R.id.nationality);
-        tv_married = (TextView) view.findViewById(R.id.married);
-        tv_single = (TextView) view.findViewById(R.id.single);
+        tv_married = (RadioButton) view.findViewById(R.id.married);
+        tv_single = (RadioButton) view.findViewById(R.id.single);
         tv_birthday = (DatePicker) view.findViewById(R.id.birthday);
-        tv_height = (EditText) view.findViewById(R.id.height);
-        tv_weight = (EditText) view.findViewById(R.id.weight);
+        tv_height = (TextView) view.findViewById(R.id.height);
+        tv_weight = (TextView) view.findViewById(R.id.weight);
         tv_address = (TextView) view.findViewById(R.id.address);
-        tv_male = (TextView) view.findViewById(R.id.male);
-        tv_female = (TextView) view.findViewById(R.id.female);
+        tv_male = (RadioButton) view.findViewById(R.id.male);
+        tv_female = (RadioButton) view.findViewById(R.id.female);
         tv_email = (TextView) view.findViewById(R.id.email);
-        tv_left = (TextView) view.findViewById(R.id.left);
-        tv_right = (TextView) view.findViewById(R.id.right);
-        tv_number = (EditText) view.findViewById(R.id.male);
+        tv_left = (RadioButton) view.findViewById(R.id.left);
+        tv_right = (RadioButton) view.findViewById(R.id.right);
+        tv_number = (TextView) view.findViewById(R.id.male);
 
         return view;
     }
