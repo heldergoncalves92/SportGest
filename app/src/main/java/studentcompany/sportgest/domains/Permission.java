@@ -2,6 +2,13 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Permission extends DomainPojo {
+
+    // VALUES NOT FINAL
+    public static final int READ_USERS = 1;
+    public static final int MANAGE_USERS = 2;
+    public static final int READ_GAMES = 3;
+    public static final int MANAGE_GAMES = 4;
+
     private int id;
     private String description;
     @Override
