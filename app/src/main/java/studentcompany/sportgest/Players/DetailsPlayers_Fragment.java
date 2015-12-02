@@ -58,14 +58,14 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_name.setText(player.getName());
         tv_nationality.setText(player.getNationality());
         tv_maritalStatus.setText(player.getMarital_status());
-        tv_birthday.setText(player.getBirthDate());
-        tv_height.setText(player.getHeight());
+        tv_birthday.setText(String.valueOf(player.getBirthDate()));
+        tv_height.setText(String.valueOf(player.getHeight()));
         tv_weight.setText(String.valueOf(player.getWeight()));
         tv_address.setText(player.getAddress());
         tv_gender.setText(player.getGender());
         tv_email.setText(player.getEmail());
         tv_preferedFoot.setText(player.getPreferredFoot());
-        tv_number.setText(player.getNumber());
+        tv_number.setText(String.valueOf(player.getNumber()));
     }
 
     public void clearDetails(){
