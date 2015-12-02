@@ -1,4 +1,4 @@
-package studentcompany.sportgest;
+package studentcompany.sportgest.Exercises;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.EventCategories.DisplayEventCategoryActivity;
+import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
+import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Pair;
@@ -42,7 +45,7 @@ public class DisplayExerciseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_exercise);
         //get layout components
         TextView exerciseName = (TextView) findViewById(R.id.name);
-        TextView exerciseDuration = (TextView) findViewById(R.id.duration);
+        TextView exerciseDuration = (TextView) findViewById(R.id.display_duration);
         TextView exerciseDescription = (TextView) findViewById(R.id.description);
         ListView exerciseAttributesListView = (ListView) findViewById(R.id.exerciseAttributes);
         //initialize required DAOs
@@ -59,6 +62,8 @@ public class DisplayExerciseActivity extends AppCompatActivity {
             //get Exercise ID
             exerciseID = extras.getInt(Exercise_DAO.TABLE_NAME+Exercise_DAO.COLUMN_ID);
 
+            System.err.println("[EXERCISE ID]" + exerciseID);
+
             //validation
             if(exerciseID > 0){
                 //get the exercise information
@@ -69,6 +74,12 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
                     exercise = null;
                 }
+                System.err.println("[INFO] " + exercise.toString());
+                if(exerciseDuration == null){
+                    System.err.println("[INFO] is null!!!!!!!");
+                } else {
+                    System.err.println("[INFO] is not null :)" + String.valueOf(exercise.getDuration()));
+                }
                 //validation
                 if(exercise != null) {
                     //set layout variables with information
@@ -76,7 +87,7 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     exerciseName.setFocusable(false);
                     exerciseName.setClickable(false);
 
-                    exerciseDuration.setText(exercise.getDuration());
+                    exerciseDuration.setText(String.valueOf(exercise.getDuration()));
                     exerciseDuration.setFocusable(false);
                     exerciseDuration.setClickable(false);
 

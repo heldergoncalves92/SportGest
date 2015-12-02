@@ -1,4 +1,4 @@
-package studentcompany.sportgest;
+package studentcompany.sportgest.Exercises;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
+import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -36,6 +38,10 @@ public class ListExerciseActivity extends AppCompatActivity {
         exercise_dao = new Exercise_DAO(this);
         ArrayList<Exercise> exerciseList;
         try {
+            int numRows = exercise_dao.numberOfRows();
+            if(numRows == 0){
+                ExerciseTestData data = new ExerciseTestData(this);
+            }
             exerciseList = exercise_dao.getAll();
         } catch (GenericDAOException ex) {
             //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
