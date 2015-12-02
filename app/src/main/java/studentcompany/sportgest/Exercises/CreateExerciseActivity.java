@@ -1,4 +1,4 @@
-package studentcompany.sportgest;
+package studentcompany.sportgest.Exercises;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -72,7 +73,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
                     title.setFocusable(true);
                     title.setClickable(true);
 
-                    duration.setText(exercise.getDuration());
+                    duration.setText(""+exercise.getDuration());
                     title.setFocusable(true);
                     title.setClickable(true);
 

@@ -17,9 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayEventCategoryActivity" />
+        <activity android:name=".EventCategories.DisplayEventCategoryActivity" />
         <activity
-            android:name=".ListEventCategoryActivity"
+            android:name=".EventCategories.ListEventCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
         <activity android:name=".Players.PlayersList_Activity" />
@@ -29,17 +29,17 @@
             android:label="@string/app_newPlayer"></activity>
 
         <activity
-            android:name=".CreateExerciseActivity"
+            android:name=".Exercises.CreateExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
         <activity
-            android:name=".DisplayExerciseActivity"
+            android:name=".Exercises.DisplayExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
         <activity
-            android:name=".ListExerciseActivity"
+            android:name=".Exercises.ListExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

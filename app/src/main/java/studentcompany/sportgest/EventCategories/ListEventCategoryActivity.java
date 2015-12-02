@@ -1,4 +1,4 @@
-package studentcompany.sportgest;
+package studentcompany.sportgest.EventCategories;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.EventCategory;
