@@ -58,7 +58,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
             teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
             resList.add(
@@ -67,7 +67,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
                             team_dao.getById(teamId)));
             res.moveToNext();
         }
-
+        res.close(); // Close the Cursor
         return resList;
     }
 
@@ -85,7 +85,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
         //Parse data
         user = user_dao.getById(id);
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
             resList.add(
                     new Pair<>(
@@ -93,7 +93,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
                             team_dao.getById(teamId)));
             res.moveToNext();
         }
-
+        res.close(); // Close the Cursor
         return resList;
     }
 
@@ -110,7 +110,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
         //Parse data
         team = team_dao.getById(id);
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
             resList.add(
                     new Pair<>(
@@ -118,12 +118,19 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
                             team));
             res.moveToNext();
         }
-
+        res.close(); // Close the Cursor
         return resList;
     }
 
     @Override
     public long insert(Pair<User, Team> object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
+        if(object.getFirst() == null || object.getSecond() == null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_USER_ID, object.getFirst().getId());
         contentValues.put(COLUMN_TEAM_ID, object.getSecond().getId());
@@ -133,9 +140,16 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
     @Override
     public boolean delete(Pair<User, Team> object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getFirst() == null || object.getSecond() == null)
+            return false;
+
         return db.delete(TABLE_NAME,
                 COLUMN_USER_ID + " = ? , " + COLUMN_TEAM_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0 ? true : false;
+                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0;
     }
 
     @Override
@@ -146,12 +160,15 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
         if(object.getFirst()==null || object.getSecond() == null)
             return false;
 
-        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-            statement.append(COLUMN_USER_ID + "=" + object.getFirst().getId());
-            statement.append(" AND " + COLUMN_TEAM_ID + "=" + object.getSecond().getId());
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
+        statement.append(COLUMN_USER_ID).append("=").append(object.getFirst().getId());
+        statement.append(" AND ").append(COLUMN_TEAM_ID).append("=").append(object.getSecond().getId());
 
-            Cursor res = db.rawQuery(statement.toString(), null);
-            return res.moveToFirst();
+        Cursor res = db.rawQuery(statement.toString(), null);
+
+        boolean re = res.moveToFirst();
+        res.close(); // Close the Cursor
+        return re;
     }
 }
 
