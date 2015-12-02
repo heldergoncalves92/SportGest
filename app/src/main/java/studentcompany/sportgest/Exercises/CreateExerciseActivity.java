@@ -46,8 +46,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.name);
         TextView duration = (TextView) findViewById(R.id.duration);
         TextView description = (TextView) findViewById(R.id.description);
-        ListView currExerciseAttributes = (ListView) findViewById(R.id.selectedAttributes);
-        ListView currAttributes = (ListView) findViewById(R.id.exerciseAvailableAttributes);
+        final ListView exerAttList = (ListView) findViewById(R.id.selectedAttributes);
+        final ListView attList = (ListView) findViewById(R.id.exerciseAvailableAttributes);
 
 
         exercise_dao = new Exercise_DAO(this);
@@ -94,19 +94,13 @@ public class CreateExerciseActivity extends AppCompatActivity {
                     for (Pair<Attribute, Exercise> ec : exerciseAttributes) {
                         exerciseAttributesAdapter.add(ec.getFirst());
                     }
-                    ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
-                    currExerciseAttributes.setAdapter(selectedArrayAdapter);
-                    currExerciseAttributes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    currExerciseAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, exerciseAttributesAdapter);//by default uses toString
+                    exerAttList.setAdapter(selectedArrayAdapter);
+                    exerAttList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    exerAttList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //check if the item has been clicked twice (deselect)
-                            Attribute a = exerciseAttributesAdapter.get(position);
-                            if (selectedExerciseAttributesAdapter.contains(a)) {
-                                selectedExerciseAttributesAdapter.remove(a);
-                            } else {
-                                selectedExerciseAttributesAdapter.add(a);
-                            }
+                            exerAttList.setItemChecked(position, exerAttList.isItemChecked(position));
                         }
                     });
 
@@ -126,22 +120,35 @@ public class CreateExerciseActivity extends AppCompatActivity {
                             allAttributesAdapter.add(a);
                         }
                     }
-                    ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
-                    currAttributes.setAdapter(allAttrArrayAdapter);
-                    currAttributes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    currAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, allAttributesAdapter);
+                    attList.setAdapter(allAttrArrayAdapter);
+                    attList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    attList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //check if the item has been clicked twice (deselect)
-                            Attribute a = allAttributesAdapter.get(position);
-                            if(selectedAllAttributesAdapter.contains(a)){
-                                selectedAllAttributesAdapter.remove(a);
-                            }else {
-                                selectedAllAttributesAdapter.add(a);
-                            }
+                            attList.setItemChecked(position, attList.isItemChecked(position));
                         }
                     });
                 }
+            } else { //create a new exercise from blank interface
+
+                //get all registered attributes
+                try {
+                    allAttributesAdapter = new ArrayList<>(attribute_dao.getAll());
+                } catch (GenericDAOException ex) {
+                    System.err.println(ListExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(ListExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                }
+
+                ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, allAttributesAdapter);
+                attList.setAdapter(allAttrArrayAdapter);
+                attList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                attList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        attList.setItemChecked(position, attList.isItemChecked(position));
+                    }
+                });
             }
         }
 
@@ -232,9 +239,9 @@ public class CreateExerciseActivity extends AppCompatActivity {
             selectedAllAttributesAdapter.remove(a);
         }
 
-        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
+        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, exerciseAttributesAdapter);//by default uses toString
         currExerciseAttributes.setAdapter(selectedArrayAdapter);
-        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
+        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, allAttributesAdapter);
         currAttributes.setAdapter(allAttrArrayAdapter);
     }
 
@@ -253,9 +260,9 @@ public class CreateExerciseActivity extends AppCompatActivity {
             selectedExerciseAttributesAdapter.remove(a);
         }
 
-        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseAttributesAdapter);//by default uses toString
+        ArrayAdapter selectedArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, exerciseAttributesAdapter);//by default uses toString
         currExerciseAttributes.setAdapter(selectedArrayAdapter);
-        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allAttributesAdapter);
+        ArrayAdapter allAttrArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, allAttributesAdapter);
         currAttributes.setAdapter(allAttrArrayAdapter);
     }
 }

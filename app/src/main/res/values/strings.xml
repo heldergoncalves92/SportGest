@@ -49,4 +49,8 @@ Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.
 Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
 </string>
     <string name="exerciseDurationUnit">min</string>
+    <string name="description_label"><b>Description</b></string>
+    <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
+    <string name="exercise_name_label"><b>Name:</b></string>
+    <string name="duration_label"><b>Duration:</b></string>
 </resources>

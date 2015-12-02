@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +47,7 @@ public class DisplayExerciseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_exercise);
         //get layout components
         TextView exerciseName = (TextView) findViewById(R.id.name);
-        TextView exerciseDuration = (TextView) findViewById(R.id.display_duration);
+        TextView exerciseDuration = (TextView) findViewById(R.id.duration);
         TextView exerciseDescription = (TextView) findViewById(R.id.description);
         ListView exerciseAttributesListView = (ListView) findViewById(R.id.exerciseAttributes);
         //initialize required DAOs
@@ -62,8 +64,6 @@ public class DisplayExerciseActivity extends AppCompatActivity {
             //get Exercise ID
             exerciseID = extras.getInt(Exercise_DAO.TABLE_NAME+Exercise_DAO.COLUMN_ID);
 
-            System.err.println("[EXERCISE ID]" + exerciseID);
-
             //validation
             if(exerciseID > 0){
                 //get the exercise information
@@ -74,20 +74,23 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
                     exercise = null;
                 }
-                System.err.println("[INFO] " + exercise.toString());
-                if(exerciseDuration == null){
-                    System.err.println("[INFO] is null!!!!!!!");
-                } else {
-                    System.err.println("[INFO] is not null :)" + String.valueOf(exercise.getDuration()));
-                }
+
                 //validation
                 if(exercise != null) {
+                    SpannableString content;
+
                     //set layout variables with information
-                    exerciseName.setText(exercise.getTitle());
+                    //underlined
+                    content = new SpannableString(exercise.getTitle());
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    exerciseName.setText(content);
                     exerciseName.setFocusable(false);
                     exerciseName.setClickable(false);
 
-                    exerciseDuration.setText(String.valueOf(exercise.getDuration()));
+                    //underlined
+                    content = new SpannableString("" + exercise.getDuration());
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    exerciseDuration.setText(content);
                     exerciseDuration.setFocusable(false);
                     exerciseDuration.setClickable(false);
 
@@ -102,14 +105,14 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     } catch (GenericDAOException ex){
                         System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
                         Logger.getLogger(ListEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
-                        exerciseAttributes = null;
+                        exerciseAttributes = new ArrayList<>();
                     }
                     //Construct a new array with only the attribute names
                     ArrayList<String> array_list = new ArrayList<>();
                     for(Pair<Attribute, Exercise> ec : exerciseAttributes){
                         array_list.add(ec.getFirst().getName());
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.listview_style1, array_list);
 
                     //set list in layout ListView
                     exerciseAttributesListView.setAdapter(arrayAdapter);

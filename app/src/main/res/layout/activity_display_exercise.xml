@@ -20,69 +20,119 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp">
 
+        <TextView
+            android:id="@+id/name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:paddingRight="4dp"
+            android:text="@string/exercise_name_label" />
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="Name"
-            android:layout_marginLeft="20dp"
+            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="exercise name"
+            android:background="#80ffffff"
             android:layout_weight="7" />
 
-        <!-- alterar -->
         <TextView
-            android:id="@+id/display_duration"
-            android:layout_width="0dp"
+            android:id="@+id/duration_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="Duration"
-            android:ems="5"
-            android:inputType="number"
-            android:layout_weight="4"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:paddingRight="2dp"
+            android:hint="@string/duration_label" />
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="XX"
+            android:background="#60ffffff"
+            android:textSize="14sp"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/exerciseDurationUnit"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:id="@+id/textView"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
+            android:paddingLeft="2dp"
+            android:gravity="right"
+            android:text="@string/exerciseDurationUnit" />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/attributes_evaluated_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/attributes_evaluated"
+            android:textSize="16sp"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:id="@+id/description_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/description_label"
+            android:textSize="16sp"
+            android:paddingLeft="10dp"
+            android:layout_weight="5"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp">
 
         <ListView
             android:id="@+id/exerciseAttributes"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="20dp"
+            android:divider="#00000000"
+            android:background="#80ffffff"
             android:layout_weight="5"/>
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/scrollView2"
+            android:background="#80ffffff"
+            android:paddingLeft="10dp"
             android:layout_weight="5">
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textSize="14sp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:hint="@string/lorem"
-                android:textAlignment="gravity"
-                android:gravity="top"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1" />
+                android:hint="@string/lorem" />
         </ScrollView>
 
     </LinearLayout>

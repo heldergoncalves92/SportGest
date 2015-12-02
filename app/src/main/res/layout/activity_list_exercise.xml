@@ -21,7 +21,9 @@
     <ListView
         android:id="@+id/exercise_ListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:divider="#00000000">
     </ListView>
     <!--<ScrollView
         android:id="@+id/event_category_scrollView"
