@@ -16,7 +16,7 @@ import studentcompany.sportgest.Users.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton;
+    private Button eventCategoiesButton, exerciseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //EventCategoryButton
+        exerciseButton = (Button)findViewById(R.id.exercise_button);
+        exerciseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListExerciseActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
