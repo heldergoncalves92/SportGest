@@ -49,12 +49,13 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             resRole.add(new Role(id, name));
             res.moveToNext();
         }
+        res.close();
 
         return resRole;
     }
@@ -69,11 +70,13 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
 
         //Parse data
         if(res.getCount()==1)
-        {String name;
-            name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
-            return new Role(id, name);}
+            {String name;
+             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+             res.close();
+             return new Role(id, name);}
         else
-            return null;
+            {res.close();
+             return null;}
     }
 
     @Override
@@ -99,7 +102,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
     public boolean deleteById(int id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) }) > 0 ? true : false;
+                new String[] { Integer.toString(id) }) > 0;
     }
 
     @Override
@@ -133,11 +136,11 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+            statement.append(COLUMN_ID).append("=").append(tmpInt);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "")).append(COLUMN_NAME).append(" = '").append(tmpString).append("'");
             fields++;
         }
 
@@ -162,16 +165,15 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+            statement.append(COLUMN_ID).append("=").append(tmpInt);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "")).append(COLUMN_NAME).append(" LIKE '%").append(tmpString).append("%'");
             fields++;
         }
 
         if (fields > 0) {
-
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
@@ -181,6 +183,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
                     roles.add(new Role(id, name));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

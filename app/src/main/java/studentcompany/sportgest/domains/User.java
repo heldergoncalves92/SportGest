@@ -35,9 +35,7 @@ public class User extends DomainPojo {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {this.id = id;}
 
     public String getUsername() {
         return username;
@@ -84,6 +82,17 @@ public class User extends DomainPojo {
     public void setRole(Role role) {
         this.role = role;
     }
+
+
+    // Extra Methods
+    public boolean hasPermission(Permission permission){
+        return this.role.hasPermission(permission);
+    }
+
+    public boolean hasPermission(int permission_id){
+        return this.role.hasPermission(permission_id);
+    }
+
 
     @Override
     public boolean equals(Object o) {
