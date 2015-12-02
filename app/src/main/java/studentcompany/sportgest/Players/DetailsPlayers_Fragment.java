@@ -80,6 +80,6 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_gender.setText("");
         tv_email.setText("");
         tv_preferedFoot.setText("");
-        tv_number.setText("");
+        //tv_number.setText("");
     }
 }
