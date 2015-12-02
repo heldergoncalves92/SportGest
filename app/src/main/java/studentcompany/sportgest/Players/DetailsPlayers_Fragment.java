@@ -65,7 +65,7 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_gender.setText(player.getGender());
         tv_email.setText(player.getEmail());
         tv_preferedFoot.setText(player.getPreferredFoot());
-        tv_number.setText(String.valueOf(player.getNumber()));
+        //tv_number.setText(String.valueOf(player.getNumber()));
     }
 
     public void clearDetails(){
