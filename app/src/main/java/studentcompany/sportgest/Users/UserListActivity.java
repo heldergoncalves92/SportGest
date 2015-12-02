@@ -51,8 +51,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         //this.testUsers();
         try {
             userDao = new User_DAO(getApplicationContext());
-            //insertUserTest(userDao);
             users = userDao.getAll();
+            if(users.isEmpty()) {
+                insertUserTest(userDao);
+                users = userDao.getAll();
+            }
             mListUsers.setUserList(getNamesList(users));
 
         } catch (GenericDAOException e) {
