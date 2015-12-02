@@ -27,8 +27,6 @@
             android:label="@string/app_newUser"/>
         <activity android:name=".Players.CreatePlayer_Activity"
             android:label="@string/app_newPlayer"></activity>
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
 
         <activity
             android:name=".CreateExerciseActivity"

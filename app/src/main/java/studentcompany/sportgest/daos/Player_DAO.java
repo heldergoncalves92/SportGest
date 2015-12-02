@@ -60,8 +60,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             COLUMN_NUMBER + " INTEGER, " +
             COLUMN_TEAM_ID + " INTEGER, " +
             COLUMN_BETTER_POSITION + " INTEGER, " +
-            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES TEAM(ID), " +
-            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES POSITION(ID));";
+            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES "+Position_DAO.TABLE_NAME+"("+Position_DAO.COLUMN_ID+"));";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";

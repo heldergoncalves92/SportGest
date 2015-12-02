@@ -52,7 +52,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
         while(!res.isAfterLast()) {
             id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
-            resRole.add(new Role(id, name));
+            resRole.add(new Role(id, name, null)); //TODO CHANGE NULL TO A LIST OF PERMISSIONS
             res.moveToNext();
         }
         res.close();
@@ -73,7 +73,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
             {String name;
              name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
              res.close();
-             return new Role(id, name);}
+             return new Role(id, name, null);} //TODO CHANGE NULL TO A LIST OF PERMISSIONS
         else
             {res.close();
              return null;}
@@ -180,7 +180,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
                 while(res.isAfterLast() == false) {
                     int id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
                     String name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
-                    roles.add(new Role(id, name));
+                    roles.add(new Role(id, name, null));//TODO CHANGE NULL TO A LIST OF PERMISSIONS
                     res.moveToNext();
                 }
             res.close();
