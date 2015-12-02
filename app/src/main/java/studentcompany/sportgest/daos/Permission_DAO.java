@@ -49,12 +49,14 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
             desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
             resPermission.add(new Permission(id, desc));
             res.moveToNext();
         }
+
+        res.close();
 
         return resPermission;
     }
@@ -67,8 +69,10 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
         res.moveToFirst();
 
+        int count = res.getCount();
+        res.close();
         //Parse data
-        if(res.getCount()==1)
+        if(count==1)
             {String desc;
              desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
              return new Permission(id, desc);}
@@ -99,7 +103,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
     public boolean deleteById(int id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) }) > 0 ? true : false;
+                new String[] { Integer.toString(id) }) > 0;
     }
 
     @Override
@@ -113,7 +117,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(object.getId())}) >0 ? true : false ;
+                new String[]{Integer.toString(object.getId())}) >0;
 
     }
 
@@ -133,17 +137,19 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+            statement.append(COLUMN_ID).append("=").append(tmpInt);
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "")).append(COLUMN_DESCRIPTION).append(" = '").append(tmpString).append("'");
             fields++;
         }
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
-            return res.moveToFirst();
+            boolean re = res.moveToFirst();
+            res.close();
+            return re;
         }
         else
             return false;
@@ -162,25 +168,25 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
         if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+            statement.append(COLUMN_ID).append("=").append(tmpInt);
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "")).append(COLUMN_DESCRIPTION).append(" LIKE '%").append(tmpString).append("%'");
             fields++;
         }
 
         if (fields > 0) {
 
-
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
-                while(res.isAfterLast() == false) {
+                while(!res.isAfterLast()) {
                     int id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
                     String desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
                     permissions.add(new Permission(id, desc));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

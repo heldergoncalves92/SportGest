@@ -59,7 +59,7 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             roleId = res.getInt(res.getColumnIndex(COLUMN_ROLE_ID));
             permissionId = res.getInt(res.getColumnIndex(COLUMN_PERMISSION_ID));
             resList.add(
@@ -68,6 +68,8 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
                             permission_dao.getById(permissionId)));
             res.moveToNext();
         }
+
+        res.close();
 
         return resList;
     }
@@ -85,7 +87,7 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
 
         //Parse data
         role = role_dao.getById(id);
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             permissionId = res.getInt(res.getColumnIndex(COLUMN_PERMISSION_ID));
             resList.add(
                     new Pair<>(
@@ -93,6 +95,8 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
                             permission_dao.getById(permissionId)));
             res.moveToNext();
         }
+
+        res.close();
 
         return resList;
     }
@@ -110,7 +114,7 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
 
         //Parse data
         permission = permission_dao.getById(id);
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             roleId = res.getInt(res.getColumnIndex(COLUMN_ROLE_ID));
             resList.add(
                     new Pair<>(
@@ -119,12 +123,17 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
             res.moveToNext();
         }
 
+        res.close();
+
         return resList;
     }
 
     @Override
     public long insert(Pair<Role, Permission> object) throws GenericDAOException {
         if(object==null)
+            return -1;
+
+        if(object.getFirst()==null || object.getSecond() == null)
             return -1;
 
         ContentValues contentValues = new ContentValues();
@@ -139,9 +148,12 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
         if(object==null)
             return false;
 
+        if(object.getFirst()==null || object.getSecond() == null)
+            return false;
+
         return db.delete(TABLE_NAME,
                 COLUMN_ROLE_ID + " = ? , " + COLUMN_PERMISSION_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0 ? true : false;
+                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0;
     }
 
     @Override
@@ -153,8 +165,8 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
             return false;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        statement.append(COLUMN_ROLE_ID + "=" + object.getFirst().getId());
-        statement.append(" AND " + COLUMN_PERMISSION_ID + "=" + object.getSecond().getId());
+        statement.append(COLUMN_ROLE_ID).append("=").append(object.getFirst().getId());
+        statement.append(" AND ").append(COLUMN_PERMISSION_ID).append("=").append(object.getSecond().getId());
 
         Cursor res = db.rawQuery(statement.toString(), null);
         return res.moveToFirst();

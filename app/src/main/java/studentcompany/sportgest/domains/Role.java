@@ -1,22 +1,29 @@
 package studentcompany.sportgest.domains;
 //TODO all
 
+import java.util.List;
+
 public class Role extends DomainPojo {
 
     private int id;
     private String name;
+    private List<Permission> permissionList;
 
-
-    public Role(int id, String name) {
+    public Role(int id, String name, List<Permission> permissionList) {
         this.id = id;
         this.name = name;
+        this.permissionList = permissionList;
     }
+
+    public Role(String name, List<Permission> permissionList) {
+        this.name = name;
+        this.permissionList = permissionList;
+    }
+
 
 
     @Override
-    public int getId() {
-        return 0;
-    }
+    public int getId() { return this.id; }
 
     public void setId(int id) {
         this.id = id;
@@ -28,6 +35,45 @@ public class Role extends DomainPojo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+
+    // Extra Methods
+
+    public void addPermission(Permission permission){
+        if(permission!=null)
+            this.permissionList.add(permission);
+    }
+
+    public boolean hasPermission(Permission permission){
+        if(permission!=null)
+            return this.permissionList.contains(permission);
+        else
+            return false;
+    }
+
+    public boolean hasPermission(int id){
+        for(Permission p : permissionList)
+            if(p.getId() == id)
+                return true;
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (permissionList != null ? permissionList.hashCode() : 0);
+        return result;
     }
 
     @Override

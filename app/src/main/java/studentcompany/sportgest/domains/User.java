@@ -21,14 +21,21 @@ public class User extends DomainPojo {
         this.role = role;
     }
 
-    @Override
-    public int getId() {
-        return 0;
+    public User(String username, String password, String photo, String name, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.photo = photo;
+        this.name = name;
+        this.email = email;
+        this.role = role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int getId() {
+        return this.id;
     }
+
+    public void setId(int id) {this.id = id;}
 
     public String getUsername() {
         return username;
@@ -70,13 +77,22 @@ public class User extends DomainPojo {
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    public Role getRole() { return this.role;}
 
     public void setRole(Role role) {
         this.role = role;
     }
+
+
+    // Extra Methods
+    public boolean hasPermission(Permission permission){
+        return this.role.hasPermission(permission);
+    }
+
+    public boolean hasPermission(int permission_id){
+        return this.role.hasPermission(permission_id);
+    }
+
 
     @Override
     public boolean equals(Object o) {
