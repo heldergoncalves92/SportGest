@@ -46,20 +46,22 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="300dp">
 
 
         <ListView
             android:id="@+id/exerciseAvailableAttributes"
-            android:layout_width="420dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="20dp" />
+            android:layout_weight="10"
+            android:layout_marginLeft="0dp" />
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:gravity="center">
 
@@ -91,8 +93,9 @@
 
         <ListView
             android:id="@+id/selectedAttributes"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:layout_marginRight="20dp" />
     </LinearLayout>
 
