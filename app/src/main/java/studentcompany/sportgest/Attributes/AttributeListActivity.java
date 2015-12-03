@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Users;
+package studentcompany.sportgest.Attributes;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -18,42 +18,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.User_DAO;
+import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.User;
+import studentcompany.sportgest.domains.Attribute;
 
-public class UserListActivity extends AppCompatActivity implements ListUser_Fragment.OnItemSelected {
+public class AttributeListActivity extends AppCompatActivity implements ListAttribute_Fragment.OnItemSelected  {
 
-
-    private User_DAO userDao;
-    private List<User> users;
+    private Attribute_DAO attribute_dao;
+    private List<Attribute> attributeList;
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListUser_Fragment mListUsers = new ListUser_Fragment();
-    private DetailsUser_Fragment mDetailsUser = new DetailsUser_Fragment();
-    private static final String TAG = "USERS_ACTIVITY";
-
-
-
+    private ListAttribute_Fragment mListAttributes = new ListAttribute_Fragment();
+    private DetailsAttribute_Fragment mDetailsAttribute = new DetailsAttribute_Fragment();
+    private static final String TAG = "ATTRIBUTE_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.activity_attribute_list);
 
 
-        //this.testUsers();
         try {
-            userDao = new User_DAO(getApplicationContext());
-            users = userDao.getAll();
-            if(users.isEmpty()) {
-                insertUserTest(userDao);
-                users = userDao.getAll();
+            attribute_dao = new Attribute_DAO(getApplicationContext());
+            attributeList = attribute_dao.getAll();
+            if(attributeList.isEmpty()) {
+                new AttributeTestData(getApplicationContext());
+                attributeList = attribute_dao.getAll();
             }
-            mListUsers.setUserList(getNamesList(users));
+            mListAttributes.setAttributeList(getNamesList(attributeList));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -67,28 +62,27 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.title_fragment_container , mListUsers);
-        fragmentTransaction.add(R.id.detail_fragment_container, mDetailsUser);
+        fragmentTransaction.add(R.id.attribute_list_fragment_container , mListAttributes);
+        fragmentTransaction.add(R.id.attribute_detail_fragment_container, mDetailsAttribute);
 
         fragmentTransaction.commit();
     }
 
-    public List<String> getNamesList(List<User> usersList){
+    public List<String> getNamesList(List<Attribute> attrList){
+        ArrayList<String> list = new ArrayList<>();
 
-        ArrayList<String> list = new ArrayList<String>();
-
-        for(User u: usersList)
-            list.add(u.getName());
+        for(Attribute a: attrList)
+            list.add(a.getName());
 
         return list;
     }
 
-    public void removeUser(){
-        mDetailsUser.clearDetails();
-        mListUsers.removeItem(currentPos);
+    public void removeAttribute(){
+        mDetailsAttribute.clearDetails();
+        mListAttributes.removeItem(currentPos);
 
-        userDao.deleteById(users.get(currentPos).getId());
-        users.remove(currentPos);
+        attribute_dao.deleteById(attributeList.get(currentPos).getId());
+        attributeList.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
@@ -99,16 +93,16 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
      ************************************/
 
     public void itemSelected(int position) {
-        User user = users.get(position);
+        Attribute attribute = attributeList.get(position);
 
-        if(user != null){
+        if(attribute != null){
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
             }
 
             currentPos = position;
-            mDetailsUser.showUser(user);
+            mDetailsAttribute.showAttribute(attribute);
         }
     }
 
@@ -137,7 +131,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    AttributeListActivity activity = (AttributeListActivity) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -145,9 +139,9 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    AttributeListActivity activity = (AttributeListActivity) getActivity();
                                     activity.DialogDismiss();
-                                    activity.removeUser();
+                                    activity.removeAttribute();
                                 }
                             }).create();
         }
@@ -170,7 +164,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, CreateUser_Activity.class);
+                Intent intent = new Intent(this, CreateAttributeActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -182,43 +176,4 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertUserTest(User_DAO u_dao){
-
-        try {
-            User u1 = new User("user0","password","photo0","António Joaquim","user0@email.com",null);
-            User u2 = new User("user1","password","photo1","João Dias","user1@email.com",null);
-            User u3 = new User("user2","password","photo2","Maria Andrade","user2@email.com",null);
-            User u4 = new User("user3","password","photo3","José Alves","user3@email.com",null);
-
-            u_dao.insert(u1);
-            u_dao.insert(u2);
-            u_dao.insert(u3);
-            u_dao.insert(u4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void testUsers(){
-
-        User u1 = new User(0,"user0","password","photo0","António Joaquim","user0@email.com",null);
-        User u2 = new User(1,"user1","password","photo1","João Dias","user1@email.com",null);
-        User u3 = new User(2,"user2","password","photo2","Maria Andrade","user2@email.com",null);
-        User u4 = new User(3,"user3","password","photo3","José Alves","user3@email.com",null);
-
-        users = new ArrayList<User>();
-        users.add(u1);
-        users.add(u2);
-        users.add(u3);
-        users.add(u4);
-
-        mListUsers.setUserList(getNamesList(users));
-    }
-
 }

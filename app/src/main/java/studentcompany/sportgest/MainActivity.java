@@ -8,9 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
-import studentcompany.sportgest.Exercises.ListExerciseActivity;
+import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Users.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,18 +39,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+/*
         //EventCategoryButton
         exerciseButton = (Button)findViewById(R.id.exercise_button);
         exerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListExerciseActivity.class);
+                Intent intent = new Intent(getApplicationContext(), _ListExerciseActivity.class);
 
                 startActivity(intent);
             }
         });
-
+*/
     }
 
     @Override
@@ -80,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Players(View v){
         Intent intent = new Intent(this, PlayersList_Activity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Attribute(View v){
+        Intent intent = new Intent(this, AttributeListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Exercise(View v){
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Training(View v){
+        Intent intent = new Intent(this, TrainingListActivity.class);
         startActivity(intent);
     }
 }

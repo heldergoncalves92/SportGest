@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Exercises;
+package studentcompany.sportgest.ExercisesOld;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 
-public class ListExerciseActivity extends AppCompatActivity {
+public class _ListExerciseActivity extends AppCompatActivity {
 
     //DAOs
     private Exercise_DAO exercise_dao;
@@ -33,14 +33,14 @@ public class ListExerciseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_exercise);
+        setContentView(R.layout._activity_list_exercise);
 
         exercise_dao = new Exercise_DAO(this);
         ArrayList<Exercise> exerciseList;
         try {
             int numRows = exercise_dao.numberOfRows();
             if(numRows == 0){
-                ExerciseTestData data = new ExerciseTestData(this);
+                _ExerciseTestData data = new _ExerciseTestData(this);
             }
             exerciseList = exercise_dao.getAll();
         } catch (GenericDAOException ex) {
@@ -65,7 +65,7 @@ public class ListExerciseActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt(Exercise_DAO.TABLE_NAME+Exercise_DAO.COLUMN_ID, id_To_Search);
 
-                Intent intent = new Intent(getApplicationContext(), DisplayExerciseActivity.class);
+                Intent intent = new Intent(getApplicationContext(), _DisplayExerciseActivity.class);
 
                 intent.putExtras(dataBundle);
                 startActivity(intent);
@@ -119,7 +119,7 @@ public class ListExerciseActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt(Exercise_DAO.TABLE_NAME+Exercise_DAO.COLUMN_ID, 0);
 
-                Intent intent = new Intent(getApplicationContext(), CreateExerciseActivity.class);
+                Intent intent = new Intent(getApplicationContext(), _CreateExerciseActivity.class);
                 intent.putExtras(dataBundle);
 
                 startActivity(intent);

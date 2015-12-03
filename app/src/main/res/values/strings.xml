@@ -53,4 +53,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
     <string name="exercise_name_label"><b>Name:</b></string>
     <string name="duration_label"><b>Duration:</b></string>
+    <string name="goTo_exercise_button">Manage Exercises</string>
+    <string name="goTo_training_button">Manage Trainings</string>
+    <string name="goTo_attribute_button">Manage Attributes</string>
+    <string name="app_newAttribute">SportGest - New Attribute</string>
+    <string name="app_newExercise">SportGest - New Exercise</string>
+    <string name="app_newTraining">SportGest - New Training</string>
 </resources>

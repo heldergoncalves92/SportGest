@@ -28,7 +28,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     public static final String COLUMN_ID             = "ID";
     public static final String COLUMN_TITLE          = "TITLE";
     public static final String COLUMN_DESCRIPTION    = "DESCRIPTION";
-    public static final String COLUMN_DATE           = "\"DATE\"";
+    public static final String COLUMN_DATE           = "DATE";
     public static final String COLUMN_TOTAL_DURATION = "TOTAL_DURATION";
     public static final String COLUMN_TEAM_ID        = "TEAM_ID";
 

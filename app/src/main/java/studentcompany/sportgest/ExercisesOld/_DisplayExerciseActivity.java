@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Exercises;
+package studentcompany.sportgest.ExercisesOld;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,7 +31,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
-public class DisplayExerciseActivity extends AppCompatActivity {
+public class _DisplayExerciseActivity extends AppCompatActivity {
 
     //DAOs
     private Exercise_DAO exercise_dao;
@@ -44,7 +44,7 @@ public class DisplayExerciseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //set activity layout
-        setContentView(R.layout.activity_display_exercise);
+        setContentView(R.layout._activity_display_exercise);
         //get layout components
         TextView exerciseName = (TextView) findViewById(R.id.name);
         TextView exerciseDuration = (TextView) findViewById(R.id.duration);
@@ -160,8 +160,8 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                 //put current exercise ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt(Exercise_DAO.TABLE_NAME+Exercise_DAO.COLUMN_ID, exerciseID);
-                //declare intention to start CreateExerciseActivity
-                Intent intent = new Intent(getApplicationContext(), CreateExerciseActivity.class);
+                //declare intention to start _CreateExerciseActivity
+                Intent intent = new Intent(getApplicationContext(), _CreateExerciseActivity.class);
                 //add data
                 intent.putExtras(dataBundle);
                 //start activity
