@@ -23,25 +23,25 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
         <activity android:name=".Players.PlayersList_Activity" />
-        <activity android:name=".Users.CreateUser_Activity"
-            android:label="@string/app_newUser"/>
-        <activity android:name=".Players.CreatePlayer_Activity"
-            android:label="@string/app_newPlayer"></activity>
-
+        <activity
+            android:name=".Users.CreateUser_Activity"
+            android:label="@string/app_newUser" />
+        <activity
+            android:name=".Players.CreatePlayer_Activity"
+            android:label="@string/app_newPlayer" />
         <activity
             android:name=".Exercises.CreateExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Exercises.DisplayExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Exercises.ListExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Team.TeamList_Activity" />
+        <activity
+            android:name=".Team.CreateTeam_Activity"
+            android:label="@string/app_newTeam"></activity>
     </application>
 
 </manifest>

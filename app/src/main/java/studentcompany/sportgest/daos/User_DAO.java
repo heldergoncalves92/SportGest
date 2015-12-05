@@ -20,7 +20,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     private SQLiteDatabase db;
 
     //Table names
-    public static final String TABLE_NAME         = "APPUSER";
+    public static final String TABLE_NAME         = "USER";
 
     //Table columns
     public static final String COLUMN_ID          = "ID";

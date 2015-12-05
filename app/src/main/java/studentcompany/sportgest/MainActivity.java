@@ -11,6 +11,7 @@ import android.widget.Button;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ListExerciseActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Players(View v){
         Intent intent = new Intent(this, PlayersList_Activity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Teams(View v){
+        Intent intent = new Intent(this, TeamList_Activity.class);
         startActivity(intent);
     }
 }

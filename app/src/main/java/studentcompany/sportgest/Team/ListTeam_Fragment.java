@@ -1,28 +1,27 @@
-package studentcompany.sportgest.Users;
+package studentcompany.sportgest.Team;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
 
 import studentcompany.sportgest.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ListUser_Fragment extends ListFragment {
 
+public class ListTeam_Fragment extends ListFragment {
 
-    private static final String TAG = "LIST_USER_FRAGMENT";
+    private static final String TAG = "LIST_TEAM_FRAGMENT";
     private List<String> list;
     OnItemSelected mListener;
+
+    public ListTeam_Fragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,8 +76,6 @@ public class ListUser_Fragment extends ListFragment {
 
         mListener.itemSelected(position);
     }
-
-
 
 
 }

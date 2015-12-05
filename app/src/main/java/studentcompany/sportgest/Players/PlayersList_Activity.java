@@ -52,7 +52,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
                 insertUserTest(playerDao);
                 players = playerDao.getAll();
             }
-            mListPlayer.setPlayerList(getNamesList(players));
+            mListPlayer.setList(getNamesList(players));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -222,6 +222,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         players.add(p3);
         players.add(p4);
 
-        mListPlayer.setPlayerList(getNamesList(players));
+        mListPlayer.setList(getNamesList(players));
     }
 }

@@ -38,6 +38,7 @@
     <string name="select_player">Select a Player</string>
     <string name="select_user">Select a user</string>
     <string name="app_newUser">SportGest - New User</string>
+    <string name="app_newTeam">SportGest - New Team</string>
     <string name="app_newPlayer">SportGest - New Player</string>
     <string name="action_del_user">Delete User</string>
     <string name="positive_answer">Yes</string>
@@ -49,4 +50,5 @@ Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.
 Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
 </string>
     <string name="exerciseDurationUnit">min</string>
+    <string name="goTo_teams_button">Manage Teams</string>
 </resources>
