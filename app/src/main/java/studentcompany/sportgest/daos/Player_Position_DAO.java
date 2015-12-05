@@ -52,9 +52,9 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     @Override
     public List<PlayerPosition> getAll() throws GenericDAOException {
         ArrayList<PlayerPosition> resPlayerPosition = new ArrayList<>();
-        int id;
-        int playerId;
-        int positionId;
+        long id;
+        long playerId;
+        long positionId;
         int value;
 
         //Query
@@ -63,9 +63,9 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
-            playerId = res.getInt(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
-            positionId = res.getInt(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
+            playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
+            positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
             value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
            
             resPlayerPosition.add(new PlayerPosition(id,
@@ -78,10 +78,10 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     }
 
     @Override
-    public PlayerPosition getById(int id) throws GenericDAOException {
+    public PlayerPosition getById(long id) throws GenericDAOException {
         PlayerPosition resPlayerPosition;
-        int playerId;
-        int positionId;
+        long playerId;
+        long positionId;
         int value;
 
         //Query
@@ -89,8 +89,8 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         res.moveToFirst();
 
 
-            playerId = res.getInt(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
-            positionId = res.getInt(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
+            playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
+            positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
             value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
 
             resPlayerPosition = new PlayerPosition(id,
@@ -116,14 +116,14 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) }) > 0 ? true : false;
+                new String[] { Long.toString(id) }) > 0 ? true : false;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(object.getId())}) >0 ? true : false ;
+                new String[]{Long.toString(object.getId())}) >0 ? true : false ;
 
     }
 
@@ -152,18 +152,19 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt + "");
+        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
             fields++;
         }
-        if ((tmpInt = object.getPosition().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpInt + "");
+        if ((tmpLong = object.getPosition().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
             fields++;
         }
         if ((tmpInt = object.getValue()) <= 0 ) {
@@ -188,18 +189,19 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         List<PlayerPosition> playerPosition = new ArrayList<>();
         int fields = 0;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt + "");
+        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
             fields++;
         }
-        if ((tmpInt = object.getPosition().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpInt + "");
+        if ((tmpLong = object.getPosition().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
             fields++;
         }
         if ((tmpInt = object.getValue()) <= 0 ) {
@@ -213,9 +215,9 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
                 while(res.isAfterLast() == false) {
-                    int id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
-                    int  playerId = res.getInt(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
-                    int positionId = res.getInt(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
+                    long id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
+                    long playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
+                    long positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
                     int value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
 
                     playerPosition.add(new PlayerPosition(id,

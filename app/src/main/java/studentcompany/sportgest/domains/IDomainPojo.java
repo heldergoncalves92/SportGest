@@ -10,5 +10,5 @@ package studentcompany.sportgest.domains;
  */
 public interface IDomainPojo {
 
-    int getId();
+    long getId();
 }

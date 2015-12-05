@@ -48,7 +48,7 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
     public ArrayList<ObsCategory> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<ObsCategory> resObsCategory = new ArrayList<>();
-        int id;
+        long id;
         String category;
 
         //Query
@@ -57,7 +57,7 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
             resObsCategory.add(new ObsCategory(id, category));
             res.moveToNext();
@@ -67,7 +67,7 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
     }
 
   @Override
-    public ObsCategory getById(int id) throws GenericDAOException{
+    public ObsCategory getById(long id) throws GenericDAOException{
         //aux variables;
         ObsCategory resObsCategory;
         String category;
@@ -96,14 +96,14 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
     public boolean delete(ObsCategory object) throws GenericDAOException{
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
     @Override
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
     @Override
@@ -113,7 +113,7 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
     @Override
@@ -129,11 +129,11 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
 
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getCategory()) != null) {
@@ -158,11 +158,11 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
         List<ObsCategory> resObsCategory = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getCategory()) != null) {
@@ -172,14 +172,14 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String category;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
                     resObsCategory.add(new ObsCategory(id, category));
                     res.moveToNext();

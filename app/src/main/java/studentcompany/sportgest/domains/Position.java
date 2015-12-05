@@ -2,20 +2,20 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Position extends DomainPojo {
-    private int id;
+    private long id;
     private String name;
 
-    public Position(int id, String name) {
+    public Position(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -41,8 +41,8 @@ public class Position extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getName().hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }

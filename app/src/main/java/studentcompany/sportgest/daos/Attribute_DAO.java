@@ -44,7 +44,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
     public ArrayList<Attribute> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<Attribute> resAttribute = new ArrayList<>();
-        int id;
+        long id;
         String type;
         String name;
         int deleted;
@@ -55,7 +55,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             type = res.getString(res.getColumnIndexOrThrow(COLUMN_TYPE));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
@@ -67,7 +67,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
     }
 
     @Override
-    public Attribute getById(int id) throws GenericDAOException {
+    public Attribute getById(long id) throws GenericDAOException {
         //aux variables;
         Attribute resAttribute;
         String type;
@@ -101,15 +101,15 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
     public boolean delete(Attribute object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
     @Override
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -122,7 +122,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -140,10 +140,11 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getType()) != null) {
@@ -177,10 +178,11 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getType()) != null) {
@@ -198,7 +200,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String type;
             String name;
             int deleted;
@@ -207,7 +209,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     type = res.getString(res.getColumnIndexOrThrow(COLUMN_TYPE));
                     name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
                     deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));

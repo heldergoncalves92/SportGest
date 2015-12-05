@@ -41,7 +41,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
     @Override
     public List<Permission> getAll() throws GenericDAOException {
         ArrayList<Permission> resPermission = new ArrayList<>();
-        int id;
+        long id;
         String desc;
 
         //Query
@@ -50,7 +50,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
 
         //Parse data
         while(!res.isAfterLast()) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
             resPermission.add(new Permission(id, desc));
             res.moveToNext();
@@ -62,7 +62,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
     }
 
     @Override
-    public Permission getById(int id) throws GenericDAOException {
+    public Permission getById(long id) throws GenericDAOException {
 
 
         //Query
@@ -100,10 +100,10 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         return deleteById(object.getId());
     }
 
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) }) > 0;
+                new String[] { Long.toString(id) }) > 0;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(object.getId())}) >0;
+                new String[]{Long.toString(object.getId())}) >0;
 
     }
 
@@ -133,11 +133,11 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
 
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID).append("=").append(tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID).append("=").append(tmpLong);
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
@@ -164,11 +164,11 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         List<Permission> permissions = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID).append("=").append(tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID).append("=").append(tmpLong);
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
@@ -181,7 +181,7 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
                 while(!res.isAfterLast()) {
-                    int id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    long id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     String desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
                     permissions.add(new Permission(id, desc));
                     res.moveToNext();

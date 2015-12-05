@@ -50,8 +50,8 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     public List<Pair<Attribute, Exercise>> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<Pair<Attribute, Exercise>> resList = new ArrayList<>();
-        int exerciseId;
-        int attributeId;
+        long exerciseId;
+        long attributeId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -59,8 +59,8 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
 
         //Parse data
         while(res.isAfterLast() == false) {
-            exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
-            attributeId = res.getInt(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
+            exerciseId = res.getLong(res.getColumnIndex(COLUMN_EXERCISE_ID));
+            attributeId = res.getLong(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
             resList.add(
                     new Pair<>(
                             attribute_dao.getById(attributeId),
@@ -72,24 +72,19 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     }
 
     @Override
-    public List<Pair<Attribute, Exercise>> getByFirstId(int id) throws GenericDAOException {
+    public List<Exercise> getByFirstId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Attribute, Exercise>> resList = new ArrayList<>();
-        Attribute attribute;
-        int exerciseId;
+        ArrayList<Exercise> resList = new ArrayList<>();
+        long exerciseId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ATTRIBUTE_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        attribute = attribute_dao.getById(id);
         while(res.isAfterLast() == false) {
-            exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
-            resList.add(
-                    new Pair<>(
-                            attribute,
-                            exercise_dao.getById(exerciseId)));
+            exerciseId = res.getLong(res.getColumnIndex(COLUMN_EXERCISE_ID));
+            resList.add(exercise_dao.getById(exerciseId));
             res.moveToNext();
         }
 
@@ -97,11 +92,11 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     }
 
     @Override
-    public List<Pair<Attribute, Exercise>> getBySecondId(int id) throws GenericDAOException {
+    public List<Attribute> getBySecondId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Attribute, Exercise>> resList = new ArrayList<>();
+        ArrayList<Attribute> resList = new ArrayList<>();
         Exercise exercise;
-        int attributeId;
+        long attributeId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EXERCISE_ID + "=" + id, null );
@@ -110,11 +105,8 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
         //Parse data
         exercise = exercise_dao.getById(id);
         while(res.isAfterLast() == false) {
-            attributeId = res.getInt(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
-            resList.add(
-                    new Pair<>(
-                            attribute_dao.getById(attributeId),
-                            exercise));
+            attributeId = res.getLong(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
+            resList.add(attribute_dao.getById(attributeId));
             res.moveToNext();
         }
 
@@ -134,7 +126,7 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     public boolean delete(Pair<Attribute, Exercise> object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ATTRIBUTE_ID + " = ? , " + COLUMN_EXERCISE_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) });
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) });
         return true;
     }
 
@@ -145,14 +137,15 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
 
         int fields = 0;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getFirst().getId()) >= 0) {
-            statement.append(COLUMN_ATTRIBUTE_ID + "=" + tmpInt);
+        if ((tmpLong = object.getFirst().getId()) >= 0) {
+            statement.append(COLUMN_ATTRIBUTE_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getSecond().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt);
+        if ((tmpLong = object.getSecond().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong);
             fields++;
         }
 

@@ -51,8 +51,8 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
 
         //aux variables;
         ArrayList<Pair<Role, Permission>> resList = new ArrayList<>();
-        int roleId;
-        int permissionId;
+        long roleId;
+        long permissionId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -60,8 +60,8 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
 
         //Parse data
         while(!res.isAfterLast()) {
-            roleId = res.getInt(res.getColumnIndex(COLUMN_ROLE_ID));
-            permissionId = res.getInt(res.getColumnIndex(COLUMN_PERMISSION_ID));
+            roleId = res.getLong(res.getColumnIndex(COLUMN_ROLE_ID));
+            permissionId = res.getLong(res.getColumnIndex(COLUMN_PERMISSION_ID));
             resList.add(
                     new Pair<>(
                             role_dao.getById(roleId),
@@ -75,24 +75,19 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
     }
 
     @Override
-    public List<Pair<Role, Permission>> getByFirstId(int id) throws GenericDAOException {
+    public List<Permission> getByFirstId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Role, Permission>> resList = new ArrayList<>();
-        Role role;
-        int permissionId;
+        ArrayList<Permission> resList = new ArrayList<>();
+        long permissionId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ROLE_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        role = role_dao.getById(id);
         while(!res.isAfterLast()) {
-            permissionId = res.getInt(res.getColumnIndex(COLUMN_PERMISSION_ID));
-            resList.add(
-                    new Pair<>(
-                            role,
-                            permission_dao.getById(permissionId)));
+            permissionId = res.getLong(res.getColumnIndex(COLUMN_PERMISSION_ID));
+            resList.add(permission_dao.getById(permissionId));
             res.moveToNext();
         }
 
@@ -102,24 +97,19 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
     }
 
     @Override
-    public List<Pair<Role, Permission>> getBySecondId(int id) throws GenericDAOException {
+    public List<Role> getBySecondId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Role, Permission>> resList = new ArrayList<>();
-        Permission permission;
-        int roleId;
+        ArrayList<Role> resList = new ArrayList<>();
+        long roleId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PERMISSION_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        permission = permission_dao.getById(id);
         while(!res.isAfterLast()) {
-            roleId = res.getInt(res.getColumnIndex(COLUMN_ROLE_ID));
-            resList.add(
-                    new Pair<>(
-                            role_dao.getById(roleId),
-                            permission));
+            roleId = res.getLong(res.getColumnIndex(COLUMN_ROLE_ID));
+            resList.add(role_dao.getById(roleId));
             res.moveToNext();
         }
 
@@ -153,7 +143,7 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
 
         return db.delete(TABLE_NAME,
                 COLUMN_ROLE_ID + " = ? , " + COLUMN_PERMISSION_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0;
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) })  > 0;
     }
 
     @Override
