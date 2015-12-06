@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="studentcompany.sportgest">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,25 +28,40 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
         <activity android:name=".Players.PlayersList_Activity" />
-        <activity android:name=".Users.CreateUser_Activity"
-            android:label="@string/app_newUser"/>
-        <activity android:name=".Players.CreatePlayer_Activity"
-            android:label="@string/app_newPlayer"></activity>
-
+        <activity
+            android:name=".Users.CreateUser_Activity"
+            android:label="@string/app_newUser" />
+        <activity
+            android:name=".Players.CreatePlayer_Activity"
+            android:label="@string/app_newPlayer" />
+        <activity
+            android:name=".Team.TeamList_Activity"
+            android:label="@string/app_teamView"/>
+        <activity
+            android:name=".Team.CreateTeam_Activity"
+            android:label="@string/app_newTeam"/>
         <activity
             android:name=".Exercises.CreateExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Exercises.DisplayExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Exercises.ListExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Users.RolesListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Users.RoleDisplayActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Users.CreateRole_Activity"
+            android:label="@string/title_activity_create_role_"/>
+    <activity
+        android:name=".LoginActivity"
+        android:label="@string/title_activity_login2"/>
+
     </application>
 
 </manifest>

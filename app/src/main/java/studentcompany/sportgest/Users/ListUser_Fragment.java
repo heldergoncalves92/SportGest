@@ -52,7 +52,7 @@ public class ListUser_Fragment extends ListFragment {
 
     }
 
-    public void setUserList(List<String> list){
+    public void setList(List<String> list){
         this.list = list;
     }
 

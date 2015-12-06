@@ -22,6 +22,10 @@ public class Permission extends DomainPojo {
         this.description = description;
     }
 
+    public Permission(String description) {
+        this.description = description;
+    }
+
     // Getters and Setters
     public void setId(long id) {
         this.id = id;
