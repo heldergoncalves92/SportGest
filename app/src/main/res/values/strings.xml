@@ -71,4 +71,11 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="prompt_username">Username</string>
     <string name="error_field_login">Invalid username or password</string>
     <string name="title_activity_login2">Sign in</string>
+
+    <string name="userName">Name</string>
+    <string name="userUsername">Username</string>
+    <string name="userEmail">Email</string>
+    <string name="userPassword">Password</string>
+    <string name="userPasswordConfirmation">Password (confirmation)</string>
+
 </resources>
