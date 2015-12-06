@@ -340,7 +340,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         float tmpFloat;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
+        if ((tmpInt = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpInt);
             fields++;
         }
@@ -360,15 +360,15 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_MARITAL_STATUS + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getBirthDate()) >= 0) {
+        if ((tmpInt = object.getBirthDate()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
             fields++;
         }
-        if ((tmpInt = object.getHeight()) >= 0) {
+        if ((tmpInt = object.getHeight()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_HEIGHT + " = " + tmpInt );
             fields++;
         }
-        if ((tmpFloat = object.getWeight()) >= 0) {
+        if ((tmpFloat = object.getWeight()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_WEIGHT + " = " + tmpFloat );
             fields++;
         }
@@ -392,15 +392,15 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PREFERRED_FOOT + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getNumber()) >= 0) {
+        if ((tmpInt = object.getNumber()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_NUMBER + " = " + tmpInt );
             fields++;
         }
-        if ((tmpInt = object.getTeam().getId()) >= 0) {
+        if (object.getTeam() != null && (tmpInt = object.getTeam().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
             fields++;
         }
-        if ((tmpInt = object.getPosition().getId()) >= 0) {
+        if (object.getPosition() != null && (tmpInt = object.getPosition().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpInt );
             fields++;
         }

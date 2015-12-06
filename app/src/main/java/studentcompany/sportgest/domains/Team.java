@@ -25,9 +25,13 @@ public class Team extends DomainPojo {
         this.is_com = is_com;
     }
 
+    public Team(int id) {
+        this.id = id;
+    }
+
     @Override
     public int getId() {
-        return id;
+ return id;
     }
 
     public String getName() {

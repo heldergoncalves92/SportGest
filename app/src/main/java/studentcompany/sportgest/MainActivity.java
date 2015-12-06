@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Players(View v){
         Intent intent = new Intent(this, PlayersList_Activity.class);
+        intent.putExtra("TEAM",1);
         startActivity(intent);
     }
 
