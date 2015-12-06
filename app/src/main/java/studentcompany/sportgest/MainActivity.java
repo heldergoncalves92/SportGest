@@ -151,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                            Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
-                            startActivity(intent);
-                            return true;
+                                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                startActivity(intent);
+                                return true;
                         }
 
                         //menuItem.setChecked(true);

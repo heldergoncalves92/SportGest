@@ -110,7 +110,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         if(users.isEmpty())
             noElems();
     }
-    
+
     /************************************
      ****     Listener Functions     ****
      ************************************/
