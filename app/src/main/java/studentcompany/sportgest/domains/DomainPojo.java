@@ -10,5 +10,5 @@ package studentcompany.sportgest.domains;
  */
 public abstract class DomainPojo implements IDomainPojo {
 
-    public abstract int getId();
+    public abstract long getId();
 }

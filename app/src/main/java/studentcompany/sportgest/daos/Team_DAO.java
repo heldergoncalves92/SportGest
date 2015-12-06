@@ -50,7 +50,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
 
         //aux variables;
         ArrayList<Team> resTeam = new ArrayList<>();
-        int id;
+        long id;
         String name;
         String description;
         String logo;
@@ -63,7 +63,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndex(COLUMN_ID));
+            id = res.getLong(res.getColumnIndex(COLUMN_ID));
             name = res.getString(res.getColumnIndex(COLUMN_NAME));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
             logo = res.getString(res.getColumnIndex(COLUMN_LOGO));
@@ -77,7 +77,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
     }
 
     @Override
-    public Team getById(int id) throws GenericDAOException {
+    public Team getById(long id) throws GenericDAOException {
 
         //aux variables;
         Team resTeam;
@@ -122,16 +122,16 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
     public boolean delete(Team object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -148,7 +148,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -166,11 +166,11 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         int fields = 0;
         String tmpString;
         int tmpInt;
-        float tmpFloat;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -212,11 +212,11 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
         int fields = 0;
         String tmpString;
         int tmpInt;
-        float tmpFloat;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -242,7 +242,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String name;
             String description;
             String logo;
@@ -253,7 +253,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     name = res.getString(res.getColumnIndex(COLUMN_NAME));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
                     logo = res.getString(res.getColumnIndex(COLUMN_LOGO));

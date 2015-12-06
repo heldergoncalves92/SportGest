@@ -50,8 +50,8 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
     public List<Pair<User, Team>> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<Pair<User, Team>> resList = new ArrayList<>();
-        int userId;
-        int teamId;
+        long userId;
+        long teamId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -59,8 +59,8 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
         //Parse data
         while(!res.isAfterLast()) {
-            userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
-            teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+            userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
+            teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
             resList.add(
                     new Pair<>(
                             user_dao.getById(userId),
@@ -73,24 +73,19 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
 
     @Override
-    public List<Pair<User, Team>> getByFirstId(int id) throws GenericDAOException {
+    public List<Team> getByFirstId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<User, Team>> resList = new ArrayList<>();
-        User user;
-        int teamId;
+        ArrayList<Team> resList = new ArrayList<>();
+        long teamId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        user = user_dao.getById(id);
         while(!res.isAfterLast()) {
-            teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
-            resList.add(
-                    new Pair<>(
-                            user,
-                            team_dao.getById(teamId)));
+            teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
+            resList.add(team_dao.getById(teamId));
             res.moveToNext();
         }
         res.close(); // Close the Cursor
@@ -98,24 +93,19 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
     }
 
     @Override
-    public List<Pair<User, Team>> getBySecondId(int id) throws GenericDAOException {
+    public List<User> getBySecondId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<User, Team>> resList = new ArrayList<>();
-        Team team;
-        int userId;
+        ArrayList<User> resList = new ArrayList<>();
+        long userId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TEAM_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        team = team_dao.getById(id);
         while(!res.isAfterLast()) {
-            userId = res.getInt(res.getColumnIndex(COLUMN_USER_ID));
-            resList.add(
-                    new Pair<>(
-                            user_dao.getById(userId),
-                            team));
+            userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
+            resList.add(user_dao.getById(userId));
             res.moveToNext();
         }
         res.close(); // Close the Cursor
@@ -149,7 +139,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
 
         return db.delete(TABLE_NAME,
                 COLUMN_USER_ID + " = ? , " + COLUMN_TEAM_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) })  > 0;
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) })  > 0;
     }
 
     @Override

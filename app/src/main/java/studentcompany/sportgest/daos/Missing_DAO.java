@@ -53,9 +53,9 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
         //aux variables;
         ArrayList<Missing> resMissing = new ArrayList<>();
-        int id;
-        int playerId;
-        int trainingId;
+        long id;
+        long playerId;
+        long trainingId;
         String description;
 
         //Query
@@ -64,9 +64,9 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndex(COLUMN_ID));
-            playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
-            trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+            id = res.getLong(res.getColumnIndex(COLUMN_ID));
+            playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+            trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
             resMissing.add(new Missing(id,
                     player_dao.getById(playerId),
@@ -79,12 +79,12 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
     }
 
     @Override
-    public Missing getById(int id) throws GenericDAOException {
+    public Missing getById(long id) throws GenericDAOException {
 
         //aux variables;
         Missing resMissing;
-        int playerId;
-        int trainingId;
+        long playerId;
+        long trainingId;
         String description;
 
         //Query
@@ -93,8 +93,8 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
         //Parse data
         id = res.getInt(res.getColumnIndex(COLUMN_ID));
-        playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
-        trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+        playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+        trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
         resMissing = new Missing(id,
                 player_dao.getById(playerId),
@@ -119,15 +119,15 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
     public boolean delete(Missing object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -142,7 +142,7 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -158,19 +158,19 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getTraining().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
@@ -195,19 +195,19 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
         List<Missing> resMissing = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpInt );
+        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getTraining().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
         if ((tmpString = object.getDescription()) != null) {
@@ -217,18 +217,18 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
         if (fields > 0) {
 
-            int id;
-            int playerId;
-            int trainingId;
+            long id;
+            long playerId;
+            long trainingId;
             String description;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
-                    playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
-                    trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
+                    id = res.getLong(res.getColumnIndex(COLUMN_ID));
+                    playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+                    trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
                     resMissing.add(new Missing(id,
                             player_dao.getById(playerId),

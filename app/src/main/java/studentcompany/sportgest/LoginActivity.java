@@ -195,12 +195,17 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
+                try {
+                    return userDao.login(mUsername,mPassword)!=null;
+                } catch (GenericDAOException e) {
+                    return false;
+                }
             } catch (InterruptedException e) {
                 return false;
             }
 
             //if(userDao.checkUser(mUsername,mPassword) == null)
-                return false;
+                //return false;
 
             //return true;
         }

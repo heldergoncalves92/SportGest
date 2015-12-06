@@ -2,16 +2,16 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class ObsCategory extends DomainPojo {
-        private int id;
+        private long id;
         private String category;
 
-    public ObsCategory(int id, String category) {
+    public ObsCategory(long id, String category) {
         this.id = id;
         this.category = category;
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -19,7 +19,7 @@ public class ObsCategory extends DomainPojo {
         return category;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,8 +49,8 @@ public class ObsCategory extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + (getCategory() != null ? getCategory().hashCode() : 0);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 }

@@ -16,13 +16,13 @@ public interface IGenericDAO<T> {
 
     List<T> getAll() throws GenericDAOException;
 
-    T getById(int id) throws GenericDAOException;
+    T getById(long id) throws GenericDAOException;
 
     long insert(T object) throws GenericDAOException;
 
     boolean delete(T object) throws GenericDAOException;
 
-    boolean deleteById(int id) throws GenericDAOException;
+    boolean deleteById(long id) throws GenericDAOException;
 
     boolean update(T object) throws GenericDAOException;
 

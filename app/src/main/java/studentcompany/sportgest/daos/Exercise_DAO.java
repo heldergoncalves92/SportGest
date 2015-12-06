@@ -44,7 +44,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
     public ArrayList<Exercise> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<Exercise> resExercise = new ArrayList<>();
-        int id;
+        long id;
         String title;
         String description;
         int duration;
@@ -55,7 +55,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
             description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
             duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));
@@ -67,7 +67,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
     }
 
     @Override
-    public Exercise getById(int id) throws GenericDAOException {
+    public Exercise getById(long id) throws GenericDAOException {
         //aux variables;
         Exercise resExercise;
         String title;
@@ -101,15 +101,15 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
     public boolean delete(Exercise object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
     @Override
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -122,7 +122,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -140,10 +140,11 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
@@ -177,10 +178,11 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
@@ -198,7 +200,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String title;
             String description;
             int duration;
@@ -207,7 +209,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
                     description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
                     duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));

@@ -2,7 +2,7 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Observation extends DomainPojo {
-        private int id;
+        private long id;
         private String title;
         private String description;
         private int date;
@@ -12,7 +12,7 @@ public class Observation extends DomainPojo {
         private Game game;
 
 
-        public Observation (int id,String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
+        public Observation (long id,String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
             this.id = id;
             this.title=title;
             this.description = description;
@@ -25,11 +25,11 @@ public class Observation extends DomainPojo {
         }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -123,14 +123,14 @@ public class Observation extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getTitle().hashCode();
-        result = 31 * result + getDescription().hashCode();
-        result = 31 * result + getDate();
-        result = 31 * result + getObservationcategory().hashCode();
-        result = 31 * result + getPlayer().hashCode();
-        result = 31 * result + getUser().hashCode();
-        result = 31 * result + getGame().hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + date;
+        result = 31 * result + (observationcategory != null ? observationcategory.hashCode() : 0);
+        result = 31 * result + (player != null ? player.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (game != null ? game.hashCode() : 0);
         return result;
     }
 }

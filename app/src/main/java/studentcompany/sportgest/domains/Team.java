@@ -1,14 +1,14 @@
 package studentcompany.sportgest.domains;
 
 public class Team extends DomainPojo {
-    private int id;
+    private long id;
     private String name;
     private String description;
     private String logo;
     private int season;
     private int is_com;
 
-    public Team(int id, String name, String description, String logo, int season, int is_com) {
+    public Team(long id, String name, String description, String logo, int season, int is_com) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,8 +30,8 @@ public class Team extends DomainPojo {
     }
 
     @Override
-    public int getId() {
- return id;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -54,7 +54,7 @@ public class Team extends DomainPojo {
         return is_com;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -109,7 +109,7 @@ public class Team extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (logo != null ? logo.hashCode() : 0);

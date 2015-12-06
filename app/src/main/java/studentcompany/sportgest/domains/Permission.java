@@ -9,21 +9,25 @@ public class Permission extends DomainPojo {
     public static final int READ_GAMES = 3;
     public static final int MANAGE_GAMES = 4;
 
-    private int id;
+    private long id;
     private String description;
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     // Constructors
-    public Permission(int id, String description) {
+    public Permission(long id, String description) {
         this.id = id;
         this.description = description;
     }
 
+    public Permission(String description) {
+        this.description = description;
+    }
+
     // Getters and Setters
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,7 +53,7 @@ public class Permission extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }

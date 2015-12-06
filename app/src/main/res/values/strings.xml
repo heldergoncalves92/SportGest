@@ -25,6 +25,10 @@
     <string name="exercise_add_menu">Add Exercise</string>
     <string name="exercise_edit_menu">Edit Exercise</string>
     <string name="exercise_delete_menu">Delete Exercise</string>
+    <string name="roles_button">Roles</string>
+    <string name="role_add_menu">Add Role</string>
+    <string name="role_edit_menu">Edit Role</string>
+    <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
@@ -78,4 +82,16 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="userPassword">Password</string>
     <string name="userPasswordConfirmation">Password (confirmation)</string>
 
+
+    <string name="hint_name">Name</string>
+    <string name="title_activity_create_role_">CreateRole_Activity</string>
+    <string name="hint_permissions">Permissions</string>
+    <string name="delete_unsucessful">An error ocurred with the deletion</string>
+    <string name="role_add_successful">Role added successfully</string>
+    <string name="role_add_unsuccessful">Role was not added</string>
+    <string name="err_role_name">Role Name can\'t be empty</string>
+    <string name="permissions_list_failed">Failed to get the Permissions list</string>
+    <string name="err_role_name_exists">There is already a Role with this name</string>
+    <string name="role_save_successful">Role saved sucessfully</string>
+    <string name="role_save_unsuccessful">Role was not saved</string>
 </resources>

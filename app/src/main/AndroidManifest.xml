@@ -36,20 +36,26 @@
             android:label="@string/app_newPlayer" />
         <activity
             android:name=".Exercises.CreateExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Exercises.DisplayExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Exercises.ListExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Team.TeamList_Activity" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".Team.CreateTeam_Activity"
-            android:label="@string/app_newTeam" />
+            android:name=".Users.RolesListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login2"></activity>
+            android:name=".Users.RoleDisplayActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Users.CreateRole_Activity"
+            android:label="@string/title_activity_create_role_"/>
+    <activity
+        android:name=".LoginActivity"
+        android:label="@string/title_activity_login2"/>
+
     </application>
 
 </manifest>
