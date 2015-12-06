@@ -1,6 +1,5 @@
 package studentcompany.sportgest.Users;
 
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,15 +10,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
@@ -53,10 +53,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             userDao = new User_DAO(getApplicationContext());
             users = userDao.getAll();
             if(users.isEmpty()) {
-                insertUserTest(userDao);
-                users = userDao.getAll();
+                noElems();
+                //insertUserTest(userDao);
+                //users = userDao.getAll();
             }
-            mListUsers.setUserList(getNamesList(users));
+            mListUsers.setList(getNamesList(users));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -86,6 +87,15 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         return list;
     }
 
+    public void noElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
+    }
+
     public void removeUser(){
         mDetailsUser.clearDetails();
         mListUsers.removeItem(currentPos);
@@ -96,7 +106,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+
+        if(users.isEmpty())
+            noElems();
     }
+    
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -221,7 +235,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         users.add(u3);
         users.add(u4);
 
-        mListUsers.setUserList(getNamesList(users));
+        mListUsers.setList(getNamesList(users));
     }
 
 }

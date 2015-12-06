@@ -70,14 +70,15 @@ public class Permission_DAO extends GenericDAO<Permission> implements IGenericDA
         res.moveToFirst();
 
         int count = res.getCount();
-        res.close();
         //Parse data
         if(count==1)
             {String desc;
              desc = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
+                res.close();
              return new Permission(id, desc);}
-        else
-            return null;
+        else{
+             res.close();
+             return null;}
     }
 
     @Override

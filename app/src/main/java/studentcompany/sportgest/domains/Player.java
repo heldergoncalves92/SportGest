@@ -56,6 +56,10 @@ public class Player extends DomainPojo{
         this.position=position;
     }
 
+    public Player(Team team) {
+        this.team = team;
+    }
+
     @Override
     public long getId() {
         return id;

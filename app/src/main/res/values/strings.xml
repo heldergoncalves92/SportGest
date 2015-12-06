@@ -25,6 +25,10 @@
     <string name="exercise_add_menu">Add Exercise</string>
     <string name="exercise_edit_menu">Edit Exercise</string>
     <string name="exercise_delete_menu">Delete Exercise</string>
+    <string name="roles_button">Roles</string>
+    <string name="role_add_menu">Add Role</string>
+    <string name="role_edit_menu">Edit Role</string>
+    <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
@@ -38,6 +42,7 @@
     <string name="select_player">Select a Player</string>
     <string name="select_user">Select a user</string>
     <string name="app_newUser">SportGest - New User</string>
+    <string name="app_newTeam">SportGest - New Team</string>
     <string name="app_newPlayer">SportGest - New Player</string>
     <string name="action_del_user">Delete User</string>
     <string name="positive_answer">Yes</string>
@@ -49,4 +54,44 @@ Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.
 Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
 </string>
     <string name="exerciseDurationUnit">min</string>
+    <string name="goTo_teams_button">Manage Teams</string>
+    <string name="title_activity_login_">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_username">This username is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="login_button">Login</string>
+    <string name="prompt_username">Username</string>
+    <string name="error_field_login">Invalid username or password</string>
+    <string name="title_activity_login2">Sign in</string>
+
+    <string name="userName">Name</string>
+    <string name="userUsername">Username</string>
+    <string name="userEmail">Email</string>
+    <string name="userPassword">Password</string>
+    <string name="userPasswordConfirmation">Password (confirmation)</string>
+
+
+    <string name="hint_name">Name</string>
+    <string name="title_activity_create_role_">CreateRole_Activity</string>
+    <string name="hint_permissions">Permissions</string>
+    <string name="delete_unsucessful">An error ocurred with the deletion</string>
+    <string name="role_add_successful">Role added successfully</string>
+    <string name="role_add_unsuccessful">Role was not added</string>
+    <string name="err_role_name">Role Name can\'t be empty</string>
+    <string name="permissions_list_failed">Failed to get the Permissions list</string>
+    <string name="err_role_name_exists">There is already a Role with this name</string>
+    <string name="role_save_successful">Role saved sucessfully</string>
+    <string name="role_save_unsuccessful">Role was not saved</string>
 </resources>
