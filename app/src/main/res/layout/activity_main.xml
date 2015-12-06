@@ -40,6 +40,12 @@
             android:text="@string/exercise_button"
             android:id="@+id/exercise_button" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+            android:onClick="goTo_Login" />
+
     </LinearLayout>
 </RelativeLayout>
 

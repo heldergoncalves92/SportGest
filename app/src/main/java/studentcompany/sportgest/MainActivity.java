@@ -88,4 +88,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TeamList_Activity.class);
         startActivity(intent);
     }
+
+    public void goTo_Login(View v){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
