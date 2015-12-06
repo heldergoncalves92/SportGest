@@ -60,4 +60,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="role_add_successful">Role added successfully</string>
     <string name="role_add_unsuccessful">Role was not added</string>
     <string name="err_role_name">Role Name can\'t be empty</string>
+    <string name="permissions_list_failed">Failed to get the Permissions list</string>
+    <string name="err_role_name_exists">There is already a Role with this name</string>
+    <string name="role_save_successful">Role saved sucessfully</string>
+    <string name="role_save_unsuccessful">Role was not saved</string>
 </resources>

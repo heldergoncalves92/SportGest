@@ -5,14 +5,18 @@ import java.util.List;
 
 public class Role extends DomainPojo {
 
-    private long id;
-    private String name;
-    private List<Permission> permissionList;
+    private long id = -1;
+    private String name = null;
+    private List<Permission> permissionList = null;
 
     public Role(long id, String name, List<Permission> permissionList) {
         this.id = id;
         this.name = name;
         this.permissionList = permissionList;
+    }
+    public Role(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Role(String name, List<Permission> permissionList) {

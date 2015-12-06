@@ -49,6 +49,7 @@ public class CreateRole_Activity extends AppCompatActivity{
 
     //Id of current role displayed
     private int roleID;
+    private String roleNameOriginal="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,49 +87,48 @@ public class CreateRole_Activity extends AppCompatActivity{
                 //get the role information
                 try {
                     role = role_dao.getById(roleID);
+                    roleNameOriginal = role.getName(); //Backup Name
+                    roleName.setText(role.getName());
                 } catch (GenericDAOException ex) {
                     System.err.println(RoleDisplayActivity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(RoleDisplayActivity.class.getName()).log(Level.WARNING, null, ex);
                     role = null;
                 }
             }
-
-            //validation
-            if(role != null) {
                 //set layout variables with information
-                roleName.setText(role.getName());
-                roleName.setFocusable(false);
-                roleName.setClickable(false);
+                //roleName.setFocusable(false);
+                //roleName.setClickable(false);
 
-            }
+
                 //Construct a new array with only the Permission Description
                 ArrayList<String> array_list = new ArrayList<>();
                 //List<Permission> permissions = role.getPermissionList();
             List<Permission> permissions = null;
             if(roleID > 0)
                 permissions = role_permission_dao.getPermissionsByRoleId(roleID);
-            else
-                try {
-                    permissions_list = permission_dao.getAll();
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
 
-            ArrayAdapter arrayAdapter;
-
-            if(permissions!=null) {
-                for (Permission p : permissions) {
-                    array_list.add(p.getDescription());
-                }
-                //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-                // TODO: SET CHECKED WHEN EDITING
-                //rolePermissionsListView.setItemChecked(index,true);
+            try {
+                permissions_list = permission_dao.getAll();
+            } catch (GenericDAOException e) {
+                Toast.makeText(getApplicationContext(), R.string.permissions_list_failed, Toast.LENGTH_SHORT).show();
+                finish();
+                e.printStackTrace();
             }
 
+            ArrayAdapter arrayAdapter;
             arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, permissions_list);
 
             //set list in layout ListView
             rolePermissionsListView.setAdapter(arrayAdapter);
+
+            // Check the permissions
+            if(permissions!=null) {
+                for(int i = 0;i<permissions_list.size(); i++)
+                    if(permissions.contains(permissions_list.get(i)))
+                        rolePermissionsListView.setItemChecked(i,true);
+            }
+
+
 
             //in case the user wants to see details about some attribute, start a display Permission Activity
             rolePermissionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -181,18 +181,6 @@ public class CreateRole_Activity extends AppCompatActivity{
         super.onOptionsItemSelected(item);
         switch(item.getItemId())
         {
-            case R.id.Edit:
-                //put current role ID in extras
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roleID);
-                //declare intention to start CreateRoleActivity
-                Intent intent = new Intent(getApplicationContext(), CreateRole_Activity.class);
-                //add data
-                intent.putExtras(dataBundle);
-                //start activity
-                startActivity(intent);
-
-                return true;
             case R.id.Save:
                 if (!validateName()) {
                     return false;
@@ -207,20 +195,30 @@ public class CreateRole_Activity extends AppCompatActivity{
                     if (checkedItemPositions.get(i)) {
                         permissions.add(permissions_list.get(i));// If the item is checked, then add it to the list
                     }
-                Role role = new Role(roleName.getText().toString(),permissions);
+                Role role = new Role(roleID,roleName.getText().toString());
                 boolean ret = false;
                 try {
-                    long newroleid = role_dao.insert(role);
-                    ret = newroleid> 0;
-                    ret = role_permission_dao.insertPermissionsByRoleId(newroleid,permissions) && ret;
+                    if(roleID>0){
+                        ret = role_dao.update(role);
+                        role_permission_dao.deleteAllByRoleId(role.getId());}
+                    else{
+                        long newId = role_dao.insert(role);
+                        ret = newId > 0;
+                    }
+
+                    if(ret && permissions.size()>0)
+                        ret = role_permission_dao.insertPermissionsByRoleId(roleID,permissions);
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
                 if(ret)
-                    {Toast.makeText(getApplicationContext(), R.string.role_add_successful, Toast.LENGTH_SHORT).show();
+                    {Toast.makeText(getApplicationContext(), R.string.role_save_successful, Toast.LENGTH_SHORT).show();
+                     Intent returnIntent = new Intent();
+                     //returnIntent.putExtra("Age",11);
+                     setResult(1,returnIntent);
                      finish();}
                 else
-                    Toast.makeText(getApplicationContext(), R.string.role_add_unsuccessful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.role_save_unsuccessful, Toast.LENGTH_SHORT).show();
 
 
                 return true;
@@ -242,10 +240,18 @@ public class CreateRole_Activity extends AppCompatActivity{
             inputLayoutName.setError(getString(R.string.err_role_name));
             requestFocus(inputLayoutName);
             return false;
-        } else {
-            inputLayoutName.setErrorEnabled(false);
-        }
+        } else try {
+            if(!roleNameOriginal.equals(roleName.getText().toString()))
+                if(role_dao.exists(new Role(roleName.getText().toString()))) {
+                    inputLayoutName.setError(getString(R.string.err_role_name_exists));
+                    requestFocus(inputLayoutName);
+                    return false;
+                }
 
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+            inputLayoutName.setErrorEnabled(false);
         return true;
     }
 
@@ -276,6 +282,13 @@ public class CreateRole_Activity extends AppCompatActivity{
                     break;
             }
         }
+    }
+
+    public void onStop(){
+        super.onStop();
+
+        Intent returnIntent = new Intent();
+        setResult(0, returnIntent);
     }
 
 }

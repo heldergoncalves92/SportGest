@@ -26,6 +26,7 @@ public class RolesListActivity extends AppCompatActivity {
     //DAOs
     private Role_DAO role_dao;
     private List<Role> roleList;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class RolesListActivity extends AppCompatActivity {
         //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array_list);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, roleList);
 
-        ListView listView = (ListView) findViewById(R.id.role_ListView);
+        listView = (ListView) findViewById(R.id.role_ListView);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,7 +67,7 @@ public class RolesListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RoleDisplayActivity.class);
 
                 intent.putExtras(dataBundle);
-                startActivity(intent);
+                startActivityForResult(intent, 112);
             }
         });
 
@@ -127,10 +128,26 @@ public class RolesListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CreateRole_Activity.class);
                 intent.putExtras(dataBundle);
 
-                startActivity(intent);
+                startActivityForResult(intent, 112);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 112) {
+            try {
+                roleList = role_dao.getAll();
+                ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, roleList);
+                listView.setAdapter(arrayAdapter);
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

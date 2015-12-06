@@ -35,6 +35,9 @@ public class RoleDisplayActivity extends AppCompatActivity {
 
     //Id of current role displayed
     private int roleID;
+    private TextView roleName;
+    private ListView rolePermissionsListView;
+    int edited=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,8 @@ public class RoleDisplayActivity extends AppCompatActivity {
         //set activity layout
         setContentView(R.layout.activity_display_role);
         //get layout components
-        TextView roleName = (TextView) findViewById(R.id.input_permission_name);
-        ListView rolePermissionsListView = (ListView) findViewById(R.id.rolePermissions);
+        roleName = (TextView) findViewById(R.id.input_permission_name);
+        rolePermissionsListView = (ListView) findViewById(R.id.rolePermissions);
         //initialize required DAOs
         role_dao = new Role_DAO(this);
         role_permission_dao = new Role_Permission_DAO(this);
@@ -79,13 +82,8 @@ public class RoleDisplayActivity extends AppCompatActivity {
                     roleName.setClickable(false);
 
 
-                    //Construct a new array with only the Permission Description
-                    ArrayList<String> array_list = new ArrayList<>();
                     //List<Permission> permissions = role.getPermissionList();
                     List<Permission> permissions = role_permission_dao.getPermissionsByRoleId(roleID);
-                    for(Permission p : permissions){
-                        array_list.add(p.getDescription());
-                    }
                     //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
                     ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, permissions);
 
@@ -121,6 +119,17 @@ public class RoleDisplayActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.role_add_menu);
+
+
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        editItem.setVisible(true);
+        MenuItem remItem = menu.findItem(R.id.Delete);
+        remItem.setVisible(true);
+
+        MenuItem saveItem = menu.findItem(R.id.Save);
+        saveItem.setVisible(false);
         MenuItem addItem = menu.findItem(R.id.Add);
         addItem.setVisible(false);
         return true;
@@ -140,7 +149,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
                 //add data
                 intent.putExtras(dataBundle);
                 //start activity
-                startActivity(intent);
+                startActivityForResult(intent, 112);
 
                 return true;
             case R.id.Delete:
@@ -169,8 +178,40 @@ public class RoleDisplayActivity extends AppCompatActivity {
 
                 return true;
             default:
+                Intent returnIntent = new Intent();
+                setResult(edited,returnIntent);
+                finish();
                 return super.onOptionsItemSelected(item);
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 112) {
+            if(resultCode == 1)
+                try {
+                    Role r = role_dao.getById(roleID);
+                    roleName.setText(r.getName().toString());
+                    List<Permission> permissions = role_permission_dao.getPermissionsByRoleId(roleID);
+                    //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, permissions);
+
+                    //set list in layout ListView
+                    rolePermissionsListView.setAdapter(arrayAdapter);
+                    edited=1;
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
+    public void onStop(){
+        super.onStop();
+
+        Intent returnIntent = new Intent();
+        setResult(edited, returnIntent);
+    }
+
 }
