@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +48,10 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             teamDao = new Team_DAO(getApplicationContext());
             teams = teamDao.getAll();
             if(teams.isEmpty()) {
-                insertTest(teamDao);
-                teams = teamDao.getAll();
+
+                noElems();
+                //insertTest(teamDao);
+                //teams = teamDao.getAll();
             }
             mListTeams.setList(getNamesList(teams));
 
@@ -78,6 +83,15 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         return list;
     }
 
+    public void noElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
+    }
+
     public void removeTeam(){
         mDetailsTeam.clearDetails();
         mListTeams.removeItem(currentPos);
@@ -88,6 +102,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+
+        if(teams.isEmpty())
+            noElems();
     }
     /************************************
      ****     Listener Functions     ****

@@ -64,13 +64,8 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
             if(players.isEmpty()) {
 
-                LinearLayout l = (LinearLayout)findViewById(R.id.linear);
-                l.setVisibility(View.GONE);
-
-                TextView t= (TextView)findViewById(R.id.without_elems);
-                t.setVisibility(View.VISIBLE);
+                noElems();
                 //insertUserTest(playerDao);
-                //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
                 //players = playerDao.getAll();
             }
             mListPlayer.setList(getNamesList(players));
@@ -103,6 +98,15 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         return list;
     }
 
+    public void noElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
+    }
+
     public void removePlayer(){
         mDetailsPlayer.clearDetails();
         mListPlayer.removeItem(currentPos);
@@ -113,6 +117,9 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+
+        if(players.isEmpty())
+            noElems();
     }
 
     /************************************
