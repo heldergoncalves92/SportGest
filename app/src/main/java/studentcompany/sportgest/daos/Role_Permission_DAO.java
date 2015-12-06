@@ -46,6 +46,26 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
         this.permission_dao = new Permission_DAO(context);
     }
 
+
+    public List<Permission> getPermissionsByRoleId(int role_id){
+        List<Permission> permissions = new ArrayList<Permission>();
+
+        try {
+            List<Pair<Role, Permission>> pairs = this.getByFirstId(role_id);
+            for(Pair<Role, Permission> pair : pairs) {
+                Permission permission = permission_dao.getById(pair.getSecond().getId());
+                permissions.add(permission);
+            }
+        } catch (GenericDAOException e) {
+            //e.printStackTrace();
+        }
+
+
+
+        return permissions;
+    }
+
+
     @Override
     public List<Pair<Role, Permission>> getAll() throws GenericDAOException {
 
@@ -141,6 +161,28 @@ public class Role_Permission_DAO  extends GenericPairDAO<Role, Permission> imple
         contentValues.put(COLUMN_PERMISSION_ID, object.getSecond().getId());
 
         return db.insert(TABLE_NAME, null, contentValues);
+    }
+
+
+    public boolean insertPermissionsByRoleId(long id, List<Permission> list) {
+        if(list==null)
+            return false;
+
+        if(list.size()==0)
+            return false;
+
+        db.beginTransaction();
+        for(Permission pe : list) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_ROLE_ID, id);
+            contentValues.put(COLUMN_PERMISSION_ID, pe.getId());
+            if(db.insert(TABLE_NAME, null, contentValues)<0)
+            {db.endTransaction();
+             return false;}
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        return true;
     }
 
     @Override

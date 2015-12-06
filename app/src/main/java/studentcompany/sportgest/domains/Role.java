@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Role extends DomainPojo {
 
-    private int id;
+    private long id;
     private String name;
     private List<Permission> permissionList;
 
-    public Role(int id, String name, List<Permission> permissionList) {
+    public Role(long id, String name, List<Permission> permissionList) {
         this.id = id;
         this.name = name;
         this.permissionList = permissionList;
@@ -21,11 +21,16 @@ public class Role extends DomainPojo {
     }
 
 
+    public Role(String name) {
+        this.name = name;
+    }
+
+
 
     @Override
-    public int getId() { return this.id; }
+    public int getId() { return (int)this.id; }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -70,7 +75,7 @@ public class Role extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (permissionList != null ? permissionList.hashCode() : 0);
         return result;

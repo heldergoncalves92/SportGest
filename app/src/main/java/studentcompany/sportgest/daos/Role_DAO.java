@@ -12,6 +12,7 @@ import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Permission;
 import studentcompany.sportgest.domains.Role;
 
 public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{

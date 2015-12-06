@@ -203,6 +203,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             u_dao.insert(u3);
             u_dao.insert(u4);
 
+            User ok = u_dao.login("user0","password");
+            User ok2 = u_dao.login("user0","passwordd");
+            User ok3 = u_dao.login("user01","password");
+            boolean okk=false;
+            okk = true;
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
