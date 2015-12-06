@@ -51,4 +51,12 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
 </string>
     <string name="exerciseDurationUnit">min</string>
     <string name="goTo_teams_button">Manage Teams</string>
+    <string name="userName">Name</string>
+    <string name="userUsername">Username</string>
+    <string name="userEmail">Email</string>
+    <string name="userPassword">Password</string>
+    <string name="userPasswordConfirmation">Password (confirmation)</string>
+
+
+
 </resources>

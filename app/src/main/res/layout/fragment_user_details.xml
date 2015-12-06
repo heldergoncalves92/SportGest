@@ -5,27 +5,86 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <TextView
-        android:id="@+id/username"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:layout_weight="0.11">
 
-    <TextView
-        android:id="@+id/name"
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="223dp"
+            android:layout_height="223dp"
+            android:layout_gravity="center"
+            android:src="@drawable/legoFace"/>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="36dp"
+        android:layout_weight="0.02"></FrameLayout>
 
-    <TextView
-        android:id="@+id/email"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.12">
 
-    <ImageView
-        android:id="@+id/photo"
-        android:layout_width="223dp"
-        android:layout_height="223dp"
-        android:layout_gravity="center" />
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="  username"
+            android:id="@+id/textView3"/>
 
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="ze_do_golo"
+            android:hint="@string/userUsername"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.12">
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="  name"
+            android:id="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="José Arlindo Mendes"
+            android:hint="@string/userName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="84dp">
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="  email"
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="jam@di.uminho.pt"
+            android:hint="@string/userEmail"/>
+    </LinearLayout>
 
 </LinearLayout>
