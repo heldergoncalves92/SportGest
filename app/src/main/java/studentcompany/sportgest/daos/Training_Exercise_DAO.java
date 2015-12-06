@@ -54,9 +54,9 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
 
         //aux variables;
         ArrayList<TrainingExercise> resTrainingExercise = new ArrayList<>();
-        int id;
-        int trainingId;
-        int exerciseId;
+        long id;
+        long trainingId;
+        long exerciseId;
         int repetitions;
 
         //Query
@@ -65,9 +65,9 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndex(COLUMN_ID));
-            trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
-            exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+            id = res.getLong(res.getColumnIndex(COLUMN_ID));
+            trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
+            exerciseId = res.getLong(res.getColumnIndex(COLUMN_EXERCISE_ID));
             repetitions = res.getInt(res.getColumnIndex(COLUMN_REPETITIONS));
             resTrainingExercise.add(new TrainingExercise(id,
                     training_dao.getById(trainingId),
@@ -80,12 +80,12 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
     }
 
     @Override
-    public TrainingExercise getById(int id) throws GenericDAOException {
+    public TrainingExercise getById(long id) throws GenericDAOException {
 
         //aux variables;
         TrainingExercise resTrainingExercise;
-        int trainingId;
-        int exerciseId;
+        long trainingId;
+        long exerciseId;
         int repetitions;
 
         //Query
@@ -93,9 +93,9 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
         res.moveToFirst();
 
         //Parse data
-        id = res.getInt(res.getColumnIndex(COLUMN_ID));
-        trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
-        exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+        id = res.getLong(res.getColumnIndex(COLUMN_ID));
+        trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
+        exerciseId = res.getLong(res.getColumnIndex(COLUMN_EXERCISE_ID));
         repetitions = res.getInt(res.getColumnIndex(COLUMN_REPETITIONS));
         resTrainingExercise = new TrainingExercise(id,
                 training_dao.getById(trainingId),
@@ -120,15 +120,15 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
     public boolean delete(TrainingExercise object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -143,7 +143,7 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -158,21 +158,20 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
             return false;
 
         int fields = 0;
-        String tmpString;
         int tmpInt;
-        float tmpFloat;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getTraining().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getExercise().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+        if ((tmpLong = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
         if ((tmpInt = object.getRepetitions()) >= 0) {
@@ -197,18 +196,19 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
         List<TrainingExercise> resTrainingExercise = new ArrayList<>();
         int fields = 0;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getTraining().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTraining().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getExercise().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpInt );
+        if ((tmpLong = object.getExercise().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
         if ((tmpInt = object.getRepetitions()) >= 0) {
@@ -218,18 +218,18 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
 
         if (fields > 0) {
 
-            int id;
-            int trainingId;
-            int exerciseId;
+            long id;
+            long trainingId;
+            long exerciseId;
             int repetitions;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
-                    trainingId = res.getInt(res.getColumnIndex(COLUMN_TRAINING_ID));
-                    exerciseId = res.getInt(res.getColumnIndex(COLUMN_EXERCISE_ID));
+                    id = res.getLong(res.getColumnIndex(COLUMN_ID));
+                    trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
+                    exerciseId = res.getLong(res.getColumnIndex(COLUMN_EXERCISE_ID));
                     repetitions = res.getInt(res.getColumnIndex(COLUMN_REPETITIONS));
                     resTrainingExercise.add(new TrainingExercise(id,
                             training_dao.getById(trainingId),

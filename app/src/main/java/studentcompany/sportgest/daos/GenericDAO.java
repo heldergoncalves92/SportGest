@@ -44,7 +44,7 @@ public abstract class GenericDAO<T extends DomainPojo> implements IGenericDAO<T>
     public abstract List<T> getAll() throws GenericDAOException;
 
     @Override
-    public abstract T getById(int id) throws GenericDAOException;
+    public abstract T getById(long id) throws GenericDAOException;
 
     @Override
     public abstract long insert(T object) throws GenericDAOException;
@@ -53,7 +53,7 @@ public abstract class GenericDAO<T extends DomainPojo> implements IGenericDAO<T>
     public abstract boolean delete(T object) throws GenericDAOException;
 
     @Override
-    public abstract boolean deleteById(int id) throws GenericDAOException;;
+    public abstract boolean deleteById(long id) throws GenericDAOException;;
 
     @Override
     public abstract boolean update(T object) throws GenericDAOException;

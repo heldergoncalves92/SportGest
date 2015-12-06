@@ -48,7 +48,7 @@ public class CreateRole_Activity extends AppCompatActivity{
     private TextInputLayout inputLayoutName;
 
     //Id of current role displayed
-    private int roleID;
+    private long roleID;
     private String roleNameOriginal="";
 
     @Override
@@ -78,7 +78,7 @@ public class CreateRole_Activity extends AppCompatActivity{
         if(extras != null)
         {
             //get Role ID
-            roleID = extras.getInt(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID);
+            roleID = extras.getLong(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID);
 
             System.err.println("[ROLE ID]" + roleID);
 

@@ -3,7 +3,7 @@ package studentcompany.sportgest.domains;
 
 public class User extends DomainPojo {
 
-    private int id;
+    private long id;
     private String username;
     private String password;
     private String photo;
@@ -11,7 +11,7 @@ public class User extends DomainPojo {
     private String email;
     private Role role;
 
-    public User(int id, String username, String password, String photo, String name, String email, Role role) {
+    public User(long id, String username, String password, String photo, String name, String email, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,11 +31,11 @@ public class User extends DomainPojo {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(int id) {this.id = id;}
+    public void setId(long id) {this.id = id;}
 
     public String getUsername() {
         return username;
@@ -115,7 +115,7 @@ public class User extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (photo != null ? photo.hashCode() : 0);

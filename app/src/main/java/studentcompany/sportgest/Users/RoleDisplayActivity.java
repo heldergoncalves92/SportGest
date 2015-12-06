@@ -34,10 +34,9 @@ public class RoleDisplayActivity extends AppCompatActivity {
     private Role_Permission_DAO role_permission_dao;
 
     //Id of current role displayed
-    private int roleID;
+    private long roleID;
     private TextView roleName;
     private ListView rolePermissionsListView;
-    int edited=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +58,8 @@ public class RoleDisplayActivity extends AppCompatActivity {
         if(extras != null)
         {
             //get Role ID
-            roleID = extras.getInt(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID);
+            roleID = extras.getLong(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID);
 
-            System.err.println("[ROLE ID]" + roleID);
 
             //validation
             if(roleID > 0){
@@ -73,7 +71,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
                     Logger.getLogger(RoleDisplayActivity.class.getName()).log(Level.WARNING, null, ex);
                     role = null;
                 }
-                System.err.println("[INFO] " + role.toString());
+
                 //validation
                 if(role != null) {
                     //set layout variables with information
@@ -143,7 +141,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
             case R.id.Edit:
                 //put current role ID in extras
                 Bundle dataBundle = new Bundle();
-                dataBundle.putInt(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roleID);
+                dataBundle.putLong(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roleID);
                 //declare intention to start CreateRoleActivity
                 Intent intent = new Intent(getApplicationContext(), CreateRole_Activity.class);
                 //add data
@@ -179,7 +177,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
                 return true;
             default:
                 Intent returnIntent = new Intent();
-                setResult(edited,returnIntent);
+                setResult(1,returnIntent);
                 finish();
                 return super.onOptionsItemSelected(item);
 
@@ -200,7 +198,6 @@ public class RoleDisplayActivity extends AppCompatActivity {
 
                     //set list in layout ListView
                     rolePermissionsListView.setAdapter(arrayAdapter);
-                    edited=1;
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
@@ -211,7 +208,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
         super.onStop();
 
         Intent returnIntent = new Intent();
-        setResult(edited, returnIntent);
+        setResult(1, returnIntent);
     }
 
 }

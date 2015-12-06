@@ -32,7 +32,7 @@ public class Role extends DomainPojo {
 
 
     @Override
-    public int getId() { return (int)this.id; }
+    public long getId() { return this.id; }
 
     public void setId(long id) {
         this.id = id;
@@ -69,7 +69,7 @@ public class Role extends DomainPojo {
             return false;
     }
 
-    public boolean hasPermission(int id){
+    public boolean hasPermission(long id){
         for(Permission p : permissionList)
             if(p.getId() == id)
                 return true;
@@ -79,7 +79,7 @@ public class Role extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = (int)id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (permissionList != null ? permissionList.hashCode() : 0);
         return result;

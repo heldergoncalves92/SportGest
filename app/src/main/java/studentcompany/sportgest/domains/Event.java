@@ -1,7 +1,7 @@
 package studentcompany.sportgest.domains;
 
 public class Event extends DomainPojo{
-    private int id;
+    private long id;
     private String description;
     private int date;
     private float posx;
@@ -10,7 +10,7 @@ public class Event extends DomainPojo{
     private Game game;
     private Player player;
 
-    public Event(int id, String description, int date, float posx, float posy, EventCategory eventCategory, Game game, Player player) {
+    public Event(long id, String description, int date, float posx, float posy, EventCategory eventCategory, Game game, Player player) {
         this.id = id;
         this.description = description;
         this.date = date;
@@ -21,7 +21,7 @@ public class Event extends DomainPojo{
         this.player = player;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -53,7 +53,7 @@ public class Event extends DomainPojo{
         return player;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -121,7 +121,7 @@ public class Event extends DomainPojo{
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + date;
         result = 31 * result + (posx != +0.0f ? Float.floatToIntBits(posx) : 0);

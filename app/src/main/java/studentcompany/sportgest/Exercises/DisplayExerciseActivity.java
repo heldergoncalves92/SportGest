@@ -96,7 +96,7 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     exerciseDescription.setClickable(false);
 
                     //get list of attributes allocated to some exerciseID
-                    ArrayList<Pair<Attribute, Exercise>> exerciseAttributes;
+                    ArrayList<Attribute> exerciseAttributes;
                     try {
                         exerciseAttributes = new ArrayList<>(attribute_exercise_dao.getBySecondId(exerciseID));
                     } catch (GenericDAOException ex){
@@ -106,8 +106,8 @@ public class DisplayExerciseActivity extends AppCompatActivity {
                     }
                     //Construct a new array with only the attribute names
                     ArrayList<String> array_list = new ArrayList<>();
-                    for(Pair<Attribute, Exercise> ec : exerciseAttributes){
-                        array_list.add(ec.getFirst().getName());
+                    for(Attribute ec : exerciseAttributes){
+                        array_list.add(ec.getName());
                     }
                     ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 

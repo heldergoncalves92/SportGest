@@ -62,7 +62,7 @@ public class RolesListActivity extends AppCompatActivity {
                 //int id_To_Search = position + 1;
 
                 Bundle dataBundle = new Bundle();
-                dataBundle.putInt(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roleList.get(position).getId());
+                dataBundle.putLong(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roleList.get(position).getId());
 
                 Intent intent = new Intent(getApplicationContext(), RoleDisplayActivity.class);
 

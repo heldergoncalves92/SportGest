@@ -1,12 +1,12 @@
 package studentcompany.sportgest.domains;
 
 public class Attribute extends DomainPojo {
-    private int id;
+    private long id;
     private String type;
     private String name;
     private int deleted;
 
-    public Attribute(int id, String type, String name, int deleted) {
+    public Attribute(long id, String type, String name, int deleted) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -14,7 +14,7 @@ public class Attribute extends DomainPojo {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Attribute extends DomainPojo {
         return deleted;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -67,7 +67,7 @@ public class Attribute extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + deleted;

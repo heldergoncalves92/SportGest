@@ -39,7 +39,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     @Override
     public List<Position> getAll() throws GenericDAOException {
         ArrayList<Position> Position = new ArrayList<>();
-        int id;
+        long id;
         String name;
 
         //Query
@@ -48,7 +48,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             Position.add(new Position(id, name));
             res.moveToNext();
@@ -58,7 +58,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     }
 
     @Override
-    public Position getById(int id) throws GenericDAOException {
+    public Position getById(long id) throws GenericDAOException {
          Position resPosition;
         String name;
 
@@ -67,7 +67,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
         res.moveToFirst();
         if(res.getCount()==1){
         //Parse data
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             resPosition= new Position(id, name);
 
@@ -88,15 +88,15 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
     public boolean delete(Position object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -107,7 +107,7 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -118,11 +118,70 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
 
     @Override
     public boolean exists(Position object) throws GenericDAOException {
-        return false;
+
+        if(object==null)
+            return false;
+
+        int fields = 0;
+        String tmpString;
+        long tmpLong;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
+            fields++;
+        }
+
+        if (fields > 0) {
+            Cursor res = db.rawQuery(statement.toString(), null);
+            return res.moveToFirst();
+        }
+        else
+            return false;
     }
 
     @Override
     public List<Position> getByCriteria(Position object) throws GenericDAOException {
-        return null;
+
+        if(object==null)
+            return null;
+
+        List<Position> resPosition = new ArrayList<>();
+        int fields = 0;
+        String tmpString;
+        long tmpLong;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
+            fields++;
+        }
+        if ((tmpString = object.getName()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
+            fields++;
+        }
+
+        if (fields > 0) {
+
+            long id;
+            String name;
+
+            Cursor res = db.rawQuery( statement.toString(), null );
+            if(res.moveToFirst())
+
+                while(res.isAfterLast() == false) {
+                    id = res.getLong(res.getColumnIndex(COLUMN_ID));
+                    name = res.getString(res.getColumnIndex(COLUMN_NAME));
+                    resPosition.add(new Position(id, name));
+                    res.moveToNext();
+                }
+        }
+
+
+        return resPosition;
     }
 }

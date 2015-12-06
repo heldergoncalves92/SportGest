@@ -40,10 +40,10 @@ public abstract class GenericPairDAO<A extends DomainPojo, B extends DomainPojo>
     public abstract List<Pair<A,B>> getAll() throws GenericDAOException;
 
     @Override
-    public abstract List<Pair<A, B>> getByFirstId(int id) throws GenericDAOException;
+    public abstract List<B> getByFirstId(long id) throws GenericDAOException;
 
     @Override
-    public abstract List<Pair<A, B>> getBySecondId(int id) throws GenericDAOException;
+    public abstract List<A> getBySecondId(long id) throws GenericDAOException;
 
     @Override
     public abstract long insert(Pair<A,B> object) throws GenericDAOException;

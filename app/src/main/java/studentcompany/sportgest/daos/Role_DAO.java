@@ -42,7 +42,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
     @Override
     public List<Role> getAll() throws GenericDAOException {
         ArrayList<Role> resRole = new ArrayList<>();
-        int id;
+        long id;
         String name;
 
         //Query
@@ -51,7 +51,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
 
         //Parse data
         while(!res.isAfterLast()) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
             resRole.add(new Role(id, name, null)); //TODO CHANGE NULL TO A LIST OF PERMISSIONS
             res.moveToNext();
@@ -62,7 +62,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
     }
 
     @Override
-    public Role getById(int id) throws GenericDAOException {
+    public Role getById(long id) throws GenericDAOException {
 
 
         //Query
@@ -100,10 +100,10 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
         return deleteById(object.getId());
     }
 
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) }) > 0;
+                new String[] { Long.toString(id) }) > 0;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(object.getId())}) >0 ? true : false ;
+                new String[]{Long.toString(object.getId())}) >0 ? true : false ;
 
     }
 
@@ -133,11 +133,11 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
 
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID).append("=").append(tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID).append("=").append(tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -162,11 +162,11 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
         List<Role> roles = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID).append("=").append(tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID).append("=").append(tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -179,7 +179,7 @@ public class Role_DAO extends GenericDAO<Role> implements IGenericDAO<Role>{
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
                 while(res.isAfterLast() == false) {
-                    int id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    long id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     String name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
                     roles.add(new Role(id, name, null));//TODO CHANGE NULL TO A LIST OF PERMISSIONS
                     res.moveToNext();

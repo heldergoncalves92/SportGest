@@ -12,8 +12,8 @@ public class Permission extends DomainPojo {
     private long id;
     private String description;
     @Override
-    public int getId() {
-        return (int)id;
+    public long getId() {
+        return id;
     }
 
     // Constructors
@@ -53,7 +53,7 @@ public class Permission extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = (int)id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
