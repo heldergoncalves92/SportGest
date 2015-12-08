@@ -40,13 +40,13 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private static final String TAG = "USERS_ACTIVITY";
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
+        if(savedInstanceState != null)
+            currentPos = savedInstanceState.getInt("currentPos");
 
         //this.testUsers();
         try {
@@ -75,6 +75,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         fragmentTransaction.add(R.id.detail_fragment_container, mDetailsUser);
 
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
     }
 
     public List<String> getNamesList(List<User> usersList){
@@ -179,6 +184,13 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+            mDetailsUser.showUser(users.get(currentPos));
+        }
         return true;
     }
 

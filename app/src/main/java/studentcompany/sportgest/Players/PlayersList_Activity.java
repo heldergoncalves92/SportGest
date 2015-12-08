@@ -34,14 +34,12 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
-
     private int baseTeamID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
     private DetailsPlayers_Fragment mDetailsPlayer = new DetailsPlayers_Fragment();
     private static final String TAG = "PLAYERS_LIST_ACTIVITY";
-
 
 
     @Override
@@ -57,6 +55,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
             } else
                 baseTeamID = 0;
+
+        } else {
+            baseTeamID = savedInstanceState.getInt("baseTeamID");
+            currentPos = savedInstanceState.getInt("currentPos");
         }
 
         try {
@@ -74,7 +76,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             e.printStackTrace();
         }
 
-
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
 
@@ -86,6 +87,13 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         fragmentTransaction.add(R.id.detail_fragment_container, mDetailsPlayer);
 
         fragmentTransaction.commit();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("baseTeamID", baseTeamID);
+        outState.putInt("currentPos", currentPos);
     }
 
     public List<String> getNamesList(List<Player> playerList){
@@ -126,7 +134,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
      ****     Listener Functions     ****
      ************************************/
 
-
     public void itemSelected(int position) {
         Player player = players.get(position);
 
@@ -150,6 +157,13 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+            mDetailsPlayer.showPlayer(players.get(currentPos));
+        }
         return true;
     }
 
