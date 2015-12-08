@@ -45,18 +45,24 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="435dp"
-        android:padding="20dp">
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_margin="3dp">
 
         <GridView
             android:id="@+id/roleCreatePermissions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:isScrollContainer="false"
+            android:scrollbars="vertical"
+            android:numColumns="2"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="20dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

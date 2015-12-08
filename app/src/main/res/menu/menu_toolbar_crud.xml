@@ -20,7 +20,7 @@
     <item
         android:id="@+id/Save"
         android:orderInCategory="102"
-        android:title="@string/delete"
+        android:title="@string/save"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_done"/>
 
