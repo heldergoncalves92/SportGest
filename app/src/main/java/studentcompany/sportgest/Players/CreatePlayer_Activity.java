@@ -68,7 +68,7 @@ public class CreatePlayer_Activity extends AppCompatActivity {
 
         String nickname = tv_nickname.getText().toString();
         String name = tv_name.getText().toString();
-        String nationality = tv_nationality.getSelectedItem().toString();
+        String nationality = tv_nationality.getSelectedItem()!=null ? tv_nationality.getSelectedItem().toString() : "TUGA";
         String maritalStatus = tv_maritalStatus.getSelectedItem().toString();
         int day = tv_birthday.getDayOfMonth();
         int month = tv_birthday.getMonth() + 1;
