@@ -1,31 +1,22 @@
 package studentcompany.sportgest.Users;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Role;
-import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.User;
 
-public class CreateUser_Activity extends AppCompatActivity {
+public class EditUser_Activity extends AppCompatActivity {
 
     //DAOs
     private User_DAO user_dao;
@@ -36,7 +27,14 @@ public class CreateUser_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_user);
+        setContentView(R.layout.activity_edit_user);
+
+        EditText tv_username = (EditText) findViewById(R.id.username);
+        EditText tv_name = (EditText) findViewById(R.id.name);
+        EditText tv_email = (EditText) findViewById(R.id.email);
+        EditText tv_password1 = (EditText) findViewById(R.id.password1);
+        EditText tv_password2 = (EditText) findViewById(R.id.password2);
+        ImageView tv_photo = (ImageView) findViewById(R.id.photo);
 
         user_dao = new User_DAO(this);
     }
@@ -62,7 +60,7 @@ public class CreateUser_Activity extends AppCompatActivity {
         switch(item.getItemId())
         {
             //add action
-            case R.id.Add:
+            case R.id.Edit:
 
                 EditText tv_username = (EditText) findViewById(R.id.username);
                 EditText tv_name = (EditText) findViewById(R.id.name);

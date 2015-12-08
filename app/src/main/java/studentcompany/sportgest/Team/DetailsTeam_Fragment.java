@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -37,7 +39,7 @@ public class DetailsTeam_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_players_details, container, false);
+        View view =  lf.inflate(R.layout.fragment_team_details, container, false);
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_description = (TextView) view.findViewById(R.id.description);
         tv_season = (TextView) view.findViewById(R.id.season);
@@ -49,10 +51,23 @@ public class DetailsTeam_Fragment extends Fragment {
 
     public void showTeam(Team team){
 
-        tv_name.setText(team.getName());
-        tv_description.setText(team.getDescription());
-        tv_season.setText(team.getSeason());
-        tv_logo.setImageURI(Uri.parse(team.getLogo()));
+        if(team.getName()!=null)
+            tv_name.setText(team.getName());
+        else
+            tv_name.setText("");
+
+        if(team.getDescription()!=null)
+            tv_description.setText(team.getDescription());
+        else
+            tv_description.setText("");
+
+        tv_season.setText(Integer.toString(team.getSeason()));
+
+        if(team.getLogo()!=null)
+            tv_logo.setImageURI(Uri.parse(team.getLogo()));
+        else
+            tv_logo.setImageURI(Uri.parse(""));
+
         boolean selected = team.getIs_com()==1;
         tv_isCom.setSelected(selected);
     }
@@ -64,6 +79,15 @@ public class DetailsTeam_Fragment extends Fragment {
         tv_season.setText("");
         tv_isCom.setSelected(false);
         tv_logo.setImageURI(Uri.parse("defaulf"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        editItem.setVisible(false);
+        return true;
     }
 
 }

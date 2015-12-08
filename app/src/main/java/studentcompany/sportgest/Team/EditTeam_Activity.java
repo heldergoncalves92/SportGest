@@ -7,14 +7,16 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 
-public class CreateTeam_Activity extends AppCompatActivity {
+public class EditTeam_Activity extends AppCompatActivity {
 
     //DAOs
     private Team_DAO team_dao;
@@ -25,9 +27,16 @@ public class CreateTeam_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_team);
-        
+        setContentView(R.layout.activity_edit_team);
+
+        EditText tv_name = (EditText) findViewById(R.id.name);
+        EditText tv_description = (EditText) findViewById(R.id.description);
+        EditText tv_season = (EditText) findViewById(R.id.season);
+        CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
+        ImageView tv_logo = (ImageView) findViewById(R.id.logo);
+
         team_dao = new Team_DAO(this);
+
     }
 
     @Override
@@ -51,7 +60,7 @@ public class CreateTeam_Activity extends AppCompatActivity {
         switch(item.getItemId())
         {
             //add action
-            case R.id.Add:
+            case R.id.Edit:
 
                 EditText tv_name = (EditText) findViewById(R.id.name);
                 EditText tv_description = (EditText) findViewById(R.id.description);

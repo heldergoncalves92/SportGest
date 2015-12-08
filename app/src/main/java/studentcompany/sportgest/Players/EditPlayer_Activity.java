@@ -7,23 +7,18 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
 
-public class CreatePlayer_Activity extends AppCompatActivity {
+public class EditPlayer_Activity extends AppCompatActivity {
 
     //DAOs
     private Player_DAO player_dao;
@@ -31,12 +26,25 @@ public class CreatePlayer_Activity extends AppCompatActivity {
     Player player = null;
     int playerID = -1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_player);
+        setContentView(R.layout.activity_edit_player);
+
+        EditText tv_nickname = (EditText) findViewById(R.id.nickname);
+        EditText tv_name = (EditText) findViewById(R.id.name);
+        Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
+        Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
+        DatePicker tv_birthday = (DatePicker) findViewById(R.id.birthday);
+        EditText tv_height = (EditText) findViewById(R.id.height);
+        EditText tv_weight = (EditText) findViewById(R.id.weight);
+        EditText tv_address = (EditText) findViewById(R.id.address);
+        Spinner tv_gender = (Spinner) findViewById(R.id.gender);
+        EditText tv_email = (EditText) findViewById(R.id.email);
+        Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
+        EditText tv_number = (EditText) findViewById(R.id.number);
+        ImageView tv_photo = (ImageView) findViewById(R.id.photo);
+        Spinner tv_position = (Spinner) findViewById(R.id.position);
 
         player_dao = new Player_DAO(this);
     }
@@ -48,7 +56,7 @@ public class CreatePlayer_Activity extends AppCompatActivity {
         MenuItem editItem = menu.findItem(R.id.Edit);
         MenuItem delItem = menu.findItem(R.id.Delete);
         MenuItem addItem = menu.findItem(R.id.Add);
-        editItem.setVisible(false);
+        editItem.setVisible(true);
         delItem.setVisible(false);
         addItem.setVisible(true);
 
@@ -62,7 +70,7 @@ public class CreatePlayer_Activity extends AppCompatActivity {
         switch(item.getItemId())
         {
             //add action
-            case R.id.Add:
+            case R.id.Edit:
                 EditText tv_nickname = (EditText) findViewById(R.id.nickname);
                 EditText tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);

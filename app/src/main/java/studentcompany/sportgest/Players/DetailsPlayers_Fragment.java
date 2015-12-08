@@ -1,26 +1,21 @@
 package studentcompany.sportgest.Players;
 
 
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.util.Date;
-
+import android.view.Menu;
+import android.view.MenuItem;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.User;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,19 +61,57 @@ public class DetailsPlayers_Fragment extends Fragment {
 
     public void showPlayer(Player player){
 
-        tv_nickname.setText(player.getNickname());
-        tv_name.setText(player.getName());
-        tv_nationality.setText(player.getNationality());
-        tv_maritalStatus.setText(player.getMarital_status()!=null?player.getMarital_status():"Solteiro");
+        if(player.getNickname()!=null)
+            tv_nickname.setText(player.getNickname());
+        else
+            tv_nickname.setText("");
+
+        if(player.getName()!=null)
+            tv_name.setText(player.getName());
+        else
+            tv_name.setText("");
+
+        if(player.getNationality()!=null)
+            tv_nationality.setText(player.getNationality());
+        else
+            tv_nationality.setText("");
+
+        if(player.getMarital_status()!=null)
+            tv_maritalStatus.setText(player.getMarital_status());
+        else
+            tv_maritalStatus.setText("");
+
         tv_birthday.setText(Integer.toString(player.getBirthDate()));
         tv_height.setText(String.valueOf(player.getHeight()));
         tv_weight.setText(String.valueOf(player.getWeight()));
-        tv_address.setText(player.getAddress());
-        tv_gender.setText(player.getGender());
-        tv_email.setText(player.getEmail());
-        tv_preferredFoot.setText(player.getPreferredFoot());
+
+        if(player.getAddress()!=null)
+            tv_address.setText(player.getAddress());
+        else
+            tv_address.setText("");
+
+        if(player.getGender()!=null)
+            tv_gender.setText(player.getGender());
+        else
+            tv_gender.setText("");
+
+        if(player.getEmail()!=null)
+            tv_email.setText(player.getEmail());
+        else
+            tv_email.setText("");
+
+        if(player.getPreferredFoot()!=null)
+            tv_preferredFoot.setText(player.getPreferredFoot());
+        else
+            tv_preferredFoot.setText("");
+
         tv_number.setText(String.valueOf(player.getNumber()));
-        tv_photo.setImageURI(Uri.parse(player.getPhoto()));
+
+        if(player.getPhoto()!=null)
+            tv_photo.setImageURI(Uri.parse(player.getPhoto()));
+        else
+            tv_photo.setImageURI(Uri.parse(""));
+
         String position = "";
         if(player.getPosition()!=null)
             position=player.getPosition().getName();
@@ -104,5 +137,14 @@ public class DetailsPlayers_Fragment extends Fragment {
         tv_number.setText("");
         tv_photo.setImageURI(Uri.parse("defaulf"));
         tv_position.setText("");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        editItem.setVisible(false);
+        return true;
     }
 }
