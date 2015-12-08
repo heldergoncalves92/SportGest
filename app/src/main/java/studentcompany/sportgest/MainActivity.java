@@ -103,13 +103,17 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()) {
-            case R.id.nav_home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+            //case R.id.nav_home:
+            case android.R.id.home:
+                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                else
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_settings:
                 return true;
             default:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                //mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
 
