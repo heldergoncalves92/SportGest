@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Team;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,7 +21,7 @@ public class CreateTeam_Activity extends AppCompatActivity {
     private Team_DAO team_dao;
 
     Team team = null;
-    int teamID = -1;
+    long teamID = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +72,18 @@ public class CreateTeam_Activity extends AppCompatActivity {
 
                 //insert/update database
                 try {
-                    if(teamID > 0){
-                        team_dao.update(team);
-                    } else {
-                        team_dao.insert(team);
-                    }
+
+                    teamID = team_dao.insert(team);
+
                 }catch (GenericDAOException ex){
                     System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
+
+                Intent intent = new Intent();
+                intent.putExtra("id",teamID);
+                setResult(1, intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

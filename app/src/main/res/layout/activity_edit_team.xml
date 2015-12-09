@@ -112,12 +112,12 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
-                    <Button
-                        style="?android:attr/buttonStyleSmall"
+                    <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit Squad"
-                        android:id="@+id/squad" />
+                        android:id="@+id/squad"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_group_add_black_24dp"/>
 
                 </LinearLayout>
 

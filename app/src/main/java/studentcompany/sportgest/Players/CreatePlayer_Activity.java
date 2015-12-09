@@ -1,9 +1,12 @@
 package studentcompany.sportgest.Players;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +37,12 @@ public class CreatePlayer_Activity extends AppCompatActivity {
     private Player_DAO player_dao;
 
     Player player = null;
-    int playerID = -1;
+    long playerID = -1;
+
+    private final int CREATE_TAG = 20;
+    private final String FILENAME_COUNTRIES = "";
+    private final String FILENAME_GENDERS = "";
+    private final String FILENAME_MARITALSTATUS = "";
 
 
 
@@ -67,7 +80,7 @@ public class CreatePlayer_Activity extends AppCompatActivity {
                 EditText tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-                DatePicker tv_birthday = (DatePicker) findViewById(R.id.birthday);
+                //TODO: por a data a vir do botao
                 EditText tv_height = (EditText) findViewById(R.id.height);
                 EditText tv_weight = (EditText) findViewById(R.id.weight);
                 EditText tv_address = (EditText) findViewById(R.id.address);
@@ -78,41 +91,73 @@ public class CreatePlayer_Activity extends AppCompatActivity {
                 ImageView tv_photo = (ImageView) findViewById(R.id.photo);
                 Spinner tv_position = (Spinner) findViewById(R.id.position);
 
+                ArrayList<String> gendersList = new ArrayList<>();
+                gendersList.add("Male");
+                gendersList.add("Female");
+
+                Resources res = getResources();
+                String[] countries_array = res.getStringArray(R.array.countries_array);
+                String[] marital_array = res.getStringArray(R.array.marital_status);
+
+                ArrayList<String> preferredList = new ArrayList<>();
+                preferredList.add("Right");
+                preferredList.add("Left");
+
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item, gendersList);
+                tv_gender.setAdapter(adapter1);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item, countries_array);
+                tv_nationality.setAdapter(adapter2);
+                ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item, marital_array);
+                tv_maritalStatus.setAdapter(adapter3);
+                ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item, preferredList);
+                tv_preferredFoot.setAdapter(adapter4);
+
                 String nickname = tv_nickname.getText().toString();
                 String name = tv_name.getText().toString();
                 String nationality = tv_nationality.getSelectedItem()!=null ? tv_nationality.getSelectedItem().toString() : "TUGA";
-                String maritalStatus = tv_maritalStatus.getSelectedItem().toString();
-                int day = tv_birthday.getDayOfMonth();
-                int month = tv_birthday.getMonth() + 1;
-                int year = tv_birthday.getYear();
+                String maritalStatus = "";
+                if(tv_maritalStatus.getSelectedItem()!=null)
+                    maritalStatus=tv_maritalStatus.getSelectedItem().toString();
+                //TODO corrigir data
                 //corrigir quando a data estiver direita
                 //String birthday = year+"-"+month+"-"+day;
-                int birthday = year;
+                int birthday = 1;
                 int height = Integer.parseInt(tv_height.getText().toString());
                 float weight = Float.parseFloat(tv_weight.getText().toString());
                 String address = tv_address.getText().toString();
-                String gender = tv_gender.getSelectedItem().toString();
+                String gender = "";
+                if(tv_gender.getSelectedItem()!=null)
+                    gender = tv_gender.getSelectedItem().toString();
                 String email = tv_email.getText().toString();
-                String preferredFoot = tv_preferredFoot.getSelectedItem().toString();
+                String preferredFoot = "";
+                if(tv_preferredFoot.getSelectedItem()!=null)
+                     preferredFoot = tv_preferredFoot.getSelectedItem().toString();
                 int number = Integer.parseInt(tv_number.getText().toString());
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
-                Position position = (Position) tv_position.getSelectedItem();
+                Position position = null;
+                if(tv_position.getSelectedItem()!=null)
+                    position = (Position) tv_position.getSelectedItem();
 
                 player=new Player(nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
 
                 //insert/update database
                 try {
-                    if(playerID > 0){
-                        player_dao.update(player);
-                    } else {
-                        player_dao.insert(player);
-                    }
+                    playerID=player_dao.insert(player);
                 }catch (GenericDAOException ex){
                     System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
+
+                Intent intent = new Intent();
+                intent.putExtra("id",playerID);
+                setResult(1, intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

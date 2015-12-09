@@ -120,14 +120,14 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
-                    <Button
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Edit Squad"
-                        android:id="@+id/squad" />
-
                 </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/squad"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_group_add_black_24dp"/>
 
                 <View
                     android:id="@+id/SplitLine_hor3"

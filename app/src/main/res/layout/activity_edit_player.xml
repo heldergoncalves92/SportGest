@@ -137,12 +137,13 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
-                    <DatePicker
+                    <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/birthday"
                         android:hint="@string/playerBirthday"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_event_black_24dp"/>
 
                 </LinearLayout>
 

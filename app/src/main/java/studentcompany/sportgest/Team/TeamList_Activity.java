@@ -17,10 +17,12 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import studentcompany.sportgest.Players.EditPlayer_Activity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
+import studentcompany.sportgest.domains.User;
 
 public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fragment.OnItemSelected{
 
@@ -34,6 +36,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
     private ListTeam_Fragment mListTeams = new ListTeam_Fragment();
     private DetailsTeam_Fragment mDetailsTeam = new DetailsTeam_Fragment();
     private static final String TAG = "TEAM_ACTIVITY";
+
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +105,13 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
-            }
 
-            currentPos = position;
-            mDetailsTeam.showTeam(team);
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
+
+                currentPos = position;
+                mDetailsTeam.showTeam(team);
+            }
         }
     }
 
@@ -166,13 +174,20 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreateTeam_Activity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_TAG);
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
+
+            case R.id.action_edit:
+                Intent intent2 = new Intent(this, EditTeam_Activity.class);
+                intent2.putExtra("id",teams.get(currentPos).getId());
+                startActivityForResult(intent2, EDIT_TAG);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -215,5 +230,37 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         teams.add(u4);
 
         mListTeams.setList(getNamesList(teams));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Team team = null;
+        if (requestCode == EDIT_TAG) {
+            if(resultCode == 1){
+                try {
+                    team=teamDao.getById(teams.get(currentPos).getId());
+                    teams.set(currentPos,team);
+                    mDetailsTeam.showTeam(team);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (requestCode == CREATE_TAG) {
+            if(resultCode == 1){
+                try {
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    //System.out.println("ID TO SEARCH "+idToSearch);
+                    team=teamDao.getById(idToSearch);
+                    teams.add(team);
+                    mDetailsTeam.showTeam(team);
+                    //mDetailsPlayer.
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

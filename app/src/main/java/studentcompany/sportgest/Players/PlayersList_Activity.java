@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private List<Player> players;
     private int currentPos = -1;
     private Menu mOptionsMenu;
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
+
 
 
     private DialogFragment mDialog;
@@ -106,10 +110,13 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
-            }
 
-            currentPos = position;
-            mDetailsPlayer.showPlayer(player);
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
+
+                currentPos = position;
+                mDetailsPlayer.showPlayer(player);
+            }
         }
     }
 
@@ -131,12 +138,20 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreatePlayer_Activity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_TAG);
+
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
-                mDialog.show(mFragmentManager,"Alert");
+                mDialog.show(mFragmentManager, "Alert");
+                return true;
+
+            case R.id.action_edit:
+                Intent intent2 = new Intent(this, EditPlayer_Activity.class);
+                intent2.putExtra("id",players.get(currentPos).getId());
+                startActivityForResult(intent2,EDIT_TAG);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -223,5 +238,37 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         players.add(p4);
 
         mListPlayer.setList(getNamesList(players));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Player player = null;
+        if (requestCode == EDIT_TAG) {
+            if(resultCode == 1){
+                try {
+                    player=playerDao.getById(players.get(currentPos).getId());
+                    players.set(currentPos,player);
+                    mDetailsPlayer.showPlayer(player);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (requestCode == CREATE_TAG) {
+            if(resultCode == 1){
+                try {
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    //System.out.println("ID TO SEARCH "+idToSearch);
+                    player=playerDao.getById(idToSearch);
+                    players.add(player);
+                    mDetailsPlayer.showPlayer(player);
+                    //mDetailsPlayer.
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

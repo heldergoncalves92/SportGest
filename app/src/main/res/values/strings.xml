@@ -75,6 +75,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="teamName">Name</string>
     <string name="teamDescription">Description</string>
     <string name="teamSeason">Season</string>
-
+    <string name="userPasswordOriginal">Actual password</string>
 
 </resources>

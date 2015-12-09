@@ -227,7 +227,9 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
         contentValues.put(COLUMN_PREFERRED_FOOT, object.getNumber());
-        contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        if(object.getTeam()!=null)
+            contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        if(object.getPosition()!=null)
         contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
 
         db.update(TABLE_NAME,
