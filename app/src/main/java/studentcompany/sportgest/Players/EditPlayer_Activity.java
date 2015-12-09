@@ -43,7 +43,7 @@ public class EditPlayer_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            playerID = b.getInt("id");
+            playerID = (int) b.get("id");
         }
 
 

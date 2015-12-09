@@ -65,6 +65,46 @@ public class CreatePlayer_Activity extends AppCompatActivity {
         delItem.setVisible(false);
         addItem.setVisible(true);
 
+        EditText tv_nickname = (EditText) findViewById(R.id.nickname);
+        EditText tv_name = (EditText) findViewById(R.id.name);
+        Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
+        Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
+        EditText tv_height = (EditText) findViewById(R.id.height);
+        EditText tv_weight = (EditText) findViewById(R.id.weight);
+        EditText tv_address = (EditText) findViewById(R.id.address);
+        Spinner tv_gender = (Spinner) findViewById(R.id.gender);
+        EditText tv_email = (EditText) findViewById(R.id.email);
+        Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
+        EditText tv_number = (EditText) findViewById(R.id.number);
+        ImageView tv_photo = (ImageView) findViewById(R.id.photo);
+        Spinner tv_position = (Spinner) findViewById(R.id.position);
+
+
+        ArrayList<String> gendersList = new ArrayList<>();
+        gendersList.add("Male");
+        gendersList.add("Female");
+
+        Resources res = getResources();
+        String[] countries_array = res.getStringArray(R.array.countries_array);
+        String[] marital_array = res.getStringArray(R.array.marital_status);
+
+        ArrayList<String> preferredList = new ArrayList<>();
+        preferredList.add("Right");
+        preferredList.add("Left");
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, gendersList);
+        tv_gender.setAdapter(adapter1);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, countries_array);
+        tv_nationality.setAdapter(adapter2);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, marital_array);
+        tv_maritalStatus.setAdapter(adapter3);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, preferredList);
+        tv_preferredFoot.setAdapter(adapter4);
+
         return true;
     }
 
@@ -90,31 +130,6 @@ public class CreatePlayer_Activity extends AppCompatActivity {
                 EditText tv_number = (EditText) findViewById(R.id.number);
                 ImageView tv_photo = (ImageView) findViewById(R.id.photo);
                 Spinner tv_position = (Spinner) findViewById(R.id.position);
-
-                ArrayList<String> gendersList = new ArrayList<>();
-                gendersList.add("Male");
-                gendersList.add("Female");
-
-                Resources res = getResources();
-                String[] countries_array = res.getStringArray(R.array.countries_array);
-                String[] marital_array = res.getStringArray(R.array.marital_status);
-
-                ArrayList<String> preferredList = new ArrayList<>();
-                preferredList.add("Right");
-                preferredList.add("Left");
-
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                        android.R.layout.simple_spinner_item, gendersList);
-                tv_gender.setAdapter(adapter1);
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                        android.R.layout.simple_spinner_item, countries_array);
-                tv_nationality.setAdapter(adapter2);
-                ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                        android.R.layout.simple_spinner_item, marital_array);
-                tv_maritalStatus.setAdapter(adapter3);
-                ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                        android.R.layout.simple_spinner_item, preferredList);
-                tv_preferredFoot.setAdapter(adapter4);
 
                 String nickname = tv_nickname.getText().toString();
                 String name = tv_name.getText().toString();
