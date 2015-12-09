@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ListExerciseActivity;
+import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
@@ -21,7 +22,7 @@ import studentcompany.sportgest.Users.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton, exerciseButton, rolesButton;
+    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton;
     private MenuItem menuItem;
     private DrawerLayout mDrawerLayout;
 
@@ -74,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //gameButton
+        gamebutton = (Button)findViewById(R.id.game_button);
+        gamebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CallSquad_Activity.class);
+
+                startActivity(intent);
+            }
+        });
+
 
         //RoleButton
         rolesButton = (Button)findViewById(R.id.roles_button);

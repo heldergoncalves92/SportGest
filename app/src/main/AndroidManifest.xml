@@ -50,6 +50,9 @@
             android:name=".Exercises.ListExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".Games.CallSquad_Activity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".Users.RolesListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity

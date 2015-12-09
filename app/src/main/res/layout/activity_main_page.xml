@@ -43,6 +43,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Game"
+            android:id="@+id/game_button" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/roles_button"
             android:id="@+id/roles_button"/>
 

@@ -1,75 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Name of Squad"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="7" />
-
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="416dp"
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp">
+        android:layout_weight="0.87">
 
 
         <ListView
-            android:id="@+id/exerciseAvailableAttributes"
-            android:layout_width="420dp"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="20dp" />
+            android:id="@+id/listplayer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.16" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:gravity="center">
+        <FrameLayout
+            android:id="@+id/detail_fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.73"/>
 
-            <Button
-                android:id="@+id/addAttribute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+" />
 
-            <Button
-                android:id="@+id/selectAttribute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=">" />
-
-            <Button
-                android:id="@+id/deselectAttribute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=">" />
-
-            <Button
-                android:id="@+id/removeAttribute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/selectedAttributes"
-            android:layout_width="420dp"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="20dp" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="add"
+        android:id="@+id/add_button"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
