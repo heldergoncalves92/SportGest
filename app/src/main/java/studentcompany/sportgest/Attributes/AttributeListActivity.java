@@ -43,13 +43,8 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
 
         try {
             attribute_dao = new Attribute_DAO(getApplicationContext());
-            attributeList = attribute_dao.getAll();
-            if(attributeList.isEmpty()) {
-                new AttributeTestData(getApplicationContext());
-                attributeList = attribute_dao.getAll();
-            }
+            updateAttributeList();
             mListAttributes.setAttributeList(getNamesList(attributeList));
-
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -87,6 +82,14 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+    }
+
+    public void updateAttributeList() throws GenericDAOException {
+        attributeList = attribute_dao.getAll();
+        if(attributeList.isEmpty()) {
+            new AttributeTestData(getApplicationContext());
+            attributeList = attribute_dao.getAll();
+        }
     }
     /************************************
      ****     Listener Functions     ****
@@ -155,7 +158,7 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_users_view, menu);
+        inflater.inflate(R.menu.menu_attributes_list, menu);
         return true;
     }
 
@@ -166,14 +169,14 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
             case R.id.action_add:
                 Intent intent = new Intent(this, CreateAttributeActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
-
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return false;
         }
     }
 }
