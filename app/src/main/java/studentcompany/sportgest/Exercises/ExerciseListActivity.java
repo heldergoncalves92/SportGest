@@ -18,14 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
+import studentcompany.sportgest.daos.GenericDAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
 public class ExerciseListActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
 
     private Exercise_DAO exercise_dao;
+    private Attribute_Exercise_DAO attribute_exercise_dao;
     private List<Exercise> exerciseList;
+    private List<Attribute> exerciseAttributesList;
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
@@ -43,6 +48,8 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         try {
             exercise_dao = new Exercise_DAO(getApplicationContext());
+            attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
+
             exerciseList = exercise_dao.getAll();
             if(exerciseList.isEmpty()) {
                 new ExerciseTestData(getApplicationContext());
@@ -53,6 +60,18 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+
+        /*//if there are at lest one element, display the first one
+        if(exerciseList.size() > 0){
+            try {
+                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exerciseList.get(0).getId());
+            } catch (GenericDAOException ex){
+                ex.printStackTrace();
+                exerciseAttributesList = new ArrayList<>();
+            }
+            System.out.println(exerciseList.get(0).toString());
+            mDetailsExercise.showExercise(exerciseList.get(0), getAttributesNamesList(exerciseAttributesList));
+        }*/
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -72,6 +91,15 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         for(Exercise e: exerciseList)
             list.add(e.getTitle());
+
+        return list;
+    }
+
+    public List<String> getAttributesNamesList(List<Attribute> attributeList){
+        ArrayList<String> list = new ArrayList<>();
+
+        for(Attribute a: attributeList)
+            list.add(a.getName());
 
         return list;
     }
@@ -101,7 +129,13 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
             }
 
             currentPos = position;
-            mDetailsExercise.showExercise(exercise);
+            try {
+                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
+            } catch (GenericDAOException ex){
+                ex.printStackTrace();
+                exerciseAttributesList = new ArrayList<>();
+            }
+            mDetailsExercise.showExercise(exercise, getAttributesNamesList(exerciseAttributesList));
         }
     }
 
