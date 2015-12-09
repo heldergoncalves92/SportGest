@@ -41,15 +41,6 @@
             android:name=".Team.CreateTeam_Activity"
             android:label="@string/app_newTeam"/>
         <activity
-            android:name=".Exercises.CreateExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Exercises.DisplayExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Exercises.ListExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
             android:name=".Games.CallSquad_Activity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
@@ -75,10 +66,6 @@
             android:label="@string/app_newExercise"/>
         <activity android:name=".Trainings.CreateTrainingActivity"
             android:label="@string/app_newTraining"/>
-        <activity android:name=".Users.CreateUser_Activity"
-            android:label="@string/app_newUser"/>
-        <activity android:name=".Players.CreatePlayer_Activity"
-            android:label="@string/app_newPlayer"/>
     </application>
 
 </manifest>
