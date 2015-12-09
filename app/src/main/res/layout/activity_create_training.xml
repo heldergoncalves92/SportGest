@@ -68,4 +68,13 @@
         android:gravity="top"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_button"
+        android:id="@+id/next_button"
+        android:layout_gravity="right" />
+
+
 </LinearLayout>

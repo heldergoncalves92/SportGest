@@ -32,6 +32,7 @@
     <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
+    <string name="next_button">Next</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
     <string name="goTo_users_button">Manage Users</string>
@@ -69,9 +70,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="title_activity_login">Sign in</string>
     <string name="login_button">Login</string>
     <string name="prompt_username">Username</string>
