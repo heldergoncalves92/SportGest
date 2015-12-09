@@ -20,11 +20,12 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     private SQLiteDatabase db;
 
     //Table names
-    public static final String TABLE_NAME         = "APPUSER";
+    public static final String TABLE_NAME         = "USER";
 
     //Table columns
     public static final String COLUMN_ID          = "ID";
     public static final String COLUMN_NAME        = "NAME";
+    public static final String COLUMN_USERNAME    = "USERNAME";
     public static final String COLUMN_PASSWORD    = "PASSWORD";
     public static final String COLUMN_PHOTO       = "PHOTO";
     public static final String COLUMN_EMAIL       = "EMAIL";
@@ -36,6 +37,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             COLUMN_NAME + " TEXT NOT NULL," +
+            COLUMN_USERNAME + " TEXT NOT NULL," +
             COLUMN_PASSWORD + " TEXT NOT NULL," +
             COLUMN_PHOTO + " TEXT NOT NULL," +
             COLUMN_EMAIL + " TEXT NOT NULL," +
@@ -55,8 +57,9 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     @Override
     public List<User> getAll() throws GenericDAOException {
         ArrayList<User> resUser = new ArrayList<>();
-        int id,roleId;
-        String name,password,photo,email;
+        String name,username,password,photo,email;
+        long id,roleId;
+
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
@@ -64,14 +67,15 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
 
         //Parse data
         while(!res.isAfterLast()) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+            username = res.getString(res.getColumnIndexOrThrow(COLUMN_USERNAME));
             password = res.getString(res.getColumnIndexOrThrow(COLUMN_PASSWORD));
             photo = res.getString(res.getColumnIndexOrThrow(COLUMN_PHOTO));
             email = res.getString(res.getColumnIndexOrThrow(COLUMN_EMAIL));
-            roleId = res.getInt(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
+            roleId = res.getLong(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
             Role role = role_dao.getById(roleId); // Get the Role
-            resUser.add(new User(id, name,password,photo,name,email,role));
+            resUser.add(new User(id, username,password,photo,name,email,role));
             res.moveToNext();
         }
         res.close(); // Close the cursor
@@ -79,7 +83,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
     }
 
     @Override
-    public User getById(int id) throws GenericDAOException {
+    public User getById(long id) throws GenericDAOException {
 
 
         //Query
@@ -88,17 +92,41 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
 
         //Parse data
         if(res.getCount()==1)
-           {int roleId;
-            String name,password,photo,email;
+           {long roleId;
+            String name,username,password,photo,email;
+
+
 
             name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+            username = res.getString(res.getColumnIndexOrThrow(COLUMN_USERNAME));
             password = res.getString(res.getColumnIndexOrThrow(COLUMN_PASSWORD));
             photo = res.getString(res.getColumnIndexOrThrow(COLUMN_PHOTO));
             email = res.getString(res.getColumnIndexOrThrow(COLUMN_EMAIL));
-            roleId = res.getInt(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
+            roleId = res.getLong(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
             Role role = role_dao.getById(roleId); // Get the Role
             res.close(); // Close the cursor
-            return new User(id, name,password,photo,name,email,role);}
+            return new User(id, username,password,photo,name,email,role);}
+        else
+            {res.close(); // Close the cursor
+             return null;}
+    }
+
+    public User login(String username, String password) throws GenericDAOException {
+
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT "+COLUMN_ID+" FROM "+TABLE_NAME+" WHERE "+COLUMN_USERNAME+"='"+username
+                                    +"' AND "+COLUMN_PASSWORD+"='"+password+"'", null );
+        res.moveToFirst();
+
+        //Parse data
+        if(res.getCount()==1)
+           {long userId;
+
+            userId = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
+
+            res.close(); // Close the cursor
+            return this.getById((int)userId);}
         else
             {res.close(); // Close the cursor
              return null;}
@@ -111,6 +139,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             return -1;
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_USERNAME, object.getUsername());
         contentValues.put(COLUMN_NAME, object.getName());
         contentValues.put(COLUMN_PASSWORD, object.getPassword());
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
@@ -128,10 +157,10 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         return deleteById(object.getId());
     }
 
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(id)}) > 0;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
@@ -149,7 +178,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(object.getId())}) > 0;
+                new String[]{Long.toString(object.getId())}) > 0;
 
     }
 
@@ -165,11 +194,11 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
 
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID).append("=").append(tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID).append("=").append(tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -188,8 +217,8 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_EMAIL).append(" = '").append(tmpString).append("'");
             fields++;
         }
-        if ((tmpInt = object.getRole().getId()) >= 0) {
-            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpInt);
+        if ((tmpLong = object.getRole().getId()) >= 0) {
+            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
             fields++;
         }
 
@@ -212,14 +241,14 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         List<User> roles = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
-        int id,roleId;
+        long tmpLong;
+        long id,roleId;
         String name,password,photo,email;
         Role role;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -238,8 +267,8 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_EMAIL).append(" LIKE '%").append(tmpString).append("%'");
             fields++;
         }
-        if ((tmpInt = object.getRole().getId()) >= 0) {
-            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpInt);
+        if ((tmpLong = object.getRole().getId()) >= 0) {
+            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
             fields++;
         }
 
@@ -248,12 +277,12 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
                 while(!res.isAfterLast()) {
-                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
                     password = res.getString(res.getColumnIndexOrThrow(COLUMN_PASSWORD));
                     photo = res.getString(res.getColumnIndexOrThrow(COLUMN_PHOTO));
                     email = res.getString(res.getColumnIndexOrThrow(COLUMN_EMAIL));
-                    roleId = res.getInt(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
+                    roleId = res.getLong(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
                     role = role_dao.getById(roleId); // Get the Role
                     roles.add(new User(id, name,password,photo,name,email,role));
                     res.moveToNext();

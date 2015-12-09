@@ -3,7 +3,7 @@ package studentcompany.sportgest.domains;
 
 public class Player extends DomainPojo{
 
-    private int id = 0;
+    private long id = 0;
     private String nickname;
     private String name;
     private String nationality;
@@ -20,7 +20,7 @@ public class Player extends DomainPojo{
     private Team team;
     private Position position;
 
-    public Player(int id,String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(long id,String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.id = id;
         this.nickname = nickname;
         this.name = name;
@@ -56,12 +56,16 @@ public class Player extends DomainPojo{
         this.position=position;
     }
 
+    public Player(Team team) {
+        this.team = team;
+    }
+
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -212,21 +216,22 @@ public class Player extends DomainPojo{
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getNickname().hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getNationality().hashCode();
-        result = 31 * result + getMarital_status().hashCode();
-        result = 31 * result + getBirthDate();
-        result = 31 * result + (getHeight() != +0.0f ? Float.floatToIntBits(getHeight()) : 0);
-        result = 31 * result + (getWeight() != +0.0f ? Float.floatToIntBits(getWeight()) : 0);
-        result = 31 * result + getAddress().hashCode();
-        result = 31 * result + getGender().hashCode();
-        result = 31 * result + getPhoto().hashCode();
-        result = 31 * result + getEmail().hashCode();
-        result = 31 * result + getPreferredFoot().hashCode();
-        result = 31 * result + getNumber();
-        result = 31 * result + getTeam().hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
+        result = 31 * result + (marital_status != null ? marital_status.hashCode() : 0);
+        result = 31 * result + birthDate;
+        result = 31 * result + height;
+        result = 31 * result + (weight != +0.0f ? Float.floatToIntBits(weight) : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (preferedFoot != null ? preferedFoot.hashCode() : 0);
+        result = 31 * result + number;
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
         return result;
     }
 }

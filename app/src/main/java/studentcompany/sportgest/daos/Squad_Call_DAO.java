@@ -12,7 +12,6 @@ import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Team;
 
 public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGenericPairDAO<Player,Game> {
     //Database name
@@ -50,8 +49,8 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     public List<Pair<Player, Game>> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<Pair<Player, Game>> resList = new ArrayList<>();
-        int gameId;
-        int playerId;
+        long gameId;
+        long playerId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -59,8 +58,8 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
         //Parse data
         while(res.isAfterLast() == false) {
-            gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
-            playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
+            gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
+            playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
             resList.add(
                     new Pair<>(
                             player_dao.getById(playerId),
@@ -71,24 +70,19 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     }
 
     @Override
-    public List<Pair<Player, Game>> getByFirstId(int id) throws GenericDAOException {
+    public List<Game> getByFirstId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Player, Game>> resList = new ArrayList<>();
-        Player player;
-        int gameId;
+        ArrayList<Game> resList = new ArrayList<>();
+        long gameId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PLAYER_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        player = player_dao.getById(id);
         while(res.isAfterLast() == false) {
-            gameId = res.getInt(res.getColumnIndex(COLUMN_GAME_ID));
-            resList.add(
-                    new Pair<>(
-                            player,
-                            game_dao.getById(gameId)));
+            gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
+            resList.add(game_dao.getById(gameId));
             res.moveToNext();
         }
 
@@ -96,24 +90,19 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     }
 
     @Override
-    public List<Pair<Player, Game>> getBySecondId(int id) throws GenericDAOException {
+    public List<Player> getBySecondId(long id) throws GenericDAOException {
         //aux variables;
-        ArrayList<Pair<Player, Game>> resList = new ArrayList<>();
-        Game game;
-        int playerId;
+        ArrayList<Player> resList = new ArrayList<>();
+        long playerId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_GAME_ID + "=" + id, null );
         res.moveToFirst();
 
         //Parse data
-        game = game_dao.getById(id);
         while(res.isAfterLast() == false) {
-            playerId = res.getInt(res.getColumnIndex(COLUMN_PLAYER_ID));
-            resList.add(
-                    new Pair<>(
-                            player_dao.getById(playerId),
-                            game));
+            playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+            resList.add(player_dao.getById(playerId));
             res.moveToNext();
         }
 
@@ -134,7 +123,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     public boolean delete(Pair<Player, Game> object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_PLAYER_ID + " = ? , " + COLUMN_GAME_ID + " = ? ",
-                new String[] { Integer.toString(object.getFirst().getId()), Integer.toString(object.getSecond().getId()) });
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) });
         return true;
     }
 

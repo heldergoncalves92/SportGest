@@ -50,7 +50,7 @@ public class ListPlayers_Fragment extends ListFragment {
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
-    public void setPlayerList(List<String> list){
+    public void setList(List<String> list){
         this.list = list;
     }
 

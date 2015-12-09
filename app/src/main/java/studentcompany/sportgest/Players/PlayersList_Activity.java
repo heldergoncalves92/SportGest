@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,7 @@ import studentcompany.sportgest.Users.CreateUser_Activity;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Team;
 
 public class PlayersList_Activity extends AppCompatActivity implements ListPlayers_Fragment.OnItemSelected {
 
@@ -31,6 +35,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private Menu mOptionsMenu;
 
 
+    private int baseTeamID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
@@ -44,15 +49,26 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_list);
 
-        //this.testPlayers();
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null){
+                baseTeamID = extras.getInt("TEAM");
+
+            } else
+                baseTeamID = 0;
+        }
+
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getAll();
+            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
             if(players.isEmpty()) {
-                insertUserTest(playerDao);
-                players = playerDao.getAll();
+
+                noElems();
+                //insertUserTest(playerDao);
+                //players = playerDao.getAll();
             }
-            mListPlayer.setPlayerList(getNamesList(players));
+            mListPlayer.setList(getNamesList(players));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -82,6 +98,15 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         return list;
     }
 
+    public void noElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
+    }
+
     public void removePlayer(){
         mDetailsPlayer.clearDetails();
         mListPlayer.removeItem(currentPos);
@@ -92,6 +117,9 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+
+        if(players.isEmpty())
+            noElems();
     }
 
     /************************************
@@ -191,10 +219,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
+            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
             long id;
 
@@ -211,10 +239,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     private void testPlayers(){
 
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
+        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
         players = new ArrayList<Player>();
         players.add(p1);
@@ -222,6 +250,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         players.add(p3);
         players.add(p4);
 
-        mListPlayer.setPlayerList(getNamesList(players));
+        mListPlayer.setList(getNamesList(players));
     }
 }

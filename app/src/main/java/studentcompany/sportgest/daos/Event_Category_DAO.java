@@ -40,7 +40,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     public ArrayList<EventCategory> getAll() throws GenericDAOException {
         //aux variables;
         ArrayList<EventCategory> resEventCategory = new ArrayList<>();
-        int id;
+        long id;
         String category;
 
         //Query
@@ -49,7 +49,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
             resEventCategory.add(new EventCategory(id, category));
             res.moveToNext();
@@ -59,7 +59,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     }
 
     @Override
-    public EventCategory getById(int id) throws GenericDAOException{
+    public EventCategory getById(long id) throws GenericDAOException{
         //aux variables;
         EventCategory resEventCategory;
         String category;
@@ -88,15 +88,15 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     public boolean delete(EventCategory object) throws GenericDAOException{
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
     @Override
-    public boolean deleteById(int id){
+    public boolean deleteById(long id){
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -107,7 +107,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -125,10 +125,11 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -153,11 +154,11 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         List<EventCategory> resEventCategory = new ArrayList<>();
         int fields = 0;
         String tmpString;
-        int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
@@ -167,14 +168,14 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String category;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndexOrThrow(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
                     resEventCategory.add(new EventCategory(id, category));
                     res.moveToNext();

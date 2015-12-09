@@ -3,12 +3,12 @@ package studentcompany.sportgest.domains;
 
 public class PlayerPosition extends DomainPojo{
 
-    private int id;
+    private long id;
     private Player player;
     private Position position;
     private int value;
 
-    public PlayerPosition(int id, Player player, Position position, int value) {
+    public PlayerPosition(long id, Player player, Position position, int value) {
         this.id = id;
         this.player = player;
         this.position = position;
@@ -16,11 +16,11 @@ public class PlayerPosition extends DomainPojo{
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -64,10 +64,10 @@ public class PlayerPosition extends DomainPojo{
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getPlayer().hashCode();
-        result = 31 * result + getPosition().hashCode();
-        result = 31 * result + getValue();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (player != null ? player.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + value;
         return result;
     }
 }

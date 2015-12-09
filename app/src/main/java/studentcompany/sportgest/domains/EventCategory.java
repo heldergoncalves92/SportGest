@@ -1,16 +1,16 @@
 package studentcompany.sportgest.domains;
 
 public class EventCategory extends DomainPojo {
-    private int id;
+    private long id;
     private String name;
 
-    public EventCategory(int id, String name) {
+    public EventCategory(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -18,7 +18,7 @@ public class EventCategory extends DomainPojo {
         return name;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -48,7 +48,7 @@ public class EventCategory extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
