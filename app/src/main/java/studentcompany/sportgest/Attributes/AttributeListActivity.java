@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import studentcompany.sportgest.R;
@@ -68,6 +69,8 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
 
         for(Attribute a: attrList)
             list.add(a.getName());
+
+        Collections.sort(list);
 
         return list;
     }
