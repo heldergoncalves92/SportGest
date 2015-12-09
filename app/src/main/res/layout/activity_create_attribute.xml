@@ -10,16 +10,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="studentcompany.sportgest.Attributes.CreateAttributeActivity">
 
-    <TextView
-        android:id="@+id/attribute_name"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_attribute_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Attribute Name" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/attribute_category"
-        android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/input_attribute_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="Attribute Name" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button android:id="@+id/btn_add_attribute"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Attribute Category" />
+        android:text="Add attribute"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>
