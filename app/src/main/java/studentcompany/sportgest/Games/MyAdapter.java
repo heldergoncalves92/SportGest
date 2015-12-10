@@ -23,22 +23,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
      static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public AppCompatTextView mTextView;
+        public AppCompatTextView mTextView, mTextView2; ;
 
-        public ViewHolder(LinearLayout layout) {
-            super(layout);
+        public ViewHolder(View view) {
+            super(view);
 
-            for (int i=0; i<layout.getChildCount(); i++) {
+            mTextView = (AppCompatTextView)view.findViewById(R.id.text_view);
+            mTextView2 = (AppCompatTextView)view.findViewById(R.id.text_view2);
 
-                View v = layout.getChildAt(i);
-
-                switch (v.getId()){
-
-                    case R.id.text_view:
-                        mTextView = (AppCompatTextView) v;
-                        break;
-                }
-            }
         }
     }
 
@@ -52,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_game_base, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -69,8 +61,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         //holder.mTextView.setText(mDataset[position]);
         Game game = mDataset.get(position);
 
-        if (game.getHome_team() != null)
+        if (game.getHome_team() != null) {
             holder.mTextView.setText(game.getReport());
+            holder.mTextView2.setText(game.getReport());
+
+        }
 
     }
 
