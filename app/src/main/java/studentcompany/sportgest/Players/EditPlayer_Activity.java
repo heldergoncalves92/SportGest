@@ -1,21 +1,23 @@
 package studentcompany.sportgest.Players;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +27,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
 
-public class EditPlayer_Activity extends AppCompatActivity {
+public class EditPlayer_Activity extends AppCompatActivity implements View.OnClickListener {
 
     //DAOs
     private Player_DAO player_dao;
@@ -35,6 +37,9 @@ public class EditPlayer_Activity extends AppCompatActivity {
 
     private final String FILENAME_COUNTRIES = "";
 
+    private ImageButton btnCalendar;
+    private TextView txtDate;
+    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,11 @@ public class EditPlayer_Activity extends AppCompatActivity {
         if(b!=null){
             playerID = (int) b.get("id");
         }
+
+        btnCalendar = (ImageButton) findViewById(R.id.birthday);
+        txtDate = (TextView) findViewById(R.id.txtDate);
+
+        btnCalendar.setOnClickListener(this);
 
 
         EditText tv_nickname = (EditText) findViewById(R.id.nickname);
@@ -185,6 +195,10 @@ public class EditPlayer_Activity extends AppCompatActivity {
                         counter++;
                 }
 
+            //TODO: alterar a data
+            if(playerFromDB.getBirthDate()!=-1)
+                txtDate.setText(Integer.toString(playerFromDB.getBirthDate()));
+
             if(pos!=-1)
                 tv_preferredFoot.setSelection(pos);
             else
@@ -317,5 +331,33 @@ public class EditPlayer_Activity extends AppCompatActivity {
         super.onStop();
 
         setResult(0);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnCalendar) {
+
+            // Process to get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            // Launch Date Picker Dialog
+            DatePickerDialog dpd = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            // Display Selected date in textbox
+                            //txtDate.setText(dayOfMonth + "-"
+                            //        + (monthOfYear + 1) + "-" + year);
+                            txtDate.setText(Integer.toString(year));
+
+                        }
+                    }, mYear, mMonth, mDay);
+            dpd.show();
+        }
     }
 }

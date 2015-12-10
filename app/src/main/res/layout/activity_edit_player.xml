@@ -137,13 +137,30 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/birthday"
-                        android:hint="@string/playerBirthday"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_event_black_24dp"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/birthday"
+                            android:hint="@string/playerBirthday"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_event_black_24dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="date"
+                            android:layout_gravity="center"
+                            android:id="@+id/txtDate"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 

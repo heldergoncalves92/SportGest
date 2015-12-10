@@ -1,14 +1,17 @@
 package studentcompany.sportgest.Players;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -20,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +35,7 @@ import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
 
-public class CreatePlayer_Activity extends AppCompatActivity {
+public class CreatePlayer_Activity extends AppCompatActivity implements View.OnClickListener {
 
     //DAOs
     private Player_DAO player_dao;
@@ -44,7 +48,9 @@ public class CreatePlayer_Activity extends AppCompatActivity {
     private final String FILENAME_GENDERS = "";
     private final String FILENAME_MARITALSTATUS = "";
 
-
+    private ImageButton btnCalendar;
+    private TextView txtDate;
+    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,11 @@ public class CreatePlayer_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_create_player);
 
         player_dao = new Player_DAO(this);
+
+        btnCalendar = (ImageButton) findViewById(R.id.birthday);
+        txtDate = (TextView) findViewById(R.id.txtDate);
+
+        btnCalendar.setOnClickListener(this);
     }
 
     @Override
@@ -139,7 +150,7 @@ public class CreatePlayer_Activity extends AppCompatActivity {
                     maritalStatus=tv_maritalStatus.getSelectedItem().toString();
                 //TODO corrigir data
                 //corrigir quando a data estiver direita
-                //String birthday = year+"-"+month+"-"+day;
+                //String birthday = mYear+"-"+mMonth+"-"+mDay;
                 int birthday = 1;
                 int height = Integer.parseInt(tv_height.getText().toString());
                 float weight = Float.parseFloat(tv_weight.getText().toString());
@@ -176,6 +187,34 @@ public class CreatePlayer_Activity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnCalendar) {
+
+            // Process to get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            // Launch Date Picker Dialog
+            DatePickerDialog dpd = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            // Display Selected date in textbox
+                            //txtDate.setText(dayOfMonth + "-"
+                            //        + (monthOfYear + 1) + "-" + year);
+                            txtDate.setText(Integer.toString(year));
+
+                        }
+                    }, mYear, mMonth, mDay);
+            dpd.show();
         }
     }
 }
