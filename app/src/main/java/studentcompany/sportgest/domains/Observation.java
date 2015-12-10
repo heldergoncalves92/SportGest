@@ -2,14 +2,14 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Observation extends DomainPojo {
-        private long id;
+        private long id = -1;
         private String title;
         private String description;
         private int date;
-        private ObsCategory observationcategory;
-        private Player player;
-        private User user;
-        private Game game;
+        private ObsCategory observationcategory = null;
+        private Player player = null;
+        private User user = null;
+        private Game game = null;
 
 
         public Observation (long id,String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
@@ -23,6 +23,17 @@ public class Observation extends DomainPojo {
             this.game = game;
 
         }
+
+    public Observation (String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
+        this.title=title;
+        this.description = description;
+        this.date = date;
+        this.observationcategory = observationcategory;
+        this.player = player;
+        this.user=user;
+        this.game = game;
+
+    }
 
     @Override
     public long getId() {

@@ -93,13 +93,25 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
 
-            resObservation.add(new Observation(id,title,description,
-                    date,obsCategory_dao.getById(obsCatId),
-                    player_dao.getById(playerId),
-                    user_dao.getById(userId),
-                    game_dao.getById(gameId)));
-            res.moveToNext();
+            if(obsCatId < 0 || playerId <0 || gameId <0 || userId <0){
+                resObservation.add(new Observation(id,title,description,
+                        date,null,
+                        null,
+                         null,
+                        null));
+                res.moveToNext();
+            }
+            else{
+                resObservation.add(new Observation(id,title,description,
+                        date,obsCategory_dao.getById(obsCatId),
+                        player_dao.getById(playerId),
+                        user_dao.getById(userId),
+                        game_dao.getById(gameId)));
+                res.moveToNext();
+            }
+
         }
+        res.close();
 
         return resObservation;
     }
@@ -124,6 +136,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         res.moveToFirst();
 
         //Parse data
+        if(res.getCount()==1){
         title = res.getString(res.getColumnIndex(COLUMN_TITLE));
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
         date = res.getInt(res.getColumnIndex(COLUMN_DATE));
@@ -132,54 +145,107 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
         userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
 
-        resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
-                user_dao.getById(userId),game_dao.getById(gameId)));
+        if(obsCatId < 0 || playerId <0 || gameId <0 || userId <0){
+            resObservation = (new Observation(id,title,description,date,null,null,
+                    null,null));
 
-        return resObservation;
+            return resObservation;
+
+        }
+        else{
+            resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
+                    user_dao.getById(userId),game_dao.getById(gameId)));
+
+            return resObservation;
+        }
+        }
+        else
+            {
+            res.close();
+            return null;
+             }
+
     }
 
     @Override
     public long insert(Observation object) throws GenericDAOException {
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DATE, object.getDate());
-        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
-        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
-        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
-        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
+        if(object.getObservationcategory() == null){
+            contentValues.put(COLUMN_OBS_CATEGORYID, -1);
+        } else {
+            contentValues.put(COLUMN_OBS_CATEGORYID,  object.getObservationcategory().getId());
+        }
+        if(object.getPlayer() == null){
+            contentValues.put(COLUMN_PLAYER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
+        }
+        if(object.getGame() == null) {
+            contentValues.put(COLUMN_GAME_ID, -1);
+        } else {
+            contentValues.put(COLUMN_GAME_ID,  object.getGame().getId());
+        }
+        if(object.getUser() == null){
+            contentValues.put(COLUMN_USER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_USER_ID,  object.getUser().getId());
+        }
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override
     public boolean delete(Observation object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
     @Override
     public boolean deleteById(long id) {
 
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[] { Long.toString(id) }) > 0;
     }
 
     @Override
     public boolean update(Observation object) throws GenericDAOException {
 
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DATE, object.getDate());
-        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
-        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
-        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
-        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
+        if(object.getObservationcategory() == null){
+            contentValues.put(COLUMN_OBS_CATEGORYID, -1);
+        } else {
+            contentValues.put(COLUMN_OBS_CATEGORYID,  object.getObservationcategory().getId());
+        }
+        if(object.getPlayer() == null){
+            contentValues.put(COLUMN_PLAYER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
+        }
+        if(object.getGame() == null) {
+            contentValues.put(COLUMN_GAME_ID, -1);
+        } else {
+            contentValues.put(COLUMN_GAME_ID,  object.getGame().getId());
+        }
+        if(object.getUser() == null){
+            contentValues.put(COLUMN_USER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_USER_ID, object.getUser().getId());
+        }
 
         db.update(TABLE_NAME,
                 contentValues,
