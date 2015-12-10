@@ -99,4 +99,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="no_users">There are no users!</string>
     <string name="no_players">There are no players!</string>
     <string name="save">Save</string>
+    <string name="goTo_games_button">Manage Games</string>
 </resources>

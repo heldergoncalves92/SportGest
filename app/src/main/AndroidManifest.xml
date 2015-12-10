@@ -36,32 +36,32 @@
             android:label="@string/app_newPlayer" />
         <activity
             android:name=".Team.TeamList_Activity"
-            android:label="@string/app_teamView"/>
+            android:label="@string/app_teamView" />
         <activity
             android:name=".Team.CreateTeam_Activity"
-            android:label="@string/app_newTeam"/>
+            android:label="@string/app_newTeam" />
         <activity
             android:name=".Exercises.CreateExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Exercises.DisplayExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Exercises.ListExerciseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Users.RolesListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Users.RoleDisplayActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Users.CreateRole_Activity"
-            android:label="@string/title_activity_create_role_"/>
-    <activity
-        android:name=".LoginActivity"
-        android:label="@string/title_activity_login2"/>
-
+            android:label="@string/title_activity_create_role_" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login2" />
+        <activity android:name=".Games.GamesList_Activity"></activity>
     </application>
 
 </manifest>
