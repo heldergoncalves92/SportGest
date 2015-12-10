@@ -80,14 +80,7 @@ public class Team extends DomainPojo {
 
     @Override
     public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", logo='" + logo + '\'' +
-                ", season=" + season +
-                ", is_com=" + is_com +
-                '}';
+        return name;
     }
 
     @Override

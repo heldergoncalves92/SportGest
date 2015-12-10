@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,79 +11,102 @@
         android:layout_weight="0.11">
 
         <ImageView
-            android:id="@+id/photo"
-            android:layout_width="223dp"
-            android:layout_height="223dp"
+            android:id="@+id/input_details_user_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:src="@drawable/lego_face"/>
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_weight="0.02"></FrameLayout>
+
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.12">
 
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:text="  username"
-            android:id="@+id/textView3"/>
 
-        <TextView
-            android:id="@+id/username"
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:text="ze_do_golo"
-            android:hint="@string/userUsername"/>
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/input_details_user_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userUsername" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.12">
+        </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:text="  name"
-            android:id="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/name"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:text="José Arlindo Mendes"
-            android:hint="@string/userName"/>
-    </LinearLayout>
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="84dp">
+            <EditText
+                android:id="@+id/input_details_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userName" />
 
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:text="  email"
-            android:id="@+id/textView5" />
+        </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/email"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:text="jam@di.uminho.pt"
-            android:hint="@string/userEmail"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:hint="@string/userEmail" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userRole" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userTeam" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
     </LinearLayout>
 
 </LinearLayout>

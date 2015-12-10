@@ -48,7 +48,6 @@ public class ListTeam_Fragment extends ListFragment {
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
     }
 
     public void setList(List<String> list){

@@ -99,4 +99,11 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="no_users">There are no users!</string>
     <string name="no_players">There are no players!</string>
     <string name="save">Save</string>
+    <string name="userTeam">Team</string>
+    <string name="userRole">Role</string>
+    <string name="pickTeam">Choose a Team</string>
+    <string name="pickRole">Choose a Role</string>
+    <string name="action_save_user">Save User</string>
+    <string name="user_save_unsuccessful">User was not saved</string>
+    <string name="user_save_successful">User saved sucessfully</string>
 </resources>

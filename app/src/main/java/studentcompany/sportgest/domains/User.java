@@ -10,6 +10,7 @@ public class User extends DomainPojo {
     private String name;
     private String email;
     private Role role;
+    private Team team;
 
     public User(long id, String username, String password, String photo, String name, String email, Role role) {
         this.id = id;
@@ -28,6 +29,26 @@ public class User extends DomainPojo {
         this.name = name;
         this.email = email;
         this.role = role;
+    }
+    public User(long id, String username, String password, String photo, String name, String email, Role role, Team team) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.photo = photo;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.team = team;
+    }
+
+    public User(String username, String password, String photo, String name, String email, Role role, Team team) {
+        this.username = username;
+        this.password = password;
+        this.photo = photo;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.team = team;
     }
 
     @Override
@@ -83,6 +104,9 @@ public class User extends DomainPojo {
         this.role = role;
     }
 
+    public Team getTeam() {return team;}
+
+    public void setTeam(Team team) {this.team = team;}
 
     // Extra Methods
     public boolean hasPermission(Permission permission){

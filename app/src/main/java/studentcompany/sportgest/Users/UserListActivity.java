@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,11 +55,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             userDao = new User_DAO(getApplicationContext());
             users = userDao.getAll();
             if(users.isEmpty()) {
-                noElems();
-                //insertUserTest(userDao);
-                //users = userDao.getAll();
+                //noElems();
+                insertUserTest(userDao);
+                users = userDao.getAll();
             }
-            mListUsers.setList(getNamesList(users));
+            //mListUsers.setList(getNamesList(users));
+            mListUsers.setList(users);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -75,6 +78,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         fragmentTransaction.add(R.id.detail_fragment_container, mDetailsUser);
 
         fragmentTransaction.commit();
+        if(users.size()>0) {
+            currentPos=0;
+            //mDetailsUser.startActivity();
+            //mDetailsUser.showUser(users.get(currentPos));
+        }
     }
 
     @Override
@@ -103,10 +111,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     public void removeUser(){
         mDetailsUser.clearDetails();
-        mListUsers.removeItem(currentPos);
 
         userDao.deleteById(users.get(currentPos).getId());
-        users.remove(currentPos);
+        mListUsers.removeItem(currentPos);
+        //users.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
@@ -185,10 +193,28 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
 
+        MenuItem item;
+
+        if(users.size()==0)
+        {
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(false);
+            item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(false);
+            item = mOptionsMenu.findItem(R.id.action_add);
+            item.setVisible(false);
+            item = mOptionsMenu.findItem(R.id.action_settings);
+            item.setVisible(false);
+        }else {
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+        }
+
         //To restore state on Layout Rotation
         if(currentPos != -1) {
-            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(true);
             mDetailsUser.showUser(users.get(currentPos));
         }
         return true;
@@ -200,6 +226,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreateUser_Activity.class);
+                startActivityForResult(intent,112);
+                return true;
+
+            case R.id.action_edit:
+                intent = new Intent(this, CreateUser_Activity.class);
+                intent.putExtra("ID",users.get(mListUsers.getSelectedItemPosition()).getId());
                 startActivity(intent);
                 return true;
 
@@ -207,6 +239,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -247,7 +280,27 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         users.add(u3);
         users.add(u4);
 
-        mListUsers.setList(getNamesList(users));
+        mListUsers.setList(users);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 112) {
+            try {
+                users = userDao.getAll();
+                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
+
+                mListUsers.setList(users);
+                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
+                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
 }
