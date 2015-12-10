@@ -82,10 +82,19 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
             duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
 
-            resGame.add(new Game(id,team_dao.getById(home_team),team_dao.getById(visitor_team), date, report,
-                    home_score,visitor_score, duration));
-            res.moveToNext();
+            if(home_team <0 || visitor_team < 0){
+                resGame.add(new Game(id,null,null, date, report,
+                        home_score,visitor_score, duration));
+                res.moveToNext();
+            }
+            else {
+                resGame.add(new Game(id, team_dao.getById(home_team), team_dao.getById(visitor_team), date, report,
+                        home_score, visitor_score, duration));
+                res.moveToNext();
+            }
+
         }
+          res.close();
 
         return resGame;
     }
@@ -94,8 +103,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     public Game getById(long id) throws GenericDAOException {
         //aux variables;
         Game resGame;
-        long home_teamid;
-        long visitor_teamid;
+        long home_team;
+        long visitor_team;
         int date;
         String report;
         int home_score;
@@ -107,27 +116,54 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         res.moveToFirst();
 
         //Parse data
-        id = res.getInt(res.getColumnIndex(COLUMN_ID));
-        home_teamid = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
-        visitor_teamid = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
-        report = res.getString(res.getColumnIndex(COLUMN_REPORT));
-        home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
-        visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
-        duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
+        if(res.getCount()==1){
+            id = res.getInt(res.getColumnIndex(COLUMN_ID));
+            home_team = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
+            visitor_team = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
+            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            report = res.getString(res.getColumnIndex(COLUMN_REPORT));
+            home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
+            visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
+            duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
 
-        resGame = new Game(id,team_dao.getById(home_teamid),team_dao.getById(visitor_teamid), date, report,
-                home_score,visitor_score, duration);
-
-        return resGame;
+            if(home_team <0 || visitor_team < 0) {
+                resGame = new Game(id, team_dao.getById(home_team), team_dao.getById(visitor_team), date, report,
+                        home_score, visitor_score, duration);
+                res.close();
+                return resGame;
+            }
+            else{
+                    resGame = new Game(id,team_dao.getById(home_team),team_dao.getById(visitor_team), date, report,
+                            home_score,visitor_score, duration);
+                    res.close();
+                    return resGame;
+                }
+        }
+        else
+        {
+            res.close();
+            return null;
+        }
     }
 
     @Override
     public long insert(Game object) throws GenericDAOException {
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOME_TEAMID, object.getHome_team().getId());
-        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
+        if(object.getVisitor_team() == null){
+            contentValues.put(COLUMN_HOME_TEAMID, -1);
+        } else {
+            contentValues.put(COLUMN_HOME_TEAMID,  object.getHome_team().getId());
+        }
+        if(object.getVisitor_team() == null){
+            contentValues.put(COLUMN_VISITOR_TEAMID, -1);
+        } else {
+            contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
+        }
+
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_REPORT, object.getReport());
         contentValues.put(COLUMN_DATE, object.getDate());
@@ -141,24 +177,34 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
 
     @Override
     public boolean delete(Game object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     @Override
     public boolean deleteById(long id){
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[] { Long.toString(id) }) > 0;
     }
     @Override
     public boolean update(Game object) throws GenericDAOException {
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOME_TEAMID,object.getHome_team().getId());
-        contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
+        if(object.getVisitor_team() == null){
+            contentValues.put(COLUMN_HOME_TEAMID, -1);
+        } else {
+            contentValues.put(COLUMN_HOME_TEAMID,  object.getHome_team().getId());
+        }
+        if(object.getVisitor_team() == null){
+            contentValues.put(COLUMN_VISITOR_TEAMID, -1);
+        } else {
+            contentValues.put(COLUMN_VISITOR_TEAMID,  object.getVisitor_team().getId());
+        }
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_REPORT, object.getReport());
         contentValues.put(COLUMN_DATE, object.getDate());
@@ -167,11 +213,10 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         contentValues.put(COLUMN_VISITOR_TEAMID, object.getVisitor_score());
         contentValues.put(COLUMN_DURATION, object.getDuration());
 
-        db.update(TABLE_NAME,
+        return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) } );
-        return true;
+                new String[]{Long.toString(object.getId())}) >0 ? true : false ;
     }
 
     @Override

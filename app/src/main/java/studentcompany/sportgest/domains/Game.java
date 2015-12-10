@@ -3,9 +3,9 @@ package studentcompany.sportgest.domains;
 
 public class Game extends DomainPojo {
 
-    private long id;
-    private Team home_team;
-    private Team visitor_team;
+    private long id=-1;
+    private Team home_team = null;
+    private Team visitor_team = null;
     private int date;
     private String report;
     private int home_score;
@@ -13,8 +13,18 @@ public class Game extends DomainPojo {
     private float duration;
 
 
-    public Game(long id, Team home_team, Team visitor_team, int date, String report, Integer home_score, Integer visitor_score, float duration) {
+    public Game(long id, Team home_team, Team visitor_team, int date, String report, int home_score, int visitor_score, float duration) {
         this.id = id;
+        this.home_team = home_team;
+        this.visitor_team = visitor_team;
+        this.date = date;
+        this.report = report;
+        this.home_score = home_score;
+        this.visitor_score = visitor_score;
+        this.duration = duration;
+    }
+
+    public Game(Team home_team, Team visitor_team, int date, String report, int home_score, int visitor_score, float duration) {
         this.home_team = home_team;
         this.visitor_team = visitor_team;
         this.date = date;
@@ -119,5 +129,7 @@ public class Game extends DomainPojo {
         result = 31 * result + (duration != +0.0f ? Float.floatToIntBits(duration) : 0);
         return result;
     }
+
+
 }
 
