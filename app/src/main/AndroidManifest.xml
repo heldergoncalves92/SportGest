@@ -61,7 +61,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
-        <activity android:name=".Games.GamesList_Activity"></activity>
+        <activity android:name=".Games.GamesList_Activity" />
+        <activity android:name=".Games.GameGeneralView_Activity"></activity>
     </application>
 
 </manifest>

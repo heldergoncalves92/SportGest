@@ -58,7 +58,7 @@ public class GamesList_Activity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(games);
+        mAdapter = new Games_Adapter(games);
         mRecyclerView.setAdapter(mAdapter);
 
     }

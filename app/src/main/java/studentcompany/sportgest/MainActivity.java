@@ -16,6 +16,7 @@ import java.util.List;
 
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ListExerciseActivity;
+import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.Team.TeamList_Activity;
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
-
 
 
         //EventCategoryButton
@@ -156,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
     public void goTo_Games(View v){
         //insertGamesTest();
         Intent intent = new Intent(this, GamesList_Activity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Game_GeneralView(View v){
+        Intent intent = new Intent(this, GameGeneralView_Activity.class);
         startActivity(intent);
     }
 
