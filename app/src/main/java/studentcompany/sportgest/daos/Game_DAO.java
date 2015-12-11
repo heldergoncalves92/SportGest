@@ -154,8 +154,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         //validate fields not null
         if(object==null ||
                 object.getDate() <= 0 || object.getDuration() <= 0 ||
-                object.getHome_team() == null || object.getVisitor_team() == null ||
-                object.getHome_team().getId() < 0 || object.getVisitor_team().getId() < 0)
+                (object.getHome_team() == null && object.getVisitor_team() == null) ||
+                object.getHome_team().getId() <= 0 || object.getVisitor_team().getId() <= 0)
             return -1;
 
         ContentValues contentValues = new ContentValues();
@@ -191,8 +191,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         //validate fields not null
         if(object==null ||
                 object.getDate() <= 0 || object.getDuration() <= 0 ||
-                object.getHome_team() == null || object.getVisitor_team() == null ||
-                object.getHome_team().getId() < 0 || object.getVisitor_team().getId() < 0)
+                (object.getHome_team() == null && object.getVisitor_team() == null) ||
+                object.getHome_team().getId() <= 0 || object.getVisitor_team().getId() <= 0)
             return false;
 
         ContentValues contentValues = new ContentValues();
