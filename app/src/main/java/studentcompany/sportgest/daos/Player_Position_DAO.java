@@ -62,18 +62,27 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
             positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
             value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
-           
-            resPlayerPosition.add(new PlayerPosition(id,
-                    player_dao.getById(playerId),
-                    position_dao.getById(positionId),
-                    value));
-        }
 
+            if(playerId <0 || positionId < 0){
+                resPlayerPosition.add(new PlayerPosition(id,
+                        null,
+                        null,
+                        value));
+            }
+            else {
+                resPlayerPosition.add(new PlayerPosition(id,
+                        player_dao.getById(playerId),
+                        position_dao.getById(positionId),
+                        value));
+            }
+
+        }
+        res.close();
         return resPlayerPosition;
     }
 
@@ -88,25 +97,49 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
         res.moveToFirst();
 
+            if(res.getCount()==1) {
+                playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
+                positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
+                value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
+                if(playerId <0 || positionId < 0) {
+                    resPlayerPosition = new PlayerPosition(id,
+                            null,
+                            null,
+                            value);
+                    return resPlayerPosition;
+                }
+                else{
+                    resPlayerPosition = new PlayerPosition(id,
+                            player_dao.getById(playerId),
+                            position_dao.getById(positionId),
+                            value);
+                    return resPlayerPosition;
+                }
 
-            playerId = res.getLong(res.getColumnIndexOrThrow(COLUMN_PLAYER_ID));
-            positionId = res.getLong(res.getColumnIndexOrThrow(COLUMN_POSITION_ID));
-            value = res.getInt(res.getColumnIndexOrThrow(COLUMN_VALUE));
-
-            resPlayerPosition = new PlayerPosition(id,
-                    player_dao.getById(playerId),
-                    position_dao.getById(positionId),
-                    value);
-
-        return resPlayerPosition;
+            }
+            else{
+                res.close();
+                return null;
+            }
     }
 
     @Override
     public long insert(PlayerPosition object) throws GenericDAOException {
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
-        contentValues.put(COLUMN_POSITION_ID, object.getPosition().getId());
+        if(object.getPlayer() == null){
+            contentValues.put(COLUMN_PLAYER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
+        }
+        if(object.getPosition() == null){
+            contentValues.put(COLUMN_POSITION_ID, -1);
+        } else {
+            contentValues.put(COLUMN_POSITION_ID,  object.getPosition().getId());
+        }
         contentValues.put(COLUMN_VALUE, object.getValue());
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -114,23 +147,34 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     @Override
     public boolean delete(PlayerPosition object) throws GenericDAOException {
 
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) }) > 0 ? true : false;
+                new String[] { Long.toString(id) }) > 0;
     }
 
     @Override
     public boolean update(PlayerPosition object) throws GenericDAOException {
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
-        contentValues.put(COLUMN_POSITION_ID, object.getPosition().getId());
+        if(object.getPlayer() == null){
+            contentValues.put(COLUMN_PLAYER_ID, -1);
+        } else {
+            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
+        }
+        if(object.getPosition() == null){
+            contentValues.put(COLUMN_POSITION_ID, -1);
+        } else {
+            contentValues.put(COLUMN_POSITION_ID,  object.getPosition().getId());
+        }
         contentValues.put(COLUMN_VALUE, object.getValue());
         return db.update(TABLE_NAME,
                 contentValues,

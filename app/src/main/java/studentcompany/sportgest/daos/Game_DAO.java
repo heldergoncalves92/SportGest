@@ -72,7 +72,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             home_team = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
             visitor_team = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
@@ -127,7 +127,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             duration = res.getFloat(res.getColumnIndex(COLUMN_DURATION));
 
             if(home_team <0 || visitor_team < 0) {
-                resGame = new Game(id, team_dao.getById(home_team), team_dao.getById(visitor_team), date, report,
+                resGame = new Game(id,null,null, date, report,
                         home_score, visitor_score, duration);
                 res.close();
                 return resGame;

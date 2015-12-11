@@ -56,13 +56,13 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
             category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
             resObsCategory.add(new ObsCategory(id, category));
             res.moveToNext();
         }
-
+        res.close();
         return resObsCategory;
     }
 
@@ -73,18 +73,28 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
         String category;
 
         //Query
-        Cursor rs = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
-        rs.moveToFirst();
+        Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
+        res.moveToFirst();
 
         //Parse data
-        category = rs.getString(rs.getColumnIndexOrThrow(COLUMN_CATEGORY));
-        resObsCategory = new ObsCategory(id, category);
-
-        return resObsCategory;
+      if(res.getCount()==1) {
+          category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
+          resObsCategory = new ObsCategory(id, category);
+          res.close();
+          return resObsCategory;
+      }
+      else
+      {
+          res.close();
+          return null;
+      }
     }
 
     @Override
     public long insert(ObsCategory object) throws GenericDAOException{
+
+        if(object==null)
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getCategory());
@@ -94,20 +104,22 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
 
     @Override
     public boolean delete(ObsCategory object) throws GenericDAOException{
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
     @Override
     public boolean deleteById(long id){
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[] { Long.toString(id) }) > 0;
     }
     @Override
     public boolean update(ObsCategory object) throws GenericDAOException{
+        if(object==null)
+            return false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getCategory());
         db.update(TABLE_NAME,

@@ -3,13 +3,18 @@ package studentcompany.sportgest.domains;
 
 public class PlayerPosition extends DomainPojo{
 
-    private long id;
-    private Player player;
-    private Position position;
+    private long id = -1;
+    private Player player = null;
+    private Position position = null;
     private int value;
 
     public PlayerPosition(long id, Player player, Position position, int value) {
         this.id = id;
+        this.player = player;
+        this.position = position;
+        this.value = value;
+    }
+    public PlayerPosition(Player player, Position position, int value) {
         this.player = player;
         this.position = position;
         this.value = value;

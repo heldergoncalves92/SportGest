@@ -57,7 +57,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
             resList.add(
@@ -66,6 +66,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
                             game_dao.getById(gameId)));
             res.moveToNext();
         }
+        res.close();
         return resList;
     }
 
@@ -80,12 +81,12 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             resList.add(game_dao.getById(gameId));
             res.moveToNext();
         }
-
+        res.close();
         return resList;
     }
 
@@ -100,18 +101,24 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
         res.moveToFirst();
 
         //Parse data
-        while(res.isAfterLast() == false) {
+        while(res.isAfterLast()) {
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
             resList.add(player_dao.getById(playerId));
             res.moveToNext();
         }
-
+        res.close();
         return resList;
 
     }
 
     @Override
     public long insert(Pair<Player, Game> object) throws GenericDAOException {
+        if (object == null)
+            return -1;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getFirst().getId());
         contentValues.put(COLUMN_GAME_ID, object.getSecond().getId());
@@ -121,14 +128,30 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
     @Override
     public boolean delete(Pair<Player, Game> object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
+        if (object == null)
+            return false;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return false;
+        return db.delete(TABLE_NAME,
                 COLUMN_PLAYER_ID + " = ? , " + COLUMN_GAME_ID + " = ? ",
-                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) });
-        return true;
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) }) > 0;
     }
 
     @Override
     public boolean exists(Pair<Player, Game> object) throws GenericDAOException {
-        return false;
+        if (object == null)
+            return false;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return false;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM " + TABLE_NAME + " where ");
+        statement.append(COLUMN_PLAYER_ID).append("=").append(object.getFirst().getId());
+        statement.append(" AND ").append(COLUMN_GAME_ID).append("=").append(object.getSecond().getId());
+
+        Cursor res = db.rawQuery(statement.toString(), null);
+        return res.moveToFirst();
     }
+
 }
