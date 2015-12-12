@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SportGest</string>
     <string name="app_db_name">SportGest.db</string>
@@ -100,4 +101,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="no_players">There are no players!</string>
     <string name="save">Save</string>
     <string name="goTo_games_button">Manage Games</string>
+    <string name="squad">Convened squad</string>
+    <string name="number">N&#186;</string>
+    <string name="playerNickname">Nickname</string>
 </resources>

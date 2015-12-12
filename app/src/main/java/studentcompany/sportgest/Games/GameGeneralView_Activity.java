@@ -1,13 +1,11 @@
 package studentcompany.sportgest.Games;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -41,7 +39,7 @@ public class GameGeneralView_Activity extends AppCompatActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = {"Overview", "Statistics", "Squad","Overview", "Statistics", "Squad"};
+        private final String[] TITLES = {"Overview", "Statistics", "Squad"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -59,7 +57,7 @@ public class GameGeneralView_Activity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return GameTest_Fragment.newInstance(position);
+            return GameSquad_Fragment.newInstance(position);
         }
     }
 }
