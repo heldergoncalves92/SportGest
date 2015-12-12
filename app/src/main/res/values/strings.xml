@@ -76,14 +76,28 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="prompt_username">Username</string>
     <string name="error_field_login">Invalid username or password</string>
     <string name="title_activity_login2">Sign in</string>
-
     <string name="userName">Name</string>
     <string name="userUsername">Username</string>
     <string name="userEmail">Email</string>
     <string name="userPassword">Password</string>
     <string name="userPasswordConfirmation">Password (confirmation)</string>
-
-
+    <string name="userRole">Role</string>
+    <string name="playerName">Name</string>
+    <string name="playerNationality">Nationality</string>
+    <string name="maritalstatus">Marital Status</string>
+    <string name="playerBirthday">Birthday</string>
+    <string name="playerHeight">Height</string>
+    <string name="playerWeight">Weight</string>
+    <string name="playerAddress">Address</string>
+    <string name="playerGender">Gender</string>
+    <string name="playerEmail">Email</string>
+    <string name="playerPreferredFoot">Preferred Foot</string>
+    <string name="playerNumber">Number</string>
+    <string name="playerPosition">Position</string>
+    <string name="teamName">Name</string>
+    <string name="teamDescription">Description</string>
+    <string name="teamSeason">Season</string>
+    <string name="userPasswordOriginal">Actual password</string>
     <string name="hint_name">Name</string>
     <string name="title_activity_create_role_">CreateRole_Activity</string>
     <string name="hint_permissions">Permissions</string>
@@ -102,6 +116,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="save">Save</string>
     <string name="goTo_games_button">Manage Games</string>
     <string name="squad">Convened squad</string>
-    <string name="number">N&#186;</string>
+    <string name="number">Number</string>
     <string name="playerNickname">Nickname</string>
 </resources>
