@@ -36,7 +36,7 @@ public class ListExercise_Fragment extends ListFragment {
 
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_exercise_list, list));
+            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.fragment_exercise_list, list));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -49,6 +49,12 @@ public class ListExercise_Fragment extends ListFragment {
     public void removeItem(int position){
         list.remove(position);
         getListView().invalidateViews();
+    }
+
+    public void updateList(){
+        // Set the list adapter for the ListView
+        if(list != null)
+            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.fragment_exercise_list, list));
     }
 
     /************************************

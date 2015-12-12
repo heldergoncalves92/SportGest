@@ -11,13 +11,9 @@
     tools:context="studentcompany.sportgest.Exercises.ListExercise_Fragment"
     android:gravity="top|center_horizontal">
 
-
     <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04" />
-
-
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -67,8 +63,9 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="9">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -87,7 +84,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
-                    android:text="@string/lorem"
                     android:hint="Description" />
 
             </android.support.design.widget.TextInputLayout>
@@ -108,13 +104,13 @@
                         android:id="@+id/exercise_image_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Exercise ilustration" />
+                        android:hint="Exercise illustration" />
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/aaimg_20151124"
-                        android:id="@+id/imageView"
+                        android:id="@+id/exercise_image"
+                        android:src="@drawable/inf"
                         android:scaleType="fitCenter"/>
 
                 </android.support.design.widget.TextInputLayout>
@@ -136,7 +132,7 @@
                 android:hint="Selected Attributes" />
 
             <ListView
-                android:id="@+id/text_selected_attributes_list"
+                android:id="@+id/selected_attributes_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

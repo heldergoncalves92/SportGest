@@ -15,12 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.GenericDAO;
+import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
@@ -44,7 +46,6 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_list);
-
 
         try {
             exercise_dao = new Exercise_DAO(getApplicationContext());
@@ -91,7 +92,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         for(Exercise e: exerciseList)
             list.add(e.getTitle());
-
+        Collections.sort(list);
         return list;
     }
 
@@ -100,7 +101,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         for(Attribute a: attributeList)
             list.add(a.getName());
-
+        Collections.sort(list);
         return list;
     }
 
@@ -108,12 +109,25 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         mDetailsExercise.clearDetails();
         mListExercises.removeItem(currentPos);
 
-        exercise_dao.deleteById(exerciseList.get(currentPos).getId());
+        try {
+            Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
+            if(exercise != null) {
+                //remove list of attributes
+                ArrayList<Attribute> previousExerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exercise.getId());
+                for (Attribute a : previousExerciseAttributes) {
+                    attribute_exercise_dao.delete(new Pair<>(a, exercise));
+                }
+                //remove exercise
+                exercise_dao.deleteById(exerciseList.get(currentPos).getId());
+            }
+        }catch (GenericDAOException ex){
+            ex.printStackTrace();
+        }
         exerciseList.remove(currentPos);
 
         currentPos = -1;
-        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-        item.setVisible(false);
+        mOptionsMenu.findItem(R.id.Delete).setVisible(false);
+        mOptionsMenu.findItem(R.id.Edit).setVisible(false);
     }
     /************************************
      ****     Listener Functions     ****
@@ -124,8 +138,8 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         if(exercise != null){
             if(currentPos == -1) {
-                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-                item.setVisible(true);
+                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                mOptionsMenu.findItem(R.id.Edit).setVisible(true);
             }
 
             currentPos = position;
@@ -186,27 +200,60 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         mOptionsMenu = menu;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_users_view, menu);
+        menu.findItem(R.id.Edit).setVisible(false);
+        menu.findItem(R.id.Delete).setVisible(false);
+        menu.findItem(R.id.Save).setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_add:
-                Intent intent = new Intent(this, CreateExerciseActivity.class);
-                startActivity(intent);
+            case R.id.Add:
+                intent = new Intent(this, CreateExerciseActivity.class);
+                startActivityForResult(intent, 0);
                 return true;
 
-            case R.id.action_del:
+            case R.id.Edit:
+                intent = new Intent(this, CreateExerciseActivity.class);
+                //put current exercise ID in extras
+                Bundle dataBundle = new Bundle();
+                dataBundle.putLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID, exerciseList.get(currentPos).getId());
+                //add data
+                intent.putExtras(dataBundle);
+                //start activity
+                startActivityForResult(intent, 0);
+                return true;
+
+            case R.id.Delete:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 0) {
+            try {
+                exerciseList = exercise_dao.getAll();
+                mListExercises.setExerciseList(getNamesList(exerciseList));
+                mListExercises.updateList();
+
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+            mDetailsExercise.clearDetails();
+            currentPos = -1;
+            mOptionsMenu.findItem(R.id.Delete).setVisible(false);
+            mOptionsMenu.findItem(R.id.Edit).setVisible(false);
         }
     }
 }

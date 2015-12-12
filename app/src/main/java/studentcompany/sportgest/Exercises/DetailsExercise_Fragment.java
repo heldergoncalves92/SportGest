@@ -44,21 +44,24 @@ public class DetailsExercise_Fragment extends Fragment {
         tv_name = (TextView) view.findViewById(R.id.exercise_name);
         et_description = (EditText) view.findViewById(R.id.exercise_description);
         tv_duration = (TextView) view.findViewById(R.id.exercise_duration);
-        lv_exerciseAttributes = (ListView) view.findViewById(R.id.text_selected_attributes_list);
+        lv_exerciseAttributes = (ListView) view.findViewById(R.id.selected_attributes_list);
+        iv_image = (ImageView) view.findViewById(R.id.exercise_image);
 
         return view;
     }
 
     public void showExercise(Exercise exercise, List<String> exerciseAttributes){
+        clearDetails();
         tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
         et_description.setText(exercise.getDescription());
         et_description.setFocusable(false);
         et_description.setClickable(false);
-        tv_duration.setText(""+exercise.getDuration());
+        tv_duration.setText("" + exercise.getDuration());
         tv_duration.setFocusable(false);
         tv_duration.setClickable(false);
+        iv_image.setImageResource(R.drawable.inf);
 
         if(exerciseAttributes != null) {
             ArrayAdapter arrayAdapter = new ArrayAdapter(this.getContext(), R.layout.listview_style1, exerciseAttributes);
@@ -69,31 +72,27 @@ public class DetailsExercise_Fragment extends Fragment {
             //in case the user wants to see details about some attribute, start a display Attribute Activity
             lv_exerciseAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    // TODO Auto-generated method stub -> implement edit attribute details
-                                /*int id_To_Search = arg2 + 1;
-                                Bundle dataBundle = new Bundle();
-                                dataBundle.putInt("id", id_To_Search);
-                                Intent intent = new Intent(getApplicationContext(), DisplayEventCategoryActivity.class);
-                                intent.putExtras(dataBundle);
-                                startActivity(intent);*/
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Auto-generated method stub -> implement edit attribute details
+                    /*int id_To_Search = position + 1;
+                    Bundle dataBundle = new Bundle();
+                    dataBundle.putInt("id", id_To_Search);
+                    Intent intent = new Intent(getApplicationContext(), DisplayEventCategoryActivity.class);
+                    intent.putExtras(dataBundle);
+                    startActivity(intent);*/
                 }
             });
-
         } else {
+            lv_exerciseAttributes.setAdapter(new ArrayAdapter(this.getContext(), R.layout.listview_style1, new ArrayList<String>()));
             System.err.println("[ERROR] Exercise attributes not found!!!");
         }
     }
 
     public void clearDetails(){
         tv_name.setText("");
-        tv_name.setFocusable(false);
-        tv_name.setClickable(false);
         et_description.setText("");
-        et_description.setFocusable(false);
-        et_description.setClickable(false);
         tv_duration.setText("");
-        tv_duration.setFocusable(false);
-        tv_duration.setClickable(false);
+        lv_exerciseAttributes.setAdapter(new ArrayAdapter(this.getContext(), R.layout.listview_style1, new ArrayList<String>()));
+        iv_image.setImageResource(R.drawable.inf);
     }
 }
