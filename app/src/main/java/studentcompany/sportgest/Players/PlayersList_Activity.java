@@ -13,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ import studentcompany.sportgest.Users.CreateUser_Activity;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Team;
 
 public class PlayersList_Activity extends AppCompatActivity implements ListPlayers_Fragment.OnItemSelected {
 
@@ -33,8 +30,11 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private List<Player> players;
     private int currentPos = -1;
     private Menu mOptionsMenu;
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
 
-    private int baseTeamID;
+
+
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
@@ -42,39 +42,26 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private static final String TAG = "PLAYERS_LIST_ACTIVITY";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_list);
 
-        if(savedInstanceState == null){
-            Bundle extras = getIntent().getExtras();
-
-            if (extras != null){
-                baseTeamID = extras.getInt("TEAM");
-
-            } else
-                baseTeamID = 0;
-
-        } else {
-            baseTeamID = savedInstanceState.getInt("baseTeamID");
-            currentPos = savedInstanceState.getInt("currentPos");
-        }
-
+        //this.testPlayers();
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            players = playerDao.getAll();
             if(players.isEmpty()) {
-
-                noElems();
-                //insertUserTest(playerDao);
-                //players = playerDao.getAll();
+                insertUserTest(playerDao);
+                players = playerDao.getAll();
             }
             mListPlayer.setList(getNamesList(players));
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -89,13 +76,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         fragmentTransaction.commit();
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("baseTeamID", baseTeamID);
-        outState.putInt("currentPos", currentPos);
-    }
-
     public List<String> getNamesList(List<Player> playerList){
 
         ArrayList<String> list = new ArrayList<String>();
@@ -104,15 +84,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             list.add(p.getName());
 
         return list;
-    }
-
-    public void noElems(){
-
-        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
-        l.setVisibility(View.GONE);
-
-        TextView t= (TextView)findViewById(R.id.without_elems);
-        t.setVisibility(View.VISIBLE);
     }
 
     public void removePlayer(){
@@ -125,14 +96,12 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
-
-        if(players.isEmpty())
-            noElems();
     }
 
     /************************************
      ****     Listener Functions     ****
      ************************************/
+
 
     public void itemSelected(int position) {
         Player player = players.get(position);
@@ -141,10 +110,13 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
-            }
 
-            currentPos = position;
-            mDetailsPlayer.showPlayer(player);
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
+
+                currentPos = position;
+                mDetailsPlayer.showPlayer(player);
+            }
         }
     }
 
@@ -157,13 +129,6 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
-
-        //To restore state on Layout Rotation
-        if(currentPos != -1) {
-            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(true);
-            mDetailsPlayer.showPlayer(players.get(currentPos));
-        }
         return true;
     }
 
@@ -173,12 +138,20 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreatePlayer_Activity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_TAG);
+
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
-                mDialog.show(mFragmentManager,"Alert");
+                mDialog.show(mFragmentManager, "Alert");
+                return true;
+
+            case R.id.action_edit:
+                Intent intent2 = new Intent(this, EditPlayer_Activity.class);
+                intent2.putExtra("id",players.get(currentPos).getId());
+                startActivityForResult(intent2,EDIT_TAG);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -233,10 +206,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
+            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
+            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
+            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
 
             long id;
 
@@ -253,10 +226,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     private void testPlayers(){
 
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, null, null);
+        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, null, null);
+        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, null, null);
+        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, null, null);
 
         players = new ArrayList<Player>();
         players.add(p1);
@@ -265,5 +238,37 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         players.add(p4);
 
         mListPlayer.setList(getNamesList(players));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Player player = null;
+        if (requestCode == EDIT_TAG) {
+            if(resultCode == 1){
+                try {
+                    player=playerDao.getById(players.get(currentPos).getId());
+                    players.set(currentPos,player);
+                    mDetailsPlayer.showPlayer(player);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (requestCode == CREATE_TAG) {
+            if(resultCode == 1){
+                try {
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    //System.out.println("ID TO SEARCH "+idToSearch);
+                    player=playerDao.getById(idToSearch);
+                    players.add(player);
+                    mDetailsPlayer.showPlayer(player);
+                    //mDetailsPlayer.
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
