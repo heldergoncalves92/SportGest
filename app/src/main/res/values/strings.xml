@@ -82,7 +82,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="userPassword">Password</string>
     <string name="userPasswordConfirmation">Password (confirmation)</string>
     <string name="userRole">Role</string>
-    <string name="playerNickname">Nickname</string>
     <string name="playerName">Name</string>
     <string name="playerNationality">Nationality</string>
     <string name="maritalstatus">Marital Status</string>
