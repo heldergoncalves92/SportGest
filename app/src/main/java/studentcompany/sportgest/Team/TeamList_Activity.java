@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +48,18 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_list);
 
+        if(savedInstanceState != null)
+            currentPos = savedInstanceState.getInt("currentPos");
+
         //this.testUsers();
         try {
             teamDao = new Team_DAO(getApplicationContext());
             teams = teamDao.getAll();
             if(teams.isEmpty()) {
-                insertTest(teamDao);
-                teams = teamDao.getAll();
+
+                noElems();
+                //insertTest(teamDao);
+                //teams = teamDao.getAll();
             }
             mListTeams.setList(getNamesList(teams));
 
@@ -73,6 +81,11 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
+    }
+
     public List<String> getNamesList(List<Team> teamsList){
 
         ArrayList<String> list = new ArrayList<String>();
@@ -81,6 +94,15 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             list.add(u.getName());
 
         return list;
+    }
+
+    public void noElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
     }
 
     public void removeTeam(){
@@ -93,6 +115,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+
+        if(teams.isEmpty())
+            noElems();
     }
     /************************************
      ****     Listener Functions     ****
@@ -165,6 +190,13 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+            mDetailsTeam.showTeam(teams.get(currentPos));
+        }
         return true;
     }
 

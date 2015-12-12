@@ -1,12 +1,12 @@
 package studentcompany.sportgest.domains;
 
 public class Missing extends DomainPojo {
-    private int id;
+    private long id;
     private Player player;
     private Training training;
     private String description;
 
-    public Missing(int id, Player player, Training training, String description) {
+    public Missing(long id, Player player, Training training, String description) {
         this.id = id;
         this.player = player;
         this.training = training;
@@ -14,7 +14,7 @@ public class Missing extends DomainPojo {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Missing extends DomainPojo {
         return description;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class Missing extends DomainPojo {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (player != null ? player.hashCode() : 0);
         result = 31 * result + (training != null ? training.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

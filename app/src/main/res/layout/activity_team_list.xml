@@ -9,7 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="studentcompany.sportgest.Team.TeamList_Activity">
 
+    <TextView
+        android:id="@+id/without_elems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="@string/no_teams"
+        android:gravity="center"
+        android:textSize="24dp"
+        android:visibility="invisible"/>
+
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">

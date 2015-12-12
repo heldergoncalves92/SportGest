@@ -55,12 +55,12 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
 
         //aux variables;
         ArrayList<Training> resTraining = new ArrayList<>();
-        int id;
+        long id;
         String title;
         String description;
         int date;
         int totalDuration;
-        int teamId;
+        long teamId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -68,12 +68,12 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
 
         //Parse data
         while(res.isAfterLast() == false) {
-            id = res.getInt(res.getColumnIndex(COLUMN_ID));
+            id = res.getLong(res.getColumnIndex(COLUMN_ID));
             title = res.getString(res.getColumnIndex(COLUMN_TITLE));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
             date = res.getInt(res.getColumnIndex(COLUMN_DATE));
             totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
-            teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+            teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
             resTraining.add(new Training(id, title, description, date, totalDuration,
                     team_dao.getById(teamId)));
             res.moveToNext();
@@ -83,7 +83,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     }
 
     @Override
-    public Training getById(int id) throws GenericDAOException {
+    public Training getById(long id) throws GenericDAOException {
 
         //aux variables;
         Training resTraining;
@@ -91,7 +91,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         String description;
         int date;
         int totalDuration;
-        int teamId;
+        long teamId;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
@@ -102,7 +102,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
         date = res.getInt(res.getColumnIndex(COLUMN_DATE));
         totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
-        teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+        teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
         resTraining = new Training(id, title, description, date, totalDuration,
                 team_dao.getById(teamId));
 
@@ -126,15 +126,15 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     public boolean delete(Training object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) });
+                new String[] { Long.toString(object.getId()) });
         return true;
     }
 
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
 
         int deletedCount = db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
         return true;
     }
 
@@ -151,7 +151,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(object.getId()) } );
+                new String[] { Long.toString(object.getId()) } );
         return true;
     }
 
@@ -168,11 +168,11 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         int fields = 0;
         String tmpString;
         int tmpInt;
-        float tmpFloat;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
@@ -191,8 +191,8 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
             fields++;
         }
-        if ((tmpInt = object.getTeam().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
             fields++;
         }
 
@@ -214,10 +214,11 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         int fields = 0;
         String tmpString;
         int tmpInt;
+        long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpInt = object.getId()) >= 0) {
-            statement.append(COLUMN_ID + "=" + tmpInt);
+        if ((tmpLong = object.getId()) >= 0) {
+            statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if ((tmpString = object.getTitle()) != null) {
@@ -236,30 +237,30 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
             fields++;
         }
-        if ((tmpInt = object.getTeam().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpInt );
+        if ((tmpLong = object.getTeam().getId()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
             fields++;
         }
 
         if (fields > 0) {
 
-            int id;
+            long id;
             String title;
             String description;
             int date;
             int totalDuration;
-            int teamId;
+            long teamId;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
-                    id = res.getInt(res.getColumnIndex(COLUMN_ID));
+                    id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     title = res.getString(res.getColumnIndex(COLUMN_TITLE));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
                     date = res.getInt(res.getColumnIndex(COLUMN_DATE));
                     totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
-                    teamId = res.getInt(res.getColumnIndex(COLUMN_TEAM_ID));
+                    teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
                     resTraining.add(new Training(id, title, description, date, totalDuration,
                             team_dao.getById(teamId)));
                     res.moveToNext();

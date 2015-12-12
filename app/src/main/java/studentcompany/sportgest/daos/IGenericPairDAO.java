@@ -12,9 +12,9 @@ public interface IGenericPairDAO<A,B> {
 
     List<Pair<A,B>> getAll() throws GenericDAOException;
 
-    List<Pair<A,B>> getByFirstId(int id) throws GenericDAOException;
+    List<B> getByFirstId(long id) throws GenericDAOException;
 
-    List<Pair<A,B>> getBySecondId(int id) throws GenericDAOException;
+    List<A> getBySecondId(long id) throws GenericDAOException;
 
     long insert(Pair<A,B> object) throws GenericDAOException;
 
