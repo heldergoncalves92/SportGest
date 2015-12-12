@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,26 +44,10 @@ public class DetailsUser_Fragment extends Fragment {
     }
 
     public void showUser(User user){
-
-        if(user.getUsername()!=null)
-            tv_username.setText(user.getUsername());
-        else
-            tv_username.setText("");
-
-        if(user.getName()!=null)
-            tv_name.setText(user.getName());
-        else
-            tv_name.setText("");
-
-        if(user.getEmail()!=null)
-            tv_email.setText(user.getEmail());
-        else
-            tv_email.setText("");
-
-        if (user.getPhoto()!=null)
-            tv_photo.setImageURI(Uri.parse(user.getPhoto()));
-        else
-            tv_photo.setImageURI(Uri.parse(""));
+        tv_username.setText(user.getUsername());
+        tv_name.setText(user.getName());
+        tv_email.setText(user.getEmail());
+        tv_photo.setImageURI(Uri.parse(user.getPhoto()));
     }
 
     public void clearDetails(){
@@ -74,5 +56,4 @@ public class DetailsUser_Fragment extends Fragment {
         tv_email.setText("");
         tv_photo.setImageURI(Uri.parse("defaulf"));
     }
-
 }

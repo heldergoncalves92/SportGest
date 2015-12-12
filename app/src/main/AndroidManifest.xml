@@ -27,6 +27,19 @@
             android:name=".EventCategories.ListEventCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
+        <activity android:name=".Players.PlayersList_Activity" />
+        <activity
+            android:name=".Users.CreateUser_Activity"
+            android:label="@string/app_newUser" />
+        <activity
+            android:name=".Players.CreatePlayer_Activity"
+            android:label="@string/app_newPlayer" />
+        <activity
+            android:name=".Team.TeamList_Activity"
+            android:label="@string/app_teamView" />
+        <activity
+            android:name=".Team.CreateTeam_Activity"
+            android:label="@string/app_newTeam" />
         <activity
             android:name=".Exercises.CreateExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -36,24 +49,20 @@
         <activity
             android:name=".Exercises.ListExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Team.TeamList_Activity" />
         <activity
-            android:name=".Players.CreatePlayer_Activity"
-            android:label="@string/app_newPlayer" />
+            android:name=".Users.RolesListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Players.EditPlayer_Activity"/>
+            android:name=".Users.RoleDisplayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Players.PlayersList_Activity"/>
+            android:name=".Users.CreateRole_Activity"
+            android:label="@string/title_activity_create_role_" />
         <activity
-            android:name=".Users.CreateUser_Activity"
-            android:label="@string/app_newUser" />
-        <activity
-            android:name=".Users.EditUser_Activity"/>
-        <activity
-            android:name=".Team.EditTeam_Activity"/>
-        <activity
-            android:name=".Team.CreateTeam_Activity"
-            android:label="@string/app_newTeam"></activity>
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login2" />
+        <activity android:name=".Games.GamesList_Activity" />
+        <activity android:name=".Games.GameGeneralView_Activity"></activity>
     </application>
 
 </manifest>
