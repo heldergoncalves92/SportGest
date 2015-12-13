@@ -1,9 +1,8 @@
 package studentcompany.sportgest.Team;
 
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,7 @@ import android.widget.TextView;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Team;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DetailsTeam_Fragment extends Fragment {
+public class DetailsSquad_Fragment extends AppCompatActivity {
 
 
     private static final String TAG = "DETAILS_TEAM_FRAGMENT";
@@ -25,7 +21,9 @@ public class DetailsTeam_Fragment extends Fragment {
     private ImageView tv_logo;
     private CheckBox tv_isCom;
 
-    public DetailsTeam_Fragment() {
+    int teamID = -1;
+
+    public DetailsSquad_Fragment() {
         // Required empty public constructor
     }
 
@@ -42,6 +40,11 @@ public class DetailsTeam_Fragment extends Fragment {
         tv_season = (TextView) view.findViewById(R.id.season);
         tv_logo = (ImageView) view.findViewById(R.id.logo);
         tv_isCom = (CheckBox) view.findViewById(R.id.isCom);
+
+        Bundle b = getIntent().getExtras();
+        if(b!=null){
+            teamID = b.getInt("id");
+        }
 
         return view;
     }

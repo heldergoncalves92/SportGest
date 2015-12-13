@@ -104,4 +104,14 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="squad">Convened squad</string>
     <string name="number">N&#186;</string>
     <string name="playerNickname">Nickname</string>
+    <string name="playerName">Name</string>
+    <string name="playerHeight">Height</string>
+    <string name="playerWeight">Weight</string>
+    <string name="playerAddress">Address</string>
+    <string name="playerEmail">Email</string>
+    <string name="playerNumber">Number</string>
+    <string name="teamName">Name</string>
+    <string name="teamDescription">Description</string>
+    <string name="teamSeason">Season</string>
+    <string name="userRole">Role</string>
 </resources>
