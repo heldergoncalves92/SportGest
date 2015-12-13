@@ -24,15 +24,19 @@ import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.User_DAO;
+import studentcompany.sportgest.daos.User_Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.User;
 
 public class UserListActivity extends AppCompatActivity implements ListUser_Fragment.OnItemSelected {
 
 
     private User_DAO userDao;
+    private User_Team_DAO user_team_dao;
     private List<User> users;
     private int currentPos = -1;
+    private long user_id;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
@@ -53,7 +57,14 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         //this.testUsers();
         try {
             userDao = new User_DAO(getApplicationContext());
+            user_team_dao = new User_Team_DAO(getApplicationContext());
             users = userDao.getAll();
+            for(User u : users)
+            {List<Team> t = user_team_dao.getByFirstId(u.getId());
+             if(t!=null)
+                 if(t.size()>0)
+                     u.setTeam(t.get(0)); // Get the Team
+            }
             if(users.isEmpty()) {
                 //noElems();
                 insertUserTest(userDao);
@@ -192,16 +203,17 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MenuItem item;
 
         if(users.size()==0)
         {
+            item = mOptionsMenu.findItem(R.id.action_add);
+            item.setVisible(true);
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(false);
             item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(false);
-            item = mOptionsMenu.findItem(R.id.action_add);
             item.setVisible(false);
             item = mOptionsMenu.findItem(R.id.action_settings);
             item.setVisible(false);
@@ -211,6 +223,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
             item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_add);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_settings);
+            item.setVisible(false);
         }
 
         //To restore state on Layout Rotation
@@ -231,13 +249,19 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
             case R.id.action_edit:
                 intent = new Intent(this, CreateUser_Activity.class);
-                intent.putExtra("ID",users.get(mListUsers.getSelectedItemPosition()).getId());
-                startActivity(intent);
+                user_id = users.get(currentPos).getId();
+                intent.putExtra("ID",user_id);
+                startActivityForResult(intent,1112);
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
+                return true;
+
+
+            case android.R.id.home:
+                finish();
                 return true;
 
             default:
@@ -292,7 +316,30 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 users = userDao.getAll();
                 //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
 
+
+                for(User u : users)
+                {List<Team> t = user_team_dao.getByFirstId(u.getId());
+                    if(t!=null)
+                        if(t.size()>0)
+                            u.setTeam(t.get(0)); // Get the Team
+                }
                 mListUsers.setList(users);
+                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
+                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+        }else if (requestCode == 1112) {
+            try {
+                User user1 = userDao.getById(user_id);
+                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
+
+                List<Team> t = user_team_dao.getByFirstId(user1.getId());
+                    if(t!=null)
+                        if(t.size()>0)
+                            user1.setTeam(t.get(0)); // Get the Team
+
+                mDetailsUser.showUser(user1);
                 //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
                 //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
             } catch (GenericDAOException e) {

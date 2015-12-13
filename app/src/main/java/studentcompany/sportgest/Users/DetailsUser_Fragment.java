@@ -57,9 +57,9 @@ public class DetailsUser_Fragment extends Fragment {
             et_role.setText("");
 
         if(user.getTeam()!=null)
-            et_role.setText(user.getTeam().getName());
+            et_team.setText(user.getTeam().getName());
         else
-            et_role.setText("");
+            et_team.setText("");
 
         et_photo.setImageURI(Uri.parse(user.getPhoto()));
     }

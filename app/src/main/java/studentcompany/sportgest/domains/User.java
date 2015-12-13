@@ -3,7 +3,7 @@ package studentcompany.sportgest.domains;
 
 public class User extends DomainPojo {
 
-    private long id;
+    private long id=-1;
     private String username;
     private String password;
     private String photo;
@@ -11,6 +11,11 @@ public class User extends DomainPojo {
     private String email;
     private Role role;
     private Team team;
+
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public User(long id, String username, String password, String photo, String name, String email, Role role) {
         this.id = id;
