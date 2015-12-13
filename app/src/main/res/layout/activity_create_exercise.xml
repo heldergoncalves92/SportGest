@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="studentcompany.sportgest.Exercises.CreateExerciseActivity"
-    android:gravity="top|center_horizontal">
+    android:gravity="top|left">
 
     <Space
         android:layout_width="match_parent"
@@ -100,11 +100,11 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/exercise_image_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Exercise illustration" />
+                    <TextView
+                        android:id="@+id/exercise_image_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Exercise illustration" />
 
                     <ImageButton
                         android:layout_width="match_parent"

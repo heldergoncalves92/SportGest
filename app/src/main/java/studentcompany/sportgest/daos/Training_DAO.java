@@ -8,6 +8,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
@@ -54,7 +56,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     public ArrayList<Training> getAll() throws GenericDAOException {
 
         //aux variables;
-        ArrayList<Training> resTraining = new ArrayList<>();
+        final ArrayList<Training> resTraining = new ArrayList<>();
         long id;
         String title;
         String description;
@@ -78,6 +80,14 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                     team_dao.getById(teamId)));
             res.moveToNext();
         }
+
+        //Sorting
+        Collections.sort(resTraining, new Comparator<Training>() {
+            @Override
+            public int compare(Training lhs, Training rhs) {
+                return lhs.getTitle().compareTo(rhs.getTitle());
+            }
+        });
 
         return resTraining;
     }

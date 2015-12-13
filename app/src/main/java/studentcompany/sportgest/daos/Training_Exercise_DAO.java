@@ -8,10 +8,13 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 
 public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implements IGenericDAO<TrainingExercise> {
@@ -75,6 +78,14 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
                     repetitions));
             res.moveToNext();
         }
+
+        //Sorting
+        Collections.sort(resTrainingExercise, new Comparator<TrainingExercise>() {
+            @Override
+            public int compare(TrainingExercise lhs, TrainingExercise rhs) {
+                return lhs.getExercise().getTitle().compareTo(rhs.getExercise().getTitle());
+            }
+        });
 
         return resTrainingExercise;
     }

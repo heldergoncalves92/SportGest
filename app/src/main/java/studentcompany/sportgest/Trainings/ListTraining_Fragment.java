@@ -51,6 +51,12 @@ public class ListTraining_Fragment extends ListFragment {
         getListView().invalidateViews();
     }
 
+    public void updateList(){
+        // Set the list adapter for the ListView
+        if(list != null)
+            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.fragment_training_list, list));
+    }
+
     /************************************
      ****     Listener Functions     ****
      ************************************/
