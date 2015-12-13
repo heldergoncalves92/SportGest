@@ -2,82 +2,357 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_player" />
-    <TextView
-        android:id="@+id/team"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_gravity="right">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="41dp">
 
-    <TextView
-        android:id="@+id/nickname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="466dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
-    <TextView
-        android:id="@+id/nationality"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                    <FrameLayout
+                        android:layout_width="145dp"
+                        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/maritalstatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+                        <ImageView
+                            android:id="@+id/photo"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/lego_face"/>
+                    </FrameLayout>
 
-    <TextView
-        android:id="@+id/birthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+                    <FrameLayout
+                        android:layout_width="31dp"
+                        android:layout_height="142dp"></FrameLayout>
 
-    <TextView
-        android:id="@+id/height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/nickname"
+                        android:hint="@string/playerNickname"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.58"
+                        android:elegantTextHeight="true" />
 
-    <TextView
-        android:id="@+id/weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        android:ems="10" />
+                </LinearLayout>
 
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/SplitLine_hor0"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/preferedfoot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name"
+                        android:hint="@string/playerName"
+                        android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nationality"
+                        android:hint="@string/playerNationality"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/maritalstatus"
+                        android:hint="@string/maritalstatus"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/SplitLine_hor4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/birthday"
+                        android:hint="@string/playerBirthday"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/height"
+                        android:hint="@string/playerHeight"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor6"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/weight"
+                        android:hint="@string/playerWeight"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor7"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address"
+                        android:hint="@string/playerAddress"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor8"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/gender"
+                        android:hint="@string/playerGender"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor9"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/email"
+                        android:hint="@string/playerEmail"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor10"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/preferredfoot"
+                        android:hint="@string/playerPreferredFoot"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor11"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/number"
+                        android:hint="@string/playerNumber"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor12"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:weightSum="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+
+
+                    <TextView
+                        android:layout_width="268dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/position"
+                        android:hint="@string/playerPosition"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/SplitLine_hor13"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5pt"
+                    android:background="@android:color/darker_gray"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </ScrollView>
 
 </LinearLayout>
