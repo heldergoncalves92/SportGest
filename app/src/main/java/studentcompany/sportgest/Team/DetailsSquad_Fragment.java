@@ -1,85 +1,122 @@
 package studentcompany.sportgest.Team;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
 public class DetailsSquad_Fragment extends AppCompatActivity {
 
 
-    private static final String TAG = "DETAILS_TEAM_FRAGMENT";
-    private TextView tv_name, tv_description,tv_season;
-    private ImageView tv_logo;
-    private CheckBox tv_isCom;
+    private static final String TAG = "DETAILS_SQUAD_FRAGMENT";
+    private ListView tv_squad_list;
 
-    int teamID = -1;
+    private int teamID = -1;
+    private Team_DAO team_dao;
+    private Player_DAO player_dao;
 
     public DetailsSquad_Fragment() {
         // Required empty public constructor
     }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        LayoutInflater lf = getActivity().getLayoutInflater();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_squad);
 
-        View view =  lf.inflate(R.layout.fragment_team_details, container, false);
-        tv_name = (TextView) view.findViewById(R.id.name);
-        tv_description = (TextView) view.findViewById(R.id.description);
-        tv_season = (TextView) view.findViewById(R.id.season);
-        tv_logo = (ImageView) view.findViewById(R.id.logo);
-        tv_isCom = (CheckBox) view.findViewById(R.id.isCom);
+        tv_squad_list = (ListView) findViewById(R.id.squad_list);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
             teamID = b.getInt("id");
         }
 
-        return view;
+        team_dao = new Team_DAO(this);
+        player_dao = new Player_DAO(this);
+
+        ArrayList<String> playersInTeam = new ArrayList<>();
+        //ArrayList<String> playersOutTeam = new ArrayList<>();
+
+        try {
+            List<Player> allPlayers = player_dao.getAll();
+
+            if(allPlayers!=null){
+
+                for(Player p : allPlayers){
+                    if(p.getTeam()!=null) {
+                        if (p.getTeam().getId() == teamID)
+                            playersInTeam.add(p.getName());
+                        /*else
+                            playersOutTeam.add(p.getName());
+                    }
+                    else
+                        playersInTeam.add(p.getName());*/
+                    }
+
+                }
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
+        if(!playersInTeam.isEmpty()){
+            ArrayAdapter<String> adapterWithPlayers = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, playersInTeam);
+            tv_squad_list.setAdapter(adapterWithPlayers);
+        }
+
     }
 
-    public void showTeam(Team team){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        MenuItem delItem = menu.findItem(R.id.Delete);
+        MenuItem addItem = menu.findItem(R.id.Add);
+        editItem.setVisible(false);
+        delItem.setVisible(false);
+        addItem.setVisible(false);
 
-        if(team.getName()!=null)
-            tv_name.setText(team.getName());
-        else
-            tv_name.setText("");
-
-        if(team.getDescription()!=null)
-            tv_description.setText(team.getDescription());
-        else
-            tv_description.setText("");
-
-        tv_season.setText(Integer.toString(team.getSeason()));
-
-        if(team.getLogo()!=null)
-            tv_logo.setImageURI(Uri.parse(team.getLogo()));
-        else
-            tv_logo.setImageURI(Uri.parse(""));
-
-        boolean selected = team.getIs_com()==1;
-        tv_isCom.setSelected(selected);
+        return true;
     }
 
-    public void clearDetails(){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        super.onOptionsItemSelected(item);
 
-        tv_name.setText("");
-        tv_description.setText("");
-        tv_season.setText("");
-        tv_isCom.setSelected(false);
-        tv_logo.setImageURI(Uri.parse("lego_face"));
+        switch(item.getItemId())
+        {
+            //add action
+            case R.id.Add:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
