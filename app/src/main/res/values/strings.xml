@@ -114,4 +114,13 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="teamDescription">Description</string>
     <string name="teamSeason">Season</string>
     <string name="userRole">Role</string>
+    <string name="playerNationality">Nationality</string>
+    <string name="maritalstatus">Marital Status</string>
+    <string name="playerBirthday">Birthday</string>
+    <string name="playerGender">Gender</string>
+    <string name="playerPreferredFoot">Preferred Foot</string>
+    <string name="playerPosition">Position</string>
+    <string name="userPasswordOriginal">Original Password</string>
+
+
 </resources>
