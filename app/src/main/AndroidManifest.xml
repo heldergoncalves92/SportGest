@@ -63,6 +63,13 @@
             android:label="@string/title_activity_login2" />
         <activity android:name=".Games.GamesList_Activity" />
         <activity android:name=".Games.GameGeneralView_Activity"></activity>
+        <activity
+            android:name=".Team.EditTeam_Activity"/>
+        <activity
+            android:name=".Users.EditUser_Activity"/>
+        <activity
+            android:name=".Players.EditPlayer_Activity"/>
+
     </application>
 
 </manifest>
