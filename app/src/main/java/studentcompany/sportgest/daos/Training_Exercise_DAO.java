@@ -172,20 +172,20 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
         int tmpInt;
         long tmpLong;
 
-        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpLong = object.getTraining().getId()) >= 0) {
+        if (object.getTraining() != null && (tmpLong = object.getTraining().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getExercise().getId()) >= 0) {
+        if (object.getExercise() != null && (tmpLong = object.getExercise().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getRepetitions()) >= 0) {
+        if ((tmpInt = object.getRepetitions()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
             fields++;
         }
@@ -210,19 +210,19 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpLong = object.getTraining().getId()) >= 0) {
+        if (object.getTraining() != null && (tmpLong = object.getTraining().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getExercise().getId()) >= 0) {
+        if (object.getExercise() != null && (tmpLong = object.getExercise().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getRepetitions()) >= 0) {
+        if ((tmpInt = object.getRepetitions()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
             fields++;
         }
@@ -249,6 +249,14 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
                     res.moveToNext();
                 }
         }
+
+        //Sorting
+        Collections.sort(resTrainingExercise, new Comparator<TrainingExercise>() {
+            @Override
+            public int compare(TrainingExercise lhs, TrainingExercise rhs) {
+                return lhs.getExercise().getTitle().compareTo(rhs.getExercise().getTitle());
+            }
+        });
 
 
         return resTrainingExercise;

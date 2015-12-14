@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="studentcompany.sportgest.Trainings.CreateTrainingActivity"
+    tools:context="studentcompany.sportgest.Trainings.CreateTrainingExerciseActivity"
     android:gravity="top|left">
 
     <LinearLayout
@@ -66,17 +66,18 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/exercise_time_unit"
+                android:id="@+id/exercise_repetitions_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Repetitions:"
+                android:layout_marginRight="5dp"
                 android:gravity="center" />
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-"
+                android:src="@drawable/ic_remove_black_24dp"
                 android:id="@+id/selected_exercise_repetitions_less"/>
 
             <EditText
@@ -85,13 +86,45 @@
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:text="0"
+                android:ems="2"
                 android:gravity="center"/>
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"
+                android:src="@drawable/ic_add_black_24dp"
                 android:id="@+id/selected_exercise_repetitions_more"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/training_total_duration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Total duration:"
+                android:gravity="center" />
+
+            <EditText
+                android:id="@+id/training_total_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:editable="false"
+                android:text="0"
+                android:ems="2"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/exercise_time_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="min"
+                android:gravity="left|center" />
 
         </LinearLayout>
 
@@ -100,6 +133,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:id="@+id/return_button"
+            android:layout_gravity="left"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_button"
+            android:id="@id/next_button"
+            android:layout_gravity="bottom|right"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

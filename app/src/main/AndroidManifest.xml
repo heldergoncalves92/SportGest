@@ -66,6 +66,8 @@
             android:label="@string/app_newExercise"/>
         <activity android:name=".Trainings.CreateTrainingActivity"
             android:label="@string/app_newTraining"/>
+        <activity android:name=".Trainings.CreateTrainingExerciseActivity"
+            android:label="@string/app_newTraining"/>
     </application>
 
 </manifest>

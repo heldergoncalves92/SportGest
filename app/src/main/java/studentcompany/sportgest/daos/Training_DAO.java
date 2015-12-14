@@ -60,7 +60,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         long id;
         String title;
         String description;
-        int date;
+        long date;
         int totalDuration;
         long teamId;
 
@@ -73,7 +73,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             title = res.getString(res.getColumnIndex(COLUMN_TITLE));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
             teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
             resTraining.add(new Training(id, title, description, date, totalDuration,
@@ -99,7 +99,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         Training resTraining;
         String title;
         String description;
-        int date;
+        long date;
         int totalDuration;
         long teamId;
 
@@ -110,7 +110,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         //Parse data
         title = res.getString(res.getColumnIndex(COLUMN_TITLE));
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
         teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
         resTraining = new Training(id, title, description, date, totalDuration,
@@ -193,8 +193,8 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpInt = object.getTotalDuration()) >= 0) {
@@ -239,8 +239,8 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpInt = object.getTotalDuration()) >= 0) {
@@ -257,7 +257,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             long id;
             String title;
             String description;
-            int date;
+            long date;
             int totalDuration;
             long teamId;
 
@@ -268,7 +268,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     title = res.getString(res.getColumnIndex(COLUMN_TITLE));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
                     teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
                     resTraining.add(new Training(id, title, description, date, totalDuration,
