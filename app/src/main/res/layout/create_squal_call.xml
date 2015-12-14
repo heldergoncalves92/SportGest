@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
+
+
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/display_role_toolbar"
+            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
 
     <LinearLayout
@@ -52,9 +64,11 @@
             android:layout_weight="0.3">
 
             <ListView
-                android:layout_width="138dp"
-                android:layout_height="match_parent"
-                android:id="@+id/list_players" />
+                android:id="@+id/lvnc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:choiceMode="multipleChoice"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -64,20 +78,6 @@
             android:gravity="center"
             android:layout_weight="0.4">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_height="64dp">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:id="@+id/bt_switch" />
-                <!--android:src="@drawable/ic_swap_horiz_black_24dp"-->
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -85,6 +85,13 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/detail_fragment_container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"/>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -97,9 +104,11 @@
             android:layout_height="match_parent">
 
             <ListView
-                android:layout_width="138dp"
-                android:layout_height="match_parent"
-                android:id="@+id/selected_team" />
+                android:id="@+id/lvc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:choiceMode="multipleChoice"
+                />
         </LinearLayout>
 
     </LinearLayout>
