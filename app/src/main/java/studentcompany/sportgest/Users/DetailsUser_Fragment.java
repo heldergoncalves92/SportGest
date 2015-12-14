@@ -44,16 +44,33 @@ public class DetailsUser_Fragment extends Fragment {
     }
 
     public void showUser(User user){
-        tv_username.setText(user.getUsername());
-        tv_name.setText(user.getName());
-        tv_email.setText(user.getEmail());
-        tv_photo.setImageURI(Uri.parse(user.getPhoto()));
+
+        if(user.getUsername()!=null)
+            tv_username.setText(user.getUsername());
+        else
+            tv_username.setText("");
+
+        if(user.getName()!=null)
+            tv_name.setText(user.getName());
+        else
+            tv_name.setText("");
+
+        if(user.getEmail()!=null)
+            tv_email.setText(user.getEmail());
+        else
+            tv_email.setText("");
+
+        if (user.getPhoto()!=null)
+            tv_photo.setImageURI(Uri.parse(user.getPhoto()));
+        else
+            tv_photo.setImageURI(Uri.parse(""));
     }
 
     public void clearDetails(){
+
         tv_username.setText("");
         tv_name.setText("");
         tv_email.setText("");
-        tv_photo.setImageURI(Uri.parse("defaulf"));
+        tv_photo.setImageURI(Uri.parse("lego_face"));
     }
 }
