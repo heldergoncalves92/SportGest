@@ -89,7 +89,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
 
 
-
+        if(userID > 0)
         try {
             listTeams = team_dao.getAll();
             listTeams.add(0,new Team(-1,getResources().getString(R.string.no_team)));
