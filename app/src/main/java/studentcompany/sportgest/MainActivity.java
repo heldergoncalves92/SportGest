@@ -16,6 +16,7 @@ import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Trainings.CreateTrainingActivity;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Training(View v){
-        Intent intent = new Intent(this, TrainingListActivity.class);
+        Intent intent = new Intent(this, CreateTrainingActivity.class);
         startActivity(intent);
     }
 
