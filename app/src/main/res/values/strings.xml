@@ -110,7 +110,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="playerAddress">Address</string>
     <string name="playerEmail">Email</string>
     <string name="playerNumber">Number</string>
-    <string name="teamName">Name</string>
     <string name="teamDescription">Description</string>
     <string name="teamSeason">Season</string>
     <string name="userRole">Role</string>
@@ -121,6 +120,16 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="playerPreferredFoot">Preferred Foot</string>
     <string name="playerPosition">Position</string>
     <string name="userPasswordOriginal">Original Password</string>
+    <string name="teamName">Name</string>
+
+    <string name="err_password_match">Password don't match</string>
+    <string name="err_name_short">Name is short</string>
+    <string name="err_username_short">Username is short</string>
+    <string name="err_valid_email">Email is not valid</string>
+    <string name="err_address_short">Address is short</string>
+    <string name="err_number">Invalid number</string>
+    <string name="err_description_short">Description is short</string>
+
 
 
 </resources>

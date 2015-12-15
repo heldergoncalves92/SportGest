@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,9 @@ public class EditUser_Activity extends AppCompatActivity {
 
     User user = null;
     int userID = -1;
+    private EditText tv_username,tv_name,tv_email,tv_password0,tv_password1,tv_password2;
+    private ImageView tv_photo;
+    private TextView focusView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,12 @@ public class EditUser_Activity extends AppCompatActivity {
             userID = b.getInt("id");
         }
 
-        EditText tv_username = (EditText) findViewById(R.id.username);
-        EditText tv_name = (EditText) findViewById(R.id.name);
-        EditText tv_email = (EditText) findViewById(R.id.email);
-        EditText tv_password1 = (EditText) findViewById(R.id.password1);
-        EditText tv_password2 = (EditText) findViewById(R.id.password2);
-        ImageView tv_photo = (ImageView) findViewById(R.id.photo);
+        tv_username = (EditText) findViewById(R.id.username);
+        tv_name = (EditText) findViewById(R.id.name);
+        tv_email = (EditText) findViewById(R.id.email);
+        tv_password1 = (EditText) findViewById(R.id.password1);
+        tv_password2 = (EditText) findViewById(R.id.password2);
+        tv_photo = (ImageView) findViewById(R.id.photo);
 
         User userFromDB=null;
         user_dao = new User_DAO(this);
@@ -92,17 +96,20 @@ public class EditUser_Activity extends AppCompatActivity {
             //add action
             case R.id.Edit:
 
-                EditText tv_username = (EditText) findViewById(R.id.username);
-                EditText tv_name = (EditText) findViewById(R.id.name);
-                EditText tv_email = (EditText) findViewById(R.id.email);
-                EditText tv_password0 = (EditText) findViewById(R.id.password0);
-                EditText tv_password1 = (EditText) findViewById(R.id.password1);
-                EditText tv_password2 = (EditText) findViewById(R.id.password2);
-                ImageView tv_photo = (ImageView) findViewById(R.id.photo);
+                boolean conti=false;
+
+                tv_username = (EditText) findViewById(R.id.username);
+                tv_name = (EditText) findViewById(R.id.name);
+                tv_email = (EditText) findViewById(R.id.email);
+                tv_password0 = (EditText) findViewById(R.id.password0);
+                tv_password1 = (EditText) findViewById(R.id.password1);
+                tv_password2 = (EditText) findViewById(R.id.password2);
+                tv_photo = (ImageView) findViewById(R.id.photo);
 
                 String username = tv_username.getText().toString();
                 String name = tv_name.getText().toString();
                 String password = "";
+                String email = tv_email.getText().toString();
                 String password0 = tv_password0.getText().toString();
                 String password1 = tv_password1.getText().toString();
                 String password2 = tv_password1.getText().toString();
@@ -112,48 +119,52 @@ public class EditUser_Activity extends AppCompatActivity {
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+                String passwordBef="";
+                if(userFromDB!=null)
+                    passwordBef=userFromDB.getPassword();
+                conti = validate(username,name,email,passwordBef,password0,password1,password2);
+                if(conti) {
+                    if (password0.equals(userFromDB.getPassword())) {
 
-                if(password0.equals(userFromDB.getPassword())){
-
-                    if(password1.equals(password2)){
-                        password=password1;
-                    } else {
-                        try {
-                            throw new Exception("passwords don't match");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    String email = tv_email.getText().toString();
-                    //ups vai estar a imagem em bitmap ou o path para ela?
-                    //String photo = tv_photo.get
-                    String photo="";
-                    //corrigir isto
-                    Role role = new Role(null,null);
-
-                    user=new User(username,password,photo,name,email,null);
-
-                    //insert/update database
-                    try {
-                        if(userID > 0){
-                            user_dao.update(user);
+                        if (password1.equals(password2)) {
+                            password = password1;
                         } else {
-                            user_dao.insert(user);
+
                         }
-                    }catch (GenericDAOException ex){
-                        System.err.println(CreateUser_Activity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateUser_Activity.class.getName()).log(Level.WARNING, null, ex);
+                        //ups vai estar a imagem em bitmap ou o path para ela?
+                        //String photo = tv_photo.get
+                        String photo = "";
+                        //corrigir isto
+                        Role role = new Role(null, null);
+
+                        user = new User(username, password, photo, name, email, null);
+
+                        //insert/update database
+                        try {
+                            if (userID > 0) {
+                                user_dao.update(user);
+                            } else {
+                                user_dao.insert(user);
+                            }
+                        } catch (GenericDAOException ex) {
+                            System.err.println(CreateUser_Activity.class.getName() + " [WARNING] " + ex.toString());
+                            Logger.getLogger(CreateUser_Activity.class.getName()).log(Level.WARNING, null, ex);
+                        }
+                        Intent intent = new Intent();
+                        setResult(1, intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent();
+                        setResult(0, intent);
+                        finish();
                     }
-                    Intent intent = new Intent();
-                    setResult(1,intent);
-                    finish();
+                    return true;
                 }
-                else {
-                    Intent intent = new Intent();
-                    setResult(0,intent);
-                    finish();
+               else{
+                    focusView.requestFocus();
+                    return super.onOptionsItemSelected(item);
                 }
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -164,5 +175,55 @@ public class EditUser_Activity extends AppCompatActivity {
         super.onStop();
 
         setResult(0);
+    }
+
+    private boolean validate(String username,String name,String email,String befPassword,String password0,String password1,String password2) {
+        boolean conti=false;
+        focusView = tv_username;
+
+        if(username.length()<5) {
+            focusView = tv_username;
+            tv_username.setError(getString(R.string.err_username_short));
+        }
+        else
+            conti=true;
+
+        if(name.length()<3) {
+            focusView = tv_name;
+            tv_name.setError(getString(R.string.err_name_short));
+        }
+        else
+            conti=true;
+
+        if(email.contains("@")) {
+            String[] emailTesting = email.split("@");
+            if(emailTesting[1].contains(".")) {
+                String[] emailTestingIntern = emailTesting[1].split(".");
+                if(emailTestingIntern[0].length()>1 && emailTestingIntern[1].length()>1)
+                    conti = true;
+                else {
+                    focusView = tv_email;
+                    tv_email.setError(getString(R.string.err_valid_email));
+                }
+            }
+            else {
+                focusView = tv_email;
+                tv_email.setError(getString(R.string.err_valid_email));
+            }
+        } else {
+            focusView = tv_email;
+            tv_email.setError(getString(R.string.err_valid_email));
+        }
+
+        if(password1.equals(password2) && password0.equals(befPassword)){
+            conti=true;
+        } else {
+            focusView = tv_password0;
+            tv_password0.setError(getString(R.string.err_password_match));
+            tv_password1.setError(getString(R.string.err_password_match));
+            tv_password2.setError(getString(R.string.err_password_match));
+        }
+
+        return conti;
     }
 }

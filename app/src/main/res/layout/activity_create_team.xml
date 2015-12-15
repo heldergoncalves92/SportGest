@@ -152,12 +152,6 @@
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/SplitLine_hor4"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-
             </LinearLayout>
 
         </FrameLayout>
