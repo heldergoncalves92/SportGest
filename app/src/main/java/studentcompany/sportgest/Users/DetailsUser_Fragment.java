@@ -1,6 +1,10 @@
 package studentcompany.sportgest.Users;
 
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.EditText;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.User;
@@ -61,7 +68,8 @@ public class DetailsUser_Fragment extends Fragment {
         else
             et_team.setText("");
 
-        et_photo.setImageURI(Uri.parse(user.getPhoto()));
+        //et_photo.setImageURI(Uri.parse(user.getPhoto()));
+        et_photo.setImageBitmap(getImageBitmap(this.getContext(),user.getPhoto()));
     }
 
     public void clearDetails(){
@@ -70,6 +78,24 @@ public class DetailsUser_Fragment extends Fragment {
         et_email.setText("");
         et_role.setText("");
         et_team.setText("");
-        et_photo.setImageURI(Uri.parse("default"));
+        //et_photo.setImageURI(Uri.parse("default"));
+    }
+
+    public Bitmap getImageBitmap(Context context,String name){
+        //name=name+"."+extension;
+        try{
+            ContextWrapper cw = new ContextWrapper(this.getContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

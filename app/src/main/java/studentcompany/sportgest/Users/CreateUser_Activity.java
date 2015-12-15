@@ -1,25 +1,44 @@
 package studentcompany.sportgest.Users;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import studentcompany.sportgest.MainActivity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Role_DAO;
@@ -51,11 +70,24 @@ public class CreateUser_Activity extends AppCompatActivity {
     private TextInputLayout inputLayoutName,inputLayoutUsername,inputLayoutPassword,inputLayoutPassword2,inputLayoutEmail;
 
 
+    ImageView viewImage;
+    Button b;
+    Bitmap bitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+
+        b=(Button)findViewById(R.id.btnSelectPhoto);
+        viewImage=(ImageView)findViewById(R.id.viewImage);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
 
 
         team_dao = new Team_DAO(this);
@@ -89,7 +121,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
 
 
-        if(userID > 0)
+
         try {
             listTeams = team_dao.getAll();
             listTeams.add(0,new Team(-1,getResources().getString(R.string.no_team)));
@@ -106,7 +138,7 @@ public class CreateUser_Activity extends AppCompatActivity {
         spinnerRole.setAdapter(dataAdapterr);
         spinnerTeam.setAdapter(dataAdaptert);
 
-
+        if(userID > 0)
         try {
             user = user_dao.getById(userID);
 
@@ -160,8 +192,6 @@ public class CreateUser_Activity extends AppCompatActivity {
 
 
 
-
-
     /************************************
      ****       Menu Functions       ****
      ************************************/
@@ -209,6 +239,7 @@ public class CreateUser_Activity extends AppCompatActivity {
                 Spinner spt = ((Spinner) findViewById(R.id.input_create_user_team_spinner));
                 Team team = (Team)spt.getSelectedItem();
 
+                photo = bitmap == null ? null: username.concat(".jpg");
                 User usernew = new User(username,password,photo,name,email,role.getId() < 0 ? null:role,team.getId() < 0 ? null : team);
 
                 try {
@@ -258,12 +289,11 @@ public class CreateUser_Activity extends AppCompatActivity {
                                 Pair<User, Team> pair = new Pair<>(usernew, team);
                                 user_team_dao.insert(pair); // Insert the User <=> Team
                         }
-
                     }
 
-
-
-
+                    // Save the photo
+                    if(bitmap!=null)
+                        saveToInternalSorage(bitmap, usernew.getPhoto()); //"user0.jpg");
 
                     MyDB.getInstance(this).db.setTransactionSuccessful();
                     MyDB.getInstance(this).db.endTransaction();
@@ -272,7 +302,7 @@ public class CreateUser_Activity extends AppCompatActivity {
                     setResult(112);
                     finish();
                     return true;
-                } catch (GenericDAOException e) {
+                } catch (Exception e) {
                     MyDB.getInstance(this).db.endTransaction();
                     Toast.makeText(getApplicationContext(), R.string.user_save_unsuccessful, Toast.LENGTH_SHORT).show();
                 }
@@ -427,4 +457,137 @@ public class CreateUser_Activity extends AppCompatActivity {
         setResult(0, returnIntent);
     }
 
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                File f = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals("temp.jpg")) {
+                        f = temp;
+                        break;
+                    }
+                }
+                try {
+
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+
+                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            bitmapOptions);
+                    
+                    if(bitmap==null)
+                        Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                    else
+                        viewImage.setImageBitmap(bitmap);
+                    /*
+                    String path = android.os.Environment
+                            .getExternalStorageDirectory()
+                            + File.separator
+                            + "Phoenix" + File.separator + "default";
+                    f.delete();
+                    OutputStream outFile = null;
+                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    try {
+                        outFile = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                        outFile.flush();
+                        outFile.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }*/
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == 2) {
+                try {
+                    Uri selectedImage = data.getData();
+                    String[] filePath = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    String picturePath = c.getString(columnIndex);
+                    c.close();
+                    bitmap = BitmapFactory.decodeFile(picturePath);
+                    if (bitmap == null)
+                        Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                    else
+                        viewImage.setImageBitmap(bitmap);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
+    private String saveToInternalSorage(Bitmap bitmapImage,String name) throws IOException {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File mypath=new File(directory,name);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            fos.close();
+        }
+        return directory.getAbsolutePath();
+    }
+
+
+
+
+    private void selectImage() {
+
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add a Photo to the User");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                try {
+                    if (options[item].equals("Take Photo")) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                        startActivityForResult(intent, 1);
+                    } else if (options[item].equals("Choose from Gallery")) {
+                        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, 2);
+
+                    } else if (options[item].equals("Cancel")) {
+                        dialog.dismiss();
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
