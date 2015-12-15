@@ -13,6 +13,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.domains.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +22,7 @@ public class ListUser_Fragment extends ListFragment {
 
 
     private static final String TAG = "LIST_USER_FRAGMENT";
-    private List<String> list;
+    private List<User> list;
     OnItemSelected mListener;
 
     @Override
@@ -41,19 +42,21 @@ public class ListUser_Fragment extends ListFragment {
         Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
         super.onActivityCreated(savedState);
 
-
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_user_list, list));
-
+            setListAdapter(new ArrayAdapter<User>(getActivity(), android.R.layout.simple_list_item_1, list));
+            //setListAdapter(new ArrayAdapter<User>(getActivity(), R.layout.fragment_user_list, list));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
     }
 
-    public void setList(List<String> list){
+    public void setList(List<User> list){
         this.list = list;
+        try{getListView().invalidateViews();}
+        catch (Exception e){
+
+        }
     }
 
     public void removeItem(int position){
@@ -77,8 +80,5 @@ public class ListUser_Fragment extends ListFragment {
 
         mListener.itemSelected(position);
     }
-
-
-
 
 }

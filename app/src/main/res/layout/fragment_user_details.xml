@@ -1,166 +1,120 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
     android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="right">
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="41dp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:layout_weight="0.11">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/input_details_user_photo"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:src="@drawable/lego_face"/>
+    </FrameLayout>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.12">
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_username"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right">
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userUsername" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="500dp"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
-
-                    <FrameLayout
-                        android:layout_width="145dp"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/photo"
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/lego_face"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="31dp"
-                        android:layout_height="142dp"></FrameLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:id="@+id/name"
-                        android:hint="@string/userName"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.58"
-                        android:autoText="false"
-                        android:editable="true"
-                        android:elegantTextHeight="true" />
-
-                </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
 
-                <View
-                    android:id="@+id/SplitLine_hor0"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:hint="@string/userEmail" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userRole" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_details_user_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_details_user_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/userTeam" />
+
+        </android.support.design.widget.TextInputLayout>
 
 
-                    <TextView
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/username"
-                        android:hint="@string/userUsername"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
 
 
-                    <TextView
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:id="@+id/email"
-                        android:hint="@string/userEmail"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
+    </LinearLayout>
 
-                <!--View
-                    android:id="@+id/SplitLine_hor3"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-
-                    <TextView
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:id="@+id/password1"
-                        android:hint="@string/userPassword"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor4"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:id="@+id/password2"
-                        android:hint="@string/userPasswordConfirmation"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout-->
-
-                <View
-                    android:id="@+id/SplitLine_hor1"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-
-            </LinearLayout>
-
-        </FrameLayout>
-
-    </ScrollView>
-
-</LinearLayout>
+ </LinearLayout>
+</ScrollView>

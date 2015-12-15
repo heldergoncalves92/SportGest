@@ -52,9 +52,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             teams = teamDao.getAll();
             if(teams.isEmpty()) {
 
-                noElems();
-                //insertTest(teamDao);
-                //teams = teamDao.getAll();
+                //noElems();
+                insertTest(teamDao);
+                teams = teamDao.getAll();
             }
             mListTeams.setList(getNamesList(teams));
 
