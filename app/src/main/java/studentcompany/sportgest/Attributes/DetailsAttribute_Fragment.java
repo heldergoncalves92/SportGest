@@ -30,6 +30,11 @@ public class DetailsAttribute_Fragment extends Fragment {
         tv_name = (TextView) view.findViewById(R.id.attribute_name);
         tv_type = (TextView) view.findViewById(R.id.attribute_category);
 
+        tv_name.setFocusable(false);
+        tv_name.setClickable(false);
+        tv_type.setFocusable(false);
+        tv_type.setClickable(false);
+
         return view;
     }
 
