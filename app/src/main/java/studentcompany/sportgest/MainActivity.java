@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
-import studentcompany.sportgest.Exercises.ListExerciseActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
@@ -68,11 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ListEventCategoryActivity.class);
 
                 //intent.putExtras(dataBundle);
-                startActivity(intent);
-            }
-        });
-
-
                 startActivity(intent);
             }
         });
