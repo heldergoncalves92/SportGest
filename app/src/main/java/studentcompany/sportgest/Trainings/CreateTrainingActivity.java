@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,11 +40,14 @@ import studentcompany.sportgest.domains.TrainingExercise;
 
 public class CreateTrainingActivity extends AppCompatActivity {
 
+    private TextInputLayout inputLayoutName;
+
     private static final String TAG = "CREATE_TRAINING_ACTIVITY";
     private TextView tv_name, tv_description;
     private EditText et_date, et_time;
+    private Button next_button;
 
-    //DAOs
+    // /DAOs
     private Team_DAO team_dao;
     private Training_DAO training_dao;
     private Exercise_DAO exercise_dao;
@@ -78,11 +83,15 @@ public class CreateTrainingActivity extends AppCompatActivity {
             return;
         }
 
+        //initialize layouts
+        inputLayoutName = (TextInputLayout) findViewById(R.id.layout_training_name);
+
         //initialize views
         tv_name = (TextView) findViewById(R.id.training_name);
         et_date= (EditText) findViewById(R.id.pick_date);
         et_time = (EditText) findViewById(R.id.pick_time);
         tv_description = (TextView) findViewById(R.id.training_description);
+        next_button = (Button) findViewById(R.id.next_button);
 
         //initialize variables
         training = null;
@@ -112,6 +121,15 @@ public class CreateTrainingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getSupportFragmentManager(), "timePicker");
+            }
+        });
+        next_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(tv_name.getText().toString().isEmpty()){
+                    inputLayoutName.setError("Field Name Required");
+                }
             }
         });
 
