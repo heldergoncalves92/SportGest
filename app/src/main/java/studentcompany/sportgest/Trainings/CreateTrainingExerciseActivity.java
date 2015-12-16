@@ -97,6 +97,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         tv_duration = (TextView) findViewById(R.id.training_total_duration);
         lv_availableExercises = (ListView) findViewById(R.id.training_available_exercises_list);
         lv_trainingExercise = (ListView) findViewById(R.id.training_selected_exercises_list);
+        b_next = (Button) findViewById(R.id.next_button);
+        b_return = (Button) findViewById(R.id.return_button);
 
         //initialize variables
         training = null;

@@ -305,7 +305,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
         }
     }
 
-    public void goto_NextActivity(){
+    public void goto_NextActivity(View view){
         Intent intent;
         intent = new Intent(this, CreateTrainingExerciseActivity.class);
         //put current training info in extras
