@@ -27,6 +27,9 @@ public class EditTeam_Activity extends AppCompatActivity {
     Team team = null;
     int teamID = -1;
 
+    private EditText tv_name,tv_description,tv_season;
+    private EditText focusView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +40,9 @@ public class EditTeam_Activity extends AppCompatActivity {
             teamID = b.getInt("id");
         }
 
-        EditText tv_name = (EditText) findViewById(R.id.name);
-        EditText tv_description = (EditText) findViewById(R.id.description);
-        EditText tv_season = (EditText) findViewById(R.id.season);
+         tv_name = (EditText) findViewById(R.id.name);
+         tv_description = (EditText) findViewById(R.id.description);
+         tv_season = (EditText) findViewById(R.id.season);
         CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
         ImageView tv_logo = (ImageView) findViewById(R.id.logo);
 
@@ -98,9 +101,9 @@ public class EditTeam_Activity extends AppCompatActivity {
             //add action
             case R.id.Edit:
 
-                EditText tv_name = (EditText) findViewById(R.id.name);
-                EditText tv_description = (EditText) findViewById(R.id.description);
-                EditText tv_season = (EditText) findViewById(R.id.season);
+                 tv_name = (EditText) findViewById(R.id.name);
+                 tv_description = (EditText) findViewById(R.id.description);
+                 tv_season = (EditText) findViewById(R.id.season);
                 CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
                 ImageView tv_logo = (ImageView) findViewById(R.id.logo);
 
@@ -112,23 +115,31 @@ public class EditTeam_Activity extends AppCompatActivity {
                 //String logo = tv_photo.get
                 String logo="";
 
-                team=new Team(teamID, name, description, logo, season, isCom);
+                boolean conti = validate(name,description,season);
 
-                //insert/update database
-                try {
-                    if(teamID > 0){
-                        team_dao.update(team);
-                    } else {
-                        team_dao.insert(team);
+                if(conti){
+                    team=new Team(teamID, name, description, logo, season, isCom);
+
+                    //insert/update database
+                    try {
+                        if(teamID > 0){
+                            team_dao.update(team);
+                        } else {
+                            team_dao.insert(team);
+                        }
+                    }catch (GenericDAOException ex){
+                        System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                     }
-                }catch (GenericDAOException ex){
-                    System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
+                    Intent intent = new Intent();
+                    setResult(1,intent);
+                    finish();
+                    return true;
                 }
-                Intent intent = new Intent();
-                setResult(1,intent);
-                finish();
-                return true;
+                else {
+                    focusView.requestFocus();
+                    return super.onOptionsItemSelected(item);
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -139,5 +150,32 @@ public class EditTeam_Activity extends AppCompatActivity {
         super.onStop();
 
         setResult(0);
+    }
+
+    private boolean validate(String name,String description,int season){
+        boolean conti=false;
+        focusView = tv_name;
+
+        if(name.length()<5) {
+            focusView = tv_name;
+            tv_name.setError(getString(R.string.err_name_short));
+        }
+        else
+            conti=true;
+
+        if(description.length()<5) {
+            focusView = tv_description;
+            tv_description.setError(getString(R.string.err_description_short));
+        }
+        else
+            conti=true;
+
+        if(season<1000 && season>10000){
+            focusView = tv_season;
+            tv_season.setError(getString(R.string.err_number));
+        }else
+            conti=true;
+
+        return conti;
     }
 }

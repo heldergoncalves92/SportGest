@@ -56,11 +56,22 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DESCRIPTION"
+                    android:id="@+id/textView5"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
+
                 <View
                     android:id="@+id/SplitLine_hor0"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
+
+
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -74,16 +85,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/description"
-                        android:hint="@string/teamDescription"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SEASON"
+                    android:id="@+id/textView6"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor1"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -98,16 +116,24 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/season"
                         android:hint="@string/teamSeason"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center" />
 
                 </LinearLayout>
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SQUAD"
+                    android:id="@+id/textView7"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor2"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -124,11 +150,19 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="COM"
+                    android:id="@+id/textView8"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
+
                 <View
                     android:id="@+id/SplitLine_hor3"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -148,12 +182,6 @@
                         android:layout_marginBottom="2dp" />
 
                 </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor4"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 

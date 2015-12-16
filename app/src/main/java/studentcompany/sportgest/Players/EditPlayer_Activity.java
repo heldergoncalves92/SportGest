@@ -35,6 +35,8 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
     Player player = null;
     int playerID = -1;
 
+    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
+    private TextView focusView;
     private final String FILENAME_COUNTRIES = "";
 
     private ImageButton btnCalendar;
@@ -57,18 +59,18 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         btnCalendar.setOnClickListener(this);
 
 
-        EditText tv_nickname = (EditText) findViewById(R.id.nickname);
-        EditText tv_name = (EditText) findViewById(R.id.name);
+         tv_nickname = (EditText) findViewById(R.id.nickname);
+         tv_name = (EditText) findViewById(R.id.name);
         Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
         Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
         //TODO: POR A DATA A VIR DO BOTAO
-        EditText tv_height = (EditText) findViewById(R.id.height);
-        EditText tv_weight = (EditText) findViewById(R.id.weight);
-        EditText tv_address = (EditText) findViewById(R.id.address);
+         tv_height = (EditText) findViewById(R.id.height);
+         tv_weight = (EditText) findViewById(R.id.weight);
+         tv_address = (EditText) findViewById(R.id.address);
         Spinner tv_gender = (Spinner) findViewById(R.id.gender);
-        EditText tv_email = (EditText) findViewById(R.id.email);
+         tv_email = (EditText) findViewById(R.id.email);
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
-        EditText tv_number = (EditText) findViewById(R.id.number);
+         tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
         Spinner tv_position = (Spinner) findViewById(R.id.position);
 
@@ -261,18 +263,19 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         {
             //add action
             case R.id.Edit:
-                EditText tv_nickname = (EditText) findViewById(R.id.nickname);
-                EditText tv_name = (EditText) findViewById(R.id.name);
+
+                tv_nickname = (EditText) findViewById(R.id.nickname);
+                tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
 //TODO: por a data a vir do botão
-                EditText tv_height = (EditText) findViewById(R.id.height);
-                EditText tv_weight = (EditText) findViewById(R.id.weight);
-                EditText tv_address = (EditText) findViewById(R.id.address);
+                 tv_height = (EditText) findViewById(R.id.height);
+                 tv_weight = (EditText) findViewById(R.id.weight);
+                 tv_address = (EditText) findViewById(R.id.address);
                 Spinner tv_gender = (Spinner) findViewById(R.id.gender);
-                EditText tv_email = (EditText) findViewById(R.id.email);
+                 tv_email = (EditText) findViewById(R.id.email);
                 Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
-                EditText tv_number = (EditText) findViewById(R.id.number);
+                 tv_number = (EditText) findViewById(R.id.number);
                 ImageView tv_photo = (ImageView) findViewById(R.id.photo);
                 Spinner tv_position = (Spinner) findViewById(R.id.position);
 
@@ -302,29 +305,102 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 String photo="";
                 Position position = (Position) tv_position.getSelectedItem();
 
+                boolean conti = validate(nickname,name,height,weight,address,email,number);
+                if(conti){
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
+                    player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
 
-                //insert/update database
-                try {
-                    if(playerID > 0){
-                        player_dao.update(player);
-                    } else {
-                        player_dao.insert(player);
+                    //insert/update database
+                    try {
+                        if(playerID > 0){
+                            player_dao.update(player);
+                        } else {
+                            player_dao.insert(player);
+                        }
+                    }catch (GenericDAOException ex){
+                        System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
                     }
-                }catch (GenericDAOException ex){
-                    System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
+
+                    Intent intent = new Intent();
+                    setResult(1,intent);
+                    finish();
+                    return true;
+                }
+                else{
+                    focusView.requestFocus();
+                    return super.onOptionsItemSelected(item);
                 }
 
-                Intent intent = new Intent();
-                setResult(1,intent);
-                finish();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    private boolean validate(String nickname,String name,int height,float weight,String address,String email,int number){
+        boolean conti=false;
+        focusView = tv_nickname;
+
+        if(nickname.length()<5) {
+            focusView = tv_nickname;
+            tv_nickname.setError(getString(R.string.err_username_short));
+        }
+        else
+            conti=true;
+
+        if(name.length()<5) {
+            focusView = tv_name;
+            tv_nickname.setError(getString(R.string.err_name_short));
+        }
+        else
+            conti=true;
+
+        if(address.length()<5) {
+            focusView = tv_name;
+            tv_nickname.setError(getString(R.string.err_address_short));
+        }
+        else
+            conti=true;
+
+        if(number>0 && number<100) {
+            focusView = tv_number;
+            tv_number.setError(getString(R.string.err_number));
+        }
+        else
+            conti=true;
+
+        if(email.contains("@")) {
+            String[] emailTesting = email.split("@");
+            if(emailTesting[1].contains(".")) {
+                String[] emailTestingIntern = emailTesting[1].split(".");
+                if(emailTestingIntern[0].length()>1 && emailTestingIntern[1].length()>1)
+                    conti = true;
+                else {
+                    focusView = tv_email;
+                    tv_email.setError(getString(R.string.err_valid_email));
+                }
+            }
+            else {
+                focusView = tv_email;
+                tv_email.setError(getString(R.string.err_valid_email));
+            }
+        } else {
+            focusView = tv_email;
+            tv_email.setError(getString(R.string.err_valid_email));
+        }
+
+        return conti;
+    }
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onStop(){

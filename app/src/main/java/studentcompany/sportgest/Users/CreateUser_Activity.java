@@ -1,10 +1,11 @@
 package studentcompany.sportgest.Users;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,14 +32,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import studentcompany.sportgest.MainActivity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Role_DAO;
@@ -88,7 +86,6 @@ public class CreateUser_Activity extends AppCompatActivity {
                 selectImage();
             }
         });
-
 
         team_dao = new Team_DAO(this);
         role_dao = new Role_DAO(this);
@@ -317,7 +314,6 @@ public class CreateUser_Activity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -577,11 +573,6 @@ public class CreateUser_Activity extends AppCompatActivity {
         });
         builder.show();
     }
-
-
-
-
-
 }
 
 

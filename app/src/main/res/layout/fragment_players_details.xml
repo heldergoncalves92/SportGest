@@ -47,7 +47,6 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:id="@+id/nickname"
-                        android:hint="@string/playerNickname"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.58"
                         android:elegantTextHeight="true" />
@@ -55,11 +54,19 @@
                 </LinearLayout>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NAME"
+                    android:id="@+id/textView9"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
+
                 <View
                     android:id="@+id/SplitLine_hor0"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -74,16 +81,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/name"
-                        android:hint="@string/playerName"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NATIONALITY"
+                    android:id="@+id/textView10"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor2"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -98,16 +112,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/nationality"
-                        android:hint="@string/playerNationality"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MARITAL STATUS"
+                    android:id="@+id/textView11"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor3"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -122,17 +143,24 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/maritalstatus"
-                        android:hint="@string/maritalstatus"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BIRTHDAY"
+                    android:id="@+id/textView12"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
+
                 <View
                     android:id="@+id/SplitLine_hor4"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -146,16 +174,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/birthday"
-                        android:hint="@string/playerBirthday"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HEIGHT"
+                    android:id="@+id/textView13"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor5"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -170,16 +205,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/height"
-                        android:hint="@string/playerHeight"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WEIGHT"
+                    android:id="@+id/textView14"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor6"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -194,16 +236,23 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/weight"
-                        android:hint="@string/playerWeight"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADDRESS"
+                    android:id="@+id/textView15"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor7"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -218,16 +267,22 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/address"
-                        android:hint="@string/playerAddress"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GENDER"
+                    android:id="@+id/textView16"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor8"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -242,16 +297,22 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/gender"
-                        android:hint="@string/playerGender"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMAIL"
+                    android:id="@+id/textView17"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor9"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -266,16 +327,22 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/email"
-                        android:hint="@string/playerEmail"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREFERRED FOOT"
+                    android:id="@+id/textView18"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor10"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -295,11 +362,18 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NUMBER"
+                    android:id="@+id/textView19"
+                    android:textColor="@android:color/holo_blue_light"/>
+
                 <View
                     android:id="@+id/SplitLine_hor11"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -314,16 +388,22 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/number"
-                        android:hint="@string/playerNumber"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="POSITION"
+                    android:id="@+id/textView20"
+                    android:textColor="@android:color/holo_blue_light"/>
 
                 <View
                     android:id="@+id/SplitLine_hor12"
                     android:layout_width="match_parent"
                     android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/holo_blue_light"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -338,16 +418,9 @@
                         android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/position"
-                        android:hint="@string/playerPosition"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor13"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
