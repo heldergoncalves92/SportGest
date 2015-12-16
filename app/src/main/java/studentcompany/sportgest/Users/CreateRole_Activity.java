@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class CreateRole_Activity extends AppCompatActivity{
     private List<Permission> permissions_list;
 
     private EditText roleName;
-    private ListView rolePermissionsListView;
+    private GridView rolePermissionsListView;
     private TextInputLayout inputLayoutName;
 
     //Id of current role displayed
@@ -60,7 +61,7 @@ public class CreateRole_Activity extends AppCompatActivity{
         roleName = (EditText) findViewById(R.id.input_create_permission_name);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_create_permission_name);
 
-        rolePermissionsListView = (ListView) findViewById(R.id.roleCreatePermissions);
+        rolePermissionsListView = (GridView) findViewById(R.id.roleCreatePermissions);
 
         roleName.addTextChangedListener(new MyTextWatcher(roleName));
 

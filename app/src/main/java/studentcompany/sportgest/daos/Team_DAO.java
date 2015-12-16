@@ -35,7 +35,7 @@ public class Team_DAO extends GenericDAO<Team> implements IGenericDAO<Team>{
             COLUMN_DESCRIPTION + " TEXT, " +
             COLUMN_LOGO        + " TEXT, " +
             COLUMN_SEASON      + " INTEGER NOT NULL, " +
-            COLUMN_IS_COM      + " INTEGER NOT NULL);";
+            COLUMN_IS_COM      + " BOOLEAN NOT NULL);";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";

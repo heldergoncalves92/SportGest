@@ -138,7 +138,7 @@ public class User_Team_DAO extends GenericPairDAO<User, Team> implements IGeneri
             return false;
 
         return db.delete(TABLE_NAME,
-                COLUMN_USER_ID + " = ? , " + COLUMN_TEAM_ID + " = ? ",
+                COLUMN_USER_ID + " = ? AND " + COLUMN_TEAM_ID + " = ? ",
                 new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) })  > 0;
     }
 

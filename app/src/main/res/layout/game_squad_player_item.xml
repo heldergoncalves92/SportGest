@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/player_num"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/number"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="80"
+        android:paddingLeft="10dp"
+        android:text="@string/playerNickname"/>
+
+</LinearLayout>

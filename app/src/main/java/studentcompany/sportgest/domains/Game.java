@@ -24,6 +24,16 @@ public class Game extends DomainPojo {
         this.duration = duration;
     }
 
+    public Game( Team home_team, Team visitor_team, int date, String report, Integer home_score, Integer visitor_score, float duration) {
+        this.home_team = home_team;
+        this.visitor_team = visitor_team;
+        this.date = date;
+        this.report = report;
+        this.home_score = home_score;
+        this.visitor_score = visitor_score;
+        this.duration = duration;
+    }
+
     @Override
     public long getId() {
         return id;

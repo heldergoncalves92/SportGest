@@ -130,6 +130,9 @@ public class RolesListActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, 112);
                 return true;
+            case android.R.id.home:
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAlignment="center"
-        android:text="There is no users!"
+        android:text="@string/no_users"
         android:gravity="center"
         android:textSize="24dp"
         android:visibility="invisible"/>

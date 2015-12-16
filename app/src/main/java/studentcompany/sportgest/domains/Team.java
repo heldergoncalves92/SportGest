@@ -17,6 +17,12 @@ public class Team extends DomainPojo {
         this.is_com = is_com;
     }
 
+
+    public Team(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Team(String name, String description, String logo, int season, int is_com) {
         this.name = name;
         this.description = description;
@@ -80,14 +86,7 @@ public class Team extends DomainPojo {
 
     @Override
     public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", logo='" + logo + '\'' +
-                ", season=" + season +
-                ", is_com=" + is_com +
-                '}';
+        return name;
     }
 
     @Override
