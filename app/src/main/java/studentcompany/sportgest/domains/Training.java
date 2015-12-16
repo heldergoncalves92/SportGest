@@ -4,11 +4,11 @@ public class Training extends DomainPojo {
     private long id;
     private String title;
     private String description;
-    private int date;
+    private long date;
     private int totalDuration;
     private Team team;
 
-    public Training(long id, String title, String description, int date, int totalDuration, Team team) {
+    public Training(long id, String title, String description, long date, int totalDuration, Team team) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -30,7 +30,7 @@ public class Training extends DomainPojo {
         return description;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
@@ -54,7 +54,7 @@ public class Training extends DomainPojo {
         this.description = description;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -91,8 +91,9 @@ public class Training extends DomainPojo {
         if (title != null ? !title.equals(training.title) : training.title != null) return false;
         if (description != null ? !description.equals(training.description) : training.description != null)
             return false;
-        return !(team != null ? !team.equals(training.team) : training.team != null);
+        if (team != null ? !team.equals(training.team) : training.team != null) return false;
 
+        return true;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class Training extends DomainPojo {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + date;
+        result = 31 * result + (int) (date ^ (date >>> 32));
         result = 31 * result + totalDuration;
         result = 31 * result + (team != null ? team.hashCode() : 0);
         return result;
