@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Training(View v){
-        Intent intent = new Intent(this, CreateTrainingActivity.class);
+        Intent intent = new Intent(this, TrainingListActivity.class);
         startActivity(intent);
     }
 
