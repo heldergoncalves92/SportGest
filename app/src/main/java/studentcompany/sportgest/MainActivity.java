@@ -19,6 +19,7 @@ import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Trainings.CreateTrainingActivity;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         rolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
 
                 startActivity(intent);
             }
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Training(View v){
-        Intent intent = new Intent(this, CreateTrainingActivity.class);
+        Intent intent = new Intent(this, TrainingListActivity.class);
         startActivity(intent);
     }
 
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Roles(View v){
-        Intent intent = new Intent(this, RolesListActivity.class);
+        Intent intent = new Intent(this, Role_Activity_ListView.class);
         startActivity(intent);
     }
 

@@ -137,7 +137,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_description_short">Description is short</string>
 
 
-
     <string name="userTeam">Team</string>
     <string name="pickTeam">Choose a Team</string>
     <string name="pickRole">Choose a Role</string>

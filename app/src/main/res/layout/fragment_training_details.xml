@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +11,11 @@
     tools:context="studentcompany.sportgest.Trainings.DetailsTraining_Fragment"
     android:gravity="top|center_horizontal">
 
-    <Space
+    <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,13 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="8">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/training_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:hint="Name"
-                android:text="Training Name"/>
+                android:text="Training Name"
+                android:textSize="14sp"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -41,18 +42,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/training_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Date"
-                android:text="12/12/2015 21:00"/>
+                android:text="12/12/2015 21:00"
+                android:textSize="14sp"/>
 
         </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,29 +63,31 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/layout_training_duration"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/training_duration"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:ems="5"
                 android:text="65"
-                android:hint="Duration" />
+                android:hint="Duration"
+                android:textSize="14sp"/>
 
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/training_time_unit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="min"
-            android:gravity="left|center" />
+            android:gravity="left|center"
+            android:textSize="14sp"/>
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/layout_training_description"
@@ -91,13 +95,14 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/training_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:hint="Description"
-            android:text="@string/lorem"/>
+            android:text="@string/lorem"
+            android:textSize="14sp"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -107,17 +112,18 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_selected_exercises"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Selected Exercises" />
+            android:hint="Selected Exercises"
+            android:textSize="14sp"/>
 
-        <ListView
+        <android.support.v7.internal.widget.ListViewCompat
             android:id="@+id/selected_exercises_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.TextInputLayout>
 
-</LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
