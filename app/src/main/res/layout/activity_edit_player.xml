@@ -1,9 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/create_exercise_toolbar"
+            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -42,18 +51,23 @@
                         android:layout_width="31dp"
                         android:layout_height="142dp"></FrameLayout>
 
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:ems="10"
-                        android:id="@+id/nickname"
-                        android:hint="@string/playerNickname"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.58"
-                        android:autoText="false"
-                        android:editable="true"
-                        android:elegantTextHeight="true" />
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutNickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="textPersonName"
+                            android:ems="10"
+                            android:id="@+id/nickname"
+                            android:hint="@string/playerNickname"
+                            android:autoText="false"
+                            android:editable="true"
+                            android:elegantTextHeight="true" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -70,13 +84,19 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/inputLayoutName">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/name"
-                        android:hint="@string/playerName"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/name"
+                            android:hint="@string/playerName"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -113,7 +133,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:weightSum="1">
-
 
                     <Spinner
                         android:layout_width="268dp"
@@ -153,14 +172,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="date"
                             android:layout_gravity="center"
+                            android:text="date"
                             android:id="@+id/txtDate"
                             android:layout_marginLeft="10dp" />
-
                     </LinearLayout>
-
-
 
                 </LinearLayout>
 
@@ -176,14 +192,20 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:id="@+id/height"
-                        android:hint="@string/playerHeight"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:id="@+id/height"
+                            android:hint="@string/playerHeight"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -199,14 +221,20 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:id="@+id/weight"
-                        android:hint="@string/playerWeight"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:id="@+id/weight"
+                            android:hint="@string/playerWeight"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -222,13 +250,19 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/address"
-                        android:hint="@string/playerAddress"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/address"
+                            android:hint="@string/playerAddress"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -266,14 +300,20 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textWebEmailAddress"
-                        android:id="@+id/email"
-                        android:hint="@string/playerEmail"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="textWebEmailAddress"
+                            android:id="@+id/email"
+                            android:hint="@string/playerEmail"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -288,7 +328,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:weightSum="1">
-
 
                     <Spinner
                         android:layout_width="268dp"
@@ -311,14 +350,20 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:id="@+id/number"
-                        android:hint="@string/playerNumber"
-                        android:layout_gravity="center_horizontal" />
+                        <EditText
+                            android:layout_width="268dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:id="@+id/number"
+                            android:hint="@string/playerNumber"
+                            android:layout_gravity="center_horizontal" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
@@ -333,7 +378,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:weightSum="1">
-
 
                     <Spinner
                         android:layout_width="268dp"

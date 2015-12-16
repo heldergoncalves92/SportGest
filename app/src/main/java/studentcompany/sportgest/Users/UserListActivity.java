@@ -48,6 +48,8 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private DetailsUser_Fragment mDetailsUser = new DetailsUser_Fragment();
     private static final String TAG = "USERS_ACTIVITY";
 
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,14 +249,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreateUser_Activity.class);
-                startActivityForResult(intent,112);
-                return true;
-
-            case R.id.action_edit:
-                intent = new Intent(this, CreateUser_Activity.class);
-                user_id = users.get(currentPos).getId();
-                intent.putExtra("ID",user_id);
-                startActivityForResult(intent,1112);
+                startActivityForResult(intent,CREATE_TAG);
                 return true;
 
             case R.id.action_del:
@@ -262,9 +257,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
 
-
-            case android.R.id.home:
-                finish();
+            case R.id.action_edit:
+                Intent intent2 = new Intent(this, EditUser_Activity.class);
+                intent2.putExtra("id",users.get(currentPos).getId());
+                startActivityForResult(intent2, EDIT_TAG);
                 return true;
 
             default:
@@ -313,44 +309,31 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 112) {
-            try {
-                users = userDao.getAll();
-                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
-
-
-                for(User u : users)
-                {List<Team> t = user_team_dao.getByFirstId(u.getId());
-                    if(t!=null)
-                        if(t.size()>0)
-                            u.setTeam(t.get(0)); // Get the Team
+        User user = null;
+        if (requestCode == EDIT_TAG) {
+            if(resultCode == 1){
+                try {
+                    user=userDao.getById(users.get(currentPos).getId());
+                    users.set(currentPos,user);
+                    mDetailsUser.showUser(user);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
                 }
-                mListUsers.setList(users);
-                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
-                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
-            }
-        }else if (requestCode == 1112) {
-            try {
-                User user1 = userDao.getById(user_id);
-                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
-
-                List<Team> t = user_team_dao.getByFirstId(user1.getId());
-                    if(t!=null)
-                        if(t.size()>0)
-                            user1.setTeam(t.get(0)); // Get the Team
-
-                mDetailsUser.showUser(user1);
-                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
-                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
             }
         }
-
+        if (requestCode == CREATE_TAG) {
+            if(resultCode == 1){
+                try {
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    user=userDao.getById(idToSearch);
+                    users.add(user);
+                    mDetailsUser.showUser(user);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
-
-
 }
