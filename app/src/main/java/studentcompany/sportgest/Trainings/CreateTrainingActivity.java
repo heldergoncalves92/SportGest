@@ -129,6 +129,8 @@ public class CreateTrainingActivity extends AppCompatActivity {
 
                 if(tv_name.getText().toString().isEmpty()){
                     inputLayoutName.setError("Field Name Required");
+                } else {
+                    goto_NextActivity(v);
                 }
             }
         });

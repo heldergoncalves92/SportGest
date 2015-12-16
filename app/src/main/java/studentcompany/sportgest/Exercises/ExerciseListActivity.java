@@ -56,7 +56,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
                 new ExerciseTestData(getApplicationContext());
                 exerciseList = exercise_dao.getAll();
             }
-            mListExercises.setExerciseList(getNamesList(exerciseList));
+            mListExercises.setExerciseList(exerciseList);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -133,6 +133,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
      ****     Listener Functions     ****
      ************************************/
 
+    @Override
     public void itemSelected(int position) {
         Exercise exercise = exerciseList.get(position);
 
@@ -244,7 +245,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         if (requestCode == 0) {
             try {
                 exerciseList = exercise_dao.getAll();
-                mListExercises.setExerciseList(getNamesList(exerciseList));
+                mListExercises.setExerciseList(exerciseList);
                 mListExercises.updateList();
 
             } catch (GenericDAOException e) {
