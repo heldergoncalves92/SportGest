@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -31,7 +34,6 @@ public class CreateAttributeActivity extends AppCompatActivity {
     private TextInputLayout inputLayoutName;
     private EditText inputName;
     private Spinner spinner;
-    private Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,6 @@ public class CreateAttributeActivity extends AppCompatActivity {
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_attribute_name);
         inputName = (EditText) findViewById(R.id.input_attribute_name);
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
-        btnAdd = (Button) findViewById(R.id.btn_add_attribute);
 
         spinner = (Spinner) findViewById(R.id.spinner);
         List<String> list = new ArrayList<String>();
@@ -53,13 +54,6 @@ public class CreateAttributeActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                submitForm();
-            }
-        });
     }
 
     private void submitForm() {
@@ -127,6 +121,21 @@ public class CreateAttributeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AttributeListActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        menu.findItem(R.id.Add).setVisible(false);
+        menu.findItem(R.id.Edit).setVisible(false);
+        menu.findItem(R.id.Delete).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        submitForm();
+        return true;
     }
 
     @Override
