@@ -7,11 +7,14 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Exercise;
 
 public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<Attribute>{
     //Database name
@@ -62,6 +65,15 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
             resAttribute.add(new Attribute(id, type, name, deleted));
             res.moveToNext();
         }
+
+        //Sorting
+        Collections.sort(resAttribute, new Comparator<Attribute>() {
+            @Override
+            public int compare(Attribute attribute1, Attribute attribute2) {
+
+                return attribute1.getName().compareTo(attribute2.getName());
+            }
+        });
 
         return resAttribute;
     }

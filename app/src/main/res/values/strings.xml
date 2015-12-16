@@ -17,7 +17,9 @@
     <string name="not_done">Not done</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
+    <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="date">Date</string>
     <string name="event_category_button">Event Categories</string>
     <string name="event_category_add_menu">Add Categories</string>
     <string name="event_category_edit_menu">Edit Categories</string>
@@ -32,6 +34,7 @@
     <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
+    <string name="next_button">Next</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
     <string name="goTo_users_button">Manage Users</string>
@@ -147,4 +150,15 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_occured">An error ocurred</string>
     <string name="goTo_gamesView_button">View Game</string>
     <string name="goTo_squadCall_button">Manage Squad</string>
+    <string name="description_label"><b>Description</b></string>
+    <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
+    <string name="exercise_name_label"><b>Name</b></string>
+    <string name="duration_label"><b>Duration</b></string>
+    <string name="goTo_exercise_button">Manage Exercises</string>
+    <string name="goTo_training_button">Manage Trainings</string>
+    <string name="goTo_attribute_button">Manage Attributes</string>
+    <string name="app_newAttribute">SportGest - New Attribute</string>
+    <string name="app_newExercise">SportGest - New Exercise</string>
+    <string name="app_newTraining">SportGest - New Training</string>
+    <string name="training_name">Name</string>
 </resources>

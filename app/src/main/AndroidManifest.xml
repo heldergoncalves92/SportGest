@@ -77,6 +77,18 @@
         <activity
             android:name=".Players.EditPlayer_Activity"/>
 
+        <activity android:name=".Attributes.AttributeListActivity" />
+        <activity android:name=".Exercises.ExerciseListActivity" />
+        <activity android:name=".Trainings.TrainingListActivity" />
+
+        <activity android:name=".Attributes.CreateAttributeActivity"
+            android:label="@string/app_newAttribute"/>
+        <activity android:name=".Exercises.CreateExerciseActivity"
+            android:label="@string/app_newExercise"/>
+        <activity android:name=".Trainings.CreateTrainingActivity"
+            android:label="@string/app_newTraining"/>
+        <activity android:name=".Trainings.CreateTrainingExerciseActivity"
+            android:label="@string/app_newTraining"/>
     </application>
 
 </manifest>

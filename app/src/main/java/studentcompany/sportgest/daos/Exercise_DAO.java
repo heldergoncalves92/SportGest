@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
@@ -62,6 +64,15 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             resExercise.add(new Exercise(id, title, description, duration));
             res.moveToNext();
         }
+
+        //Sorting
+        Collections.sort(resExercise, new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise ex1, Exercise ex2) {
+
+                return ex1.getTitle().compareTo(ex2.getTitle());
+            }
+        });
 
         return resExercise;
     }

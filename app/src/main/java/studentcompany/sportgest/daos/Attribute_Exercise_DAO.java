@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import studentcompany.sportgest.daos.db.MyDB;
@@ -88,6 +90,15 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
             res.moveToNext();
         }
 
+        //Sorting
+        Collections.sort(resList, new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise ex1, Exercise ex2) {
+
+                return ex1.getTitle().compareTo(ex2.getTitle());
+            }
+        });
+
         return resList;
     }
 
@@ -95,7 +106,6 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     public List<Attribute> getBySecondId(long id) throws GenericDAOException {
         //aux variables;
         ArrayList<Attribute> resList = new ArrayList<>();
-        Exercise exercise;
         long attributeId;
 
         //Query
@@ -103,12 +113,20 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
         res.moveToFirst();
 
         //Parse data
-        exercise = exercise_dao.getById(id);
-        while(res.isAfterLast() == false) {
+        while(!res.isAfterLast()) {
             attributeId = res.getLong(res.getColumnIndex(COLUMN_ATTRIBUTE_ID));
             resList.add(attribute_dao.getById(attributeId));
             res.moveToNext();
         }
+
+        //Sorting
+        Collections.sort(resList, new Comparator<Attribute>() {
+            @Override
+            public int compare(Attribute at1, Attribute at2) {
+
+                return at1.getName().compareTo(at2.getName());
+            }
+        });
 
         return resList;
     }
@@ -125,7 +143,7 @@ public class Attribute_Exercise_DAO extends GenericPairDAO<Attribute, Exercise> 
     @Override
     public boolean delete(Pair<Attribute, Exercise> object) throws GenericDAOException {
         int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ATTRIBUTE_ID + " = ? , " + COLUMN_EXERCISE_ID + " = ? ",
+                COLUMN_ATTRIBUTE_ID + " = ? AND " + COLUMN_EXERCISE_ID + " = ? ",
                 new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) });
         return true;
     }

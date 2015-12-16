@@ -89,8 +89,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/exercise_button"
-            android:id="@+id/exercise_button" />
+            android:text="@string/roles_button"
+            android:id="@+id/roles_button"/>
 
         <Button
             android:layout_width="match_parent"
@@ -98,7 +98,29 @@
             android:text="@string/login_button"
             android:onClick="goTo_Login" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_attribute_button"
+                android:id="@+id/attribute_button"
+                android:onClick="goTo_Attribute"/>
+        
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_exercise_button"
+                android:id="@+id/exercise_button"
+                android:onClick="goTo_Exercise"/>
 
-    </android.support.v7.widget.LinearLayoutCompat>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_training_button"
+                android:id="@+id/training_button"
+                android:onClick="goTo_Training"/>
+
+
+        </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
 </RelativeLayout>
 

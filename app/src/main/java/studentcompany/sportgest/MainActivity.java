@@ -12,13 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ListExerciseActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
+import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Trainings.CreateTrainingActivity;
+import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.UserListActivity;
@@ -70,12 +72,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //EventCategoryButton
-        exerciseButton = (Button)findViewById(R.id.exercise_button);
-        exerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListExerciseActivity.class);
 
                 startActivity(intent);
             }
@@ -145,6 +141,21 @@ public class MainActivity extends AppCompatActivity {
     public void goTo_Players(View v){
         Intent intent = new Intent(this, PlayersList_Activity.class);
         intent.putExtra("TEAM",1);
+        startActivity(intent);
+    }
+
+    public void goTo_Attribute(View v){
+        Intent intent = new Intent(this, AttributeListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Exercise(View v){
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Training(View v){
+        Intent intent = new Intent(this, CreateTrainingActivity.class);
         startActivity(intent);
     }
 
