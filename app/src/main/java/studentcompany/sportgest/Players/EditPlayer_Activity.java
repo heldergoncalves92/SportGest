@@ -57,7 +57,7 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            playerID = (int) b.get("id");
+            playerID = (int) (b.getLong("id")+0);
         }
 
         btnCalendar = (ImageButton) findViewById(R.id.birthday);
@@ -252,6 +252,14 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         tv_address.addTextChangedListener(new MyTextWatcher(tv_address));
         tv_email.addTextChangedListener(new MyTextWatcher(tv_email));
         tv_number.addTextChangedListener(new MyTextWatcher(tv_number));
+
+        inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
+        inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
+        inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
+        inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
+        inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
+        inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
 
     }
 

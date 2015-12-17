@@ -51,6 +51,7 @@
                         android:layout_height="142dp"></FrameLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutName"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
@@ -83,6 +84,7 @@
                     android:weightSum="1">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutDescription"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -110,6 +112,7 @@
                     android:weightSum="1">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutSeason"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 

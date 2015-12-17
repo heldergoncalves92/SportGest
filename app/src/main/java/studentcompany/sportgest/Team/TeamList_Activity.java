@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -271,6 +272,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     team=teamDao.getById(teams.get(currentPos).getId());
                     teams.set(currentPos,team);
                     mDetailsTeam.showTeam(team);
+                    Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
@@ -285,6 +287,8 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     team=teamDao.getById(idToSearch);
                     teams.add(team);
                     mDetailsTeam.showTeam(team);
+                    mListTeams.addItem(team.getName());
+                    Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }

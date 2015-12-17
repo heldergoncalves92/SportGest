@@ -51,6 +51,7 @@
                         android:layout_height="142dp"></FrameLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutName"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
@@ -83,6 +84,7 @@
                     android:weightSum="1">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutDescription"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -110,6 +112,7 @@
                     android:weightSum="1">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutSeason"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -144,7 +147,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/squad"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_group_add_black_24dp"/>
+                    android:src="@drawable/ic_group_add_black_24dp"
+                    android:focusable="false" />
 
                 <View
                     android:id="@+id/SplitLine_hor3"

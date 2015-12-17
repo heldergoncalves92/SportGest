@@ -138,6 +138,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_weight_invalid">Invalid weight</string>
     <string name="err_height_invalid">Invalid height</string>
     <string name="err_nickname_short">Nickname is short</string>
+    <string name="err_season">Invalid Season</string>
+
 
     <string name="userTeam">Team</string>
     <string name="pickTeam">Choose a Team</string>

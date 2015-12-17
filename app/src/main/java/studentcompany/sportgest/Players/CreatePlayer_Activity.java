@@ -52,6 +52,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
     private int mYear, mMonth, mDay;
 
     private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
+    private TextView tv_birthday;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
 
     @Override
@@ -65,18 +66,6 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         txtDate = (TextView) findViewById(R.id.txtDate);
 
         btnCalendar.setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
-        MenuItem editItem = menu.findItem(R.id.Edit);
-        MenuItem delItem = menu.findItem(R.id.Delete);
-        MenuItem addItem = menu.findItem(R.id.Add);
-        editItem.setVisible(false);
-        delItem.setVisible(false);
-        addItem.setVisible(true);
 
         tv_nickname = (EditText) findViewById(R.id.nickname);
         tv_name = (EditText) findViewById(R.id.name);
@@ -126,6 +115,26 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         tv_email.addTextChangedListener(new MyTextWatcher(tv_email));
         tv_number.addTextChangedListener(new MyTextWatcher(tv_number));
 
+        inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
+        inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
+        inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
+        inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
+        inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
+        inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        MenuItem editItem = menu.findItem(R.id.Edit);
+        MenuItem delItem = menu.findItem(R.id.Delete);
+        MenuItem addItem = menu.findItem(R.id.Add);
+        editItem.setVisible(false);
+        delItem.setVisible(false);
+        addItem.setVisible(true);
+
         return true;
     }
 
@@ -141,7 +150,6 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                  tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-                //TODO: por a data a vir do botao
                  tv_height = (EditText) findViewById(R.id.height);
                  tv_weight = (EditText) findViewById(R.id.weight);
                  tv_address = (EditText) findViewById(R.id.address);
@@ -162,7 +170,10 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                 //corrigir quando a data estiver direita
                 //String birthday = mYear+"-"+mMonth+"-"+mDay;
                 int birthday = 1;
-                int height = Integer.parseInt(tv_height.getText().toString());
+                int height = -1;
+                try {
+                    height = Integer.parseInt(tv_height.getText().toString());
+                } catch (NumberFormatException ex){}
                 float weight = Float.parseFloat(tv_weight.getText().toString());
                 String address = tv_address.getText().toString();
                 String gender = "";
@@ -195,9 +206,10 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
 
                 player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
 
-                //insert/update database
+                //insert
                 try {
                     playerID = player_dao.insert(player);
+                    System.out.println("INSERIDO");
                 } catch (GenericDAOException ex) {
                     System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);

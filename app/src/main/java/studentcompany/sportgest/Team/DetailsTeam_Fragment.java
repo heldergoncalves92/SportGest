@@ -77,5 +77,4 @@ public class DetailsTeam_Fragment extends Fragment {
         tv_isCom.setSelected(false);
         tv_logo.setImageURI(Uri.parse("lego_face"));
     }
-
 }
