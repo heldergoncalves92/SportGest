@@ -127,12 +127,14 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         mListUsers.removeItem(currentPos);
         //users.remove(currentPos);
 
-        currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
 
-        if(users.isEmpty())
-            noElems();
+        if(users.isEmpty()){
+            currentPos = -1;
+            noElems();}
+        else
+            currentPos = 0;
     }
 
     /************************************
@@ -241,9 +243,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, CreateUser_Activity.class);
+                intent = new Intent(this, CreateUser_Activity.class);
                 startActivityForResult(intent,112);
                 return true;
 
@@ -276,10 +279,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private void insertUserTest(User_DAO u_dao){
 
         try {
-            User u1 = new User(0,"user0","password","user0.jpg","António Joaquim","user0@email.com",null);
-            User u2 = new User(1,"user1","password","user1.jpg","João Dias","user1@email.com",null);
-            User u3 = new User(2,"user2","password","user2.jpg","Maria Andrade","user2@email.com",null);
-            User u4 = new User(3,"user3","password","user3.jpg","José Alves","user3@email.com",null);
+            User u1 = new User(0,"user0","password",null,"António Joaquim","user0@email.com",null);
+            User u2 = new User(1,"user1","password",null,"João Dias","user1@email.com",null);
+            User u3 = new User(2,"user2","password",null,"Maria Andrade","user2@email.com",null);
+            User u4 = new User(3,"user3","password",null,"José Alves","user3@email.com",null);
 
             u_dao.insert(u1);
             u_dao.insert(u2);
@@ -293,10 +296,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     private void testUsers(){
 
-        User u1 = new User(0,"user0","password","user0.jpg","António Joaquim","user0@email.com",null);
-        User u2 = new User(1,"user1","password","user1.jpg","João Dias","user1@email.com",null);
-        User u3 = new User(2,"user2","password","user2.jpg","Maria Andrade","user2@email.com",null);
-        User u4 = new User(3,"user3","password","user3.jpg","José Alves","user3@email.com",null);
+        User u1 = new User(0,"user0","password",null,"António Joaquim","user0@email.com",null);
+        User u2 = new User(1,"user1","password",null,"João Dias","user1@email.com",null);
+        User u3 = new User(2,"user2","password",null,"Maria Andrade","user2@email.com",null);
+        User u4 = new User(3,"user3","password",null,"José Alves","user3@email.com",null);
 
         users = new ArrayList<User>();
         users.add(u1);
@@ -313,26 +316,20 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
         if (requestCode == 112) {
             try {
-                users = userDao.getAll();
-                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
-
-
-                for(User u : users)
-                {List<Team> t = user_team_dao.getByFirstId(u.getId());
-                    if(t!=null)
-                        if(t.size()>0)
-                            u.setTeam(t.get(0)); // Get the Team
+                Bundle extras = data.getExtras();
+                if(extras != null) {
+                    //get User ID
+                    long id = extras.getLong("ID");
+                    if(id>0){
+                        User user = userDao.getById(id);
+                        mListUsers.updateList(user);}
                 }
-                mListUsers.setList(users);
-                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
-                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
-            } catch (GenericDAOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }else if (requestCode == 1112) {
             try {
                 User user1 = userDao.getById(user_id);
-                //ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, users);
 
                 List<Team> t = user_team_dao.getByFirstId(user1.getId());
                     if(t!=null)
@@ -340,8 +337,6 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                             user1.setTeam(t.get(0)); // Get the Team
 
                 mDetailsUser.showUser(user1);
-                //((BaseAdapter) mListUsers.getListAdapter()).notifyDataSetChanged();
-                //mListUsers.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, users));
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }
