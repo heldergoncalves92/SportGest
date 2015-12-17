@@ -181,9 +181,30 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent;
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Users:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), UserListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Players:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), PlayersList_Activity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Exercise:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), ListExerciseActivity.class);
                                 startActivity(intent);
                                 return true;
                         }

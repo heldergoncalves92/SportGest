@@ -147,4 +147,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_occured">An error ocurred</string>
     <string name="goTo_gamesView_button">View Game</string>
     <string name="goTo_squadCall_button">Manage Squad</string>
+    <string name="userPhoto">Photo</string>
 </resources>

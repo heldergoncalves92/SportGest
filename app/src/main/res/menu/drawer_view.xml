@@ -26,11 +26,11 @@
             android:icon="@drawable/ic_event"
             android:title="Events" />
         <item
-            android:id="@+id/nav_discussion"
+            android:id="@+id/drawer_Players"
             android:icon="@drawable/ic_forum"
             android:title="Players" />
         <item
-            android:id="@+id/nav_exercise"
+            android:id="@+id/drawer_Exercise"
             android:icon="@drawable/ic_forum"
             android:title="Exercise" />
 
