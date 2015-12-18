@@ -59,12 +59,8 @@ public class CreateTeam_Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
-        MenuItem editItem = menu.findItem(R.id.Edit);
-        MenuItem delItem = menu.findItem(R.id.Delete);
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud_add, menu);
         MenuItem addItem = menu.findItem(R.id.Add);
-        editItem.setVisible(false);
-        delItem.setVisible(false);
         addItem.setVisible(true);
 
         return true;

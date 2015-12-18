@@ -73,9 +73,9 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
             players = playerDao.getAll();
             if(players.isEmpty()) {
 
-                noElems();
-                //insertUserTest(playerDao);
-                //players = playerDao.getAll();
+                //noElems();
+                insertUserTest(playerDao);
+                players = playerDao.getAll();
             }
             mListPlayer.setList(getNamesList(players));
 

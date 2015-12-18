@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
@@ -36,6 +38,7 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
 
     //DAOs
     private Player_DAO player_dao;
+    private Position_DAO position_dao;
 
     Player player = null;
     int playerID = -1;
@@ -83,6 +86,7 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
 
         Player playerFromDB=null;
         player_dao = new Player_DAO(this);
+        position_dao = new Position_DAO(this);
 
         try {
              playerFromDB = player_dao.getById(playerID);
@@ -112,6 +116,15 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
             preferredList.add("Right");
             preferredList.add("Left");
 
+            ArrayList<String> positionsList = new ArrayList<>();
+            try {
+                List<Position> positions = position_dao.getAll();
+                for(Position p : positions)
+                    positionsList.add(p.getName());
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+
             ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, gendersList);
             tv_gender.setAdapter(adapter1);
@@ -124,6 +137,9 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
             ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, preferredList);
             tv_preferredFoot.setAdapter(adapter4);
+            ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, positionsList);
+            tv_position.setAdapter(adapter5);
 
             int pos=-1;
             int counter=0;
@@ -205,8 +221,8 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 }
 
             //TODO: alterar a data
-            if(playerFromDB.getBirthDate()!=-1)
-                txtDate.setText(Integer.toString(playerFromDB.getBirthDate()));
+            if(playerFromDB.getBirthDate()!=null)
+                txtDate.setText(playerFromDB.getBirthDate());
 
             if(pos!=-1)
                 tv_preferredFoot.setSelection(pos);
@@ -219,17 +235,10 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 tv_number.setText("");
 
             if(playerFromDB.getPosition()!=null){
-                //TODO: preencher com as positions
-                ArrayList<String> positionSpinner = new ArrayList<>();
-
-                ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_spinner_item, positionSpinner);
-                tv_maritalStatus.setAdapter(adapter5);
-
                 pos=-1;
                 counter=0;
                 if (playerFromDB.getPosition()!=null)
-                    for(String s : positionSpinner){
+                    for(String s : positionsList){
                         if(playerFromDB.getPosition().getName().equals(s))
                             pos=counter;
                         else
@@ -266,13 +275,9 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud_edit, menu);
         MenuItem editItem = menu.findItem(R.id.Edit);
-        MenuItem delItem = menu.findItem(R.id.Delete);
-        MenuItem addItem = menu.findItem(R.id.Add);
         editItem.setVisible(true);
-        delItem.setVisible(false);
-        addItem.setVisible(true);
 
         return true;
     }
@@ -290,7 +295,6 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-//TODO: por a data a vir do botão
                  tv_height = (EditText) findViewById(R.id.height);
                  tv_weight = (EditText) findViewById(R.id.weight);
                  tv_address = (EditText) findViewById(R.id.address);
@@ -307,10 +311,7 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus = tv_maritalStatus.getSelectedItem().toString();
-               //TODO: por a data
-                //corrigir quando a data estiver direita
-                //String birthday = year+"-"+month+"-"+day;
-                int birthday = 1;
+                String birthday = mYear+"-"+mMonth+"-"+mDay;
                 int height = Integer.parseInt(tv_height.getText().toString());
                 float weight = Float.parseFloat(tv_weight.getText().toString());
                 String address = tv_address.getText().toString();
@@ -522,7 +523,7 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                             // Display Selected date in textbox
                             //txtDate.setText(dayOfMonth + "-"
                             //        + (monthOfYear + 1) + "-" + year);
-                            txtDate.setText(Integer.toString(year));
+                            txtDate.setText(Integer.toString(mYear)+"-"+Integer.toString(mMonth)+"-"+Integer.toString(mDay));
 
                         }
                     }, mYear, mMonth, mDay);

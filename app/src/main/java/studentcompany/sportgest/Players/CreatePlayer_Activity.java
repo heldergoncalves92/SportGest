@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
@@ -38,6 +40,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
 
     //DAOs
     private Player_DAO player_dao;
+    private Position_DAO position_dao;
 
     Player player = null;
     long playerID = -1;
@@ -61,6 +64,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_create_player);
 
         player_dao = new Player_DAO(this);
+        position_dao = new Position_DAO(this);
 
         btnCalendar = (ImageButton) findViewById(R.id.birthday);
         txtDate = (TextView) findViewById(R.id.txtDate);
@@ -94,6 +98,15 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         preferredList.add("Right");
         preferredList.add("Left");
 
+        ArrayList<String> positionsList = new ArrayList<>();
+        try {
+            List<Position> positions = position_dao.getAll();
+            for(Position p : positions)
+                positionsList.add(p.getName());
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, gendersList);
         tv_gender.setAdapter(adapter1);
@@ -106,6 +119,9 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, preferredList);
         tv_preferredFoot.setAdapter(adapter4);
+        ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, positionsList);
+        tv_position.setAdapter(adapter5);
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
         tv_name.addTextChangedListener(new MyTextWatcher(tv_name));
@@ -127,12 +143,8 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
-        MenuItem editItem = menu.findItem(R.id.Edit);
-        MenuItem delItem = menu.findItem(R.id.Delete);
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud_add, menu);
         MenuItem addItem = menu.findItem(R.id.Add);
-        editItem.setVisible(false);
-        delItem.setVisible(false);
         addItem.setVisible(true);
 
         return true;
@@ -166,10 +178,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus=tv_maritalStatus.getSelectedItem().toString();
-                //TODO corrigir data
-                //corrigir quando a data estiver direita
-                //String birthday = mYear+"-"+mMonth+"-"+mDay;
-                int birthday = 1;
+                String birthday = mYear+"-"+mMonth+"-"+mDay;
                 int height = -1;
                 try {
                     height = Integer.parseInt(tv_height.getText().toString());
@@ -377,7 +386,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                             // Display Selected date in textbox
                             //txtDate.setText(dayOfMonth + "-"
                             //        + (monthOfYear + 1) + "-" + year);
-                            txtDate.setText(Integer.toString(year));
+                            txtDate.setText(Integer.toString(mYear)+"-"+Integer.toString(mMonth)+"-"+Integer.toString(mDay));
 
                         }
                     }, mYear, mMonth, mDay);
