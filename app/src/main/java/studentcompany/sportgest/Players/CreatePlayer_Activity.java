@@ -5,10 +5,14 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,11 +23,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
@@ -32,6 +40,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
 
     //DAOs
     private Player_DAO player_dao;
+    private Position_DAO position_dao;
 
     Player player = null;
     long playerID = -1;
@@ -46,7 +55,8 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
     private int mYear, mMonth, mDay;
 
     private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
-    private EditText focusView=null;
+    private TextView tv_birthday;
+    private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +64,12 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_create_player);
 
         player_dao = new Player_DAO(this);
+        position_dao = new Position_DAO(this);
 
         btnCalendar = (ImageButton) findViewById(R.id.birthday);
         txtDate = (TextView) findViewById(R.id.txtDate);
 
         btnCalendar.setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
-        MenuItem editItem = menu.findItem(R.id.Edit);
-        MenuItem delItem = menu.findItem(R.id.Delete);
-        MenuItem addItem = menu.findItem(R.id.Add);
-        editItem.setVisible(false);
-        delItem.setVisible(false);
-        addItem.setVisible(true);
 
         tv_nickname = (EditText) findViewById(R.id.nickname);
         tv_name = (EditText) findViewById(R.id.name);
@@ -99,6 +98,15 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         preferredList.add("Right");
         preferredList.add("Left");
 
+        ArrayList<String> positionsList = new ArrayList<>();
+        try {
+            List<Position> positions = position_dao.getAll();
+            for(Position p : positions)
+                positionsList.add(p.getName());
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, gendersList);
         tv_gender.setAdapter(adapter1);
@@ -111,6 +119,33 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, preferredList);
         tv_preferredFoot.setAdapter(adapter4);
+        ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, positionsList);
+        tv_position.setAdapter(adapter5);
+
+        tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
+        tv_name.addTextChangedListener(new MyTextWatcher(tv_name));
+        tv_height.addTextChangedListener(new MyTextWatcher(tv_height));
+        tv_weight.addTextChangedListener(new MyTextWatcher(tv_weight));
+        tv_address.addTextChangedListener(new MyTextWatcher(tv_address));
+        tv_email.addTextChangedListener(new MyTextWatcher(tv_email));
+        tv_number.addTextChangedListener(new MyTextWatcher(tv_number));
+
+        inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
+        inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
+        inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
+        inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
+        inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
+        inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud_add, menu);
+        MenuItem addItem = menu.findItem(R.id.Add);
+        addItem.setVisible(true);
 
         return true;
     }
@@ -127,7 +162,6 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                  tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-                //TODO: por a data a vir do botao
                  tv_height = (EditText) findViewById(R.id.height);
                  tv_weight = (EditText) findViewById(R.id.weight);
                  tv_address = (EditText) findViewById(R.id.address);
@@ -144,11 +178,11 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus=tv_maritalStatus.getSelectedItem().toString();
-                //TODO corrigir data
-                //corrigir quando a data estiver direita
-                //String birthday = mYear+"-"+mMonth+"-"+mDay;
-                int birthday = 1;
-                int height = Integer.parseInt(tv_height.getText().toString());
+                String birthday = mYear+"-"+mMonth+"-"+mDay;
+                int height = -1;
+                try {
+                    height = Integer.parseInt(tv_height.getText().toString());
+                } catch (NumberFormatException ex){}
                 float weight = Float.parseFloat(tv_weight.getText().toString());
                 String address = tv_address.getText().toString();
                 String gender = "";
@@ -166,98 +200,171 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                 if(tv_position.getSelectedItem()!=null)
                     position = (Position) tv_position.getSelectedItem();
 
-                boolean conti = validate(nickname,name,height,weight,address,email,number);
-                if(conti){
+                boolean ok = false;
+                if (validateName())
+                    if (validateNickname())
+                        if (validateEmail())
+                            if (validateHeight())
+                                if (validateWeight())
+                                    if (validateAddress())
+                                        if (validateNumber())
+                                            ok = true;
 
-                    player=new Player(nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
+                if (!ok)
+                    return false;
 
-                    //insert/update database
-                    try {
-                        playerID=player_dao.insert(player);
-                    }catch (GenericDAOException ex){
-                        System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
-                    }
+                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
 
-                    Intent intent = new Intent();
-                    intent.putExtra("id",playerID);
-                    setResult(1, intent);
-                    finish();
-                    return true;
-                } else {
-                    focusView.requestFocus();
-                    return super.onOptionsItemSelected(item);
+                //insert
+                try {
+                    playerID = player_dao.insert(player);
+                    System.out.println("INSERIDO");
+                } catch (GenericDAOException ex) {
+                    System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
+
+                Intent intent = new Intent();
+                intent.putExtra("id", playerID);
+                setResult(1, intent);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private boolean validate(String nickname,String name,int height,float weight,String address,String email,int number){
-        boolean conti=false;
-        focusView = tv_nickname;
+    private class MyTextWatcher implements TextWatcher {
 
-        if(nickname.length()<5) {
-            focusView = tv_nickname;
-            tv_nickname.setError(getString(R.string.err_username_short));
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
         }
-        else
-            conti=true;
 
-        if(name.length()<5) {
-            focusView = tv_name;
-            tv_nickname.setError(getString(R.string.err_name_short));
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-        else
-            conti=true;
 
-        if(address.length()<5) {
-            focusView = tv_name;
-            tv_nickname.setError(getString(R.string.err_address_short));
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-        else
-            conti=true;
 
-        if(number>0 && number<100) {
-            focusView = tv_number;
-            tv_number.setError(getString(R.string.err_number));
-        }
-        else
-            conti=true;
-
-        if(email.contains("@")) {
-            String[] emailTesting = email.split("@");
-            if(emailTesting[1].contains(".")) {
-                String[] emailTestingIntern = emailTesting[1].split(".");
-                if(emailTestingIntern[0].length()>1 && emailTestingIntern[1].length()>1)
-                    conti = true;
-                else {
-                    focusView = tv_email;
-                    tv_email.setError(getString(R.string.err_valid_email));
-                }
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.inputLayoutNickname:
+                    validateNickname();
+                    break;
+                case R.id.inputLayoutName:
+                    validateName();
+                    break;
+                case R.id.inputLayoutHeight:
+                    validateHeight();
+                    break;
+                case R.id.inputLayoutWeight:
+                    validateWeight();
+                    break;
+                case R.id.inputLayoutAddress:
+                    validateAddress();
+                    break;
+                case R.id.inputLayoutEmail:
+                    validateEmail();
+                    break;
+                case R.id.inputLayoutNumber:
+                    validateNumber();
+                    break;
             }
-            else {
-                focusView = tv_email;
-                tv_email.setError(getString(R.string.err_valid_email));
-            }
-        } else {
-            focusView = tv_email;
-            tv_email.setError(getString(R.string.err_valid_email));
         }
-
-        return conti;
     }
 
+    private boolean validateNickname() {
+        String pw = tv_nickname.getText().toString().trim();
+        if (pw.isEmpty() || pw.length() < 5) {
+            inputLayoutNickname.setError(getString(R.string.err_nickname_short));
+            //requestFocus(inputLayoutPassword);
+            return false;
+        }
+        inputLayoutNickname.setErrorEnabled(false);
+        return true;
+    }
 
+    private boolean validateName() {
+        String pw = tv_name.getText().toString().trim();
+        if (pw.isEmpty() || pw.length() < 6) {
+            inputLayoutName.setError(getString(R.string.err_name_short));
+            //requestFocus(inputLayoutPassword);
+            return false;
+        }
+        inputLayoutName.setErrorEnabled(false);
+        return true;
+    }
 
+    private boolean validateHeight() {
+        String pw = tv_height.getText().toString().trim();
+        if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
+            int hg = Integer.parseInt(pw);
+            if(!(hg<200 && hg>0)){
+                inputLayoutHeight.setError(getString(R.string.err_height_invalid));
+                //requestFocus(inputLayoutPassword);
+                return false;
+            }
+        }
+        inputLayoutHeight.setErrorEnabled(false);
+        return true;
+    }
 
+    private boolean validateWeight() {
+        String pw = tv_weight.getText().toString().trim();
+        if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
+            float wg = Float.parseFloat(pw);
+            if(!(wg>0)){
+                inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
+                //requestFocus(inputLayoutPassword);
+                return false;
+            }
+        }
+        inputLayoutWeight.setErrorEnabled(false);
+        return true;
+    }
 
+    private boolean validateAddress() {
+        String pw = tv_address.getText().toString().trim();
+        if (pw.isEmpty() || pw.length() < 5) {
+            inputLayoutAddress.setError(getString(R.string.err_address_short));
+            //requestFocus(inputLayoutPassword);
+            return false;
+        }
+        inputLayoutAddress.setErrorEnabled(false);
+        return true;
+    }
 
+    private boolean validateEmail() {
 
+        String pw = tv_email.getText().toString().trim();
+        if (pw.isEmpty() || pw.length() < 5) {
+            Pattern VALID_EMAIL_ADDRESS_REGEX =
+                    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(pw);
+            if(!matcher.find()){
+                inputLayoutEmail.setError(getString(R.string.error_invalid_email));
+                return false;
+            }
+        }
+        inputLayoutEmail.setErrorEnabled(false);
+        return true;
+    }
 
-
-
-
+    private boolean validateNumber() {
+        String pw = tv_number.getText().toString().trim();
+        if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
+            int nb = Integer.parseInt(pw);
+            if(!(nb<100 && nb>0)){
+                inputLayoutNumber.setError(getString(R.string.err_number));
+                //requestFocus(inputLayoutPassword);
+                return false;
+            }
+        }
+        inputLayoutNumber.setErrorEnabled(false);
+        return true;
+    }
 
     @Override
     public void onClick(View v) {
@@ -279,7 +386,7 @@ public class CreatePlayer_Activity extends AppCompatActivity implements View.OnC
                             // Display Selected date in textbox
                             //txtDate.setText(dayOfMonth + "-"
                             //        + (monthOfYear + 1) + "-" + year);
-                            txtDate.setText(Integer.toString(year));
+                            txtDate.setText(Integer.toString(mYear)+"-"+Integer.toString(mMonth)+"-"+Integer.toString(mDay));
 
                         }
                     }, mYear, mMonth, mDay);

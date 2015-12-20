@@ -16,16 +16,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.Users.CreateUser_Activity;
+import studentcompany.sportgest.Users.EditUser_Activity;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
+import studentcompany.sportgest.domains.User;
 
 public class PlayersList_Activity extends AppCompatActivity implements ListPlayers_Fragment.OnItemSelected {
 
@@ -35,12 +38,15 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private Menu mOptionsMenu;
 
     private int baseTeamID;
+    private long player_id;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
     private DetailsPlayers_Fragment mDetailsPlayer = new DetailsPlayers_Fragment();
     private static final String TAG = "PLAYERS_LIST_ACTIVITY";
 
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +69,13 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            players = playerDao.getAll();
             if(players.isEmpty()) {
 
-                noElems();
-                //insertUserTest(playerDao);
-                //players = playerDao.getAll();
+                //noElems();
+                insertUserTest(playerDao);
+                players = playerDao.getAll();
             }
             mListPlayer.setList(getNamesList(players));
 
@@ -173,13 +180,20 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(this, CreatePlayer_Activity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_TAG);
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
-                mDialog.show(mFragmentManager,"Alert");
+                mDialog.show(mFragmentManager, "Alert");
                 return true;
+
+            case R.id.action_edit:
+                Intent intent2 = new Intent(this, EditPlayer_Activity.class);
+                intent2.putExtra("id", players.get(currentPos).getId());
+                startActivityForResult(intent2, EDIT_TAG);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -233,10 +247,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
             long id;
 
@@ -253,10 +267,10 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
     private void testPlayers(){
 
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1231-2-3", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
         players = new ArrayList<Player>();
         players.add(p1);
@@ -266,4 +280,39 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
 
         mListPlayer.setList(getNamesList(players));
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Player player = null;
+        if (requestCode == EDIT_TAG) {
+            if(resultCode == 1){
+                try {
+                    player=playerDao.getById(players.get(currentPos).getId());
+                    players.set(currentPos,player);
+                    mDetailsPlayer.showPlayer(player);
+                    Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (requestCode == CREATE_TAG) {
+            if(resultCode == 1){
+                try {
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    player=playerDao.getById(idToSearch);
+                    System.out.println(player);
+                    players.add(player);
+                    mDetailsPlayer.showPlayer(player);
+                    Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
 }
