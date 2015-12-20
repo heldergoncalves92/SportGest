@@ -91,6 +91,8 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         fragmentTransaction.commit();
         if(users.size()>0) {
             currentPos=0;
+            if(users.get(currentPos) != null)
+                user_id = users.get(currentPos).getId();
             //mDetailsUser.startActivity();
             //mDetailsUser.showUser(users.get(currentPos));
         }
@@ -152,6 +154,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
             currentPos = position;
             mDetailsUser.showUser(user);
+            user_id = user.getId();
         }
     }
 
@@ -236,6 +239,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         //To restore state on Layout Rotation
         if(currentPos != -1) {
             mDetailsUser.showUser(users.get(currentPos));
+            user_id = users.get(currentPos).getId();
         }
         return true;
     }
@@ -331,12 +335,13 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             try {
                 User user1 = userDao.getById(user_id);
 
-                List<Team> t = user_team_dao.getByFirstId(user1.getId());
-                    if(t!=null)
-                        if(t.size()>0)
-                            user1.setTeam(t.get(0)); // Get the Team
+                if(user1!=null)
+                    {List<Team> t = user_team_dao.getByFirstId(user1.getId());
+                        if(t!=null)
+                            if(t.size()>0)
+                                user1.setTeam(t.get(0)); // Get the Team
 
-                mDetailsUser.showUser(user1);
+                    mDetailsUser.showUser(user1);}
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }

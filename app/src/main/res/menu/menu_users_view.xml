@@ -14,7 +14,7 @@
         android:id="@+id/action_edit"
         android:orderInCategory="101"
         android:title="@string/edit"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_create_white_24dp"
         />
 

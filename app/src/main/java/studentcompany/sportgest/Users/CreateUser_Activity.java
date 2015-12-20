@@ -480,24 +480,19 @@ public class CreateUser_Activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
                 try {
 
+                    File f = new File(Environment.getExternalStorageDirectory().toString(),"temp.jpg");
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
-                    
+
                     if(bitmap==null)
                         Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
                     else
                         viewImage.setImageBitmap(bitmap);
+                    f.delete();
                     /*
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
@@ -567,7 +562,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
     private void selectImage() {
 
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Set to default" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a Photo to the User");
@@ -584,7 +579,9 @@ public class CreateUser_Activity extends AppCompatActivity {
                         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(intent, 2);
 
-                    } else if (options[item].equals("Cancel")) {
+                    } else if (options[item].equals("Set to default")) {
+                        bitmap = null;
+                        viewImage.setImageDrawable(getDefaultBitmap());
                         dialog.dismiss();
                     }
                 } catch (Exception e) {
