@@ -44,6 +44,9 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private ListUser_Fragment mListUsers = new ListUser_Fragment();
     private DetailsUser_Fragment mDetailsUser = new DetailsUser_Fragment();
     private static final String TAG = "USERS_ACTIVITY";
+    private final int EDIT_TAG = 19;
+    private final int CREATE_TAG = 20;
+
 
 
     @Override
@@ -251,14 +254,14 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         switch (item.getItemId()) {
             case R.id.action_add:
                 intent = new Intent(this, CreateUser_Activity.class);
-                startActivityForResult(intent,112);
+                startActivityForResult(intent,CREATE_TAG);
                 return true;
 
             case R.id.action_edit:
                 intent = new Intent(this, CreateUser_Activity.class);
                 user_id = users.get(currentPos).getId();
                 intent.putExtra("ID",user_id);
-                startActivityForResult(intent,1112);
+                startActivityForResult(intent,EDIT_TAG);
                 return true;
 
             case R.id.action_del:
@@ -318,7 +321,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 112) {
+        if (requestCode == CREATE_TAG) {
             try {
                 Bundle extras = data.getExtras();
                 if(extras != null) {
@@ -331,7 +334,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if (requestCode == 1112) {
+        }else if (requestCode == EDIT_TAG) {
             try {
                 User user1 = userDao.getById(user_id);
 

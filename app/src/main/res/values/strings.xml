@@ -17,7 +17,9 @@
     <string name="not_done">Not done</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
+    <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="date">Date</string>
     <string name="event_category_button">Event Categories</string>
     <string name="event_category_add_menu">Add Categories</string>
     <string name="event_category_edit_menu">Edit Categories</string>
@@ -32,6 +34,7 @@
     <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
+    <string name="next_button">Next</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
     <string name="goTo_users_button">Manage Users</string>
@@ -132,8 +135,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_address_short">Address is short</string>
     <string name="err_number">Invalid number</string>
     <string name="err_description_short">Description is short</string>
-
-
+    <string name="err_weight_invalid">Invalid weight</string>
+    <string name="err_height_invalid">Invalid height</string>
+    <string name="err_nickname_short">Nickname is short</string>
+    <string name="err_season">Invalid Season</string>
 
     <string name="userTeam">Team</string>
     <string name="pickTeam">Choose a Team</string>
@@ -147,7 +152,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_occured">An error ocurred</string>
     <string name="goTo_gamesView_button">View Game</string>
     <string name="goTo_squadCall_button">Manage Squad</string>
-    <string name="userPhoto">Photo</string>
     <string name="description_label"><b>Description</b></string>
     <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
     <string name="exercise_name_label"><b>Name</b></string>
@@ -159,4 +163,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="app_newExercise">SportGest - New Exercise</string>
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
+    <string name="userPhoto">Photo</string>
 </resources>
