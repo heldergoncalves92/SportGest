@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Roles;
 
+import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,28 +16,40 @@ import studentcompany.sportgest.domains.Role;
  * Created by heldergoncalves on 16/12/15.
  */
 public class Role_List_Adapter extends RecyclerView.Adapter<Role_List_Adapter.ViewHolder> {
-private List<Role> mDataset;
+
+    private Context context;
+    private static Role_Fragment_List.OnItemSelected mListener;
+    private List<Role> mDataset;
 
 
-// Provide a reference to the views for each data item
-// Complex data items may need more than one view per item, and
-// you provide access to all the views for a data item in a view holder
-static class ViewHolder extends RecyclerView.ViewHolder {
-    // each data item is just a string in this case
-    public AppCompatTextView mTextView_num, mTextView_name;
-    public View parent;
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // each data item is just a string in this case
+        public AppCompatTextView mTextView_name;
+        public View parent;
 
-    public ViewHolder(View view) {
-        super(view);
+        public ViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this);
 
-        parent = view;
-        mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            parent = view;
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.itemSelected(getLayoutPosition());
+        }
     }
-}
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Role_List_Adapter(List<Role> myDataset) {
-        mDataset = myDataset;
+    public Role_List_Adapter(List<Role> myDataset, Context context, Role_Fragment_List.OnItemSelected mListener) {
+
+        this.mDataset = myDataset;
+        this.context = context;
+        this.mListener = mListener;
     }
 
     // Create new views (invoked by the layout manager)

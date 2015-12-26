@@ -15,7 +15,7 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Role;
 
-public class ListRole_Fragment extends Fragment {
+public class Role_Fragment_List extends Fragment {
 
 
     private static final String TAG = "LIST_USER_FRAGMENT";
@@ -52,7 +52,7 @@ public class ListRole_Fragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Role_List_Adapter(list);
+        mAdapter = new Role_List_Adapter(list, getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
@@ -60,30 +60,26 @@ public class ListRole_Fragment extends Fragment {
     }
 
 
-    /*@Override
-    public void onActivityCreated(Bundle savedState){
-        Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
-        super.onActivityCreated(savedState);
-
-        // Set the list adapter for the ListView
-        if(list != null)
-            setListAdapter(new ArrayAdapter<User>(getActivity(), android.R.layout.simple_list_item_1, list));
-        //setListAdapter(new ArrayAdapter<User>(getActivity(), R.layout.fragment_user_list, list));
-
-        // Set the list choice mode to allow only one selection at a time
-        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    }*/
-
     public void setList(List<Role> list){
         this.list = list;
-        //try{getListView().invalidateViews();}
-        //catch (Exception e){
-        //}
     }
 
+    public void updateList(List<Role> list){
+        this.list = list;
+
+        mAdapter = new Role_List_Adapter(list, getContext(), mListener);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void updatePosition(Role role, int position){
+        this.list.set(position, role);
+        mAdapter.notifyItemChanged(position);
+    }
+
+
+
     public void removeItem(int position){
-        list.remove(position);
-        //getListView().invalidateViews();
+        mAdapter.notifyItemRemoved(position);
     }
 
     /************************************
@@ -95,11 +91,4 @@ public class ListRole_Fragment extends Fragment {
         void itemSelected(int position);
     }
 
-    /*@Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i(TAG, getClass().getSimpleName() + ":entered onListItemClick()");
-        getListView().setItemChecked(position, true);
-
-        mListener.itemSelected(position);
-    }*/
 }

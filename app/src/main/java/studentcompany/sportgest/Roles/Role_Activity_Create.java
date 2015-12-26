@@ -1,13 +1,9 @@
-package studentcompany.sportgest.Users;
+package studentcompany.sportgest.Roles;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
@@ -20,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Users.RoleDisplayActivity;
 import studentcompany.sportgest.daos.Permission_DAO;
 import studentcompany.sportgest.daos.Role_DAO;
 import studentcompany.sportgest.daos.Role_Permission_DAO;
@@ -36,7 +32,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Permission;
 import studentcompany.sportgest.domains.Role;
 
-public class CreateRole_Activity extends AppCompatActivity{
+public class Role_Activity_Create extends AppCompatActivity{
 
     private Role_DAO role_dao;
     private Role_Permission_DAO role_permission_dao;
@@ -177,9 +173,11 @@ public class CreateRole_Activity extends AppCompatActivity{
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
+
+        long newId = 0;
+
         switch(item.getItemId())
         {
             case R.id.Save:
@@ -203,7 +201,7 @@ public class CreateRole_Activity extends AppCompatActivity{
                         ret = role_dao.update(role);
                         role_permission_dao.deleteAllByRoleId(role.getId());}
                     else{
-                        long newId = role_dao.insert(role);
+                        newId = role_dao.insert(role);
                         ret = newId > 0;
                     }
 
@@ -212,16 +210,27 @@ public class CreateRole_Activity extends AppCompatActivity{
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
-                if(ret)
-                    {Toast.makeText(getApplicationContext(), R.string.role_save_successful, Toast.LENGTH_SHORT).show();
-                     Intent returnIntent = new Intent();
-                     //returnIntent.putExtra("Age",11);
-                     setResult(1,returnIntent);
-                     finish();}
-                else
+
+                if(ret){
+                    Toast.makeText(getApplicationContext(), R.string.role_save_successful, Toast.LENGTH_SHORT).show();
+                    Intent returnIntent = new Intent();
+
+                    //Create
+                    if(roleID == 0 ){
+                        returnIntent.putExtra("ID", newId);
+                        setResult(1, returnIntent);
+
+                    } else{
+                        //Update
+                        setResult(2, returnIntent);
+                    }
+                    //returnIntent.putExtra("Age",11);
+
+                    finish();
+
+                } else
                     Toast.makeText(getApplicationContext(), R.string.role_save_unsuccessful, Toast.LENGTH_SHORT).show();
-
-
+                
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

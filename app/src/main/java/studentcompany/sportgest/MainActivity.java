@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
+                //Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
 
                 startActivity(intent);
             }
