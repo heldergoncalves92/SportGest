@@ -17,6 +17,7 @@ import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Exercises.ListExerciseActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
+import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
 import studentcompany.sportgest.Team.TeamList_Activity;
@@ -29,7 +30,7 @@ import studentcompany.sportgest.domains.Team;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton;
+    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton, gametestbutton;
     private MenuItem menuItem;
     private DrawerLayout mDrawerLayout;
 
@@ -87,6 +88,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CallSquad_Activity.class);
+
+                startActivity(intent);
+            }
+        });
+
+        //gameTestButton
+        gametestbutton = (Button)findViewById(R.id.game_test_button);
+        gametestbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameTest_Activity.class);
 
                 startActivity(intent);
             }
@@ -166,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
     public void goTo_Games(View v){
         //insertGamesTest();
         Intent intent = new Intent(this, GamesList_Activity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_GameTest(View v){
+        Intent intent = new Intent(this, GameTest_Activity.class);
         startActivity(intent);
     }
 

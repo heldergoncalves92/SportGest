@@ -89,6 +89,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/goTo_gameTest_button"
+            android:id="@+id/game_test_button" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/exercise_button"
             android:id="@+id/exercise_button" />
 

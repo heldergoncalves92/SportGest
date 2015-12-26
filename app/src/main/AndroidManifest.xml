@@ -42,6 +42,9 @@
             android:name=".Team.CreateTeam_Activity"
             android:label="@string/app_newTeam" />
         <activity
+            android:name=".Games.GameTest_Activity"
+            android:label="@string/app_gameTest" />
+        <activity
             android:name=".Exercises.CreateExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
