@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="studentcompany.sportgest.Players.PlayersList_Activity">
+    tools:context=".Players.Player_Activity_ListView">
 
     <TextView
         android:id="@+id/without_elems"

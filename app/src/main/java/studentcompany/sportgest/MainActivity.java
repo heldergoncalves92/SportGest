@@ -18,9 +18,8 @@ import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
-import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
-import studentcompany.sportgest.Trainings.CreateTrainingActivity;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Players(View v){
-        Intent intent = new Intent(this, PlayersList_Activity.class);
+        Intent intent = new Intent(this, Player_Activity_ListView.class);
         intent.putExtra("TEAM",1);
         startActivity(intent);
     }

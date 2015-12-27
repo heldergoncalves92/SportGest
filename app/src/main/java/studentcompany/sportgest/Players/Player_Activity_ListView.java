@@ -22,15 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.Users.CreateUser_Activity;
-import studentcompany.sportgest.Users.EditUser_Activity;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
-import studentcompany.sportgest.domains.User;
 
-public class PlayersList_Activity extends AppCompatActivity implements ListPlayers_Fragment.OnItemSelected {
+public class Player_Activity_ListView extends AppCompatActivity implements Player_Fragment_List.OnItemSelected {
 
     private Player_DAO playerDao;
     private List<Player> players;
@@ -41,8 +38,8 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     private long player_id;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
-    private DetailsPlayers_Fragment mDetailsPlayer = new DetailsPlayers_Fragment();
+    private Player_Fragment_List mListPlayer = new Player_Fragment_List();
+    private Player_Fragment_Details mDetailsPlayer = new Player_Fragment_Details();
     private static final String TAG = "PLAYERS_LIST_ACTIVITY";
 
     private final int EDIT_TAG = 19;
@@ -51,7 +48,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_players_list);
+        setContentView(R.layout.player_activity_list_view);
 
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
@@ -179,7 +176,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, CreatePlayer_Activity.class);
+                Intent intent = new Intent(this, Player_Activity_Create.class);
                 startActivityForResult(intent, CREATE_TAG);
                 return true;
 
@@ -189,7 +186,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
                 return true;
 
             case R.id.action_edit:
-                Intent intent2 = new Intent(this, EditPlayer_Activity.class);
+                Intent intent2 = new Intent(this, Player_Activity_Edit.class);
                 intent2.putExtra("id", players.get(currentPos).getId());
                 startActivityForResult(intent2, EDIT_TAG);
                 return true;
@@ -224,7 +221,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    PlayersList_Activity activity = (PlayersList_Activity) getActivity();
+                                    Player_Activity_ListView activity = (Player_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -232,7 +229,7 @@ public class PlayersList_Activity extends AppCompatActivity implements ListPlaye
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    PlayersList_Activity activity = (PlayersList_Activity) getActivity();
+                                    Player_Activity_ListView activity = (Player_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removePlayer();
                                 }

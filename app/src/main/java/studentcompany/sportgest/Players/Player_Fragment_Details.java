@@ -7,20 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailsPlayers_Fragment extends Fragment {
+public class Player_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_PLAYER_FRAGMENT";
     private TextView tv_nickname, tv_name,tv_address, tv_email,tv_height, tv_weight;
@@ -28,7 +24,7 @@ public class DetailsPlayers_Fragment extends Fragment {
     private TextView tv_nationality,tv_gender,tv_preferredFoot, tv_maritalStatus,tv_number;
     private ImageView tv_photo;
 
-    public DetailsPlayers_Fragment() {
+    public Player_Fragment_Details() {
         // Required empty public constructor
     }
 
@@ -39,7 +35,7 @@ public class DetailsPlayers_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_players_details, container, false);
+        View view =  lf.inflate(R.layout.player_fragment_details, container, false);
         tv_nickname = (TextView) view.findViewById(R.id.nickname);
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_nationality = (TextView) view.findViewById(R.id.nationality);

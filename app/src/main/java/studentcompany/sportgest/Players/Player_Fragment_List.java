@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,7 +16,7 @@ import studentcompany.sportgest.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListPlayers_Fragment extends ListFragment {
+public class Player_Fragment_List extends ListFragment {
 
 
     private static final String TAG = "LIST_PLAYER_FRAGMENT";
@@ -44,7 +42,7 @@ public class ListPlayers_Fragment extends ListFragment {
 
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_players_list, list));
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.player_fragment_list, list));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
