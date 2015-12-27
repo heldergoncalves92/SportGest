@@ -51,7 +51,7 @@ public class Role_Activity_Create extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_role);
+        setContentView(R.layout.role_activity_create);
 
         //get layout components
         roleName = (EditText) findViewById(R.id.input_create_permission_name);
@@ -230,7 +230,7 @@ public class Role_Activity_Create extends AppCompatActivity{
 
                 } else
                     Toast.makeText(getApplicationContext(), R.string.role_save_unsuccessful, Toast.LENGTH_SHORT).show();
-                
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
