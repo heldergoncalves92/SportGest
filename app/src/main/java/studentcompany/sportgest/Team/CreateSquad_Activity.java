@@ -37,7 +37,7 @@ public class CreateSquad_Activity extends AppCompatActivity {
     private ArrayList<Player> playersInTeam = null;
 
     Team team = null;
-    long teamID = -1;
+    int teamID = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class CreateSquad_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            teamID = b.getInt("id");
+            teamID = (int)(b.getLong("id")+0);
         }
 
         try {
@@ -120,11 +120,16 @@ public class CreateSquad_Activity extends AppCompatActivity {
             //add action
             case R.id.Add:
 
-                for(Player p : playersInTeam)
+                for(Player p : playersInTeam) {
                     p.setTeam(team);
+                    try {
+                        player_dao.update(p);
+                    } catch (GenericDAOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 Intent intent = new Intent();
-                intent.putExtra("id",teamID);
                 setResult(1, intent);
                 finish();
                 return true;
