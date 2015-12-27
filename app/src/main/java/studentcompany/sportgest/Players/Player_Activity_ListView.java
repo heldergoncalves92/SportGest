@@ -35,7 +35,6 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
     private Menu mOptionsMenu;
 
     private int baseTeamID;
-    private long player_id;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private Player_Fragment_List mListPlayer = new Player_Fragment_List();
@@ -66,15 +65,15 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
 
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-            players = playerDao.getAll();
+            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            //players = playerDao.getAll();
             if(players.isEmpty()) {
 
-                //noElems();
-                insertUserTest(playerDao);
-                players = playerDao.getAll();
+                noElems();
+                //insertUserTest(playerDao);
+                //players = playerDao.getAll();
             }
-            mListPlayer.setList(getNamesList(players));
+            mListPlayer.setList(players);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -145,6 +144,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
+
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
             }
 
             currentPos = position;
@@ -165,6 +167,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
         //To restore state on Layout Rotation
         if(currentPos != -1) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
             mDetailsPlayer.showPlayer(players.get(currentPos));
         }
@@ -275,7 +280,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
         players.add(p3);
         players.add(p4);
 
-        mListPlayer.setList(getNamesList(players));
+        mListPlayer.setList(players);
     }
 
     @Override
@@ -286,7 +291,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
                 try {
                     player=playerDao.getById(players.get(currentPos).getId());
                     players.set(currentPos,player);
+                    mListPlayer.updatePosition(player, currentPos);
                     mDetailsPlayer.showPlayer(player);
+
                     Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
@@ -296,13 +303,18 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
                 try {
-                    Bundle bundle = data.getExtras();
+                    /*Bundle bundle = data.getExtras();
                     long id = (long) bundle.get("id");
                     int idToSearch = (int) (id + 0);
                     player=playerDao.getById(idToSearch);
                     System.out.println(player);
                     players.add(player);
                     mDetailsPlayer.showPlayer(player);
+                    */
+
+                    players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+                    mListPlayer.updateList(players);
+
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
