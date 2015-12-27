@@ -1,8 +1,6 @@
 package studentcompany.sportgest.EventCategories;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,33 +9,17 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import studentcompany.sportgest.Players.CreatePlayer_Activity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Event_Category_DAO;
-import studentcompany.sportgest.daos.Player_DAO;
-import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.EventCategory;
-import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Position;
 
-public class EditEventCategory_Activity extends AppCompatActivity {
+public class EventCategory_Activity_Edit extends AppCompatActivity {
 
     //DAOs
     private Event_Category_DAO event_category_dao;
@@ -51,7 +33,7 @@ public class EditEventCategory_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_eventCategory);
+        setContentView(R.layout.activity_edit_eventcategory);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
@@ -118,8 +100,8 @@ public class EditEventCategory_Activity extends AppCompatActivity {
                         event_category_dao.insert(eventCategory);
                     }
                 }catch (GenericDAOException ex){
-                    System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(EventCategory_Activity_Edit.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(EventCategory_Activity_Edit.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();

@@ -13,13 +13,13 @@ import android.view.View;
 import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.AttributeListActivity;
-import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
+import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
-import studentcompany.sportgest.Players.PlayersList_Activity;
-import studentcompany.sportgest.Trainings.CreateTrainingActivity;
+import studentcompany.sportgest.Players.Player_Activity_ListView;
+import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("id", id_To_Search);
                 */
-                Intent intent = new Intent(getApplicationContext(), ListEventCategoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EventCategory_List_Adapter.class);
 
                 //intent.putExtras(dataBundle);
                 startActivity(intent);
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         rolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
+                //Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
 
                 startActivity(intent);
             }
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Players(View v){
-        Intent intent = new Intent(this, PlayersList_Activity.class);
+        Intent intent = new Intent(this, Player_Activity_ListView.class);
         intent.putExtra("TEAM",1);
         startActivity(intent);
     }
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Roles(View v){
-        Intent intent = new Intent(this, RolesListActivity.class);
+        Intent intent = new Intent(this, Role_Activity_ListView.class);
         startActivity(intent);
     }
 

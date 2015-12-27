@@ -34,225 +34,92 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
 
-public class EditPlayer_Activity extends AppCompatActivity implements View.OnClickListener {
+public class Player_Activity_Create extends AppCompatActivity implements View.OnClickListener {
 
     //DAOs
     private Player_DAO player_dao;
     private Position_DAO position_dao;
 
     Player player = null;
-    int playerID = -1;
+    long playerID = -1;
 
-    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
-    private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
-
-    private TextView focusView;
+    private final int CREATE_TAG = 20;
     private final String FILENAME_COUNTRIES = "";
+    private final String FILENAME_GENDERS = "";
+    private final String FILENAME_MARITALSTATUS = "";
 
     private ImageButton btnCalendar;
     private TextView txtDate;
     private int mYear, mMonth, mDay;
 
+    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
+    private TextView tv_birthday;
+    private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_player);
+        setContentView(R.layout.player_activity_create);
 
-        Bundle b = getIntent().getExtras();
-        if(b!=null){
-            playerID = (int) (b.getLong("id")+0);
-        }
+        player_dao = new Player_DAO(this);
+        position_dao = new Position_DAO(this);
 
         btnCalendar = (ImageButton) findViewById(R.id.birthday);
         txtDate = (TextView) findViewById(R.id.txtDate);
 
         btnCalendar.setOnClickListener(this);
 
-
-         tv_nickname = (EditText) findViewById(R.id.nickname);
-         tv_name = (EditText) findViewById(R.id.name);
+        tv_nickname = (EditText) findViewById(R.id.nickname);
+        tv_name = (EditText) findViewById(R.id.name);
         Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
         Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-        //TODO: POR A DATA A VIR DO BOTAO
-         tv_height = (EditText) findViewById(R.id.height);
-         tv_weight = (EditText) findViewById(R.id.weight);
-         tv_address = (EditText) findViewById(R.id.address);
+        tv_height = (EditText) findViewById(R.id.height);
+        tv_weight = (EditText) findViewById(R.id.weight);
+        tv_address = (EditText) findViewById(R.id.address);
         Spinner tv_gender = (Spinner) findViewById(R.id.gender);
-         tv_email = (EditText) findViewById(R.id.email);
+        tv_email = (EditText) findViewById(R.id.email);
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
-         tv_number = (EditText) findViewById(R.id.number);
+        tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
         Spinner tv_position = (Spinner) findViewById(R.id.position);
 
-        Player playerFromDB=null;
-        player_dao = new Player_DAO(this);
-        position_dao = new Position_DAO(this);
 
+        ArrayList<String> gendersList = new ArrayList<>();
+        gendersList.add("Male");
+        gendersList.add("Female");
+
+        Resources res = getResources();
+        String[] countries_array = res.getStringArray(R.array.countries_array);
+        String[] marital_array = res.getStringArray(R.array.marital_status);
+
+        ArrayList<String> preferredList = new ArrayList<>();
+        preferredList.add("Right");
+        preferredList.add("Left");
+
+        ArrayList<String> positionsList = new ArrayList<>();
         try {
-             playerFromDB = player_dao.getById(playerID);
+            List<Position> positions = position_dao.getAll();
+            for(Position p : positions)
+                positionsList.add(p.getName());
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
-        if (playerFromDB!=null){
-            if(playerFromDB.getNickname()!=null)
-                tv_nickname.setText(playerFromDB.getNickname());
-            else
-                tv_nickname.setText("");
 
-            if(playerFromDB.getName()!=null)
-                tv_name.setText(playerFromDB.getName());
-            else
-                tv_name.setText(playerFromDB.getName());
-
-            ArrayList<String> gendersList = new ArrayList<>();
-            gendersList.add("Male");
-            gendersList.add("Female");
-
-            Resources res = getResources();
-            String[] countries_array = res.getStringArray(R.array.countries_array);
-            String[] marital_array = res.getStringArray(R.array.marital_status);
-
-            ArrayList<String> preferredList = new ArrayList<>();
-            preferredList.add("Right");
-            preferredList.add("Left");
-
-            ArrayList<String> positionsList = new ArrayList<>();
-            try {
-                List<Position> positions = position_dao.getAll();
-                for(Position p : positions)
-                    positionsList.add(p.getName());
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
-            }
-
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, gendersList);
-            tv_gender.setAdapter(adapter1);
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, countries_array);
-            tv_nationality.setAdapter(adapter2);
-            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, marital_array);
-            tv_maritalStatus.setAdapter(adapter3);
-            ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, preferredList);
-            tv_preferredFoot.setAdapter(adapter4);
-            ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, positionsList);
-            tv_position.setAdapter(adapter5);
-
-            int pos=-1;
-            int counter=0;
-            if (playerFromDB.getNationality()!=null)
-                for(String s : countries_array){
-                    if(playerFromDB.getNationality().equals(s))
-                        pos=counter;
-                    else
-                        counter++;
-                }
-
-            if(pos!=-1)
-                tv_nationality.setSelection(pos);
-            else
-                tv_nationality.setSelection(0);
-
-            //TODO: por data direita
-            //if(playerFromDB.getBirthDate()!=-1)
-            //    tv_birthday.updateDate(playerFromDB.getBirthDate(), 0, 0);
-
-            if(playerFromDB.getHeight()!=-1)
-                tv_height.setText(Integer.toString(playerFromDB.getHeight()));
-            else
-                tv_height.setText(Integer.toString(0));
-
-            if(playerFromDB.getWeight()!=-1)
-                tv_weight.setText(Float.toString(playerFromDB.getWeight()));
-            else
-                tv_weight.setText(Float.toString(0f));
-
-            if(playerFromDB.getAddress()!=null)
-                tv_address.setText(playerFromDB.getAddress());
-            else
-                tv_address.setText("");
-
-            pos=-1;
-            counter=0;
-            if (playerFromDB.getMarital_status()!=null)
-                for(String s : marital_array){
-                    if(playerFromDB.getMarital_status().equals(s))
-                        pos=counter;
-                    else
-                        counter++;
-                }
-
-            if(pos!=-1)
-                tv_maritalStatus.setSelection(pos);
-            else
-                tv_maritalStatus.setSelection(0);
-
-            pos=-1;
-            counter=0;
-            if (playerFromDB.getGender()!=null)
-                for(String s : gendersList){
-                    if(playerFromDB.getGender().equals(s))
-                        pos=counter;
-                    else
-                        counter++;
-                }
-
-            if(pos!=-1)
-                tv_gender.setSelection(pos);
-            else
-                tv_gender.setSelection(0);
-
-            if(playerFromDB.getEmail()!=null)
-                tv_email.setText(playerFromDB.getEmail());
-            else
-                tv_email.setText("");
-
-            pos=-1;
-            counter=0;
-            if (playerFromDB.getPreferredFoot()!=null)
-                for(String s : preferredList){
-                    if(playerFromDB.getPreferredFoot().equals(s))
-                        pos=counter;
-                    else
-                        counter++;
-                }
-
-            //TODO: alterar a data
-            if(playerFromDB.getBirthDate()!=null)
-                txtDate.setText(playerFromDB.getBirthDate());
-
-            if(pos!=-1)
-                tv_preferredFoot.setSelection(pos);
-            else
-                tv_preferredFoot.setSelection(0);
-
-            if(playerFromDB.getNumber()!=-1)
-                tv_number.setText(Integer.toString(playerFromDB.getNumber()));
-            else
-                tv_number.setText("");
-
-            if(playerFromDB.getPosition()!=null){
-                pos=-1;
-                counter=0;
-                if (playerFromDB.getPosition()!=null)
-                    for(String s : positionsList){
-                        if(playerFromDB.getPosition().getName().equals(s))
-                            pos=counter;
-                        else
-                            counter++;
-                    }
-
-                if(pos!=-1)
-                    tv_position.setSelection(pos);
-                else
-                    tv_position.setSelection(0);
-            }
-            else
-                tv_position.setSelection(0);
-        }
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, gendersList);
+        tv_gender.setAdapter(adapter1);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, countries_array);
+        tv_nationality.setAdapter(adapter2);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, marital_array);
+        tv_maritalStatus.setAdapter(adapter3);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, preferredList);
+        tv_preferredFoot.setAdapter(adapter4);
+        ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, positionsList);
+        tv_position.setAdapter(adapter5);
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
         tv_name.addTextChangedListener(new MyTextWatcher(tv_name));
@@ -269,15 +136,14 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
         inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_crud_edit, menu);
-        MenuItem editItem = menu.findItem(R.id.Edit);
-        editItem.setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud_add, menu);
+        MenuItem addItem = menu.findItem(R.id.Add);
+        addItem.setVisible(true);
 
         return true;
     }
@@ -289,10 +155,9 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         switch(item.getItemId())
         {
             //add action
-            case R.id.Edit:
-
-                tv_nickname = (EditText) findViewById(R.id.nickname);
-                tv_name = (EditText) findViewById(R.id.name);
+            case R.id.Add:
+                 tv_nickname = (EditText) findViewById(R.id.nickname);
+                 tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
                 Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
                  tv_height = (EditText) findViewById(R.id.height);
@@ -310,9 +175,12 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 String nationality = tv_nationality.getSelectedItem()!=null ? tv_nationality.getSelectedItem().toString() : "TUGA";
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
-                    maritalStatus = tv_maritalStatus.getSelectedItem().toString();
+                    maritalStatus=tv_maritalStatus.getSelectedItem().toString();
                 String birthday = mYear+"-"+mMonth+"-"+mDay;
-                int height = Integer.parseInt(tv_height.getText().toString());
+                int height = -1;
+                try {
+                    height = Integer.parseInt(tv_height.getText().toString());
+                } catch (NumberFormatException ex){}
                 float weight = Float.parseFloat(tv_weight.getText().toString());
                 String address = tv_address.getText().toString();
                 String gender = "";
@@ -326,7 +194,9 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
-                Position position = (Position) tv_position.getSelectedItem();
+                Position position = null;
+                if(tv_position.getSelectedItem()!=null)
+                    position = (Position) tv_position.getSelectedItem();
 
                 boolean ok = false;
                 if (validateName())
@@ -341,22 +211,20 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
                 if (!ok)
                     return false;
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
+                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
 
-                //insert/update database
+                //insert
                 try {
-                    if(playerID > 0){
-                        player_dao.update(player);
-                    } else {
-                        player_dao.insert(player);
-                    }
-                }catch (GenericDAOException ex){
-                    System.err.println(CreatePlayer_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreatePlayer_Activity.class.getName()).log(Level.WARNING, null, ex);
+                    playerID = player_dao.insert(player);
+                    System.out.println("INSERIDO");
+                } catch (GenericDAOException ex) {
+                    System.err.println(Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();
-                setResult(1,intent);
+                intent.putExtra("id", playerID);
+                setResult(1, intent);
                 finish();
                 return true;
             default:
@@ -494,13 +362,6 @@ public class EditPlayer_Activity extends AppCompatActivity implements View.OnCli
         }
         inputLayoutNumber.setErrorEnabled(false);
         return true;
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-
-        setResult(0);
     }
 
     @Override

@@ -22,12 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.Users.CreateUser_Activity;
-import studentcompany.sportgest.Users.EditUser_Activity;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
-import studentcompany.sportgest.domains.User;
 
 public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fragment.OnItemSelected{
 
@@ -48,7 +45,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_list);
+        setContentView(R.layout.team_activity_list);
 
         if(savedInstanceState != null)
             currentPos = savedInstanceState.getInt("currentPos");

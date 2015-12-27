@@ -188,19 +188,20 @@ public class RoleDisplayActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 112) {
-            if(resultCode == 1)
+            if(resultCode == 1) {
                 try {
                     Role r = role_dao.getById(roleID);
                     roleName.setText(r.getName().toString());
                     List<Permission> permissions = role_permission_dao.getPermissionsByRoleId(roleID);
                     //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, permissions);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, permissions);
 
                     //set list in layout ListView
                     rolePermissionsListView.setAdapter(arrayAdapter);
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+            }
         }
     }
 

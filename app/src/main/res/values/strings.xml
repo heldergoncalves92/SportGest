@@ -140,7 +140,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_nickname_short">Nickname is short</string>
     <string name="err_season">Invalid Season</string>
 
-
     <string name="userTeam">Team</string>
     <string name="pickTeam">Choose a Team</string>
     <string name="pickRole">Choose a Role</string>
@@ -165,6 +164,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
     <string name="err_category_short">Category is short</string>
-
-
+    <string name="no_roles">There are no Roles!</string>
 </resources>
