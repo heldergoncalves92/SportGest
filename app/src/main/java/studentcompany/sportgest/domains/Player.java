@@ -8,7 +8,7 @@ public class Player extends DomainPojo{
     private String name;
     private String nationality;
     private String marital_status;
-    private int birthDate;
+    private String birthDate;
     private int height;
     private float weight;
     private String address;
@@ -20,7 +20,7 @@ public class Player extends DomainPojo{
     private Team team;
     private Position position;
 
-    public Player(long id,String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(long id,String nickname, String name, String nationality, String marital_status, String birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.id = id;
         this.nickname = nickname;
         this.name = name;
@@ -38,7 +38,7 @@ public class Player extends DomainPojo{
         this.team = team;
         this.position=position;
     }
-    public Player(String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(String nickname, String name, String nationality, String marital_status, String birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
         this.nickname = nickname;
         this.name = name;
         this.nationality = nationality;
@@ -101,11 +101,11 @@ public class Player extends DomainPojo{
         this.marital_status = marital_status;
     }
 
-    public int getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(int birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -221,7 +221,6 @@ public class Player extends DomainPojo{
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (marital_status != null ? marital_status.hashCode() : 0);
-        result = 31 * result + birthDate;
         result = 31 * result + height;
         result = 31 * result + (weight != +0.0f ? Float.floatToIntBits(weight) : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);

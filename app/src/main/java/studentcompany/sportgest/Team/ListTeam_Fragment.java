@@ -76,5 +76,9 @@ public class ListTeam_Fragment extends ListFragment {
         mListener.itemSelected(position);
     }
 
+    public void addItem(String team){
+        list.add(team);
+        getListView().invalidateViews();
+    }
 
 }

@@ -49,7 +49,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             COLUMN_NAME + " TEXT, " +
             COLUMN_NATIONALITY + " TEXT, " +
             COLUMN_MARITAL_STATUS + " TEXT, " +
-            COLUMN_BIRTHDATE + " INTEGER, " +
+            COLUMN_BIRTHDATE + " TEXT, " +
             COLUMN_HEIGHT + " INTEGER, " +
             COLUMN_WEIGHT + " INTEGER, " +
             COLUMN_GENDER + " TEXT, " +
@@ -81,7 +81,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         String name;
         String nationality;
         String marital_status;
-        int dob;
+        String dob;
         int height;
         float weight;
         String address;
@@ -104,7 +104,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             name = res.getString(res.getColumnIndex(COLUMN_NAME));
             nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
             marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
-            dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
+            dob=res.getString(res.getColumnIndex(COLUMN_BIRTHDATE));
             height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
             weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
             address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
@@ -127,12 +127,12 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     @Override
     public Player getById(long id) throws GenericDAOException {
         //aux variables
-        Player resPlayer;
+        Player resPlayer = null;
         String nickname;
         String name;
         String nationality;
         String marital_status;
-        int dob;
+        String dob;
         int height;
         float weight;
         String address;
@@ -148,13 +148,13 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         res.moveToFirst();
 
         //Parse data
-
+        if(res.getCount()==1){
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             nickname = res.getString(res.getColumnIndex(COLUMN_NICKNAME));
             name = res.getString(res.getColumnIndex(COLUMN_NAME));
             nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
             marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
-            dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
+            dob=res.getString(res.getColumnIndex(COLUMN_BIRTHDATE));
             height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
             weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
             address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));
@@ -168,6 +168,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
 
             resPlayer=new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
                     team_dao.getById(team),position_dao.getById(position));
+        }
+        res.close();
         return resPlayer;
 
     }
@@ -227,8 +229,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
         contentValues.put(COLUMN_PREFERRED_FOOT, object.getNumber());
-        contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
-        contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
+        if(object.getTeam()!=null)
+            contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        if(object.getPosition()!=null)
+            contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
 
         db.update(TABLE_NAME,
                 contentValues,
@@ -275,8 +279,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_MARITAL_STATUS + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpInt = object.getBirthDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
+        if ((tmpString = object.getBirthDate()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpString );
             fields++;
         }
         if ((tmpFloat = object.getHeight()) >= 0) {
@@ -362,8 +366,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_MARITAL_STATUS + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getBirthDate()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpInt );
+        if ((tmpString = object.getBirthDate()) != null) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BIRTHDATE + " = " + tmpString );
             fields++;
         }
         if ((tmpInt = object.getHeight()) > 0) {
@@ -414,7 +418,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             String name;
             String nationality;
             String marital_status;
-            int dob;
+            String dob;
             int height;
             float weight;
             String address;
@@ -435,7 +439,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
                     name = res.getString(res.getColumnIndex(COLUMN_NAME));
                     nationality = res.getString(res.getColumnIndex(COLUMN_NATIONALITY));
                     marital_status = res.getString(res.getColumnIndex(COLUMN_MARITAL_STATUS));
-                    dob=res.getInt(res.getColumnIndex(COLUMN_BIRTHDATE));
+                    dob=res.getString(res.getColumnIndex(COLUMN_BIRTHDATE));
                     height = res.getInt(res.getColumnIndex(COLUMN_HEIGHT));
                     weight = res.getFloat(res.getColumnIndex(COLUMN_WEIGHT));
                     address= res.getString(res.getColumnIndex(COLUMN_ADDRESS));

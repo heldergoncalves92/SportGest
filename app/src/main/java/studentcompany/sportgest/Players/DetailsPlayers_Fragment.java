@@ -79,7 +79,10 @@ public class DetailsPlayers_Fragment extends Fragment {
         else
             tv_maritalStatus.setText("");
 
-        tv_birthday.setText(Integer.toString(player.getBirthDate()));
+        if(player.getBirthDate()!=null)
+            tv_birthday.setText(player.getBirthDate());
+        else
+            tv_birthday.setText("");
         tv_height.setText(String.valueOf(player.getHeight()));
         tv_weight.setText(String.valueOf(player.getWeight()));
 
@@ -93,12 +96,12 @@ public class DetailsPlayers_Fragment extends Fragment {
         else
             tv_gender.setText("");
 
-        if(player.getEmail()!=null)
+        if(player.getEmail() != null)
             tv_email.setText(player.getEmail());
         else
             tv_email.setText("");
 
-        if(player.getPreferredFoot()!=null)
+        if(player.getPreferredFoot()!= null)
             tv_preferredFoot.setText(player.getPreferredFoot());
         else
             tv_preferredFoot.setText("");
@@ -109,6 +112,8 @@ public class DetailsPlayers_Fragment extends Fragment {
             tv_photo.setImageURI(Uri.parse(player.getPhoto()));
         else
             tv_photo.setImageURI(Uri.parse(""));
+
+
 
         String position = "";
         if(player.getPosition()!=null)
