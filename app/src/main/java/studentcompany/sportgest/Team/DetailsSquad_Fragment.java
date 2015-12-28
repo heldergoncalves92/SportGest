@@ -85,7 +85,7 @@ public class DetailsSquad_Fragment extends AppCompatActivity {
 
         if(!playersInTeam.isEmpty()){
             ArrayAdapter<String> adapterWithPlayers = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, playersInTeam);
+                    android.R.layout.simple_list_item_1, playersInTeam);
             tv_squad_list.setAdapter(adapterWithPlayers);
         }
 

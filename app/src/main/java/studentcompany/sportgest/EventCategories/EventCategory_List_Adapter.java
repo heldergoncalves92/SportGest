@@ -20,7 +20,7 @@ import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.EventCategory;
 
-public class ListEventCategoryActivity extends AppCompatActivity {
+public class EventCategory_List_Adapter extends AppCompatActivity {
     //Interface
     private ListView listView;
 
@@ -37,8 +37,7 @@ public class ListEventCategoryActivity extends AppCompatActivity {
         try {
             eventCategorylist = event_categorydao.getAll();
         } catch (GenericDAOException ex){
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(ListEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(EventCategory_List_Adapter.class.getName()).log(Level.WARNING, null, ex);
             eventCategorylist = null;
         }
         ArrayList<String> array_list = new ArrayList<>();
@@ -78,8 +77,7 @@ public class ListEventCategoryActivity extends AppCompatActivity {
         try {
             eventCategorylist = event_categorydao.getAll();
         } catch (GenericDAOException ex){
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(ListEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(EventCategory_List_Adapter.class.getName()).log(Level.WARNING, null, ex);
             eventCategorylist = null;
         }
         ArrayList<String> array_list = new ArrayList<>();

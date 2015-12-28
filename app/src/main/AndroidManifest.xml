@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".EventCategories.DisplayEventCategoryActivity" />
         <activity
-            android:name=".EventCategories.ListEventCategoryActivity"
+            android:name=".EventCategories.EventCategory_List_Adapter"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
         <activity android:name=".Players.Player_Activity_ListView" />

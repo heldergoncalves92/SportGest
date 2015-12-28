@@ -91,24 +91,28 @@ public class CreateTeam_Activity extends AppCompatActivity {
                         if (validateSeason())
                             ok = true;
 
-                if (!ok)
+                if (!ok) {
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();
                     return false;
+                }
 
                 team=new Team(name, description, logo, season, isCom);
-
+                boolean corrected = false;
                 //insert/update database
                 try {
-
                     teamID = team_dao.insert(team);
-
+                    if(teamID>0)
+                        corrected=true;
                 }catch (GenericDAOException ex){
                     System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();
-                intent.putExtra("id",teamID);
-                setResult(1, intent);
+                intent.putExtra("id", teamID);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
 
@@ -170,7 +174,12 @@ public class CreateTeam_Activity extends AppCompatActivity {
     private boolean validateSeason() {
         String pw = tv_season.getText().toString().trim();
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int nb = Integer.parseInt(pw);
+            int nb = -1;
+            try{
+                nb = Integer.parseInt(pw);}
+            catch (NumberFormatException e){
+                return false;
+            }
             if(!(nb<1000 && nb>2050)){
                 inputLayoutSeason.setError(getString(R.string.err_season));
                 return false;

@@ -299,6 +299,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
                     e.printStackTrace();
                 }
             }
+            if(resultCode == 2){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
         }
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
@@ -319,6 +322,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements Playe
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+            }
+            if(resultCode == 2){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
             }
         }
     }

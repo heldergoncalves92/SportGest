@@ -1,8 +1,12 @@
 package studentcompany.sportgest.Team;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,10 +16,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.Players.Player_Activity_Create;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
@@ -33,6 +40,7 @@ public class EditTeam_Activity extends AppCompatActivity {
 
     private EditText tv_name,tv_description,tv_season;
     private TextInputLayout inputLayoutName,inputLayoutDescription,inputLayoutSeason;
+    private int EDIT_SQUAD = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,25 +138,35 @@ public class EditTeam_Activity extends AppCompatActivity {
                         if (validateSeason())
                             ok = true;
 
-                if (!ok)
+                if (!ok) {
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();
                     return false;
+                }
 
                 team=new Team(teamID, name, description, logo, season, isCom);
-
+                boolean corrected = false;
                 //insert/update database
                 try {
                     if(teamID > 0){
                         team_dao.update(team);
+                        corrected = true;
                     } else {
                         team_dao.insert(team);
+                        corrected = true;
                     }
                 }catch (GenericDAOException ex){
                     System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
                 Intent intent = new Intent();
-                setResult(1,intent);
+                setResult(corrected?1:2, intent);
                 finish();
+                return true;
+
+            case R.id.squad:
+                selectTeam();
                 return true;
 
             default:
@@ -208,7 +226,12 @@ public class EditTeam_Activity extends AppCompatActivity {
     private boolean validateSeason() {
         String pw = tv_season.getText().toString().trim();
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int nb = Integer.parseInt(pw);
+            int nb = -1;
+            try{
+                nb = Integer.parseInt(pw);}
+            catch (NumberFormatException e){
+                return false;
+            }
             if(!(nb<1000 && nb>2050)){
                 inputLayoutSeason.setError(getString(R.string.err_season));
                 return false;
@@ -223,6 +246,21 @@ public class EditTeam_Activity extends AppCompatActivity {
         super.onStop();
 
         setResult(0);
+    }
+
+    private void selectTeam() {
+        Intent intent = new Intent(this, EditSquad_Activity.class);
+        intent.putExtra("id", teamID);
+        startActivityForResult(intent, EDIT_SQUAD);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_SQUAD) {
+            if(resultCode == 1){
+                Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }

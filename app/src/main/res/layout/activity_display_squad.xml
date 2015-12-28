@@ -16,18 +16,6 @@
     </android.support.design.widget.AppBarLayout>
 
 
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04" />
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_layout_Squads"
         android:layout_width="match_parent"
@@ -44,13 +32,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="435dp"
+        android:layout_height="match_parent"
         android:padding="20dp">
 
         <ListView
             android:id="@+id/squad_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="457dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"/>
 
