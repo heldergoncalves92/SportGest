@@ -274,6 +274,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     e.printStackTrace();
                 }
             }
+            if(resultCode == 0){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
         }
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
@@ -289,6 +292,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+            }
+            if(resultCode == 0){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
             }
         }
     }

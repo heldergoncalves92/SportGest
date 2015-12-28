@@ -126,19 +126,19 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             }
 
             ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, gendersList);
+                    android.R.layout.simple_list_item_1, gendersList);
             tv_gender.setAdapter(adapter1);
             ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, countries_array);
+                    android.R.layout.simple_list_item_1, countries_array);
             tv_nationality.setAdapter(adapter2);
             ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, marital_array);
+                    android.R.layout.simple_list_item_1, marital_array);
             tv_maritalStatus.setAdapter(adapter3);
             ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, preferredList);
+                    android.R.layout.simple_list_item_1, preferredList);
             tv_preferredFoot.setAdapter(adapter4);
             ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, positionsList);
+                    android.R.layout.simple_list_item_1, positionsList);
             tv_position.setAdapter(adapter5);
 
             int pos=-1;
@@ -338,17 +338,23 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                                         if (validateNumber())
                                             ok = true;
 
-                if (!ok)
+                if (!ok) {
+                    Intent intent = new Intent();
+                    setResult(0, intent);
+                    finish();
                     return false;
+                }
 
                 player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
-
+                boolean corrected = false;
                 //insert/update database
                 try {
                     if(playerID > 0){
                         player_dao.update(player);
+                        corrected = true;
                     } else {
                         player_dao.insert(player);
+                        corrected = true;
                     }
                 }catch (GenericDAOException ex){
                     System.err.println(Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
@@ -356,7 +362,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 }
 
                 Intent intent = new Intent();
-                setResult(1,intent);
+                setResult(corrected?1:0, intent);
                 finish();
                 return true;
             default:
@@ -430,7 +436,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private boolean validateHeight() {
         String pw = tv_height.getText().toString().trim();
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int hg = Integer.parseInt(pw);
+            int hg = -1;
+            try {
+                hg = Integer.parseInt(pw);
+            } catch (NumberFormatException e){
+                return false;
+            }
             if(!(hg<200 && hg>0)){
                 inputLayoutHeight.setError(getString(R.string.err_height_invalid));
                 //requestFocus(inputLayoutPassword);
@@ -444,7 +455,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private boolean validateWeight() {
         String pw = tv_weight.getText().toString().trim();
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
-            float wg = Float.parseFloat(pw);
+            float wg = -1f;
+            try{
+                wg = Float.parseFloat(pw);
+            } catch (NumberFormatException e){
+                return false;
+            }
             if(!(wg>0)){
                 inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
                 //requestFocus(inputLayoutPassword);
@@ -485,7 +501,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private boolean validateNumber() {
         String pw = tv_number.getText().toString().trim();
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int nb = Integer.parseInt(pw);
+            int nb = -1;
+            try{
+                nb = Integer.parseInt(pw);
+            } catch (NumberFormatException e){
+                return false;
+            }
             if(!(nb<100 && nb>0)){
                 inputLayoutNumber.setError(getString(R.string.err_number));
                 //requestFocus(inputLayoutPassword);
@@ -527,6 +548,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
                         }
                     }, mYear, mMonth, mDay);
+            txtDate.setText(Integer.toString(mYear) + "-" + Integer.toString(mMonth) + "-" + Integer.toString(mDay));
             dpd.show();
         }
     }
