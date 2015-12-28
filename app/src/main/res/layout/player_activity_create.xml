@@ -71,18 +71,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Spinner
-                    android:id="@+id/nationality"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textNoSuggestions"
-                    android:hint="@string/playerNationality" />
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nationality"
+                        android:id="@+id/textView3" />
+
+                    <Spinner
+                        android:id="@+id/nationality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerNationality" />
+
+                </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
+
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marital Status"
+                    android:id="@+id/textView4" />
 
                 <Spinner
                     android:id="@+id/maritalstatus"
@@ -90,6 +118,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:hint="@string/maritalstatus" />
+
+                </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -174,11 +204,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:id="@+id/textView5" />
+
                 <Spinner
                     android:id="@+id/gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/playerGender" />
+
+                </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -202,11 +246,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preferred Foot"
+                    android:id="@+id/textView6" />
+
                 <Spinner
                     android:id="@+id/preferredfoot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/playerPreferredFoot" />
+
+                </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -230,11 +288,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Position"
+                    android:id="@+id/textView7" />
+
                 <Spinner
                     android:id="@+id/position"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/playerPosition" />
+
+                </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
 

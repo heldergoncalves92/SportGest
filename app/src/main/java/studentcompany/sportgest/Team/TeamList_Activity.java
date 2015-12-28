@@ -274,7 +274,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     e.printStackTrace();
                 }
             }
-            if(resultCode == 0){
+            if(resultCode == 2){
                 Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
             }
         }
@@ -293,7 +293,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     e.printStackTrace();
                 }
             }
-            if(resultCode == 0){
+            if(resultCode == 2){
                 Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
             }
         }

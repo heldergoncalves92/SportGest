@@ -132,7 +132,7 @@ public class EditTeam_Activity extends AppCompatActivity {
 
                 if (!ok) {
                     Intent intent = new Intent();
-                    setResult(0, intent);
+                    setResult(2, intent);
                     finish();
                     return false;
                 }
@@ -153,7 +153,7 @@ public class EditTeam_Activity extends AppCompatActivity {
                     Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
                 Intent intent = new Intent();
-                setResult(corrected?1:0, intent);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
 

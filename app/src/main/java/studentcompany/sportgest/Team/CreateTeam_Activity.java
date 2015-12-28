@@ -93,7 +93,7 @@ public class CreateTeam_Activity extends AppCompatActivity {
 
                 if (!ok) {
                     Intent intent = new Intent();
-                    setResult(0, intent);
+                    setResult(2, intent);
                     finish();
                     return false;
                 }
@@ -112,7 +112,7 @@ public class CreateTeam_Activity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra("id", teamID);
-                setResult(corrected?1:0, intent);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
 

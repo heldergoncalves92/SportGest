@@ -43,7 +43,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     Player player = null;
     int playerID = -1;
 
-    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
+    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number,tv_birthday;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
 
     private TextView focusView;
@@ -52,6 +52,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private ImageButton btnCalendar;
     private TextView txtDate;
     private int mYear, mMonth, mDay;
+    private int selectedYear, selectedMonth, selectedDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,15 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             tv_preferredFoot.setAdapter(adapter4);
             ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, positionsList);
-            tv_position.setAdapter(adapter5);
+
+            if(positionsList.size()>0)
+                tv_position.setAdapter(adapter5);
+            else {
+                String[] positions_array = res.getStringArray(R.array.positions_array);
+                ArrayAdapter<String> adapter6 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, positions_array);
+                tv_position.setAdapter(adapter6);
+            }
 
             int pos=-1;
             int counter=0;
@@ -290,7 +299,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         {
             //add action
             case R.id.Edit:
-
+                boolean okUntilNow = true;
                 tv_nickname = (EditText) findViewById(R.id.nickname);
                 tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
@@ -311,9 +320,19 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus = tv_maritalStatus.getSelectedItem().toString();
-                String birthday = mYear+"-"+mMonth+"-"+mDay;
-                int height = Integer.parseInt(tv_height.getText().toString());
-                float weight = Float.parseFloat(tv_weight.getText().toString());
+                String birthday = selectedYear+"-"+selectedMonth+"-"+selectedDay;
+                int height = -1;
+                try {
+                    height = Integer.parseInt(tv_height.getText().toString());
+                } catch (NumberFormatException ex){
+                    okUntilNow = false;
+                }
+                float weight = -1;
+                try {
+                    weight = Float.parseFloat(tv_weight.getText().toString());
+                } catch (NumberFormatException ex){
+                    okUntilNow = false;
+                }
                 String address = tv_address.getText().toString();
                 String gender = "";
                 if(tv_gender.getSelectedItem()!=null)
@@ -322,11 +341,23 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 String preferredFoot = "";
                 if(tv_preferredFoot.getSelectedItem()!=null)
                     preferredFoot = tv_preferredFoot.getSelectedItem().toString();
-                int number = Integer.parseInt(tv_number.getText().toString());
+                int number = -1;
+                try {
+                    number = Integer.parseInt(tv_number.getText().toString());
+                } catch (NumberFormatException ex){
+                    okUntilNow = false;
+                }
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
                 Position position = (Position) tv_position.getSelectedItem();
+
+                if(!okUntilNow){
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();
+                    return false;
+                }
 
                 boolean ok = false;
                 if (validateName())
@@ -340,7 +371,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
                 if (!ok) {
                     Intent intent = new Intent();
-                    setResult(0, intent);
+                    setResult(2, intent);
                     finish();
                     return false;
                 }
@@ -362,7 +393,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 }
 
                 Intent intent = new Intent();
-                setResult(corrected?1:0, intent);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
             default:
@@ -544,11 +575,13 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                             // Display Selected date in textbox
                             //txtDate.setText(dayOfMonth + "-"
                             //        + (monthOfYear + 1) + "-" + year);
-                            txtDate.setText(Integer.toString(mYear)+"-"+Integer.toString(mMonth)+"-"+Integer.toString(mDay));
+                            txtDate.setText(Integer.toString(year)+"-"+Integer.toString(monthOfYear+1)+"-"+Integer.toString(dayOfMonth));
+                            selectedDay = dayOfMonth;
+                            selectedMonth = monthOfYear+1;
+                            selectedYear = year;
 
                         }
                     }, mYear, mMonth, mDay);
-            txtDate.setText(Integer.toString(mYear) + "-" + Integer.toString(mMonth) + "-" + Integer.toString(mDay));
             dpd.show();
         }
     }
