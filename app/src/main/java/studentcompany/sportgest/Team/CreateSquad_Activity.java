@@ -87,9 +87,9 @@ public class CreateSquad_Activity extends AppCompatActivity {
             }
 
             ArrayAdapter<String> adapterPlayersNotInTeam = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, playersNotInTeamString);
+                    android.R.layout.simple_list_item_1, playersNotInTeamString);
             ArrayAdapter<String> adapterPlayersInTeam = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, playersInTeamString);
+                    android.R.layout.simple_list_item_1, playersInTeamString);
 
             tv_allplayersNotInTeam.setAdapter(adapterPlayersNotInTeam);
             tv_playersFromThisTeam.setAdapter(adapterPlayersInTeam);
