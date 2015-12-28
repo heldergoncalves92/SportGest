@@ -1,8 +1,12 @@
 package studentcompany.sportgest.Team;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,10 +16,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.Players.Player_Activity_Create;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
@@ -33,6 +40,7 @@ public class EditTeam_Activity extends AppCompatActivity {
 
     private EditText tv_name,tv_description,tv_season;
     private TextInputLayout inputLayoutName,inputLayoutDescription,inputLayoutSeason;
+    private int EDIT_SQUAD = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +165,10 @@ public class EditTeam_Activity extends AppCompatActivity {
                 finish();
                 return true;
 
+            case R.id.squad:
+                selectTeam();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -234,6 +246,21 @@ public class EditTeam_Activity extends AppCompatActivity {
         super.onStop();
 
         setResult(0);
+    }
+
+    private void selectTeam() {
+        Intent intent = new Intent(this, EditSquad_Activity.class);
+        intent.putExtra("id", teamID);
+        startActivityForResult(intent, EDIT_SQUAD);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_SQUAD) {
+            if(resultCode == 1){
+                Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }
