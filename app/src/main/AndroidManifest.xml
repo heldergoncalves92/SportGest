@@ -30,12 +30,12 @@
             android:name=".EventCategories.EventCategory_List_Adapter"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
-        <activity android:name=".Players.Player_Activity_ListView" />
+        <activity android:name=".Players.Position_Activity_ListView" />
         <activity
             android:name=".Users.CreateUser_Activity"
             android:label="@string/app_newUser" />
         <activity
-            android:name=".Players.Player_Activity_Create"
+            android:name=".Players.Position_Activity_Create"
             android:label="@string/app_newPlayer" />
         <activity
             android:name=".Team.TeamList_Activity"
@@ -62,7 +62,7 @@
         <activity android:name=".Games.GameGeneralView_Activity" />
         <activity android:name=".Team.EditTeam_Activity" />
         <activity android:name=".Users.EditUser_Activity" />
-        <activity android:name=".Players.Player_Activity_Edit" />
+        <activity android:name=".Players.Position_Activity_Edit" />
         <activity android:name=".Attributes.AttributeListActivity" />
         <activity android:name=".Exercises.ExerciseListActivity" />
         <activity android:name=".Trainings.TrainingListActivity" />

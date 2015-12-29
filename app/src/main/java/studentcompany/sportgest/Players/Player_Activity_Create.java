@@ -218,9 +218,9 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
-                Position position = null;
+                String positionStr = null;
                 if(tv_position.getSelectedItem()!=null)
-                    position = (Position) tv_position.getSelectedItem();
+                    positionStr = (String) tv_position.getSelectedItem();
 
                 if(!okUntilNow){
                     Intent intent = new Intent();
@@ -247,6 +247,18 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                     return false;
                 }
 
+                Position toSearch = new Position(positionStr);
+                List<Position> positionsList = null;
+                Position position = null;
+                try {
+                    positionsList = position_dao.getByCriteria(toSearch);
+                    if(positionsList.size()>0){
+                        position = positionsList.get(0);
+                    }
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+
                 player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
                 boolean corrected = false;
 
@@ -256,8 +268,8 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                     if(playerID>0)
                         corrected = true;
                 } catch (GenericDAOException ex) {
-                    System.err.println(Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(studentcompany.sportgest.Players.Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(studentcompany.sportgest.Players.Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();

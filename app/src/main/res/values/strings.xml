@@ -166,5 +166,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_category_short">Category is short</string>
     <string name="no_roles">There are no Roles!</string>
     <string name="something_wrong">Something went wrong!</string>
+    <string name="err_position_short">Position is short</string>
+
 
 </resources>

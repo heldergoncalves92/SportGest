@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Positions;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -22,24 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Team;
+import studentcompany.sportgest.domains.Position;
 
-public class Player_Activity_ListView extends AppCompatActivity implements studentcompany.sportgest.Players.Player_Fragment_List.OnItemSelected {
 
-    private Player_DAO playerDao;
-    private List<Player> players;
+public class Position_Activity_ListView extends AppCompatActivity implements Position_Fragment_List.OnItemSelected {
+
+    private Position_DAO positionDAO;
+    private List<Position> positions;
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
-    private int baseTeamID;
+    private int basePositionID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private studentcompany.sportgest.Players.Player_Fragment_List mListPlayer = new studentcompany.sportgest.Players.Player_Fragment_List();
-    private studentcompany.sportgest.Players.Player_Fragment_Details mDetailsPlayer = new studentcompany.sportgest.Players.Player_Fragment_Details();
-    private static final String TAG = "PLAYERS_LIST_ACTIVITY";
+    private Position_Fragment_List mListPosition = new Position_Fragment_List();
+    private Position_Fragment_Details mDetailsPosition = new Position_Fragment_Details();
+    private static final String TAG = "POSITION_LIST_ACTIVITY";
 
     private final int EDIT_TAG = 19;
     private final int CREATE_TAG = 20;
@@ -47,33 +47,33 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.player_activity_list_view);
+        setContentView(R.layout.position_fragment_list);
 
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
 
             if (extras != null){
-                baseTeamID = extras.getInt("TEAM");
+                basePositionID = extras.getInt("POSITION");
 
             } else
-                baseTeamID = 0;
+                basePositionID = 0;
 
         } else {
-            baseTeamID = savedInstanceState.getInt("baseTeamID");
+            basePositionID = savedInstanceState.getInt("basePositionID");
             currentPos = savedInstanceState.getInt("currentPos");
         }
 
         try {
-            playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            positionDAO = new Position_DAO(getApplicationContext());
+            positions = positionDAO.getAll();
             //players = playerDao.getAll();
-            if(players.isEmpty()) {
+            if(positions.isEmpty()) {
 
                 noElems();
                 //insertUserTest(playerDao);
                 //players = playerDao.getAll();
             }
-            mListPlayer.setList(players);
+            mListPosition.setList(positions);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -86,8 +86,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.title_fragment_container , mListPlayer);
-        fragmentTransaction.add(R.id.detail_fragment_container, mDetailsPlayer);
+        fragmentTransaction.add(R.id.title_fragment_container , mListPosition);
+        fragmentTransaction.add(R.id.detail_fragment_container, mDetailsPosition);
 
         fragmentTransaction.commit();
     }
@@ -95,15 +95,15 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("baseTeamID", baseTeamID);
+        outState.putInt("basePositionID", basePositionID);
         outState.putInt("currentPos", currentPos);
     }
 
-    public List<String> getNamesList(List<Player> playerList){
+    public List<String> getNamesList(List<Position> positionList){
 
         ArrayList<String> list = new ArrayList<String>();
 
-        for(Player p: playerList)
+        for(Position p: positionList)
             list.add(p.getName());
 
         return list;
@@ -118,18 +118,18 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         t.setVisibility(View.VISIBLE);
     }
 
-    public void removePlayer(){
-        mDetailsPlayer.clearDetails();
-        mListPlayer.removeItem(currentPos);
+    public void removePosition(){
+        mDetailsPosition.clearDetails();
+        mListPosition.removeItem(currentPos);
 
-        playerDao.deleteById(players.get(currentPos).getId());
-        players.remove(currentPos);
+        positionDAO.deleteById(positions.get(currentPos).getId());
+        positions.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
 
-        if(players.isEmpty())
+        if(positions.isEmpty())
             noElems();
     }
 
@@ -138,9 +138,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
      ************************************/
 
     public void itemSelected(int position) {
-        Player player = players.get(position);
+        Position positionObj = positions.get(position);
 
-        if(player != null){
+        if(positionObj != null){
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
@@ -150,7 +150,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
             }
 
             currentPos = position;
-            mDetailsPlayer.showPlayer(player);
+            mDetailsPosition.showPosition(positionObj);
         }
     }
 
@@ -171,7 +171,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
-            mDetailsPlayer.showPlayer(players.get(currentPos));
+            mDetailsPosition.showPosition(positions.get(currentPos));
         }
         return true;
     }
@@ -181,7 +181,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Create.class);
+                Intent intent = new Intent(this, Position_Activity_Create.class);
                 startActivityForResult(intent, CREATE_TAG);
                 return true;
 
@@ -191,8 +191,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                 return true;
 
             case R.id.action_edit:
-                Intent intent2 = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Edit.class);
-                intent2.putExtra("id", players.get(currentPos).getId());
+                Intent intent2 = new Intent(this, Position_Activity_Edit.class);
+                intent2.putExtra("id", positions.get(currentPos).getId());
                 startActivityForResult(intent2, EDIT_TAG);
                 return true;
 
@@ -226,7 +226,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    studentcompany.sportgest.Players.Player_Activity_ListView activity = (studentcompany.sportgest.Players.Player_Activity_ListView) getActivity();
+                                    Position_Activity_ListView activity = (Position_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -234,9 +234,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    studentcompany.sportgest.Players.Player_Activity_ListView activity = (studentcompany.sportgest.Players.Player_Activity_ListView) getActivity();
+                                    Position_Activity_ListView activity = (Position_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
-                                    activity.removePlayer();
+                                    activity.removePosition();
                                 }
                             }).create();
         }
@@ -246,20 +246,18 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
      ****        Test Functions      ****
      ************************************/
 
-    private void insertUserTest(Player_DAO p_dao){
+    private void insertUserTest(Position_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+            Position p1 = new Position("Ala");
+            Position p2 = new Position("Fixo");
+            Position p3 = new Position("Pivot");
 
             long id;
 
             id = p_dao.insert(p1);
             id = p_dao.insert(p2);
             id = p_dao.insert(p3);
-            id = p_dao.insert(p4);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -267,32 +265,30 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
     }
 
-    private void testPlayers(){
+    private void testPositions(){
 
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1231-2-3", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+        Position p1 = new Position("Ala");
+        Position p2 = new Position("Fixo");
+        Position p3 = new Position("Pivot");
 
-        players = new ArrayList<Player>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
+        positions = new ArrayList<Position>();
+        positions.add(p1);
+        positions.add(p2);
+        positions.add(p3);
 
-        mListPlayer.setList(players);
+        mListPosition.setList(positions);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Player player = null;
+        Position position = null;
         if (requestCode == EDIT_TAG) {
             if(resultCode == 1){
                 try {
-                    player=playerDao.getById(players.get(currentPos).getId());
-                    players.set(currentPos,player);
-                    mListPlayer.updatePosition(player, currentPos);
-                    mDetailsPlayer.showPlayer(player);
+                    position=positionDAO.getById(positions.get(currentPos).getId());
+                    positions.set(currentPos,position);
+                    mListPosition.updatePosition(position, currentPos);
+                    mDetailsPosition.showPosition(position);
 
                     Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
@@ -315,8 +311,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                     mDetailsPlayer.showPlayer(player);
                     */
 
-                    players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-                    mListPlayer.updateList(players);
+                    positions = positionDAO.getAll();
+                    mListPosition.updateList(positions);
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

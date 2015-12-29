@@ -1,12 +1,8 @@
 package studentcompany.sportgest.Team;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,16 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Players.Player_Activity_Create;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
 public class EditTeam_Activity extends AppCompatActivity {
