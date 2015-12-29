@@ -222,14 +222,6 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 if(tv_position.getSelectedItem()!=null)
                     positionStr = (String) tv_position.getSelectedItem();
 
-                if(!okUntilNow){
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();
-                    return false;
-                }
-
-
                 boolean ok = false;
                 if (validateName())
                     if (validateNickname())
@@ -240,10 +232,17 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                                         if (validateNumber())
                                             ok = true;
 
-                if (!ok) {
+                /*if(!okUntilNow){
                     Intent intent = new Intent();
                     setResult(2, intent);
                     finish();
+                    return false;
+                }*/
+
+                if (!ok) {
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
                 }
 
@@ -352,6 +351,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
             try {
                 hg = Integer.parseInt(pw);
             } catch (NumberFormatException e){
+                inputLayoutHeight.setError(getString(R.string.err_height_invalid));
                 return false;
             }
             if(!(hg<200 && hg>0)){
@@ -371,6 +371,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
             try{
                 wg = Float.parseFloat(pw);
             } catch (NumberFormatException e){
+                inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
                 return false;
             }
             if(!(wg>0)){
@@ -417,6 +418,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
             try{
                 nb = Integer.parseInt(pw);
             } catch (NumberFormatException e){
+                inputLayoutNumber.setError(getString(R.string.err_number));
                 return false;
             }
             if(!(nb<100 && nb>0)){
