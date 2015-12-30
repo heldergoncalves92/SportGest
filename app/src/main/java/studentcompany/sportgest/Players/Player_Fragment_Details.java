@@ -7,11 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.daos.Player_Position_DAO;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.PlayerPosition;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +26,8 @@ public class Player_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_PLAYER_FRAGMENT";
     private TextView tv_nickname, tv_name,tv_address, tv_email,tv_height, tv_weight;
-    private TextView tv_birthday, tv_position;
+    private TextView tv_birthday;
+    private ListView tv_position;
     private TextView tv_nationality,tv_gender,tv_preferredFoot, tv_maritalStatus,tv_number;
     private ImageView tv_photo;
 
@@ -40,7 +47,7 @@ public class Player_Fragment_Details extends Fragment {
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_nationality = (TextView) view.findViewById(R.id.nationality);
         tv_maritalStatus = (TextView) view.findViewById(R.id.maritalstatus);
-        tv_birthday = (TextView) view.findViewById(R.id.birthday);
+        tv_birthday = (TextView) view.findViewById(R.id.txtDate);
         tv_height = (TextView) view.findViewById(R.id.height);
         tv_weight = (TextView) view.findViewById(R.id.weight);
         tv_address = (TextView) view.findViewById(R.id.address);
@@ -49,7 +56,7 @@ public class Player_Fragment_Details extends Fragment {
         tv_preferredFoot = (TextView) view.findViewById(R.id.preferredfoot);
         tv_number = (TextView) view.findViewById(R.id.number);
         tv_photo = (ImageView) view.findViewById(R.id.photo);
-        tv_position = (TextView) view.findViewById(R.id.position);
+        tv_position = (ListView) view.findViewById(R.id.position);
 
         return view;
     }
@@ -109,15 +116,27 @@ public class Player_Fragment_Details extends Fragment {
         else
             tv_photo.setImageURI(Uri.parse(""));
 
+        ArrayList<String> positionValue = new ArrayList<>();
 
+        if(player.getPositions()!=null){
+            for(PlayerPosition p : player.getPositions()){
+                positionValue.add(p.toString());
+            }
+        }
 
-        String position = "";
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                android.R.layout.simple_list_item_1, positionValue);
+        tv_position.setAdapter(adapter);
+
+        /*String position = "";
         if(player.getPosition()!=null)
             position=player.getPosition().getName();
         if(position!=null)
             tv_position.setText(position);
         else
-            tv_position.setText("");
+            tv_position.setText("");*/
+
+
     }
 
     public void clearDetails(){
@@ -135,6 +154,11 @@ public class Player_Fragment_Details extends Fragment {
         tv_preferredFoot.setText("");
         tv_number.setText("");
         tv_photo.setImageURI(Uri.parse("lego_face"));
-        tv_position.setText("");
+
+        ArrayList<String> emp = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                android.R.layout.simple_list_item_1, emp);
+        tv_position.setAdapter(adapter);
+
     }
 }

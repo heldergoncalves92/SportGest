@@ -1,6 +1,8 @@
 package studentcompany.sportgest.Players;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,10 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,22 +34,26 @@ import java.util.regex.Pattern;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Player_Position_DAO;
 import studentcompany.sportgest.daos.Position_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
 
-public class Player_Activity_Edit extends AppCompatActivity implements View.OnClickListener {
+public class Player_Activity_Edit extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
     //DAOs
     private Player_DAO player_dao;
     private Position_DAO position_dao;
+    private Player_Position_DAO playerPosition_dao;
 
     Player player = null;
     int playerID = -1;
 
-    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number,tv_birthday;
+    private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
+    private ListView tv_position;
 
     private TextView focusView;
     private final String FILENAME_COUNTRIES = "";
@@ -53,6 +62,13 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private TextView txtDate;
     private int mYear, mMonth, mDay;
     private int selectedYear, selectedMonth, selectedDay;
+
+    private ArrayList<PlayerPosition> playerPositionsOriginals;
+    private ArrayList<PlayerPosition> playerPositionsActuals;
+    ArrayList<String> positionsAvail;
+
+    NumberPicker np;
+    Spinner selectedPositions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +85,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
         btnCalendar.setOnClickListener(this);
 
-
          tv_nickname = (EditText) findViewById(R.id.nickname);
          tv_name = (EditText) findViewById(R.id.name);
         Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
@@ -83,14 +98,20 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
          tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-        Spinner tv_position = (Spinner) findViewById(R.id.position);
+        //Spinner tv_positionToAdd = (Spinner) findViewById(R.id.positionSpinner);
+        tv_position = (ListView) findViewById(R.id.position);
 
         Player playerFromDB=null;
         player_dao = new Player_DAO(this);
         position_dao = new Position_DAO(this);
+        playerPosition_dao = new Player_Position_DAO(this);
+
+        playerPositionsOriginals = new ArrayList<>();
+        playerPositionsActuals = new ArrayList<>();
 
         try {
              playerFromDB = player_dao.getById(playerID);
+             player = playerFromDB;
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -138,17 +159,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, preferredList);
             tv_preferredFoot.setAdapter(adapter4);
-            ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1, positionsList);
-
-            if(positionsList.size()>0)
-                tv_position.setAdapter(adapter5);
-            else {
-                String[] positions_array = res.getStringArray(R.array.positions_array);
-                ArrayAdapter<String> adapter6 = new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1, positions_array);
-                tv_position.setAdapter(adapter6);
-            }
 
             int pos=-1;
             int counter=0;
@@ -230,8 +240,18 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 }
 
             //TODO: alterar a data
-            if(playerFromDB.getBirthDate()!=null)
-                txtDate.setText(playerFromDB.getBirthDate());
+            if(playerFromDB.getBirthDate()!=null) {
+                String dateBeforeSplit = playerFromDB.getBirthDate();
+                txtDate.setText(dateBeforeSplit);
+
+                String[] dateParts = dateBeforeSplit.split("-");
+                mYear = Integer.parseInt(dateParts[0]);
+                mMonth = Integer.parseInt(dateParts[1]);
+                mDay = Integer.parseInt(dateParts[2]);
+                selectedYear = Integer.parseInt(dateParts[0]);
+                selectedMonth = Integer.parseInt(dateParts[1]);
+                selectedDay = Integer.parseInt(dateParts[2]);
+            }
 
             if(pos!=-1)
                 tv_preferredFoot.setSelection(pos);
@@ -243,24 +263,31 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             else
                 tv_number.setText("");
 
-            if(playerFromDB.getPosition()!=null){
-                pos=-1;
-                counter=0;
-                if (playerFromDB.getPosition()!=null)
-                    for(String s : positionsList){
-                        if(playerFromDB.getPosition().getName().equals(s))
-                            pos=counter;
-                        else
-                            counter++;
-                    }
 
-                if(pos!=-1)
-                    tv_position.setSelection(pos);
-                else
-                    tv_position.setSelection(0);
+            ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, positionsAvail);
+
+            PlayerPosition ppToSearch = new PlayerPosition(player,null,-1);
+            List<PlayerPosition> ppList = null;
+            try {
+                 ppList = playerPosition_dao.getByCriteria(ppToSearch);
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
             }
-            else
-                tv_position.setSelection(0);
+            ArrayList<String> forAdapter = new ArrayList<>();
+
+            positionsAvail = positionsList;
+
+            for(PlayerPosition pp : ppList){
+                playerPositionsOriginals.add(pp);
+                positionsAvail.remove(pp.getPosition());
+                forAdapter.add(pp.toString());
+            }
+
+            ArrayAdapter<String> adapterP = new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, forAdapter);
+            tv_position.setAdapter(adapterP);
+
         }
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
@@ -279,6 +306,13 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
         inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
 
+        Button btnPositions = (Button) findViewById(R.id.btnPositionOpen);// on click of button display the dialog
+        btnPositions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show();
+            }
+        });
     }
 
     @Override
@@ -384,20 +418,34 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     positionsList = position_dao.getByCriteria(toSearch);
                     if(positionsList.size()>0){
                         position = positionsList.get(0);
+                    } else {
+                        position_dao.insert(new Position(positionStr));
+                        positionsList = position_dao.getByCriteria(toSearch);
+                        if (positionsList.size() > 0) {
+                            position = positionsList.get(0);
+                        }
                     }
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,position);
+                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,playerPositionsActuals);
                 boolean corrected = false;
                 //insert/update database
                 try {
                     if(playerID > 0){
                         player_dao.update(player);
+                        for(PlayerPosition pp : playerPositionsOriginals)
+                            playerPosition_dao.delete(pp);
+                        for(PlayerPosition pp : playerPositionsActuals)
+                            playerPosition_dao.insert(pp);
                         corrected = true;
                     } else {
                         player_dao.insert(player);
+                        for(PlayerPosition pp : playerPositionsOriginals)
+                            playerPosition_dao.delete(pp);
+                        for(PlayerPosition pp : playerPositionsActuals)
+                            playerPosition_dao.insert(pp);
                         corrected = true;
                     }
                 }catch (GenericDAOException ex){
@@ -479,6 +527,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     private boolean validateHeight() {
         String pw = tv_height.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int hg = -1;
             try {
@@ -499,6 +551,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     private boolean validateWeight() {
         String pw = tv_weight.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
             float wg = -1f;
             try{
@@ -546,6 +602,11 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     private boolean validateNumber() {
         String pw = tv_number.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
+
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
             try{
@@ -600,5 +661,59 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     }, mYear, mMonth, mDay);
             dpd.show();
         }
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+        System.out.println("changed");
+
+    }
+
+    public void show()
+    {
+
+        final Dialog d = new Dialog(Player_Activity_Edit.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.position_chose);
+        Button bSet= (Button) d.findViewById(R.id.buttonSet);
+        Button bCancel = (Button) d.findViewById(R.id.buttonCancel);
+        np = (NumberPicker) d.findViewById(R.id.valueToPositions);
+        selectedPositions = (Spinner) d.findViewById(R.id.spinnerPositionsToAdd);
+
+        np.setMaxValue(10); // max value 100
+        np.setMinValue(0);   // min value 0
+        np.setWrapSelectorWheel(false);
+        //np.setOnValueChangedListener(this);
+
+        bSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String positionToAdd = (String) selectedPositions.getSelectedItem();
+                int valueToPosition = np.getValue();
+                List<Position> positionFromDB = null;
+                try {
+                    positionFromDB = position_dao.getByCriteria(new Position(positionToAdd));
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+                if (positionFromDB.size() > 0) {
+                    PlayerPosition pp = new PlayerPosition(player, positionFromDB.get(0), valueToPosition);
+                    playerPositionsActuals.add(pp);
+
+                }
+                d.dismiss();
+            }
+        });
+
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+
+        d.show();
+
     }
 }

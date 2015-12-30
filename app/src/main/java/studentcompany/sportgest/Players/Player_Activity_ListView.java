@@ -31,7 +31,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
     private Player_DAO playerDao;
     private List<Player> players;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private int baseTeamID;
@@ -69,8 +69,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
             //players = playerDao.getAll();
             if(players.isEmpty()) {
 
-                noElems();
-                //insertUserTest(playerDao);
+                //noElems();
+                insertUserTest(playerDao);
                 //players = playerDao.getAll();
             }
             mListPlayer.setList(players);

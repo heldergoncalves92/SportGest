@@ -31,7 +31,7 @@ public class Position_Activity_ListView extends AppCompatActivity implements Pos
 
     private Position_DAO positionDAO;
     private List<Position> positions;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private int basePositionID;

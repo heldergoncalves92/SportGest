@@ -20,7 +20,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
 
     //Dependencies DAOs
     private Team_DAO          team_dao;
-    private Position_DAO      position_dao;
+    //private Position_DAO      position_dao;
 
     //Table names
     public static final String TABLE_NAME                   = "PLAYER";
@@ -40,7 +40,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     public final static String COLUMN_PREFERRED_FOOT = "PREFERRED_FOOT";
     public final static String COLUMN_NUMBER = "NUMBER";
     public final static String COLUMN_TEAM_ID = "TEAM_ID";
-    public final static String COLUMN_BETTER_POSITION = "BETTER_POSITION";
+    //public final static String COLUMN_BETTER_POSITION = "BETTER_POSITION";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -59,9 +59,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             COLUMN_PREFERRED_FOOT + " INTEGER, " +
             COLUMN_NUMBER + " INTEGER, " +
             COLUMN_TEAM_ID + " INTEGER, " +
-            COLUMN_BETTER_POSITION + " INTEGER, " +
-            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"), " +
-            "FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES "+Position_DAO.TABLE_NAME+"("+Position_DAO.COLUMN_ID+"));";
+            //COLUMN_BETTER_POSITION + " INTEGER, " +
+            //"FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"), " +
+            "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+")); ";
+            //"FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES "+Position_DAO.TABLE_NAME+"("+Position_DAO.COLUMN_ID+"));";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -69,7 +70,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     public Player_DAO(Context context) {
         this.db = MyDB.getInstance(context).db;
         this.team_dao = new Team_DAO(context);
-        this.position_dao = new Position_DAO(context);
+        //this.position_dao = new Position_DAO(context);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         String prefered_foot;
         int number;
         long team;
-        long position;
+        //long position;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -114,10 +115,9 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
             number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
             team=res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
-            position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
 
             resPlayer.add(new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
-                    team_dao.getById(team),position_dao.getById(position)));
+                    team_dao.getById(team),null));
             res.moveToNext();
         }
         return resPlayer;
@@ -142,7 +142,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         String prefered_foot;
         int number;
         long team;
-        long position;
+        //long position;
 
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
         res.moveToFirst();
@@ -164,10 +164,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
             number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
             team=res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
-            position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
+            //position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
 
             resPlayer=new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
-                    team_dao.getById(team),position_dao.getById(position));
+                    team_dao.getById(team),null);
         }
         res.close();
         return resPlayer;
@@ -193,7 +193,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_PREFERRED_FOOT, object.getPreferredFoot());
         contentValues.put(COLUMN_NUMBER, object.getNumber());
         contentValues.put(COLUMN_TEAM_ID, object.getTeam() != null ? object.getTeam().getId() : null);
-        contentValues.put(COLUMN_BETTER_POSITION, object.getPosition() != null ? object.getPosition().getId() : null);
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -231,8 +230,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_PREFERRED_FOOT, object.getNumber());
         if(object.getTeam()!=null)
             contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
-        if(object.getPosition()!=null)
-            contentValues.put(COLUMN_BETTER_POSITION, object.getPosition().getId());
 
         db.update(TABLE_NAME,
                 contentValues,
@@ -319,10 +316,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getPosition().getId()) >= 0) {
+        /*if ((tmpLong = object.getPosition().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpLong );
             fields++;
-        }
+        }*/
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
@@ -406,11 +403,11 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
             fields++;
         }
-        if (object.getPosition() != null && (tmpLong = object.getPosition().getId()) > 0) {
+        /*if (object.getPosition() != null && (tmpLong = object.getPosition().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpLong );
 
             fields++;
-        }
+        }*/
 
         if (fields > 0) {
             long id;
@@ -449,10 +446,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
                     prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
                     number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
                     team=res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
-                    position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
+                    //position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
 
                     resPlayer.add(new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
-                            team_dao.getById(team),position_dao.getById(position)));
+                            team_dao.getById(team),null));
                     res.moveToNext();
                 }
         }

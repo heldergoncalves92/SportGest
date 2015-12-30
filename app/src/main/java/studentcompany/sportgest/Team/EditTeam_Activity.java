@@ -9,14 +9,17 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
@@ -32,6 +35,7 @@ public class EditTeam_Activity extends AppCompatActivity {
 
     private EditText tv_name,tv_description,tv_season;
     private TextInputLayout inputLayoutName,inputLayoutDescription,inputLayoutSeason;
+    private ImageButton tv_squad;
     private int EDIT_SQUAD = 20;
 
     @Override
@@ -88,6 +92,17 @@ public class EditTeam_Activity extends AppCompatActivity {
         tv_name.addTextChangedListener(new MyTextWatcher(tv_name));
         tv_description.addTextChangedListener(new MyTextWatcher(tv_description));
         tv_season.addTextChangedListener(new MyTextWatcher(tv_season));
+
+        tv_squad = (ImageButton)findViewById(R.id.squad);
+        tv_squad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), EditSquad_Activity.class);
+                intent.putExtra("id", teamID);
+                startActivityForResult(intent, EDIT_SQUAD);
+            }
+        });
 
     }
 
@@ -155,10 +170,6 @@ public class EditTeam_Activity extends AppCompatActivity {
                 Intent intent = new Intent();
                 setResult(corrected?1:2, intent);
                 finish();
-                return true;
-
-            case R.id.squad:
-                selectTeam();
                 return true;
 
             default:

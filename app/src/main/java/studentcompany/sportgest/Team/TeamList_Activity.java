@@ -30,7 +30,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
 
     private Team_DAO teamDao;
     private List<Team> teams;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;

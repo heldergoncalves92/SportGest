@@ -253,12 +253,20 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                     positionsList = position_dao.getByCriteria(toSearch);
                     if(positionsList.size()>0){
                         position = positionsList.get(0);
+                    } else {
+                        position_dao.insert(new Position(positionStr));
+                        positionsList = position_dao.getByCriteria(toSearch);
+                        if (positionsList.size() > 0) {
+                            position = positionsList.get(0);
+                        }
                     }
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
 
-                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
+                //TODO: isto
+
+                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number,null,null);
                 boolean corrected = false;
 
                 //insert
@@ -346,6 +354,10 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
     private boolean validateHeight() {
         String pw = tv_height.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int hg = -1;
             try {
@@ -366,6 +378,10 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
     private boolean validateWeight() {
         String pw = tv_weight.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
             float wg = -1f;
             try{
@@ -413,6 +429,10 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
     private boolean validateNumber() {
         String pw = tv_number.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
             try{

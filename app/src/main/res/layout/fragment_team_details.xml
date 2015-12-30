@@ -1,195 +1,150 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="studentcompany.sportgest.Team.DetailsTeam_Fragment">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="right">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="41dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:layout_weight="0.11">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="466dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
-
-                    <FrameLayout
-                        android:layout_width="145dp"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/logo"
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/lego_face"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="31dp"
-                        android:layout_height="142dp"></FrameLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:ems="10"
-                        android:id="@+id/name"
-                        android:hint="@string/teamName"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.58"
-                        android:autoText="false"
-                        android:editable="true"
-                        android:elegantTextHeight="true" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DESCRIPTION"
-                    android:id="@+id/textView5"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/holo_blue_light"/>
-
-                <View
-                    android:id="@+id/SplitLine_hor0"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/holo_blue_light"/>
-
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
-
-                    <TextView
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/description"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SEASON"
-                    android:id="@+id/textView6"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/holo_blue_light"/>
-
-                <View
-                    android:id="@+id/SplitLine_hor1"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/holo_blue_light"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
-
-                    <TextView
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/season"
-                        android:hint="@string/teamSeason"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SQUAD"
-                    android:id="@+id/textView7"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/holo_blue_light"/>
-
-                <View
-                    android:id="@+id/SplitLine_hor2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/holo_blue_light"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/squad"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_group_add_black_24dp"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="COM"
-                    android:id="@+id/textView8"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/holo_blue_light"/>
-
-                <View
-                    android:id="@+id/SplitLine_hor3"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/holo_blue_light"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="isCom"
-                        android:id="@+id/isCom"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/lego_face"/>
         </FrameLayout>
 
-    </ScrollView>
-
-</FrameLayout>
 
 
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:id="@+id/textView52" />
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/teamName" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:id="@+id/textView53" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/teamDescription"
+                    android:editable="false"/>
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Season"
+                        android:id="@+id/textView54" />
+
+                    <EditText
+                        android:id="@+id/season"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/teamSeason"
+                        android:editable="false"/>
+
+                </LinearLayout>
+
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_create_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <CheckBox
+                    android:id="@+id/isCom"
+                    android:text="isCom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/userEmail" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
