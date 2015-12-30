@@ -79,7 +79,11 @@ public class CreateTeam_Activity extends AppCompatActivity {
 
                 String name = tv_name.getText().toString();
                 String description = tv_description.getText().toString();
-                int season = Integer.parseInt(tv_season.getText().toString());
+                int season = -1;
+                try {
+                    season = Integer.parseInt(tv_season.getText().toString());
+                } catch (NumberFormatException ex){
+                }
                 int isCom = tv_iscon.isChecked()?1:0;
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String logo = tv_photo.get
@@ -92,9 +96,9 @@ public class CreateTeam_Activity extends AppCompatActivity {
                             ok = true;
 
                 if (!ok) {
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
                 }
 
@@ -173,6 +177,10 @@ public class CreateTeam_Activity extends AppCompatActivity {
 
     private boolean validateSeason() {
         String pw = tv_season.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutSeason.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
             try{

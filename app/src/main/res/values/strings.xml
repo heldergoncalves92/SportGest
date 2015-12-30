@@ -168,6 +168,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="no_roles">There are no Roles!</string>
     <string name="something_wrong">Something went wrong!</string>
     <string name="err_position_short">Position is short</string>
+    <string name="teamSquad">Squad</string>
+    <string name="goTo_position_button">Manage Positions</string>
 
 
 </resources>

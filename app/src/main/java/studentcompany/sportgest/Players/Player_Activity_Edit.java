@@ -2,7 +2,6 @@ package studentcompany.sportgest.Players;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -53,7 +52,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
-    private ListView tv_position;
+
+    private Button tv_positionButton;
+    private ListView tv_positionsList;
+    private TextView text_positions;
 
     private TextView focusView;
     private final String FILENAME_COUNTRIES = "";
@@ -63,10 +65,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private int mYear, mMonth, mDay;
     private int selectedYear, selectedMonth, selectedDay;
 
-    private ArrayList<PlayerPosition> playerPositionsOriginals;
     private ArrayList<PlayerPosition> playerPositionsActuals;
     ArrayList<String> positionsAvail;
-
+    ArrayList<String> positionsAll;
+    ArrayList<String> playerPositionsActualsString;
     NumberPicker np;
     Spinner selectedPositions;
 
@@ -98,15 +100,14 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
          tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-        //Spinner tv_positionToAdd = (Spinner) findViewById(R.id.positionSpinner);
-        tv_position = (ListView) findViewById(R.id.position);
+        text_positions = (TextView) findViewById(R.id.text_positions);
+        tv_positionsList = (ListView) findViewById(R.id.positionsList);
 
         Player playerFromDB=null;
         player_dao = new Player_DAO(this);
         position_dao = new Position_DAO(this);
         playerPosition_dao = new Player_Position_DAO(this);
 
-        playerPositionsOriginals = new ArrayList<>();
         playerPositionsActuals = new ArrayList<>();
 
         try {
@@ -138,11 +139,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             preferredList.add("Right");
             preferredList.add("Left");
 
-            ArrayList<String> positionsList = new ArrayList<>();
+            positionsAll = new ArrayList<>();
+
             try {
                 List<Position> positions = position_dao.getAll();
                 for(Position p : positions)
-                    positionsList.add(p.getName());
+                    positionsAll.add(p.getName());
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }
@@ -263,10 +265,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             else
                 tv_number.setText("");
 
-
-            ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1, positionsAvail);
-
             PlayerPosition ppToSearch = new PlayerPosition(player,null,-1);
             List<PlayerPosition> ppList = null;
             try {
@@ -275,19 +273,35 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
             ArrayList<String> forAdapter = new ArrayList<>();
+            playerPositionsActualsString = new ArrayList<>();
 
-            positionsAvail = positionsList;
+            positionsAvail = new ArrayList<>();
+            for(String s : positionsAll)
+                positionsAvail.add(s);
 
             for(PlayerPosition pp : ppList){
-                playerPositionsOriginals.add(pp);
-                positionsAvail.remove(pp.getPosition());
+                playerPositionsActuals.add(pp);
+                if(pp.getPosition()!=null){
+                    if(positionsAvail.contains(pp.getPosition().getName())){
+                        positionsAvail.remove(pp.getPosition());
+                    }
+                }
                 forAdapter.add(pp.toString());
             }
 
-            ArrayAdapter<String> adapterP = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1, forAdapter);
-            tv_position.setAdapter(adapterP);
+            if(forAdapter.size()>0) {
+                tv_positionsList.setEnabled(true);
+                text_positions.setEnabled(true);
+                text_positions.setText("Positions");
 
+                ArrayAdapter<String> adapterP = new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, forAdapter);
+                tv_positionsList.setAdapter(adapterP);
+            } else {
+                tv_positionsList.setEnabled(false);
+                text_positions.setEnabled(false);
+                text_positions.setText("");
+            }
         }
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
@@ -384,7 +398,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
-                String positionStr = (String) tv_position.getSelectedItem();
+                //String positionStr = (String) tv_position.getSelectedItem();
 
                 boolean ok = false;
                 if (validateName())
@@ -411,23 +425,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     return false;
                 }
 
-                Position toSearch = new Position(positionStr);
-                List<Position> positionsList = null;
-                Position position = null;
-                try {
-                    positionsList = position_dao.getByCriteria(toSearch);
-                    if(positionsList.size()>0){
-                        position = positionsList.get(0);
-                    } else {
-                        position_dao.insert(new Position(positionStr));
-                        positionsList = position_dao.getByCriteria(toSearch);
-                        if (positionsList.size() > 0) {
-                            position = positionsList.get(0);
-                        }
-                    }
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
+
+
 
                 player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,playerPositionsActuals);
                 boolean corrected = false;
@@ -435,17 +434,23 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 try {
                     if(playerID > 0){
                         player_dao.update(player);
-                        for(PlayerPosition pp : playerPositionsOriginals)
-                            playerPosition_dao.delete(pp);
-                        for(PlayerPosition pp : playerPositionsActuals)
-                            playerPosition_dao.insert(pp);
+                        for(PlayerPosition pp : playerPositionsActuals){
+                            try {
+                                playerPosition_dao.insert(pp);
+                            } catch (GenericDAOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         corrected = true;
                     } else {
                         player_dao.insert(player);
-                        for(PlayerPosition pp : playerPositionsOriginals)
-                            playerPosition_dao.delete(pp);
-                        for(PlayerPosition pp : playerPositionsActuals)
-                            playerPosition_dao.insert(pp);
+                        for(PlayerPosition pp : playerPositionsActuals) {
+                            try {
+                                playerPosition_dao.insert(pp);
+                            } catch (GenericDAOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         corrected = true;
                     }
                 }catch (GenericDAOException ex){
@@ -672,7 +677,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     public void show()
     {
-
         final Dialog d = new Dialog(Player_Activity_Edit.this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.position_chose);
@@ -680,6 +684,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         Button bCancel = (Button) d.findViewById(R.id.buttonCancel);
         np = (NumberPicker) d.findViewById(R.id.valueToPositions);
         selectedPositions = (Spinner) d.findViewById(R.id.spinnerPositionsToAdd);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, positionsAvail);
+        selectedPositions.setAdapter(adapter);
 
         np.setMaxValue(10); // max value 100
         np.setMinValue(0);   // min value 0
@@ -700,8 +708,18 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 if (positionFromDB.size() > 0) {
                     PlayerPosition pp = new PlayerPosition(player, positionFromDB.get(0), valueToPosition);
                     playerPositionsActuals.add(pp);
+                    playerPositionsActualsString.add(pp.toString());
+                    positionsAvail.remove(positionToAdd);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                            R.layout.player_listview_for_positions, playerPositionsActualsString);
+                    tv_positionsList.setEnabled(true);
+                    text_positions.setEnabled(true);
+                    text_positions.setEnabled(true);
+                    text_positions.setText("Positions");tv_positionsList.setAdapter(adapter);
 
                 }
+
                 d.dismiss();
             }
         });

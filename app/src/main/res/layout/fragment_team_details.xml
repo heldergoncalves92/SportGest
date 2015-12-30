@@ -126,10 +126,15 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_create_user_password2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_create_user_email"
+                android:id="@+id/input_layout_x"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -144,7 +149,40 @@
 
             </android.support.design.widget.TextInputLayout>
 
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_y"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Squad"
+                        android:id="@+id/text_squad" />
+
+                    <ListView
+                        android:id="@+id/squad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/teamSquad"
+                        android:editable="false"/>
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
+
+
 
     </LinearLayout>
 </ScrollView>

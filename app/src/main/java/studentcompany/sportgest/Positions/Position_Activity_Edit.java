@@ -100,11 +100,12 @@ public class Position_Activity_Edit extends AppCompatActivity {
 
                 boolean ok = false;
                 if (validatePosition())
+                    ok=true;
 
                 if (!ok) {
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
                 }
 

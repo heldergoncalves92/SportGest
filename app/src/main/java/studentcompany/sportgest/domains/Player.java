@@ -234,4 +234,9 @@ public class Player extends DomainPojo{
         result = 31 * result + (team != null ? team.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -85,6 +85,8 @@
             android:label="@string/app_newTraining" />
         <activity android:name=".Roles.Role_Activity_ListView"></activity>
         <activity android:name=".Roles.Role_Activity_Create"></activity>
+        <activity android:name=".Team.EditSquad_Activity"></activity>
+
     </application>
 
 </manifest>

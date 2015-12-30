@@ -25,6 +25,8 @@ import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.PlayerPosition;
+import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Team;
 
 public class Player_Activity_ListView extends AppCompatActivity implements studentcompany.sportgest.Players.Player_Fragment_List.OnItemSelected {
@@ -254,6 +256,9 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
             Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
             Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
+            Position po1 = new Position("Ala");
+            PlayerPosition pp1 = new PlayerPosition(1,p1,po1,5);
+
             long id;
 
             id = p_dao.insert(p1);
@@ -306,14 +311,24 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
                 try {
-                    /*Bundle bundle = data.getExtras();
+                    Bundle bundle = data.getExtras();
                     long id = (long) bundle.get("id");
                     int idToSearch = (int) (id + 0);
                     player=playerDao.getById(idToSearch);
                     System.out.println(player);
                     players.add(player);
                     mDetailsPlayer.showPlayer(player);
+
+                    /*
+                    Bundle bundle = data.getExtras();
+                    long id = (long) bundle.get("id");
+                    int idToSearch = (int) (id + 0);
+                    player=playerDao.getById(idToSearch);
+                    players.add(player);
+                    mDetailsPlayer.showPlayer(player);
+                    mListPlayer.addItem(player);
                     */
+
 
                     players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
                     mListPlayer.updateList(players);

@@ -159,10 +159,12 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
+        if(object.getPlayer()!=null)
         if ((tmpLong = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
             fields++;
         }
+        if(object.getPosition()!=null)
         if ((tmpLong = object.getPosition().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
             fields++;
@@ -196,10 +198,12 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
+        if(object.getPlayer()!=null)
         if ((tmpLong = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
             fields++;
         }
+        if(object.getPosition()!=null)
         if ((tmpLong = object.getPosition().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
             fields++;

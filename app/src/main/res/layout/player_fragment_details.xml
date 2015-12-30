@@ -437,6 +437,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/playerPosition"
+                        android:textColor="#000000"
                         android:editable="false"/>
 
                 </LinearLayout>

@@ -344,6 +344,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     private boolean validateName() {
         String pw = tv_name.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 6) {
+            inputLayoutName.setErrorEnabled(true);
             inputLayoutName.setError(getString(R.string.err_name_short));
             //requestFocus(inputLayoutPassword);
             return false;
@@ -355,7 +356,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     private boolean validateHeight() {
         String pw = tv_height.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
-            inputLayoutNumber.setError(getString(R.string.err_number));
+            inputLayoutNumber.setError(getString(R.string.err_height_invalid));
             return false;
         }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
@@ -379,7 +380,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     private boolean validateWeight() {
         String pw = tv_weight.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
-            inputLayoutNumber.setError(getString(R.string.err_number));
+            inputLayoutNumber.setError(getString(R.string.err_weight_invalid));
             return false;
         }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {

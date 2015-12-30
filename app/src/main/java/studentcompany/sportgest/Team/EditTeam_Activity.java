@@ -146,9 +146,9 @@ public class EditTeam_Activity extends AppCompatActivity {
                             ok = true;
 
                 if (!ok) {
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
                 }
 
@@ -228,6 +228,10 @@ public class EditTeam_Activity extends AppCompatActivity {
 
     private boolean validateSeason() {
         String pw = tv_season.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutSeason.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
             try{
