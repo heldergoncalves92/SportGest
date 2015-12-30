@@ -94,13 +94,22 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
 
     }
 
-    public void noElems(){
+    private void noElems(){
 
         LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
         l.setVisibility(View.GONE);
 
         AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
         t.setVisibility(View.VISIBLE);
+    }
+
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
     }
 
     public void removeRole(){
@@ -133,6 +142,8 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
 
                 item = mOptionsMenu.findItem(R.id.action_edit);
                 item.setVisible(true);
+
+                mDetailsRole.showFirstElem();
             }
 
             currentPos = position;
@@ -263,6 +274,9 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
                 try {
                     roles = roleDao.getAll();
                     mListRoles.updateList(roles);
+
+                    if(roles.size() == 1)
+                        withElems();
 
                     //Get the permission list of each Role
                     List<Permission> lp;

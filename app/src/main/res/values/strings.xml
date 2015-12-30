@@ -169,5 +169,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="no_roles">There are no Roles!</string>
     <string name="goTo_gameModeView_button">Game Mode View</string>
     <string name="userPhoto">Photo</string>
+    <string name="NoSelected_Role">Select a Role!</string>
 
 </resources>

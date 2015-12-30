@@ -129,6 +129,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
+
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
             }
 
             currentPos = position;
