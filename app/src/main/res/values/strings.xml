@@ -48,6 +48,7 @@
     <string name="app_newUser">SportGest - New User</string>
     <string name="app_newTeam">SportGest - New Team</string>
     <string name="app_newPlayer">SportGest - New Player</string>
+    <string name="app_newPosition">SportGest - New Position</string>
     <string name="action_del_user">Delete User</string>
     <string name="positive_answer">Yes</string>
     <string name="negative_answer">No</string>
