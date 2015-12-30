@@ -78,8 +78,11 @@
         <activity
             android:name=".Trainings.CreateTrainingExerciseActivity"
             android:label="@string/app_newTraining" />
-        <activity android:name=".Roles.Role_Activity_ListView"></activity>
-        <activity android:name=".Roles.Role_Activity_Create"></activity>
+        <activity android:name=".Roles.Role_Activity_ListView" />
+        <activity android:name=".Roles.Role_Activity_Create" />
+        <activity
+            android:name=".Games.Game_Activity_GameMode"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
+import studentcompany.sportgest.Games.Game_Activity_GameMode;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
@@ -181,6 +182,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goTo_GameModeView(View v){
+        Intent intent = new Intent(this, Game_Activity_GameMode.class);
+        intent.putExtra("GAME",3);
+        startActivity(intent);
+    }
 
 
     private void setupDrawerContent(NavigationView navigationView) {

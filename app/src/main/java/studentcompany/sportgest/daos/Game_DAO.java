@@ -204,8 +204,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_TEAMID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpString = object.getReport()) != null) {
@@ -258,8 +258,8 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_VISITOR_TEAMID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpString = object.getReport()) != null) {
@@ -283,7 +283,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             long id;
             long home_teamid;
             long visitor_teamid;
-            int date;
+            long date;
             String report;
             int home_score;
             int visitor_score;
@@ -296,7 +296,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
                     id = res.getInt(res.getColumnIndex(COLUMN_ID));
                     home_teamid = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
                     visitor_teamid = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     report = res.getString(res.getColumnIndex(COLUMN_REPORT));
                     home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
                     visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
