@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -32,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -134,7 +138,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
         spinnerRole.setAdapter(dataAdapterr);
         spinnerTeam.setAdapter(dataAdaptert);
-
+        String pho = null;
         if(userID > 0)
         try {
             user = user_dao.getById(userID);
@@ -149,30 +153,18 @@ public class CreateUser_Activity extends AppCompatActivity {
             email.setText(user.getEmail());
             password.setText(user.getPassword());
             password2.setText(user.getPassword());
+
+            pho = user.getPhoto();
+
             int index = 0;
             if(user.getRole()!=null) {
                 spinnerRole.setSelection(dataAdapterr.getPosition(user.getRole()));
-                /*index = 0;
-                for (Role r : listRoles) {
-                    if (r.getId() == user.getRole().getId())
-                        {spinnerRole.setSelection(index);
-                         break;}
-                    index++;
-                }*/
             }
             index = 0;
             if(user.getTeam()!=null) {
                 spinnerTeam.setSelection(dataAdaptert.getPosition(user.getTeam()));
-
-                /*index = 0;
-                for (Team t : listTeams) {
-                    if (t.getId() == user.getTeam().getId())
-                    {spinnerTeam.setSelection(index);
-                        break;}
-                    index++;
-                }*/
             }
-        } catch (GenericDAOException e) {
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -185,8 +177,31 @@ public class CreateUser_Activity extends AppCompatActivity {
         password2.addTextChangedListener(new MyTextWatcher(password2));
 
 
+
+        if(pho == null)
+        {
+            viewImage.setImageDrawable(getDefaultBitmap());
+        }
+        else
+            viewImage.setImageBitmap(getImageBitmap(this,pho));
+
+
+
+
+
+
+
+
     }
 
+    private Drawable getDefaultBitmap() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getResources().getDrawable(R.drawable.lego_face, this.getTheme());
+        } else {
+            return getResources().getDrawable(R.drawable.lego_face);
+        }
+    }
 
 
     /************************************
@@ -277,8 +292,8 @@ public class CreateUser_Activity extends AppCompatActivity {
                         user_dao.update(usernew); // Update the User
 
                     }else {
-                        long new_user_id = user_dao.insert(usernew); // Inser the User
-                        usernew.setId(new_user_id);
+                        userID = user_dao.insert(usernew); // Inser the User
+                        usernew.setId(userID );
 
                         // Team
                         if(team!=null)
@@ -296,8 +311,12 @@ public class CreateUser_Activity extends AppCompatActivity {
                     MyDB.getInstance(this).db.endTransaction();
 
                     Toast.makeText(getApplicationContext(), R.string.user_save_successful, Toast.LENGTH_SHORT).show();
-                    setResult(112);
-                    finish();
+
+                    Intent intent = new Intent(this, UserListActivity.class);
+                    intent.putExtra("ID", userID);
+                    //setResult(112);
+                    setResult(112,intent);
+                    finish(); ;
                     return true;
                 } catch (Exception e) {
                     MyDB.getInstance(this).db.endTransaction();
@@ -461,24 +480,19 @@ public class CreateUser_Activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
                 try {
 
+                    File f = new File(Environment.getExternalStorageDirectory().toString(),"temp.jpg");
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
-                    
+
                     if(bitmap==null)
                         Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
                     else
                         viewImage.setImageBitmap(bitmap);
+                    f.delete();
                     /*
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
@@ -514,8 +528,10 @@ public class CreateUser_Activity extends AppCompatActivity {
                     bitmap = BitmapFactory.decodeFile(picturePath);
                     if (bitmap == null)
                         Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
-                    else
+                    else {
+                        bitmap = resize(bitmap,200,200);
                         viewImage.setImageBitmap(bitmap);
+                    }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
                 }
@@ -532,7 +548,7 @@ public class CreateUser_Activity extends AppCompatActivity {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -546,7 +562,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
     private void selectImage() {
 
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Set to default" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a Photo to the User");
@@ -563,7 +579,9 @@ public class CreateUser_Activity extends AppCompatActivity {
                         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(intent, 2);
 
-                    } else if (options[item].equals("Cancel")) {
+                    } else if (options[item].equals("Set to default")) {
+                        bitmap = null;
+                        viewImage.setImageDrawable(getDefaultBitmap());
                         dialog.dismiss();
                     }
                 } catch (Exception e) {
@@ -573,6 +591,55 @@ public class CreateUser_Activity extends AppCompatActivity {
         });
         builder.show();
     }
+
+
+
+
+
+    private Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
+        if (maxHeight > 0 && maxWidth > 0) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > 1) {
+                finalWidth = (int) ((float)maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
+            return image;
+        } else {
+            return image;
+        }
+    }
+
+
+
+
+
+
+    public Bitmap getImageBitmap(Context context,String name){
+        //name=name+"."+extension;
+        try{
+            ContextWrapper cw = new ContextWrapper(this);
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 
 

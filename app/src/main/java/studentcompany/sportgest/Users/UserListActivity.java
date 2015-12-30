@@ -91,6 +91,8 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         fragmentTransaction.commit();
         if(users.size()>0) {
             currentPos=0;
+            if(users.get(currentPos) != null)
+                user_id = users.get(currentPos).getId();
             //mDetailsUser.startActivity();
             //mDetailsUser.showUser(users.get(currentPos));
         }
@@ -127,12 +129,14 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         mListUsers.removeItem(currentPos);
         //users.remove(currentPos);
 
-        currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
 
-        if(users.isEmpty())
-            noElems();
+        if(users.isEmpty()){
+            currentPos = -1;
+            noElems();}
+        else
+            currentPos = 0;
     }
 
     /************************************
@@ -150,6 +154,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
             currentPos = position;
             mDetailsUser.showUser(user);
+            user_id = user.getId();
         }
     }
 
@@ -234,6 +239,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         //To restore state on Layout Rotation
         if(currentPos != -1) {
             mDetailsUser.showUser(users.get(currentPos));
+            user_id = users.get(currentPos).getId();
         }
         return true;
     }
@@ -241,21 +247,24 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, CreateUser_Activity.class);
+
+                intent = new Intent(this, CreateUser_Activity.class);
                 startActivityForResult(intent,CREATE_TAG);
+                return true;
+
+            case R.id.action_edit:
+                intent = new Intent(this, CreateUser_Activity.class);
+                user_id = users.get(currentPos).getId();
+                intent.putExtra("ID",user_id);
+                startActivityForResult(intent,EDIT_TAG);
                 return true;
 
             case R.id.action_del:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
-                return true;
-
-            case R.id.action_edit:
-                Intent intent2 = new Intent(this, EditUser_Activity.class);
-                intent2.putExtra("id",users.get(currentPos).getId());
-                startActivityForResult(intent2, EDIT_TAG);
                 return true;
 
             default:
@@ -270,10 +279,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     private void insertUserTest(User_DAO u_dao){
 
         try {
-            User u1 = new User(0,"user0","password","user0.jpg","António Joaquim","user0@email.com",null);
-            User u2 = new User(1,"user1","password","user1.jpg","João Dias","user1@email.com",null);
-            User u3 = new User(2,"user2","password","user2.jpg","Maria Andrade","user2@email.com",null);
-            User u4 = new User(3,"user3","password","user3.jpg","José Alves","user3@email.com",null);
+            User u1 = new User(0,"user0","password",null,"António Joaquim","user0@email.com",null);
+            User u2 = new User(1,"user1","password",null,"João Dias","user1@email.com",null);
+            User u3 = new User(2,"user2","password",null,"Maria Andrade","user2@email.com",null);
+            User u4 = new User(3,"user3","password",null,"José Alves","user3@email.com",null);
 
             u_dao.insert(u1);
             u_dao.insert(u2);
@@ -287,10 +296,10 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     private void testUsers(){
 
-        User u1 = new User(0,"user0","password","user0.jpg","António Joaquim","user0@email.com",null);
-        User u2 = new User(1,"user1","password","user1.jpg","João Dias","user1@email.com",null);
-        User u3 = new User(2,"user2","password","user2.jpg","Maria Andrade","user2@email.com",null);
-        User u4 = new User(3,"user3","password","user3.jpg","José Alves","user3@email.com",null);
+        User u1 = new User(0,"user0","password",null,"António Joaquim","user0@email.com",null);
+        User u2 = new User(1,"user1","password",null,"João Dias","user1@email.com",null);
+        User u3 = new User(2,"user2","password",null,"Maria Andrade","user2@email.com",null);
+        User u4 = new User(3,"user3","password",null,"José Alves","user3@email.com",null);
 
         users = new ArrayList<User>();
         users.add(u1);
@@ -304,30 +313,33 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        User user = null;
-        if (requestCode == EDIT_TAG) {
-            if(resultCode == 1){
-                try {
-                    user=userDao.getById(users.get(currentPos).getId());
-                    users.set(currentPos,user);
-                    mDetailsUser.showUser(user);
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
         if (requestCode == CREATE_TAG) {
-            if(resultCode == 1){
-                try {
-                    Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    user=userDao.getById(idToSearch);
-                    users.add(user);
-                    mDetailsUser.showUser(user);
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
+            try {
+                Bundle extras = data.getExtras();
+                if(extras != null) {
+                    //get User ID
+                    long id = extras.getLong("ID");
+                    if(id>0){
+                        User user = userDao.getById(id);
+                        mListUsers.updateList(user);}
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if (requestCode == EDIT_TAG) {
+            try {
+                User user1 = userDao.getById(user_id);
+
+                if(user1!=null)
+                    {List<Team> t = user_team_dao.getByFirstId(user1.getId());
+                        if(t!=null)
+                            if(t.size()>0)
+                                user1.setTeam(t.get(0)); // Get the Team
+
+                    mDetailsUser.showUser(user1);}
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
             }
         }
     }

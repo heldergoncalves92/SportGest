@@ -131,6 +131,21 @@
                 android:id="@+id/training_button"
                 android:onClick="goTo_Training"/>
 
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_gameTest_button"
+                android:id="@+id/game_test_button" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                android:onClick="goTo_Login" />
+
+
         </android.support.v7.widget.LinearLayoutCompat>
     </ScrollView>
 </RelativeLayout>

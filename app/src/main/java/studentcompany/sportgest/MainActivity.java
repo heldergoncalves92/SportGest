@@ -17,6 +17,7 @@ import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
+import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
@@ -32,7 +33,7 @@ import studentcompany.sportgest.domains.Team;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton;
+    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton, gametestbutton;
     private MenuItem menuItem;
     private DrawerLayout mDrawerLayout;
 
@@ -79,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CallSquad_Activity.class);
+
+                startActivity(intent);
+            }
+        });
+
+        //gameTestButton
+        gametestbutton = (Button)findViewById(R.id.game_test_button);
+        gametestbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameTest_Activity.class);
 
                 startActivity(intent);
             }
@@ -177,6 +189,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goTo_GameTest(View v){
+        Intent intent = new Intent(this, GameTest_Activity.class);
+        startActivity(intent);
+    }
+
     public void goTo_Game_GeneralView(View v){
         Intent intent = new Intent(this, GameGeneralView_Activity.class);
         startActivity(intent);
@@ -194,9 +211,30 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent;
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Users:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), UserListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Players:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), Player_Activity_ListView.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Exercise:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
                                 startActivity(intent);
                                 return true;
                         }
