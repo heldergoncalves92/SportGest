@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SportGest</string>
     <string name="app_db_name">SportGest.db</string>
@@ -16,7 +17,9 @@
     <string name="not_done">Not done</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
+    <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="date">Date</string>
     <string name="event_category_button">Event Categories</string>
     <string name="event_category_add_menu">Add Categories</string>
     <string name="event_category_edit_menu">Edit Categories</string>
@@ -31,6 +34,7 @@
     <string name="role_delete_menu">Delete Role</string>
     <string name="category">Category</string>
     <string name="save_button">Save</string>
+    <string name="next_button">Next</string>
     <string name="deselectAttribute"><![CDATA[< <]]></string>
     <string name="selectAttribute"><![CDATA[> >]]></string>
     <string name="goTo_users_button">Manage Users</string>
@@ -63,9 +67,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_username">This username is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_invalid_username">Username is invalid</string>
+    <string name="error_invalid_password">Password is too short</string>
+    <string name="error_mismatch_passwords">Passwords do not match</string>
+    <string name="error_incorrect_password">Password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -84,6 +89,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
 
 
     <string name="hint_name">Name</string>
+    <string name="err_user_name_empty">Name is empty</string>
     <string name="title_activity_create_role_">CreateRole_Activity</string>
     <string name="hint_permissions">Permissions</string>
     <string name="delete_unsucessful">An error ocurred with the deletion</string>
@@ -92,7 +98,66 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="err_role_name">Role Name can\'t be empty</string>
     <string name="permissions_list_failed">Failed to get the Permissions list</string>
     <string name="err_role_name_exists">There is already a Role with this name</string>
+    <string name="err_username_exists">There is already a User with this Username</string>
     <string name="role_save_successful">Role saved sucessfully</string>
     <string name="role_save_unsuccessful">Role was not saved</string>
     <string name="app_teamView">Teams</string>
+    <string name="no_teams">There are no teams!</string>
+    <string name="no_users">There are no users!</string>
+    <string name="no_players">There are no players!</string>
+    <string name="save">Save</string>
+    <string name="goTo_games_button">Manage Games</string>
+    <string name="squad">Convened squad</string>
+    <string name="number">N&#186;</string>
+    <string name="playerNickname">Nickname</string>
+    <string name="playerName">Name</string>
+    <string name="playerHeight">Height</string>
+    <string name="playerWeight">Weight</string>
+    <string name="playerAddress">Address</string>
+    <string name="playerEmail">Email</string>
+    <string name="playerNumber">Number</string>
+    <string name="teamDescription">Description</string>
+    <string name="teamSeason">Season</string>
+    <string name="userRole">Role</string>
+    <string name="playerNationality">Nationality</string>
+    <string name="maritalstatus">Marital Status</string>
+    <string name="playerBirthday">Birthday</string>
+    <string name="playerGender">Gender</string>
+    <string name="playerPreferredFoot">Preferred Foot</string>
+    <string name="playerPosition">Position</string>
+    <string name="userPasswordOriginal">Original Password</string>
+    <string name="teamName">Name</string>
+
+    <string name="err_password_match">Password do not match</string>
+    <string name="err_name_short">Name is short</string>
+    <string name="err_username_short">Username is short</string>
+    <string name="err_valid_email">Email is not valid</string>
+    <string name="err_address_short">Address is short</string>
+    <string name="err_number">Invalid number</string>
+    <string name="err_description_short">Description is short</string>
+
+
+    <string name="userTeam">Team</string>
+    <string name="pickTeam">Choose a Team</string>
+    <string name="pickRole">Choose a Role</string>
+    <string name="action_save_user">Save User</string>
+    <string name="user_save_unsuccessful">User was not saved</string>
+    <string name="user_save_successful">User saved sucessfully</string>
+    <string name="no_team">No Team</string>
+    <string name="no_role">No Role</string>
+    <string name="err_username_empty">Username is empty</string>
+    <string name="error_occured">An error ocurred</string>
+    <string name="goTo_gamesView_button">View Game</string>
+    <string name="goTo_squadCall_button">Manage Squad</string>
+    <string name="description_label"><b>Description</b></string>
+    <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
+    <string name="exercise_name_label"><b>Name</b></string>
+    <string name="duration_label"><b>Duration</b></string>
+    <string name="goTo_exercise_button">Manage Exercises</string>
+    <string name="goTo_training_button">Manage Trainings</string>
+    <string name="goTo_attribute_button">Manage Attributes</string>
+    <string name="app_newAttribute">SportGest - New Attribute</string>
+    <string name="app_newExercise">SportGest - New Exercise</string>
+    <string name="app_newTraining">SportGest - New Training</string>
+    <string name="training_name">Name</string>
 </resources>

@@ -5,60 +5,119 @@
     android:layout_height="match_parent"
     tools:context="studentcompany.sportgest.MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <Button
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/event_category_button"
-            android:id="@+id/event_category_button" />
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/goTo_teams_button"
-            android:onClick="goTo_Teams"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/event_category_button"
+                android:id="@+id/event_category_button" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/goTo_users_button"
-            android:onClick="goTo_Users"/>
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/goTo_players_button"
-            android:onClick="goTo_Players"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_teams_button"
+                    android:onClick="goTo_Teams"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/exercise_button"
-            android:id="@+id/exercise_button" />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_players_button"
+                    android:onClick="goTo_Players"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Game"
-            android:id="@+id/game_button" />
+            </android.support.v7.widget.LinearLayoutCompat >
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/roles_button"
-            android:id="@+id/roles_button"/>
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login_button"
-            android:onClick="goTo_Login" />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_users_button"
+                    android:onClick="goTo_Users"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/roles_button"
+                    android:id="@+id/roles_button"/>
+
+            </android.support.v7.widget.LinearLayoutCompat >
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_games_button"
+                    android:onClick="goTo_Games"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_gamesView_button"
+                    android:onClick="goTo_Game_GeneralView"/>
+
+            </android.support.v7.widget.LinearLayoutCompat>
 
 
-    </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_squadCall_button"
+                android:id="@+id/game_squadCall_button" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                android:onClick="goTo_Login" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_attribute_button"
+                android:id="@+id/attribute_button"
+                android:onClick="goTo_Attribute"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_exercise_button"
+                android:id="@+id/exercise_button"
+                android:onClick="goTo_Exercise"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_training_button"
+                android:id="@+id/training_button"
+                android:onClick="goTo_Training"/>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </ScrollView>
 </RelativeLayout>
 

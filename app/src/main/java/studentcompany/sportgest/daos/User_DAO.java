@@ -169,12 +169,15 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         if(object==null)
             return false;
 
+
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
+        contentValues.put(COLUMN_USERNAME, object.getUsername());
         contentValues.put(COLUMN_PASSWORD, object.getPassword());
         contentValues.put(COLUMN_PHOTO, object.getPhoto());
         contentValues.put(COLUMN_EMAIL, object.getEmail());
-        contentValues.put(COLUMN_ROLE_ID, object.getRole().getId());
+        contentValues.put(COLUMN_ROLE_ID, object.getRole() != null ? object.getRole().getId() : null);
         return db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
@@ -205,6 +208,10 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_NAME).append(" = '").append(tmpString).append("'");
             fields++;
         }
+        if ((tmpString = object.getUsername()) != null) {
+            statement.append((fields != 0) ? " AND " : "").append(COLUMN_USERNAME).append(" = '").append(tmpString).append("'");
+            fields++;
+        }
         if ((tmpString = object.getPassword()) != null) {
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_PASSWORD).append(" = '").append(tmpString).append("'");
             fields++;
@@ -217,14 +224,15 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_EMAIL).append(" = '").append(tmpString).append("'");
             fields++;
         }
-        if ((tmpLong = object.getRole().getId()) >= 0) {
-            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
-            fields++;
-        }
+        if(object.getRole()!=null)
+            if ((tmpLong = object.getRole().getId()) >= 0) {
+                statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
+                fields++;
+            }
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
-            boolean re = res.moveToFirst();
+            boolean re = res.getCount()>0;
             res.close(); // Close the Cursor
             return re;
         }
@@ -243,7 +251,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         String tmpString;
         long tmpLong;
         long id,roleId;
-        String name,password,photo,email;
+        String name,username,password,photo,email;
         Role role;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
@@ -253,6 +261,10 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
         }
         if ((tmpString = object.getName()) != null) {
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_NAME).append(" LIKE '%").append(tmpString).append("%'");
+            fields++;
+        }
+        if ((tmpString = object.getUsername()) != null) {
+            statement.append((fields != 0) ? " AND " : "").append(COLUMN_USERNAME).append(" LIKE '%").append(tmpString).append("%'");
             fields++;
         }
         if ((tmpString = object.getPassword()) != null) {
@@ -267,10 +279,11 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             statement.append((fields != 0) ? " AND " : "").append(COLUMN_EMAIL).append(" LIKE '%").append(tmpString).append("%'");
             fields++;
         }
-        if ((tmpLong = object.getRole().getId()) >= 0) {
-            statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
-            fields++;
-        }
+        if(object.getRole()!=null)
+            if ((tmpLong = object.getRole().getId()) >= 0) {
+                statement.append((fields != 0) ? " AND " : "").append(COLUMN_ROLE_ID).append(" = ").append(tmpLong);
+                fields++;
+            }
 
         if (fields > 0) {
 
@@ -279,12 +292,13 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
                 while(!res.isAfterLast()) {
                     id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+                    username = res.getString(res.getColumnIndexOrThrow(COLUMN_USERNAME));
                     password = res.getString(res.getColumnIndexOrThrow(COLUMN_PASSWORD));
                     photo = res.getString(res.getColumnIndexOrThrow(COLUMN_PHOTO));
                     email = res.getString(res.getColumnIndexOrThrow(COLUMN_EMAIL));
                     roleId = res.getLong(res.getColumnIndexOrThrow(COLUMN_ROLE_ID));
                     role = role_dao.getById(roleId); // Get the Role
-                    roles.add(new User(id, name,password,photo,name,email,role));
+                    roles.add(new User(id, username,password,photo,name,email,role));
                     res.moveToNext();
                 }
             res.close(); // Close the Cursor

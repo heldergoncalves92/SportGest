@@ -12,13 +12,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
-import studentcompany.sportgest.Exercises.ListExerciseActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
+import studentcompany.sportgest.Games.GameGeneralView_Activity;
+import studentcompany.sportgest.Games.GamesList_Activity;
+import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Roles.Role_Activity_ListView;
+import studentcompany.sportgest.Trainings.CreateTrainingActivity;
+import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.UserListActivity;
+import studentcompany.sportgest.daos.Game_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Game;
+import studentcompany.sportgest.domains.Team;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
@@ -47,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         //EventCategoryButton
         eventCategoiesButton = (Button)findViewById(R.id.event_category_button);
         eventCategoiesButton.setOnClickListener(new View.OnClickListener() {
@@ -65,19 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //EventCategoryButton
-        exerciseButton = (Button)findViewById(R.id.exercise_button);
-        exerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListExerciseActivity.class);
-
-                startActivity(intent);
-            }
-        });
-
         //gameButton
-        gamebutton = (Button)findViewById(R.id.game_button);
+        gamebutton = (Button)findViewById(R.id.game_squadCall_button);
         gamebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,13 +90,12 @@ public class MainActivity extends AppCompatActivity {
         rolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
 
                 startActivity(intent);
             }
         });
-
-
+        
     }
 
     @Override
@@ -116,13 +112,17 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()) {
-            case R.id.nav_home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+            //case R.id.nav_home:
+            case android.R.id.home:
+                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                else
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_settings:
                 return true;
             default:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                //mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
 
@@ -140,6 +140,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goTo_Attribute(View v){
+        Intent intent = new Intent(this, AttributeListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Exercise(View v){
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Training(View v){
+        Intent intent = new Intent(this, TrainingListActivity.class);
+        startActivity(intent);
+    }
+
     public void goTo_Teams(View v){
         Intent intent = new Intent(this, TeamList_Activity.class);
         startActivity(intent);
@@ -149,11 +164,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
     public void goTo_Roles(View v){
-        Intent intent = new Intent(this, RolesListActivity.class);
+        Intent intent = new Intent(this, Role_Activity_ListView.class);
         startActivity(intent);
     }
 
+    public void goTo_Games(View v){
+        //insertGamesTest();
+        Intent intent = new Intent(this, GamesList_Activity.class);
+        startActivity(intent);
+    }
+
+    public void goTo_Game_GeneralView(View v){
+        Intent intent = new Intent(this, GameGeneralView_Activity.class);
+        startActivity(intent);
+    }
 
 
 
@@ -174,5 +200,22 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+
+    private void insertGamesTest(){
+
+        try {
+            Game_DAO gameDao = new Game_DAO(getApplicationContext());
+            if(gameDao.getAll() == null) {
+
+                gameDao.insert(new Game(new Team(1), new Team(2), 0, "O jogo foi muito competitivo!!", 3, 1, 40f));
+                gameDao.insert(new Game(new Team(3), new Team(4), 0, "O jogo foi muito competitivo!!", 1, 1, 50f));
+                gameDao.insert(new Game(new Team(1), new Team(3), 0, "O jogo foi muito competitivo!!", 2, 3, 40f));
+                gameDao.insert(new Game(new Team(2), new Team(4), 0, "O jogo foi muito competitivo!!", 3, 2, 40f));
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
     }
 }
