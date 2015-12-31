@@ -11,14 +11,14 @@ import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.EventCategory;
 
-import static studentcompany.sportgest.R.id.attribute_name;
-import static studentcompany.sportgest.R.id.attribute_num;
+import static studentcompany.sportgest.R.id.event_count;
+import static studentcompany.sportgest.R.id.event_name;
 
 
-public class Game_ListAttribute_Adapter extends RecyclerView.Adapter<Game_ListAttribute_Adapter.ViewHolder> {
-    private List<Attribute> mDataset;
+public class Game_ListEvents_Adapter extends RecyclerView.Adapter<Game_ListEvents_Adapter.ViewHolder> {
+    private List<EventCategory> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -32,13 +32,13 @@ public class Game_ListAttribute_Adapter extends RecyclerView.Adapter<Game_ListAt
             super(view);
 
             parent = view;
-            mTextView_num = (TextView)view.findViewById(attribute_num);
-            mTextView_name = (TextView)view.findViewById(attribute_name);
+            mTextView_num = (TextView)view.findViewById(event_count);
+            mTextView_name = (TextView)view.findViewById(event_name);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Game_ListAttribute_Adapter(List<Attribute> myDataset) {
+    public Game_ListEvents_Adapter(List<EventCategory> myDataset) {
         mDataset = myDataset;
     }
 
@@ -48,7 +48,7 @@ public class Game_ListAttribute_Adapter extends RecyclerView.Adapter<Game_ListAt
                                                        int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.game_attributes_list_item, parent, false);
+                .inflate(R.layout.game_events_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -62,11 +62,11 @@ public class Game_ListAttribute_Adapter extends RecyclerView.Adapter<Game_ListAt
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        Attribute attribute = mDataset.get(position);
+        EventCategory eventcat = mDataset.get(position);
 
-        if (attribute != null) {
-            holder.mTextView_num.setText(String.valueOf(attribute.getId()));
-            holder.mTextView_name.setText(attribute.getName());
+        if (eventcat != null) {
+            holder.mTextView_num.setText(String.valueOf(eventcat.getId()));
+            holder.mTextView_name.setText(eventcat.getName());
 
             if (position%2 ==0)
                 holder.parent.setBackgroundColor(Color.LTGRAY);

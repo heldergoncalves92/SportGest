@@ -7,11 +7,12 @@
     android:weightSum="100">
 
     <TextView
-        android:id="@+id/attribute_num"
-        android:layout_width="30dp"
+        android:id="@+id/event_imagem"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/number"/>
+        android:layout_weight="35"
+        android:paddingLeft="10dp"
+        android:text="Imagem"/>
 
     <View
         android:layout_width="1dp"
@@ -19,11 +20,24 @@
         android:background="@android:color/darker_gray"/>
 
     <TextView
-        android:id="@+id/attribute_name"
+        android:id="@+id/event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="80"
+        android:layout_weight="35"
         android:paddingLeft="10dp"
         android:text="Name"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/event_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:paddingLeft="10dp"
+        android:text="count"/>
 
 </LinearLayout>
