@@ -59,6 +59,8 @@ public class GameGeneralView_Activity extends AppCompatActivity {
         public Fragment getItem(int position) {
             if(position==0)
                 return GameEvents_Fragment.newInstance(position);
+            else if(position==1)
+                return GameStatistics_Fragment.newInstance(position);
             else
                 return GameSquad_Fragment.newInstance(position);
         }
