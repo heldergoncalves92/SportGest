@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,9 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_Position_DAO;
+import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
 
@@ -58,10 +61,19 @@ public class Player_Fragment_Details extends Fragment {
         tv_photo = (ImageView) view.findViewById(R.id.photo);
         tv_position = (ListView) view.findViewById(R.id.position);
 
+        tv_position.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
         return view;
     }
 
     public void showPlayer(Player player){
+
         if(player.getNickname()!=null)
             tv_nickname.setText(player.getNickname());
         else
@@ -118,16 +130,23 @@ public class Player_Fragment_Details extends Fragment {
 
         ArrayList<String> positionValue = new ArrayList<>();
 
-        if(player.getPositions()!=null){
-            for(PlayerPosition p : player.getPositions()){
+        Player_Position_DAO pp_dao = new Player_Position_DAO(getContext());
+        PlayerPosition ppToSearch = new PlayerPosition(player,null,-1);
+        List<PlayerPosition> listPositions = null;
+        try {
+            listPositions = pp_dao.getByCriteria(ppToSearch);
+        } catch (GenericDAOException e){}
+        if(listPositions!=null) {
+            for (PlayerPosition p : listPositions) {
                 positionValue.add(p.toString());
             }
+
+            tv_position.setEnabled(true);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                    R.layout.player_listview_for_positions, positionValue);
+            tv_position.setAdapter(adapter);
         }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_1, positionValue);
-        tv_position.setAdapter(adapter);
-
         /*String position = "";
         if(player.getPosition()!=null)
             position=player.getPosition().getName();

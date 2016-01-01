@@ -173,7 +173,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
-            mDetailsPlayer.showPlayer(players.get(currentPos));
+            if(players.size()>0)
+                mDetailsPlayer.showPlayer(players.get(currentPos));
         }
         return true;
     }
@@ -193,11 +194,12 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                 return true;
 
             case R.id.action_edit:
-                Intent intent2 = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Edit.class);
-                intent2.putExtra("id", players.get(currentPos).getId());
-                startActivityForResult(intent2, EDIT_TAG);
-                return true;
-
+                if(players.size()>0) {
+                    Intent intent2 = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Edit.class);
+                    intent2.putExtra("id", players.get(currentPos).getId());
+                    startActivityForResult(intent2, EDIT_TAG);
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -251,10 +253,10 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+            Player p1 = new Player("Jocka", "João Alberto", "Portugal", "Single", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portugal", "Married", "1222-1-23", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+            Player p4 = new Player("Nel", "Manuel Arouca", "Portugal", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
             Position po1 = new Position("Ala");
             PlayerPosition pp1 = new PlayerPosition(1,p1,po1,5);
@@ -274,10 +276,10 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
     private void testPlayers(){
 
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portuguesa", "Solteiro", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1231-2-3", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+        Player p1 = new Player(1,"Jocka", "João Alberto", "Portugual", "Single", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portugual", "Married", "1231-2-3", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portugual", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
         players = new ArrayList<Player>();
         players.add(p1);

@@ -440,7 +440,10 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/playerPosition"
                     android:textFilterEnabled="true"
-                    android:layout_marginLeft="15dp" />
+                    android:layout_marginLeft="15dp"
+                    android:choiceMode="singleChoice"
+                    android:listSelector="#666666"
+                    />
 
             </LinearLayout>
 

@@ -171,7 +171,8 @@ public class Position_Activity_ListView extends AppCompatActivity implements Pos
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
-            mDetailsPosition.showPosition(positions.get(currentPos));
+            if(positions.size()>0)
+                mDetailsPosition.showPosition(positions.get(currentPos));
         }
         return true;
     }

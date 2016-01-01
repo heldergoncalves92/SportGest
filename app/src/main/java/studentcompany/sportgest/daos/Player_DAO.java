@@ -13,6 +13,7 @@ import java.util.List;
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Team;
 
 public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player>{
     //Database name
@@ -166,8 +167,13 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             team=res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
             //position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
 
-            resPlayer=new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
-                    team_dao.getById(team),null);
+            if(team>0) {
+                Team teamToInsert = team_dao.getById(team);
+                resPlayer = new Player(id, nickname, name, nationality, marital_status, dob, height, weight, address, gender, photo, email, prefered_foot, number,
+                        teamToInsert, null);
+            } else
+                resPlayer=new Player(id,nickname,name,nationality,marital_status,dob,height,weight,address,gender,photo,email,prefered_foot,number,
+                        null,null);
         }
         res.close();
         return resPlayer;

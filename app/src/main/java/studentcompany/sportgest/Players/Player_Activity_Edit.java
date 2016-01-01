@@ -11,7 +11,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -54,6 +56,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
 
     private Button tv_positionButton;
+    private Button tv_btnRemove;
     private ListView tv_positionsList;
     private TextView text_positions;
 
@@ -71,6 +74,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     ArrayList<String> playerPositionsActualsString;
     NumberPicker np;
     Spinner selectedPositions;
+
+    String selectedPosition = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +96,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
          tv_name = (EditText) findViewById(R.id.name);
         Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
         Spinner tv_maritalStatus = (Spinner) findViewById(R.id.maritalstatus);
-        //TODO: POR A DATA A VIR DO BOTAO
          tv_height = (EditText) findViewById(R.id.height);
          tv_weight = (EditText) findViewById(R.id.weight);
          tv_address = (EditText) findViewById(R.id.address);
@@ -102,6 +106,28 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
         text_positions = (TextView) findViewById(R.id.text_positions);
         tv_positionsList = (ListView) findViewById(R.id.positionsList);
+        tv_btnRemove = (Button) findViewById(R.id.btnRemoveSelectedPosition);
+
+        tv_positionsList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        tv_btnRemove.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                removeSelected();
+            }
+        });
+
+        tv_positionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                                                        selectedPosition = (String) adapter.getSelectedItem();
+                                                    }
+                                                });
 
         Player playerFromDB=null;
         player_dao = new Player_DAO(this);
@@ -176,12 +202,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 tv_nationality.setSelection(pos);
             else
                 tv_nationality.setSelection(0);
-
-            //TODO: por data direita
-            //if(playerFromDB.getBirthDate()!=-1)
-            //    tv_birthday.updateDate(playerFromDB.getBirthDate(), 0, 0);
-
-            if(playerFromDB.getHeight()!=-1)
+                        if(playerFromDB.getHeight()!=-1)
                 tv_height.setText(Integer.toString(playerFromDB.getHeight()));
             else
                 tv_height.setText(Integer.toString(0));
@@ -241,7 +262,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                         counter++;
                 }
 
-            //TODO: alterar a data
             if(playerFromDB.getBirthDate()!=null) {
                 String dateBeforeSplit = playerFromDB.getBirthDate();
                 txtDate.setText(dateBeforeSplit);
@@ -265,13 +285,19 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             else
                 tv_number.setText("");
 
-            PlayerPosition ppToSearch = new PlayerPosition(player,null,-1);
-            List<PlayerPosition> ppList = null;
+
+            PlayerPosition ppToSearchAllPositionsFromThisPlayer = new PlayerPosition(player,null,-1);
+            List<PlayerPosition> ppFoundFromThisPlayer = null;
             try {
-                 ppList = playerPosition_dao.getByCriteria(ppToSearch);
+                ppFoundFromThisPlayer = playerPosition_dao.getByCriteria(ppToSearchAllPositionsFromThisPlayer);
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }
+
+            for(PlayerPosition pp : ppFoundFromThisPlayer){
+                positionsAll.remove(pp.getPosition().toString());
+            }
+
             ArrayList<String> forAdapter = new ArrayList<>();
             playerPositionsActualsString = new ArrayList<>();
 
@@ -279,7 +305,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             for(String s : positionsAll)
                 positionsAvail.add(s);
 
-            for(PlayerPosition pp : ppList){
+            for(PlayerPosition pp : ppFoundFromThisPlayer){
                 playerPositionsActuals.add(pp);
                 if(pp.getPosition()!=null){
                     if(positionsAvail.contains(pp.getPosition().getName())){
@@ -345,7 +371,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
         switch(item.getItemId())
         {
-            //add action
             case R.id.Edit:
                 boolean okUntilNow = true;
                 tv_nickname = (EditText) findViewById(R.id.nickname);
@@ -425,9 +450,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     return false;
                 }
 
-
-
-
                 player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,playerPositionsActuals);
                 boolean corrected = false;
                 //insert/update database
@@ -436,7 +458,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                         player_dao.update(player);
                         for(PlayerPosition pp : playerPositionsActuals){
                             try {
-                                playerPosition_dao.insert(pp);
+                                long x = playerPosition_dao.insert(pp);
+                                System.out.println(x);
                             } catch (GenericDAOException e) {
                                 e.printStackTrace();
                             }
@@ -512,7 +535,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         String pw = tv_nickname.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutNickname.setError(getString(R.string.err_nickname_short));
-            //requestFocus(inputLayoutPassword);
             return false;
         }
         inputLayoutNickname.setErrorEnabled(false);
@@ -523,7 +545,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         String pw = tv_name.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 6) {
             inputLayoutName.setError(getString(R.string.err_name_short));
-            //requestFocus(inputLayoutPassword);
             return false;
         }
         inputLayoutName.setErrorEnabled(false);
@@ -570,7 +591,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             }
             if(!(wg>0)){
                 inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
-                //requestFocus(inputLayoutPassword);
                 return false;
             }
         }
@@ -582,7 +602,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         String pw = tv_address.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutAddress.setError(getString(R.string.err_address_short));
-            //requestFocus(inputLayoutPassword);
             return false;
         }
         inputLayoutAddress.setErrorEnabled(false);
@@ -622,7 +641,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             }
             if(!(nb<100 && nb>0)){
                 inputLayoutNumber.setError(getString(R.string.err_number));
-                //requestFocus(inputLayoutPassword);
                 return false;
             }
         }
@@ -654,9 +672,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            // Display Selected date in textbox
-                            //txtDate.setText(dayOfMonth + "-"
-                            //        + (monthOfYear + 1) + "-" + year);
                             txtDate.setText(Integer.toString(year)+"-"+Integer.toString(monthOfYear+1)+"-"+Integer.toString(dayOfMonth));
                             selectedDay = dayOfMonth;
                             selectedMonth = monthOfYear+1;
@@ -678,7 +693,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     public void show()
     {
         final Dialog d = new Dialog(Player_Activity_Edit.this);
-        d.setTitle("NumberPicker");
+        d.setTitle("Position Chooser");
         d.setContentView(R.layout.position_chose);
         Button bSet= (Button) d.findViewById(R.id.buttonSet);
         Button bCancel = (Button) d.findViewById(R.id.buttonCancel);
@@ -708,15 +723,15 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 if (positionFromDB.size() > 0) {
                     PlayerPosition pp = new PlayerPosition(player, positionFromDB.get(0), valueToPosition);
                     playerPositionsActuals.add(pp);
-                    playerPositionsActualsString.add(pp.toString());
+                    playerPositionsActualsString.add(0,pp.toString());
                     positionsAvail.remove(positionToAdd);
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
                             R.layout.player_listview_for_positions, playerPositionsActualsString);
                     tv_positionsList.setEnabled(true);
                     text_positions.setEnabled(true);
-                    text_positions.setEnabled(true);
-                    text_positions.setText("Positions");tv_positionsList.setAdapter(adapter);
+                    text_positions.setText("Positions");
+                    tv_positionsList.setAdapter(adapter);
 
                 }
 
@@ -730,8 +745,29 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 d.dismiss();
             }
         });
-
         d.show();
 
     }
+
+    public void removeSelected(){
+        if (selectedPosition != null) {
+            String[] compositeOfPosition = selectedPosition.split(" - ");
+            positionsAvail.add(compositeOfPosition[0]);
+            List<Position> position = null;
+            try {
+                position = position_dao.getByCriteria(new Position(compositeOfPosition[0]));
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+            if (position.size() > 0) {
+                PlayerPosition ppToRemove = new PlayerPosition(player, position.get(0), Integer.parseInt(compositeOfPosition[1]));
+                try {
+                    playerPosition_dao.delete(ppToRemove);
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
