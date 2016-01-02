@@ -403,15 +403,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Position"
+                        android:text="Positions"
                         android:id="@+id/textView7" />
-<!--
-                    <Spinner
-                        android:id="@+id/position"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/playerPosition" />
--->
+
                     <Button
                         android:id="@+id/btnPositionOpen"
                         android:layout_width="match_parent"
@@ -422,37 +416,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Positions"
-                    android:id="@+id/text_positions" />
-
-                <ListView
-                    android:id="@+id/positionsList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/playerPosition"
-                    android:textFilterEnabled="true"
-                    android:layout_marginLeft="15dp"
-                    android:choiceMode="singleChoice"
-                    android:listSelector="#666666"
-                    />
-
-            </LinearLayout>
-
-
-            <Button
-                android:id="@+id/btnRemoveSelectedPosition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Remove selected Position" />
 
             <LinearLayout
                 android:layout_width="match_parent"

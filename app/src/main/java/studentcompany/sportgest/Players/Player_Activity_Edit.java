@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private Position_DAO position_dao;
     private Player_Position_DAO playerPosition_dao;
 
+    private int EDIT_POSITION = 20;
+
     Player player = null;
     int playerID = -1;
 
@@ -68,15 +71,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private TextView txtDate;
     private int mYear, mMonth, mDay;
     private int selectedYear, selectedMonth, selectedDay;
-
-    private ArrayList<PlayerPosition> playerPositionsActuals;
-    ArrayList<String> positionsAvail;
-    ArrayList<String> positionsAll;
-    ArrayList<String> playerPositionsActualsString;
-    NumberPicker np;
-    Spinner selectedPositions;
-
-    String selectedPosition = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,38 +99,11 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
          tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-        text_positions = (TextView) findViewById(R.id.text_positions);
-        tv_positionsList = (ListView) findViewById(R.id.positionsList);
-        tv_btnRemove = (Button) findViewById(R.id.btnRemoveSelectedPosition);
-
-        tv_positionsList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        tv_btnRemove.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                removeSelected();
-            }
-        });
-
-        tv_positionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                    public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
-                                                        if(position>=0)
-                                                            selectedPosition = (String) tv_positionsList.getItemAtPosition(position);
-                                                    }
-                                                });
 
         Player playerFromDB=null;
         player_dao = new Player_DAO(this);
         position_dao = new Position_DAO(this);
         playerPosition_dao = new Player_Position_DAO(this);
-
-        playerPositionsActuals = new ArrayList<>();
 
         try {
              playerFromDB = player_dao.getById(playerID);
@@ -166,16 +133,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             ArrayList<String> preferredList = new ArrayList<>();
             preferredList.add("Right");
             preferredList.add("Left");
-
-            positionsAll = new ArrayList<>();
-
-            try {
-                List<Position> positions = position_dao.getAll();
-                for(Position p : positions)
-                    positionsAll.add(p.getName());
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
-            }
 
             ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, gendersList);
@@ -286,51 +243,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 tv_number.setText(Integer.toString(playerFromDB.getNumber()));
             else
                 tv_number.setText("");
-
-
-            PlayerPosition ppToSearchAllPositionsFromThisPlayer = new PlayerPosition(player,null,-1);
-            List<PlayerPosition> ppFoundFromThisPlayer = null;
-            try {
-                ppFoundFromThisPlayer = playerPosition_dao.getByCriteria(ppToSearchAllPositionsFromThisPlayer);
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
-            }
-
-            for(PlayerPosition pp : ppFoundFromThisPlayer){
-                positionsAll.remove(pp.getPosition().toString());
-            }
-
-            playerPositionsActualsString = new ArrayList<>();
-            ArrayList<String> toAdapter = new ArrayList<>();
-
-            positionsAvail = new ArrayList<>();
-            for(String s : positionsAll){
-                positionsAvail.add(s);
-            }
-
-            for(PlayerPosition pp : ppFoundFromThisPlayer){
-                playerPositionsActuals.add(pp);
-                if(pp.getPosition()!=null){
-                    if(positionsAvail.contains(pp.getPosition().getName())){
-                        positionsAvail.remove(pp.getPosition().getName());
-                    }
-                }
-                toAdapter.add(pp.toString());
-            }
-
-            if(positionsAvail.size()>0) {
-                tv_positionsList.setEnabled(true);
-                text_positions.setEnabled(true);
-                text_positions.setText("Positions");
-
-                ArrayAdapter<String> adapterP = new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1, toAdapter);
-                tv_positionsList.setAdapter(adapterP);
-            } else {
-                tv_positionsList.setEnabled(false);
-                text_positions.setEnabled(false);
-                text_positions.setText("");
-            }
         }
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
@@ -349,11 +261,14 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
         inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
 
-        Button btnPositions = (Button) findViewById(R.id.btnPositionOpen);// on click of button display the dialog
-        btnPositions.setOnClickListener(new View.OnClickListener() {
+        tv_positionButton = (Button)findViewById(R.id.btnPositionOpen);
+        tv_positionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show();
+
+                Intent intent = new Intent(getApplicationContext(), EditPosition_Activity.class);
+                intent.putExtra("id", playerID);
+                startActivityForResult(intent, EDIT_POSITION);
             }
         });
     }
@@ -453,30 +368,15 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     return false;
                 }
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,playerPositionsActuals);
+                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,null);
                 boolean corrected = false;
                 //insert/update database
                 try {
                     if(playerID > 0){
                         player_dao.update(player);
-                        for(PlayerPosition pp : playerPositionsActuals){
-                            try {
-                                long x = playerPosition_dao.insert(pp);
-                                System.out.println(x);
-                            } catch (GenericDAOException e) {
-                                e.printStackTrace();
-                            }
-                        }
                         corrected = true;
                     } else {
                         player_dao.insert(player);
-                        for(PlayerPosition pp : playerPositionsActuals) {
-                            try {
-                                playerPosition_dao.insert(pp);
-                            } catch (GenericDAOException e) {
-                                e.printStackTrace();
-                            }
-                        }
                         corrected = true;
                     }
                 }catch (GenericDAOException ex){
@@ -693,95 +593,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
     }
 
-    public void show()
-    {
-        final Dialog d = new Dialog(Player_Activity_Edit.this);
-        d.setTitle("Position Chooser");
-        d.setContentView(R.layout.position_chose);
-        Button bSet= (Button) d.findViewById(R.id.buttonSet);
-        Button bCancel = (Button) d.findViewById(R.id.buttonCancel);
-        np = (NumberPicker) d.findViewById(R.id.valueToPositions);
-        selectedPositions = (Spinner) d.findViewById(R.id.spinnerPositionsToAdd);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, positionsAvail);
-        selectedPositions.setAdapter(adapter);
-
-        np.setMaxValue(10); // max value 100
-        np.setMinValue(0);   // min value 0
-        np.setWrapSelectorWheel(false);
-        //np.setOnValueChangedListener(this);
-
-        bSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String positionToAdd = (String) selectedPositions.getSelectedItem();
-                int valueToPosition = np.getValue();
-                List<Position> positionFromDB = null;
-                try {
-                    positionFromDB = position_dao.getByCriteria(new Position(positionToAdd));
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
-                if (positionFromDB.size() > 0) {
-                    PlayerPosition pp = new PlayerPosition(player, positionFromDB.get(0), valueToPosition);
-                    playerPositionsActuals.add(pp);
-                    playerPositionsActualsString.add(0,pp.toString());
-                    positionsAvail.remove(positionToAdd);
-
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                            R.layout.player_listview_for_positions, playerPositionsActualsString);
-                    tv_positionsList.setEnabled(true);
-                    text_positions.setEnabled(true);
-                    text_positions.setText("Positions");
-                    tv_positionsList.setAdapter(adapter);
-
-                }
-
-                d.dismiss();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_POSITION) {
+            if(resultCode == 1){
+                Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
             }
-        });
-
-        bCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-        d.show();
-
-    }
-
-    public void removeSelected(){
-        if (selectedPosition != null) {
-            String[] compositeOfPosition = selectedPosition.split(" - ");
-            positionsAvail.add(compositeOfPosition[0]);
-            List<Position> position = null;
-            try {
-                position = position_dao.getByCriteria(new Position(compositeOfPosition[0]));
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
-            }
-            if (position.size() > 0) {
-                //TODO: ir buscar primeiro e depois remover para ter o ID
-                PlayerPosition ppToRemove = new PlayerPosition(player, position.get(0), Integer.parseInt(compositeOfPosition[1]));
-                try {
-                    playerPosition_dao.delete(ppToRemove);
-                    playerPositionsActualsString.remove(compositeOfPosition);
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            //if(selectedPosition==null)
-            //    selectedPosition =  (Spinner) d.findViewById(R.id.spinnerPositionsToAdd);
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                    R.layout.player_listview_for_positions, playerPositionsActualsString);
-            tv_positionsList.setAdapter(adapter);
-            //ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
-            //        R.layout.player_listview_for_positions, positionsAvail);
-            //selectedPositions.setAdapter(adapter2);
         }
     }
 
