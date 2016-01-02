@@ -25,6 +25,7 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -125,7 +126,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
         tv_positionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                     public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
-                                                        selectedPosition = (String) adapter.getSelectedItem();
+                                                        if(position>=0)
+                                                            selectedPosition = (String) tv_positionsList.getItemAtPosition(position);
                                                     }
                                                 });
 
@@ -298,30 +300,31 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 positionsAll.remove(pp.getPosition().toString());
             }
 
-            ArrayList<String> forAdapter = new ArrayList<>();
             playerPositionsActualsString = new ArrayList<>();
+            ArrayList<String> toAdapter = new ArrayList<>();
 
             positionsAvail = new ArrayList<>();
-            for(String s : positionsAll)
+            for(String s : positionsAll){
                 positionsAvail.add(s);
+            }
 
             for(PlayerPosition pp : ppFoundFromThisPlayer){
                 playerPositionsActuals.add(pp);
                 if(pp.getPosition()!=null){
                     if(positionsAvail.contains(pp.getPosition().getName())){
-                        positionsAvail.remove(pp.getPosition());
+                        positionsAvail.remove(pp.getPosition().getName());
                     }
                 }
-                forAdapter.add(pp.toString());
+                toAdapter.add(pp.toString());
             }
 
-            if(forAdapter.size()>0) {
+            if(positionsAvail.size()>0) {
                 tv_positionsList.setEnabled(true);
                 text_positions.setEnabled(true);
                 text_positions.setText("Positions");
 
                 ArrayAdapter<String> adapterP = new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1, forAdapter);
+                        android.R.layout.simple_list_item_1, toAdapter);
                 tv_positionsList.setAdapter(adapterP);
             } else {
                 tv_positionsList.setEnabled(false);
@@ -760,13 +763,25 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
             if (position.size() > 0) {
+                //TODO: ir buscar primeiro e depois remover para ter o ID
                 PlayerPosition ppToRemove = new PlayerPosition(player, position.get(0), Integer.parseInt(compositeOfPosition[1]));
                 try {
                     playerPosition_dao.delete(ppToRemove);
+                    playerPositionsActualsString.remove(compositeOfPosition);
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
             }
+
+            //if(selectedPosition==null)
+            //    selectedPosition =  (Spinner) d.findViewById(R.id.spinnerPositionsToAdd);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.player_listview_for_positions, playerPositionsActualsString);
+            tv_positionsList.setAdapter(adapter);
+            //ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
+            //        R.layout.player_listview_for_positions, positionsAvail);
+            //selectedPositions.setAdapter(adapter2);
         }
     }
 

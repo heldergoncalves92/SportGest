@@ -85,17 +85,16 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_create_user_password2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <ImageButton
                     android:id="@+id/squad"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_group_add_black_24dp" />
 
             </android.support.design.widget.TextInputLayout>
-
-
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_create_user_email"
@@ -121,7 +120,7 @@
 
                 <Button
                     android:id="@+id/btnSelectPhoto"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Select Photo" />
 

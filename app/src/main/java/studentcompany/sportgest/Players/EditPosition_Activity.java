@@ -31,7 +31,7 @@ import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Role;
 import studentcompany.sportgest.domains.Team;
 
-public class EditSquad_Activity extends AppCompatActivity{
+public class EditPosition_Activity extends AppCompatActivity{
 
     //DAOs
     private Team_DAO team_dao;
@@ -44,10 +44,10 @@ public class EditSquad_Activity extends AppCompatActivity{
     private ListView tv_squad_list;
 
     private boolean changedSquad = false;
-    ArrayList<Player> listOutOfTheTeam;
-    ArrayList<Player> listInTheTeam;
-    ArrayList<Player> allPlayers;
-    ArrayList<Player> originalPlayersInTheTeam;
+    ArrayList<PlayerPosition> listOutOfThePlayer;
+    ArrayList<PlayerPosition> listInThePlayer;
+    ArrayList<Position> allPositions;
+    ArrayList<PlayerPosition> originalPositionsInThePlayer;
 
     Button btnRemoveSelected;
     Button btnAddSelected;
@@ -57,7 +57,7 @@ public class EditSquad_Activity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_squad);
+        setContentView(R.layout.position_chose);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
@@ -130,7 +130,7 @@ public class EditSquad_Activity extends AppCompatActivity{
 
             tv_squad_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
-                        selectedPlayerPosition=position;
+                    selectedPlayerPosition=position;
                 }
             });
 

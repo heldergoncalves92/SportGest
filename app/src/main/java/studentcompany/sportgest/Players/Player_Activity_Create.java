@@ -359,7 +359,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
             inputLayoutNumber.setError(getString(R.string.err_height_invalid));
             return false;
         }
-        if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
+        if (pw.isEmpty() || (pw.length() >= 1 && pw.length()<4)) {
             int hg = -1;
             try {
                 hg = Integer.parseInt(pw);
@@ -369,7 +369,6 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
             }
             if(!(hg<200 && hg>0)){
                 inputLayoutHeight.setError(getString(R.string.err_height_invalid));
-                //requestFocus(inputLayoutPassword);
                 return false;
             }
         }
