@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -69,7 +71,19 @@ public class DetailsUser_Fragment extends Fragment {
             et_team.setText("");
 
         //et_photo.setImageURI(Uri.parse(user.getPhoto()));
-        et_photo.setImageBitmap(getImageBitmap(this.getContext(),user.getPhoto()));
+        String pho = user.getPhoto();
+        if(pho == null)
+            {
+                Drawable myDrawable;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myDrawable = getResources().getDrawable(R.drawable.lego_face, getContext().getTheme());
+                } else {
+                    myDrawable = getResources().getDrawable(R.drawable.lego_face);
+                }
+             et_photo.setImageDrawable(myDrawable);
+            }
+        else
+            et_photo.setImageBitmap(getImageBitmap(this.getContext(),pho));
     }
 
     public void clearDetails(){

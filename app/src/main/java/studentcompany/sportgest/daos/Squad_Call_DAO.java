@@ -12,6 +12,7 @@ import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Team;
 
 public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGenericPairDAO<Player,Game> {
     //Database name
@@ -130,5 +131,41 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     @Override
     public boolean exists(Pair<Player, Game> object) throws GenericDAOException {
         return false;
+    }
+
+    public List<Player> getPlayersBy_GameID(long gameId) throws GenericDAOException{
+
+        int number;
+        long id,team;
+        String nickname, name, photo;
+        ArrayList<Player> players = null;
+
+        String sql = "SELECT * FROM " + Player_DAO.TABLE_NAME + " AS PL, " + Squad_Call_DAO.TABLE_NAME
+                + " AS SQ WHERE SQ." + Squad_Call_DAO.COLUMN_GAME_ID + "=" + gameId
+                + " AND SQ." + Squad_Call_DAO.COLUMN_PLAYER_ID + "=PL." + Player_DAO.COLUMN_ID;
+
+        //Query
+        Cursor res = db.rawQuery(sql, null);
+        res.moveToFirst();
+
+        if(res.isAfterLast() == false){
+            players = new ArrayList<Player>();
+
+            //Parse data
+            while(res.isAfterLast() == false) {
+                id = res.getLong(res.getColumnIndex(Player_DAO.COLUMN_ID));
+                nickname = res.getString(res.getColumnIndex(Player_DAO.COLUMN_NICKNAME));
+                name = res.getString(res.getColumnIndex(Player_DAO.COLUMN_NAME));
+                photo= res.getString(res.getColumnIndex(Player_DAO.COLUMN_PHOTO));
+                number= res.getInt(res.getColumnIndex(Player_DAO.COLUMN_NUMBER));
+                team=res.getLong(res.getColumnIndex(Player_DAO.COLUMN_TEAM_ID));
+
+
+                players.add(new Player(id,nickname,name,"","","",0,0,"","",photo,"","",number, new Team(team),null));
+                res.moveToNext();
+            }
+        }
+
+        return players;
     }
 }

@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/input_details_user_photo"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center"
             android:src="@drawable/lego_face"/>

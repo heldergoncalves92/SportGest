@@ -7,8 +7,7 @@
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingLeft="5dp">
+    android:layout_height="fill_parent">
 
     <!--
     <FrameLayout
@@ -36,46 +35,64 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/viewImage"
-                android:layout_width="200px"
-                android:layout_height="200px"/>
 
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/input_create_user_photo"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:inputType="textNoSuggestions"
-                android:hint="@string/userPhoto" />
-            <Button
-                android:id="@+id/btnSelectPhoto"
-                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/viewImage"
+                    android:layout_width="200px"
+                    android:layout_height="200px"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Photo" />
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
+                <EditText
+                    android:id="@+id/input_create_user_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/userPhoto" />
+                <Button
+                    android:id="@+id/btnSelectPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Photo" />
 
-        </LinearLayout>
+            </LinearLayout>
+
+    </LinearLayout>
 
 
-
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_create_user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_name"
@@ -91,7 +108,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_create_user_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_username"
@@ -99,29 +117,34 @@
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/userUsername" />
-z
+
         </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_create_user_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/input_create_user_email"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_create_user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/userEmail" />
+                android:paddingLeft="5dp">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/input_create_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/userEmail" />
 
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+</LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_create_user_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_password"
@@ -136,7 +159,8 @@ z
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_create_user_password2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_password2"
@@ -149,11 +173,11 @@ z
 
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_role"
@@ -176,7 +200,8 @@ z
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
 
             <EditText
                 android:id="@+id/input_create_user_team"

@@ -53,10 +53,11 @@ public class ListUser_Fragment extends ListFragment {
 
     public void setList(List<User> list){
         this.list = list;
-        try{getListView().invalidateViews();}
-        catch (Exception e){
+    }
 
-        }
+    public void updateList(User u){
+        this.list.add(u);
+        getListView().invalidateViews();
     }
 
     public void removeItem(int position){

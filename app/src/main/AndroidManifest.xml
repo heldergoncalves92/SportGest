@@ -48,6 +48,12 @@
             android:name=".Team.CreateTeam_Activity"
             android:label="@string/app_newTeam" />
         <activity
+            android:name=".Games.GameTest_Activity"
+            android:label="@string/app_gameTest" />
+        <activity
+            android:name=".Exercises.CreateExerciseActivity" />
+
+        <activity
             android:name=".Games.CallSquad_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -74,9 +80,7 @@
         <activity
             android:name=".Attributes.CreateAttributeActivity"
             android:label="@string/app_newAttribute" />
-        <activity
-            android:name=".Exercises.CreateExerciseActivity"
-            android:label="@string/app_newExercise" />
+
         <activity
             android:name=".Trainings.CreateTrainingActivity"
             android:label="@string/app_newTraining" />
@@ -87,6 +91,9 @@
         <activity android:name=".Roles.Role_Activity_Create"></activity>
         <activity android:name=".Team.EditSquad_Activity"></activity>
         <activity android:name=".Players.EditPosition_Activity"/>
+        <activity
+            android:name=".Games.Game_Activity_GameMode"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
