@@ -47,13 +47,14 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     private final String FILENAME_COUNTRIES = "";
     private final String FILENAME_GENDERS = "";
     private final String FILENAME_MARITALSTATUS = "";
+    private final String FILENAME_POSITIONS = "";
 
     private ImageButton btnCalendar;
     private TextView txtDate;
     private int mYear, mMonth, mDay;
+    private int selectedYear, selectedMonth, selectedDay;
 
     private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
-    private TextView tv_birthday;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
 
     @Override
@@ -81,7 +82,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
         Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
         tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-        Spinner tv_position = (Spinner) findViewById(R.id.position);
+        //Spinner tv_position = (Spinner) findViewById(R.id.position);
 
 
         ArrayList<String> gendersList = new ArrayList<>();
@@ -106,20 +107,30 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
         }
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, gendersList);
+                android.R.layout.simple_list_item_1, gendersList);
         tv_gender.setAdapter(adapter1);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, countries_array);
+                android.R.layout.simple_list_item_1, countries_array);
         tv_nationality.setAdapter(adapter2);
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, marital_array);
+                android.R.layout.simple_list_item_1, marital_array);
         tv_maritalStatus.setAdapter(adapter3);
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, preferredList);
+                android.R.layout.simple_list_item_1, preferredList);
         tv_preferredFoot.setAdapter(adapter4);
         ArrayAdapter<String> adapter5 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, positionsList);
-        tv_position.setAdapter(adapter5);
+                android.R.layout.simple_list_item_1, positionsList);
+
+        /*if(positionsList.size()>0)
+            tv_position.setAdapter(adapter5);
+        else {
+            String[] positions_array = res.getStringArray(R.array.positions_array);
+            ArrayAdapter<String> adapter6 = new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, positions_array);
+            tv_position.setAdapter(adapter6);
+        }*/
+
+        tv_nationality.setAdapter(adapter2);
 
         tv_nickname.addTextChangedListener(new MyTextWatcher(tv_nickname));
         tv_name.addTextChangedListener(new MyTextWatcher(tv_name));
@@ -130,7 +141,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
         tv_number.addTextChangedListener(new MyTextWatcher(tv_number));
 
         inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
-        inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
+        inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayout_create_player_Name);
         inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
         inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
         inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
@@ -156,6 +167,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
         {
             //add action
             case R.id.Add:
+                boolean okUntilNow = true;
                  tv_nickname = (EditText) findViewById(R.id.nickname);
                  tv_name = (EditText) findViewById(R.id.name);
                 Spinner tv_nationality = (Spinner) findViewById(R.id.nationality);
@@ -168,7 +180,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
                  tv_number = (EditText) findViewById(R.id.number);
                 ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-                Spinner tv_position = (Spinner) findViewById(R.id.position);
+                //Spinner tv_position = (Spinner) findViewById(R.id.position);
 
                 String nickname = tv_nickname.getText().toString();
                 String name = tv_name.getText().toString();
@@ -176,12 +188,19 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus=tv_maritalStatus.getSelectedItem().toString();
-                String birthday = mYear+"-"+mMonth+"-"+mDay;
+                String birthday = selectedYear+"-"+selectedMonth+"-"+selectedDay;
                 int height = -1;
                 try {
                     height = Integer.parseInt(tv_height.getText().toString());
-                } catch (NumberFormatException ex){}
-                float weight = Float.parseFloat(tv_weight.getText().toString());
+                } catch (NumberFormatException ex){
+                    okUntilNow=false;
+                }
+                float weight = -1;
+                try {
+                     weight = Float.parseFloat(tv_weight.getText().toString());
+                } catch (NumberFormatException ex){
+                    okUntilNow=false;
+                }
                 String address = tv_address.getText().toString();
                 String gender = "";
                 if(tv_gender.getSelectedItem()!=null)
@@ -190,13 +209,18 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 String preferredFoot = "";
                 if(tv_preferredFoot.getSelectedItem()!=null)
                     preferredFoot = tv_preferredFoot.getSelectedItem().toString();
-                int number = Integer.parseInt(tv_number.getText().toString());
+                int number = -1;
+                try {
+                    number = Integer.parseInt(tv_number.getText().toString());
+                } catch (NumberFormatException ex) {
+                    okUntilNow=false;
+                }
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String photo = tv_photo.get
                 String photo="";
-                Position position = null;
+                /*String positionStr = null;
                 if(tv_position.getSelectedItem()!=null)
-                    position = (Position) tv_position.getSelectedItem();
+                    positionStr = (String) tv_position.getSelectedItem();*/
 
                 boolean ok = false;
                 if (validateName())
@@ -208,23 +232,57 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                                         if (validateNumber())
                                             ok = true;
 
-                if (!ok)
+                /*if(!okUntilNow){
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();
                     return false;
+                }*/
 
-                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, null, position);
+                if (!ok) {
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
+                    return false;
+                }
+
+                /*
+                Position toSearch = new Position(positionStr);
+                List<Position> positionsList = null;
+                Position position = null;
+                try {
+                    positionsList = position_dao.getByCriteria(toSearch);
+                    if(positionsList.size()>0){
+                        position = positionsList.get(0);
+                    } else {
+                        position_dao.insert(new Position(positionStr));
+                        positionsList = position_dao.getByCriteria(toSearch);
+                        if (positionsList.size() > 0) {
+                            position = positionsList.get(0);
+                        }
+                    }
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+*/
+                //TODO: isto
+
+                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number,null,null);
+                boolean corrected = false;
 
                 //insert
                 try {
                     playerID = player_dao.insert(player);
-                    System.out.println("INSERIDO");
+                    if(playerID>0)
+                        corrected = true;
                 } catch (GenericDAOException ex) {
-                    System.err.println(Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(studentcompany.sportgest.Players.Player_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(studentcompany.sportgest.Players.Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();
                 intent.putExtra("id", playerID);
-                setResult(1, intent);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
             default:
@@ -274,6 +332,8 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateNickname() {
+        if(inputLayoutNickname==null)
+            inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
         String pw = tv_nickname.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutNickname.setError(getString(R.string.err_nickname_short));
@@ -285,8 +345,11 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateName() {
+        if(inputLayoutName==null)
+            inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
         String pw = tv_name.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 6) {
+            inputLayoutName.setErrorEnabled(true);
             inputLayoutName.setError(getString(R.string.err_name_short));
             //requestFocus(inputLayoutPassword);
             return false;
@@ -296,12 +359,23 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateHeight() {
+        if(inputLayoutHeight==null)
+            inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
         String pw = tv_height.getText().toString().trim();
-        if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int hg = Integer.parseInt(pw);
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_height_invalid));
+            return false;
+        }
+        if (pw.isEmpty() || (pw.length() >= 1 && pw.length()<4)) {
+            int hg = -1;
+            if(isNumericInt(pw)){
+                hg = Integer.parseInt(pw);
+            } else {
+                inputLayoutHeight.setError(getString(R.string.err_height_invalid));
+                return false;
+            }
             if(!(hg<200 && hg>0)){
                 inputLayoutHeight.setError(getString(R.string.err_height_invalid));
-                //requestFocus(inputLayoutPassword);
                 return false;
             }
         }
@@ -310,9 +384,21 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateWeight() {
+        if(inputLayoutWeight==null)
+            inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
         String pw = tv_weight.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_weight_invalid));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
-            float wg = Float.parseFloat(pw);
+            float wg = -1f;
+            if(isNumericFloat(pw)){
+                wg = Float.parseFloat(pw);
+            } else {
+                inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
+                return false;
+            }
             if(!(wg>0)){
                 inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
                 //requestFocus(inputLayoutPassword);
@@ -324,6 +410,8 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateAddress() {
+        if(inputLayoutAddress==null)
+            inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
         String pw = tv_address.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutAddress.setError(getString(R.string.err_address_short));
@@ -335,7 +423,8 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateEmail() {
-
+        if(inputLayoutEmail==null)
+            inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
         String pw = tv_email.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -351,9 +440,21 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     }
 
     private boolean validateNumber() {
+        if(inputLayoutNumber==null)
+            inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
         String pw = tv_number.getText().toString().trim();
+        if(!pw.matches("\\d+(\\.\\d+)?")){
+            inputLayoutNumber.setError(getString(R.string.err_number));
+            return false;
+        }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
-            int nb = Integer.parseInt(pw);
+            int nb = -1;
+            if(isNumericInt(pw)){
+                nb = Integer.parseInt(pw);
+            } else {
+                inputLayoutNumber.setError(getString(R.string.err_number));
+                return false;
+            }
             if(!(nb<100 && nb>0)){
                 inputLayoutNumber.setError(getString(R.string.err_number));
                 //requestFocus(inputLayoutPassword);
@@ -384,11 +485,40 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                             // Display Selected date in textbox
                             //txtDate.setText(dayOfMonth + "-"
                             //        + (monthOfYear + 1) + "-" + year);
-                            txtDate.setText(Integer.toString(mYear)+"-"+Integer.toString(mMonth)+"-"+Integer.toString(mDay));
+                            txtDate.setText(Integer.toString(year)+"-"+Integer.toString(monthOfYear+1)+"-"+Integer.toString(dayOfMonth));
+                            selectedDay = dayOfMonth;
+                            selectedMonth = monthOfYear+1;
+                            selectedYear = year;
 
                         }
                     }, mYear, mMonth, mDay);
             dpd.show();
         }
+    }
+
+    public static boolean isNumericInt(String str)
+    {
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumericFloat(String str)
+    {
+        try
+        {
+            float d = Float.parseFloat(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }

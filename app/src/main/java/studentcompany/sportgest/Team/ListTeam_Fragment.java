@@ -43,7 +43,7 @@ public class ListTeam_Fragment extends ListFragment {
 
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_user_list, list));
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_team_list, list));
 
 
         // Set the list choice mode to allow only one selection at a time

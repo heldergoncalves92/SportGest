@@ -1,397 +1,405 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/create_exercise_toolbar"
-            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="right">
+        <!--
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="41dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:layout_weight="0.11">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="466dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right">
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/lego_face"/>
+        </FrameLayout>
+        -->
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
-
-                    <FrameLayout
-                        android:layout_width="145dp"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/photo"
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/lego_face"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="31dp"
-                        android:layout_height="142dp"></FrameLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutNickname"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    android:layout_height="match_parent">
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="textPersonName"
-                        android:ems="10"
                         android:id="@+id/nickname"
-                        android:hint="@string/playerNickname"
-                        android:autoText="false"
-                        android:editable="true"
-                        android:elegantTextHeight="true" />
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerNickname" />
 
                 </LinearLayout>
 
+            </android.support.design.widget.TextInputLayout>
 
-                <View
-                    android:id="@+id/SplitLine_hor0"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+
+
+
+
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayout_create_player_Name"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/inputLayoutName">
+                        android:layout_height="wrap_content">
 
                     <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
                         android:id="@+id/name"
-                        android:hint="@string/playerName"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerName" />
 
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/SplitLine_hor2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nationality"
+                        android:id="@+id/textView3" />
 
                     <Spinner
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
                         android:id="@+id/nationality"
-                        android:hint="@string/playerNationality"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor3"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <Spinner
-                        android:layout_width="268dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/maritalstatus"
-                        android:hint="@string/maritalstatus"
-                        android:layout_gravity="center_horizontal" />
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerNationality" />
 
                 </LinearLayout>
 
+            </android.support.design.widget.TextInputLayout>
 
-                <View
-                    android:id="@+id/SplitLine_hor4"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="81dp"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/birthday"
-                            android:hint="@string/playerBirthday"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_event_black_24dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="date"
-                            android:id="@+id/txtDate"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor5"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
+                    android:layout_height="match_parent">
+
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
+                    android:text="Marital Status"
+                    android:id="@+id/textView4" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutHeight"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                <Spinner
+                    android:id="@+id/maritalstatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/maritalstatus" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_create_user_password2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Birthday Date"
+                        android:id="@+id/textView32" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/birthday"
+                        android:hint="@string/playerBirthday"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_event_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="date"
+                        android:id="@+id/txtDate"
+                        android:layout_marginLeft="10dp" />
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
                         android:id="@+id/height"
-                        android:hint="@string/playerHeight"
-                        android:layout_gravity="center_horizontal" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor6"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutWeight"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:id="@+id/weight"
-                        android:hint="@string/playerWeight"
-                        android:layout_gravity="center_horizontal" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor7"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/address"
-                        android:hint="@string/playerAddress"
-                        android:layout_gravity="center_horizontal" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor8"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-
-                    <Spinner
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/gender"
-                        android:hint="@string/playerGender"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor9"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <EditText
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="textWebEmailAddress"
-                        android:id="@+id/email"
-                        android:hint="@string/playerEmail"
-                        android:layout_gravity="center_horizontal" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor10"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <Spinner
-                        android:layout_width="268dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/preferredfoot"
-                        android:hint="@string/playerPreferredFoot"
-                        android:layout_gravity="center_horizontal" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/SplitLine_hor11"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/inputLayoutNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <EditText
-                        android:layout_width="268dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:id="@+id/number"
-                        android:hint="@string/playerNumber"
-                        android:layout_gravity="center_horizontal" />
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:hint="@string/playerHeight" />
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/SplitLine_hor12"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5pt"
-                    android:background="@android:color/darker_gray"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    <Spinner
-                        android:layout_width="268dp"
+                    <EditText
+                        android:id="@+id/weight"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/position"
-                        android:hint="@string/playerPosition"
-                        android:layout_gravity="center_horizontal" />
+                        android:inputType="number"
+                        android:hint="@string/playerWeight" />
 
                 </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerAddress" />
+
+                </LinearLayout>
+
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:id="@+id/textView5" />
+
+                <Spinner
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/playerGender" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:hint="@string/playerEmail" />
+
+                </LinearLayout>
+
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preferred Foot"
+                    android:id="@+id/textView6" />
+
+                <Spinner
+                    android:id="@+id/preferredfoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/playerPreferredFoot" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/playerNumber" />
+
+               </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+<!--
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Position"
+                    android:id="@+id/textView7" />
+
+                <Spinner
+                    android:id="@+id/position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/playerPosition" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp" >
+
+                <Button
+                    android:id="@+id/btnSelectPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Photo" />
 
             </LinearLayout>
 
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" >
 
-    </ScrollView>
+                <ImageView
+                    android:id="@+id/viewImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-</LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -30,7 +30,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
 
     private Team_DAO teamDao;
     private List<Team> teams;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
@@ -114,6 +114,8 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
+        item = mOptionsMenu.findItem(R.id.action_edit);
+        item.setVisible(false);
 
         if(teams.isEmpty())
             noElems();
@@ -129,7 +131,6 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
-
                 item = mOptionsMenu.findItem(R.id.action_edit);
                 item.setVisible(true);
             }
@@ -194,7 +195,10 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         if(currentPos != -1) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
-            mDetailsTeam.showTeam(teams.get(currentPos));
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(true);
+            if(teams.size()>0)
+                mDetailsTeam.showTeam(teams.get(currentPos));
         }
         return true;
     }
@@ -277,6 +281,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                     e.printStackTrace();
                 }
             }
+            if(resultCode == 2){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
         }
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
@@ -292,6 +299,9 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+            }
+            if(resultCode == 2){
+                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
             }
         }
     }

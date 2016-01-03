@@ -5,10 +5,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,63 +26,118 @@ import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.PlayerPosition;
+import studentcompany.sportgest.domains.Position;
+import studentcompany.sportgest.domains.Role;
 import studentcompany.sportgest.domains.Team;
 
-public class EditSquad_Activity extends AppCompatActivity {
+public class EditSquad_Activity extends AppCompatActivity{
 
     //DAOs
     private Team_DAO team_dao;
+    private Player_DAO player_dao;
 
     Team team = null;
     int teamID = -1;
 
+    private Spinner tv_player_select;
+    private ListView tv_squad_list;
+
+    private boolean changedSquad = false;
+    ArrayList<Player> listOutOfTheTeam;
+    ArrayList<Player> listInTheTeam;
+    ArrayList<Player> allPlayers;
+    ArrayList<Player> originalPlayersInTheTeam;
+
+    Button btnRemoveSelected;
+    Button btnAddSelected;
+
+    int selectedPlayerPosition=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_team);
+        setContentView(R.layout.activity_edit_squad);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
             teamID = b.getInt("id");
         }
 
-        EditText tv_name = (EditText) findViewById(R.id.name);
-        EditText tv_description = (EditText) findViewById(R.id.description);
-        EditText tv_season = (EditText) findViewById(R.id.season);
-        CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
-        ImageView tv_logo = (ImageView) findViewById(R.id.logo);
+        tv_player_select = (Spinner) findViewById(R.id.team_edit_squad_player_select);
+        tv_squad_list = (ListView) findViewById(R.id.team_edit_squad_list);
+        btnRemoveSelected = (Button) findViewById(R.id.btnRemoveSelected);
+        btnAddSelected = (Button) findViewById(R.id.btnAddSelected);
 
-        Team teamFromDB=null;
+
         team_dao = new Team_DAO(this);
+        player_dao = new Player_DAO(this);
 
         try {
-            teamFromDB = team_dao.getById(teamID);
+            team = team_dao.getById(teamID);
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
-        if (teamFromDB!=null){
-            if(teamFromDB.getName()!=null)
-                tv_name.setText(teamFromDB.getName());
-            else
-                tv_name.setText("");
-            if(teamFromDB.getDescription()!=null)
-                tv_description.setText(teamFromDB.getDescription());
-            else
-                tv_description.setText("");
-            if(teamFromDB.getSeason()!=-1)
-                tv_season.setText(Integer.toString(teamFromDB.getSeason()));
-            else
-                tv_season.setText("");
-            if(teamFromDB.getIs_com()!=-1)
-                tv_iscon.setSelected(teamFromDB.getIs_com() == 1);
-            else
-                tv_iscon.setSelected(false);
-            //TODO: por a imagem a aparecer
-            //if(teamFromDB.getLogo()!=null)
+        if(team != null){
+            List<Player> allPlayersTmp = null;
+
+            try {
+                allPlayersTmp = player_dao.getAll();
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+
+            listOutOfTheTeam = new ArrayList<>();
+            listInTheTeam = new ArrayList<>();
+            allPlayers = new ArrayList<>();
+            originalPlayersInTheTeam = new ArrayList<>();
+
+            for(Player p : allPlayersTmp){
+                if(p.getTeam()!=null){
+                    int teamIDOfThisPlayer = (int)(p.getTeam().getId()+0);
+                    if(teamIDOfThisPlayer==teamID){
+                        listInTheTeam.add(p);
+                        originalPlayersInTheTeam.add(p);
+                    }
+                    else {
+                        listOutOfTheTeam.add(p);
+                    }
+                }
+                else {
+                    listOutOfTheTeam.add(p);
+                }
+            }
+
+            ArrayAdapter<Player> playersOutOfTheTeam = new ArrayAdapter<Player>(this,android.R.layout.simple_list_item_1, listOutOfTheTeam);
+            ArrayAdapter<Player> playersInTheTeam = new ArrayAdapter<Player>(this,R.layout.player_listview_for_positions, listInTheTeam);
+
+            tv_player_select.setAdapter(playersOutOfTheTeam);
+            tv_squad_list.setAdapter(playersInTheTeam);
+
+            btnRemoveSelected.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeSelected();
+                }
+            });
+
+            btnAddSelected.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addSelected();
+                }
+            });
+
+            tv_squad_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                        selectedPlayerPosition=position;
+                }
+            });
 
         }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,9 +146,11 @@ public class EditSquad_Activity extends AppCompatActivity {
         MenuItem editItem = menu.findItem(R.id.Edit);
         MenuItem delItem = menu.findItem(R.id.Delete);
         MenuItem addItem = menu.findItem(R.id.Add);
+        MenuItem saveItem = menu.findItem(R.id.Save);
         editItem.setVisible(true);
         delItem.setVisible(false);
-        addItem.setVisible(true);
+        addItem.setVisible(false);
+        saveItem.setVisible(false);
 
         return true;
     }
@@ -98,35 +164,26 @@ public class EditSquad_Activity extends AppCompatActivity {
             //add action
             case R.id.Edit:
 
-                EditText tv_name = (EditText) findViewById(R.id.name);
-                EditText tv_description = (EditText) findViewById(R.id.description);
-                EditText tv_season = (EditText) findViewById(R.id.season);
-                CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
-                ImageView tv_logo = (ImageView) findViewById(R.id.logo);
-
-                String name = tv_name.getText().toString();
-                String description = tv_description.getText().toString();
-                int season = Integer.parseInt(tv_season.getText().toString());
-                int isCom = tv_iscon.isChecked()?1:0;
-                //ups vai estar a imagem em bitmap ou o path para ela?
-                //String logo = tv_photo.get
-                String logo="";
-
-                team=new Team(teamID, name, description, logo, season, isCom);
-
-                //insert/update database
-                try {
-                    if(teamID > 0){
-                        team_dao.update(team);
-                    } else {
-                        team_dao.insert(team);
+                for(Player p : originalPlayersInTheTeam){
+                    p.setTeam(null);
+                    try {
+                        player_dao.update(p);
+                    } catch (GenericDAOException e) {
+                        e.printStackTrace();
                     }
-                }catch (GenericDAOException ex){
-                    System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
                 }
+
+                for(Player p : listInTheTeam){
+                    p.setTeam(team);
+                    try {
+                        player_dao.update(p);
+                    } catch (GenericDAOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 Intent intent = new Intent();
-                setResult(1,intent);
+                setResult(changedSquad?1:0,intent);
                 finish();
                 return true;
             default:
@@ -137,7 +194,37 @@ public class EditSquad_Activity extends AppCompatActivity {
     @Override
     public void onStop(){
         super.onStop();
-
         setResult(0);
+    }
+
+    public void removeSelected(){
+        if (selectedPlayerPosition>=0 && selectedPlayerPosition < listInTheTeam.size()) {
+            Player change = listInTheTeam.remove(selectedPlayerPosition);
+            listOutOfTheTeam.add(change);
+
+            ArrayAdapter<Player> adapterOutOfTheTeam = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.player_listview_for_positions, listOutOfTheTeam);
+            ArrayAdapter<Player> adapterInTheTeam = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.player_listview_for_positions, listInTheTeam);
+
+            tv_squad_list.setAdapter(adapterInTheTeam);
+            tv_player_select.setAdapter(adapterOutOfTheTeam);
+        }
+    }
+
+    public void addSelected(){
+        if (tv_player_select.getSelectedItemPosition()>=0) {
+            Player change = (Player)tv_player_select.getSelectedItem();
+            listInTheTeam.add(change);
+            listOutOfTheTeam.remove(change);
+
+            ArrayAdapter<Player> adapterOutOfTheTeam = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.player_listview_for_positions, listOutOfTheTeam);
+            ArrayAdapter<Player> adapterInTheTeam = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.player_listview_for_positions, listInTheTeam);
+
+            tv_squad_list.setAdapter(adapterInTheTeam);
+            tv_player_select.setAdapter(adapterOutOfTheTeam);
+        }
     }
 }

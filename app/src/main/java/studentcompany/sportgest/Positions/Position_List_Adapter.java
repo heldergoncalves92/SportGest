@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Positions;
 
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -9,17 +9,13 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import studentcompany.sportgest.Positions.Position_Fragment_List;
-import studentcompany.sportgest.Positions.Position_List_Adapter;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Position;
 
-/**
- * Created by heldergoncalves on 27/12/15.
- */
-public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapter.ViewHolder> {
+public class Position_List_Adapter extends RecyclerView.Adapter<Position_List_Adapter.ViewHolder> {
 
-    private static Player_Fragment_List.OnItemSelected mListener;
-    private List<Player> mDataset;
+    private static Position_Fragment_List.OnItemSelected mListener;
+    private List<Position> mDataset;
 
 
     // Provide a reference to the views for each data item
@@ -45,7 +41,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener) {
+    public Position_List_Adapter(List<Position> myDataset, Position_Fragment_List.OnItemSelected mListener) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
@@ -53,7 +49,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Player_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public Position_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -71,11 +67,10 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        Player player = mDataset.get(position);
+        Position positionObj = mDataset.get(position);
 
-        if (player != null) {
-            //holder.mTextView_num.setText(String.valueOf(player.getNumber()));
-            holder.mTextView_name.setText(player.getName());
+        if (positionObj != null) {
+            holder.mTextView_name.setText(positionObj.getName());
 
         }
     }
