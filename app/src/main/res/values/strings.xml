@@ -130,7 +130,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="teamName">Name</string>
 
     <string name="err_password_match">Password do not match</string>
-    <string name="err_name_short">Name is short</string>
+    <string name="err_name_short">Name is too short</string>
     <string name="err_username_short">Username is short</string>
     <string name="err_valid_email">Email is not valid</string>
     <string name="err_address_short">Address is short</string>

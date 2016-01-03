@@ -303,7 +303,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 Spinner tv_preferredFoot = (Spinner) findViewById(R.id.preferredfoot);
                  tv_number = (EditText) findViewById(R.id.number);
                 ImageView tv_photo = (ImageView) findViewById(R.id.photo);
-                Spinner tv_position = (Spinner) findViewById(R.id.position);
+                //Spinner tv_position = (Spinner) findViewById(R.id.position);
 
                 String nickname = tv_nickname.getText().toString();
                 String name = tv_name.getText().toString();
@@ -435,6 +435,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateNickname() {
+        if(inputLayoutNickname==null)
+            inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
         String pw = tv_nickname.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutNickname.setError(getString(R.string.err_nickname_short));
@@ -445,6 +447,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateName() {
+        if(inputLayoutName==null)
+            inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
         String pw = tv_name.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 6) {
             inputLayoutName.setError(getString(R.string.err_name_short));
@@ -455,6 +459,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateHeight() {
+        if(inputLayoutHeight==null)
+            inputLayoutHeight = (TextInputLayout) findViewById(R.id.inputLayoutHeight);
         String pw = tv_height.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
             inputLayoutNumber.setError(getString(R.string.err_number));
@@ -462,9 +468,9 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int hg = -1;
-            try {
+            if (isNumericInt(pw)) {
                 hg = Integer.parseInt(pw);
-            } catch (NumberFormatException e){
+            } else {
                 inputLayoutHeight.setError(getString(R.string.err_height_invalid));
                 return false;
             }
@@ -479,6 +485,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateWeight() {
+        if(inputLayoutWeight==null)
+            inputLayoutWeight = (TextInputLayout) findViewById(R.id.inputLayoutWeight);
         String pw = tv_weight.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
             inputLayoutNumber.setError(getString(R.string.err_number));
@@ -486,9 +494,9 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<5)) {
             float wg = -1f;
-            try{
+            if(isNumericFloat(pw)){
                 wg = Float.parseFloat(pw);
-            } catch (NumberFormatException e){
+            } else {
                 inputLayoutWeight.setError(getString(R.string.err_weight_invalid));
                 return false;
             }
@@ -502,6 +510,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateAddress() {
+        if(inputLayoutAddress==null)
+            inputLayoutAddress = (TextInputLayout) findViewById(R.id.inputLayoutAddress);
         String pw = tv_address.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutAddress.setError(getString(R.string.err_address_short));
@@ -512,7 +522,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateEmail() {
-
+        if(inputLayoutEmail==null)
+            inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayoutEmail);
         String pw = tv_email.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -528,6 +539,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     }
 
     private boolean validateNumber() {
+        if(inputLayoutNumber==null)
+            inputLayoutNumber = (TextInputLayout) findViewById(R.id.inputLayoutNumber);
         String pw = tv_number.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
             inputLayoutNumber.setError(getString(R.string.err_number));
@@ -536,9 +549,9 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
-            try{
+            if(isNumericInt(pw)){
                 nb = Integer.parseInt(pw);
-            } catch (NumberFormatException e){
+            } else {
                 inputLayoutNumber.setError(getString(R.string.err_number));
                 return false;
             }
@@ -600,6 +613,32 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                 Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public static boolean isNumericInt(String str)
+    {
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumericFloat(String str)
+    {
+        try
+        {
+            float d = Float.parseFloat(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 
 }

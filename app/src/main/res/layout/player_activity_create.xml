@@ -45,13 +45,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nickname"
-                        android:id="@+id/textView51" />
-
                     <EditText
                         android:id="@+id/nickname"
                         android:layout_width="match_parent"
@@ -65,22 +58,17 @@
 
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/inputLayoutName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:id="@+id/textView52" />
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayout_create_player_Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/name"
@@ -89,9 +77,11 @@
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerName" />
 
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
 
-            </android.support.design.widget.TextInputLayout>
+
 
 
 
@@ -200,13 +190,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Height"
-                        android:id="@+id/textView30" />
-
                     <EditText
                         android:id="@+id/height"
                         android:layout_width="match_parent"
@@ -229,13 +212,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Weight"
-                        android:id="@+id/textView31" />
-
                     <EditText
                         android:id="@+id/weight"
                         android:layout_width="match_parent"
@@ -257,13 +233,6 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Address"
-                        android:id="@+id/textView33" />
 
                     <EditText
                         android:id="@+id/address"
@@ -315,13 +284,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:id="@+id/textView34" />
-
                     <EditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
@@ -372,13 +334,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Number"
-                    android:id="@+id/textView50" />
-
                 <EditText
                     android:id="@+id/number"
                     android:layout_width="match_parent"
@@ -390,7 +345,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-
+<!--
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -415,7 +370,7 @@
                 </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
-
+-->
 
             <LinearLayout
                 android:layout_width="match_parent"

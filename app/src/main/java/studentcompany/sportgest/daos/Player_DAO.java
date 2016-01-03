@@ -189,6 +189,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_NICKNAME,  object.getNickname());
         contentValues.put(COLUMN_NAME,  object.getName());
         contentValues.put(COLUMN_NATIONALITY,  object.getNationality());
+        contentValues.put(COLUMN_MARITAL_STATUS,  object.getMarital_status());
         contentValues.put(COLUMN_BIRTHDATE, object.getBirthDate());
         contentValues.put(COLUMN_HEIGHT, object.getHeight());
         contentValues.put(COLUMN_WEIGHT, object.getWeight());
@@ -224,6 +225,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, object.getId());
         contentValues.put(COLUMN_NICKNAME,  object.getNickname());
+        contentValues.put(COLUMN_MARITAL_STATUS,  object.getMarital_status());
         contentValues.put(COLUMN_NAME,  object.getName());
         contentValues.put(COLUMN_NATIONALITY,  object.getNationality());
         contentValues.put(COLUMN_BIRTHDATE, object.getBirthDate());
@@ -236,6 +238,8 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         contentValues.put(COLUMN_PREFERRED_FOOT, object.getNumber());
         if(object.getTeam()!=null)
             contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        else
+            contentValues.put(COLUMN_TEAM_ID, -1);
 
         db.update(TABLE_NAME,
                 contentValues,

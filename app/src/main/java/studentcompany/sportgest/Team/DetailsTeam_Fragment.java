@@ -81,7 +81,7 @@ public class DetailsTeam_Fragment extends Fragment {
             tv_logo.setImageURI(Uri.parse(""));
 
         boolean selected = team.getIs_com()==1;
-        tv_isCom.setSelected(selected);
+        tv_isCom.setChecked(selected);
 
         player_dao = new Player_DAO(getContext());
         Player playerToSearch = new Player(team);
@@ -112,7 +112,7 @@ public class DetailsTeam_Fragment extends Fragment {
         tv_name.setText("");
         tv_description.setText("");
         tv_season.setText("");
-        tv_isCom.setSelected(false);
+        tv_isCom.setChecked(false);
         tv_logo.setImageURI(Uri.parse("lego_face"));
         tv_squad.setAdapter(null);
         text_squad.setText("");

@@ -36,6 +36,7 @@ public class EditTeam_Activity extends AppCompatActivity {
     private EditText tv_name,tv_description,tv_season;
     private TextInputLayout inputLayoutName,inputLayoutDescription,inputLayoutSeason;
     private ImageButton tv_squad;
+    private CheckBox tv_isCon;
     private int EDIT_SQUAD = 20;
 
     @Override
@@ -51,8 +52,9 @@ public class EditTeam_Activity extends AppCompatActivity {
          tv_name = (EditText) findViewById(R.id.name);
          tv_description = (EditText) findViewById(R.id.description);
          tv_season = (EditText) findViewById(R.id.season);
+        tv_isCon = (CheckBox) findViewById(R.id.isCom);
 
-        CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
+        //CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
         ImageView tv_logo = (ImageView) findViewById(R.id.logo);
 
         Team teamFromDB=null;
@@ -76,10 +78,14 @@ public class EditTeam_Activity extends AppCompatActivity {
                 tv_season.setText(Integer.toString(teamFromDB.getSeason()));
             else
                 tv_season.setText("");
-            if(teamFromDB.getIs_com()!=-1)
-                tv_iscon.setSelected(teamFromDB.getIs_com() == 1);
+            if(teamFromDB.getIs_com()!=-1){
+                boolean val = false;
+                if(teamFromDB.getIs_com()==1)
+                    val = true;
+                tv_isCon.setChecked(val);
+            }
             else
-                tv_iscon.setSelected(false);
+                tv_isCon.setChecked(false);
             //TODO: por a imagem a aparecer
             //if(teamFromDB.getLogo()!=null)
 
@@ -128,13 +134,13 @@ public class EditTeam_Activity extends AppCompatActivity {
                  tv_name = (EditText) findViewById(R.id.name);
                  tv_description = (EditText) findViewById(R.id.description);
                  tv_season = (EditText) findViewById(R.id.season);
-                CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
+                //CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
                 ImageView tv_logo = (ImageView) findViewById(R.id.logo);
 
                 String name = tv_name.getText().toString();
                 String description = tv_description.getText().toString();
                 int season = Integer.parseInt(tv_season.getText().toString());
-                int isCom = tv_iscon.isChecked()?1:0;
+                int isCom = tv_isCon.isChecked()?1:0;
                 //ups vai estar a imagem em bitmap ou o path para ela?
                 //String logo = tv_photo.get
                 String logo="";
@@ -207,6 +213,8 @@ public class EditTeam_Activity extends AppCompatActivity {
     }
 
     private boolean validateName() {
+        if(inputLayoutName==null)
+            inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayoutName);
         String pw = tv_name.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutName.setError(getString(R.string.err_name_short));
@@ -217,6 +225,8 @@ public class EditTeam_Activity extends AppCompatActivity {
     }
 
     private boolean validateDescription() {
+        if(inputLayoutDescription==null)
+            inputLayoutDescription = (TextInputLayout) findViewById(R.id.inputLayoutDescription);
         String pw = tv_description.getText().toString().trim();
         if (pw.isEmpty() || pw.length() < 5) {
             inputLayoutDescription.setError(getString(R.string.err_description_short));
@@ -227,6 +237,8 @@ public class EditTeam_Activity extends AppCompatActivity {
     }
 
     private boolean validateSeason() {
+        if(inputLayoutSeason==null)
+            inputLayoutSeason = (TextInputLayout) findViewById(R.id.inputLayoutSeason);
         String pw = tv_season.getText().toString().trim();
         if(!pw.matches("\\d+(\\.\\d+)?")){
             inputLayoutSeason.setError(getString(R.string.err_number));
@@ -234,9 +246,10 @@ public class EditTeam_Activity extends AppCompatActivity {
         }
         if (pw.isEmpty() || (pw.length() > 1 && pw.length()<4)) {
             int nb = -1;
-            try{
-                nb = Integer.parseInt(pw);}
-            catch (NumberFormatException e){
+            if(isNumericInt(pw)){
+                nb = Integer.parseInt(pw);
+            }else{
+                inputLayoutSeason.setError(getString(R.string.err_number));
                 return false;
             }
             if(!(nb<1000 && nb>2050)){
@@ -270,4 +283,16 @@ public class EditTeam_Activity extends AppCompatActivity {
         }
     }
 
+    public static boolean isNumericInt(String str)
+    {
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
 }
