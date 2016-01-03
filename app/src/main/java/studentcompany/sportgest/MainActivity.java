@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.AttributeListActivity;
-import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
+import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
@@ -21,6 +21,7 @@ import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
+import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
 import studentcompany.sportgest.Team.TeamList_Activity;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("id", id_To_Search);
                 */
-                Intent intent = new Intent(getApplicationContext(), ListEventCategoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EventCategory_List_Adapter.class);
 
                 //intent.putExtras(dataBundle);
                 startActivity(intent);
@@ -140,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //return super.onOptionsItemSelected(item);
+    }
+
+    public void goTo_Positions(View v){
+        Intent intent = new Intent(this, Position_Activity_ListView.class);
+        startActivity(intent);
     }
 
     public void goTo_Users(View v){

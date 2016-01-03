@@ -79,7 +79,10 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     public long insert(EventCategory object) throws GenericDAOException{
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_CATEGORY, object.getName());
+
+        if(object.getId()>0)
+            contentValues.put(COLUMN_ID, object.getId());
+        contentValues.put(COLUMN_CATEGORY,  object.getName());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -103,11 +106,13 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     @Override
     public boolean update(EventCategory object) throws GenericDAOException{
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_CATEGORY, object.getName());
+        contentValues.put(COLUMN_ID, object.getId());
+        contentValues.put(COLUMN_CATEGORY,  object.getName());
+
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) } );
+                new String[]{Long.toString(object.getId())});
         return true;
     }
 

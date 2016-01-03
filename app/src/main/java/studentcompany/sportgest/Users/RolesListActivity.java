@@ -42,7 +42,6 @@ public class RolesListActivity extends AppCompatActivity {
             }
             roleList = role_dao.getAll();
         } catch (GenericDAOException ex) {
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(RolesListActivity.class.getName()).log(Level.WARNING, null, ex);
             roleList = null;
         }
@@ -84,7 +83,6 @@ public class RolesListActivity extends AppCompatActivity {
         try {
             roleList = role_dao.getAll();
         } catch (GenericDAOException ex) {
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(RolesListActivity.class.getName()).log(Level.WARNING, null, ex);
             roleList = null;
         }

@@ -131,6 +131,12 @@
                 android:id="@+id/training_button"
                 android:onClick="goTo_Training"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_position_button"
+                android:id="@+id/positions_button"
+                android:onClick="goTo_Positions"/>
 
             <Button
                 android:layout_width="match_parent"

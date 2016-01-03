@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Positions;
 
 
 import android.os.Bundle;
@@ -12,16 +12,14 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class Player_Fragment_List extends Fragment {
+import studentcompany.sportgest.domains.Position;
 
 
-    private static final String TAG = "LIST_PLAYER_FRAGMENT";
-    private List<Player> list;
+public class Position_Fragment_List extends Fragment {
+
+
+    private static final String TAG = "LIST_POSITION_FRAGMENT";
+    private List<Position> list;
     OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
@@ -56,26 +54,26 @@ public class Player_Fragment_List extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Player_List_Adapter(list, mListener);
+        mAdapter = new Position_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
 
     }
 
-    public void setList(List<Player> list){
+    public void setList(List<Position> list){
         this.list = list;
     }
 
-    public void updateList(List<Player> list){
+    public void updateList(List<Position> list){
         this.list = list;
 
-        mAdapter = new Player_List_Adapter(list, mListener);
+        mAdapter = new Position_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updatePosition(Player player, int position){
-        this.list.set(position, player);
+    public void updatePosition(Position positionObj, int position){
+        this.list.set(position, positionObj);
         mAdapter.notifyItemChanged(position);
     }
 

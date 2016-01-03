@@ -27,13 +27,17 @@
         </activity>
         <activity android:name=".EventCategories.DisplayEventCategoryActivity" />
         <activity
-            android:name=".EventCategories.ListEventCategoryActivity"
+            android:name=".EventCategories.EventCategory_List_Adapter"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.UserListActivity" />
         <activity android:name=".Players.Player_Activity_ListView" />
+        <activity android:name=".Positions.Position_Activity_ListView" />
         <activity
             android:name=".Users.CreateUser_Activity"
             android:label="@string/app_newUser" />
+        <activity
+            android:name=".Positions.Position_Activity_Create"
+            android:label="@string/app_newPosition" />
         <activity
             android:name=".Players.Player_Activity_Create"
             android:label="@string/app_newPlayer" />
@@ -69,6 +73,7 @@
         <activity android:name=".Team.EditTeam_Activity" />
         <activity android:name=".Users.EditUser_Activity" />
         <activity android:name=".Players.Player_Activity_Edit" />
+        <activity android:name=".Positions.Position_Activity_Edit" />
         <activity android:name=".Attributes.AttributeListActivity" />
         <activity android:name=".Exercises.ExerciseListActivity" />
         <activity android:name=".Trainings.TrainingListActivity" />
@@ -82,8 +87,10 @@
         <activity
             android:name=".Trainings.CreateTrainingExerciseActivity"
             android:label="@string/app_newTraining" />
-        <activity android:name=".Roles.Role_Activity_ListView" />
-        <activity android:name=".Roles.Role_Activity_Create" />
+        <activity android:name=".Roles.Role_Activity_ListView"></activity>
+        <activity android:name=".Roles.Role_Activity_Create"></activity>
+        <activity android:name=".Team.EditSquad_Activity"></activity>
+        <activity android:name=".Players.EditPosition_Activity"/>
         <activity
             android:name=".Games.Game_Activity_GameMode"
             android:theme="@style/AppTheme.NoActionBar" />

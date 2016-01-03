@@ -49,6 +49,7 @@
     <string name="app_newTeam">SportGest - New Team</string>
     <string name="app_gameTest">SportGest - Game Test</string>
     <string name="app_newPlayer">SportGest - New Player</string>
+    <string name="app_newPosition">SportGest - New Position</string>
     <string name="action_del_user">Delete User</string>
     <string name="positive_answer">Yes</string>
     <string name="negative_answer">No</string>
@@ -130,7 +131,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="teamName">Name</string>
 
     <string name="err_password_match">Password do not match</string>
-    <string name="err_name_short">Name is short</string>
+    <string name="err_name_short">Name is too short</string>
     <string name="err_username_short">Username is short</string>
     <string name="err_valid_email">Email is not valid</string>
     <string name="err_address_short">Address is short</string>
@@ -166,7 +167,12 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="app_newExercise">SportGest - New Exercise</string>
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
+    <string name="err_category_short">Category is short</string>
     <string name="no_roles">There are no Roles!</string>
+    <string name="something_wrong">Something went wrong!</string>
+    <string name="err_position_short">Position is short</string>
+    <string name="teamSquad">Squad</string>
+    <string name="goTo_position_button">Manage Positions</string>
     <string name="goTo_gameModeView_button">Game Mode View</string>
     <string name="userPhoto">Photo</string>
     <string name="NoSelected_Role">Select a Role!</string>
