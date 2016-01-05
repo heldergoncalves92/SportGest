@@ -66,14 +66,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
             res.moveToNext();
         }
 
-        //Sorting
-        Collections.sort(resAttribute, new Comparator<Attribute>() {
-            @Override
-            public int compare(Attribute attribute1, Attribute attribute2) {
-
-                return attribute1.getName().compareTo(attribute2.getName());
-            }
-        });
+        res.close();
 
         return resAttribute;
     }
@@ -96,11 +89,16 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
         resAttribute = new Attribute(id, type, name, deleted);
 
+        res.close();
         return resAttribute;
     }
 
     @Override
     public long insert(Attribute object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TYPE, object.getType());
         contentValues.put(COLUMN_NAME, object.getName());
@@ -111,22 +109,26 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
 
     @Override
     public boolean delete(Attribute object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     @Override
     public boolean deleteById(long id){
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Attribute object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TYPE, object.getType());
         contentValues.put(COLUMN_NAME, object.getName());
@@ -228,6 +230,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
                     resAttribute.add(new Attribute(id, type, name, deleted));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

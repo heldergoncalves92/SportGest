@@ -80,14 +80,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                     team_dao.getById(teamId)));
             res.moveToNext();
         }
-
-        //Sorting
-        Collections.sort(resTraining, new Comparator<Training>() {
-            @Override
-            public int compare(Training lhs, Training rhs) {
-                return lhs.getTitle().compareTo(rhs.getTitle());
-            }
-        });
+        res.close();
 
         return resTraining;
     }
@@ -116,11 +109,18 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         resTraining = new Training(id, title, description, date, totalDuration,
                 team_dao.getById(teamId));
 
+        res.close();
         return resTraining;
     }
 
     @Override
     public long insert(Training object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
+        if(object.getTeam()==null)
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
@@ -134,22 +134,26 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
 
     @Override
     public boolean delete(Training object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id) {
-
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Training object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getTeam()==null)
+            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
@@ -173,6 +177,10 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     public boolean exists(Training object) throws GenericDAOException {
 
         if(object==null)
+            return false;
+
+
+        if(object.getTeam()==null)
             return false;
 
         int fields = 0;
@@ -247,10 +255,12 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
             fields++;
         }
-        if ((tmpLong = object.getTeam().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
-            fields++;
-        }
+
+        if(object.getTeam()!=null)
+            if ((tmpLong = object.getTeam().getId()) >= 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
+                fields++;
+            }
 
         if (fields > 0) {
 
@@ -275,6 +285,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                             team_dao.getById(teamId)));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 
