@@ -61,7 +61,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             COLUMN_NUMBER + " INTEGER, " +
             COLUMN_TEAM_ID + " INTEGER, " +
             //COLUMN_BETTER_POSITION + " INTEGER, " +
-            //"FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"), " +
             "FOREIGN KEY(" + COLUMN_TEAM_ID + ") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+")); ";
             //"FOREIGN KEY(" + COLUMN_BETTER_POSITION + ") REFERENCES "+Position_DAO.TABLE_NAME+"("+Position_DAO.COLUMN_ID+"));";
 
@@ -165,7 +164,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             prefered_foot = res.getString(res.getColumnIndex(COLUMN_PREFERRED_FOOT));
             number= res.getInt(res.getColumnIndex(COLUMN_NUMBER));
             team=res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
-            //position=res.getLong(res.getColumnIndex(COLUMN_BETTER_POSITION));
 
             if(team>0) {
                 Team teamToInsert = team_dao.getById(team);
@@ -182,6 +180,10 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
 
     @Override
     public long insert(Player object) throws GenericDAOException {
+
+        if(object.getTeam() == null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
 
         if(object.getId()>0)
@@ -206,22 +208,25 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
 
     @Override
     public boolean delete(Player object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
-    @Override
-    public boolean deleteById(long id) {
-        int deletedCount = db.delete(TABLE_NAME,
+    public boolean deleteById(long id){
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Player object) throws GenericDAOException {
+
+        if(object.getTeam() == null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, object.getId());
         contentValues.put(COLUMN_NICKNAME,  object.getNickname());
@@ -239,7 +244,7 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
         if(object.getTeam()!=null)
             contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
         else
-            contentValues.put(COLUMN_TEAM_ID, -1);
+            contentValues.putNull(COLUMN_TEAM_ID);
 
         db.update(TABLE_NAME,
                 contentValues,
@@ -322,14 +327,12 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_NUMBER + " = " + tmpInt );
             fields++;
         }
-        if ((tmpLong = object.getTeam().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
-            fields++;
+        if(object.getTeam() != null) {
+            if ((tmpLong = object.getTeam().getId()) >= 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        /*if ((tmpLong = object.getPosition().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpLong );
-            fields++;
-        }*/
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
@@ -409,9 +412,11 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_NUMBER + " = " + tmpInt );
             fields++;
         }
-        if (object.getTeam() != null && (tmpLong = object.getTeam().getId()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
-            fields++;
+        if (object.getTeam() != null) {
+            if ((tmpLong = object.getTeam().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong);
+                fields++;
+            }
         }
         /*if (object.getPosition() != null && (tmpLong = object.getPosition().getId()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_BETTER_POSITION + " = " + tmpLong );
@@ -435,7 +440,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
             String prefered_foot;
             int number;
             long team;
-            long position;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())

@@ -176,19 +176,16 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     @Override
     public boolean exists(Training object) throws GenericDAOException {
 
-        if(object==null)
+        if (object == null)
             return false;
 
-
-        if(object.getTeam()==null)
-            return false;
 
         int fields = 0;
         String tmpString;
         int tmpInt;
         long tmpLong;
 
-        StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
+        StringBuilder statement = new StringBuilder("SELECT * FROM " + TABLE_NAME + " where ");
         if ((tmpLong = object.getId()) >= 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
@@ -202,16 +199,18 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             fields++;
         }
         if ((tmpLong = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong);
             fields++;
         }
         if ((tmpInt = object.getTotalDuration()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt );
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TOTAL_DURATION + " = " + tmpInt);
             fields++;
         }
-        if ((tmpLong = object.getTeam().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
-            fields++;
+        if (object.getTeam() != null){
+            if ((tmpLong = object.getTeam().getId()) >= 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong);
+                fields++;
+            }
         }
 
         if (fields > 0) {
