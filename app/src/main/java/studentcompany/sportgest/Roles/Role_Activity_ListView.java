@@ -91,7 +91,6 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
         fragmentTransaction.add(R.id.detail_fragment_container, mDetailsRole);
 
         fragmentTransaction.commit();
-
     }
 
     private void noElems(){

@@ -7,4 +7,5 @@
     <color name="light_gray">#DDDDDD</color>
     <color name="pressed_color">#4d90fe</color>
     <color name="default_color">#ffffff</color>
+    <color name="item_selected">#ccebff</color>
 </resources>

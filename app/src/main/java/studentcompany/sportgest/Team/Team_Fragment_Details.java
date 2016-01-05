@@ -25,7 +25,7 @@ import studentcompany.sportgest.domains.Team;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailsTeam_Fragment extends Fragment {
+public class Team_Fragment_Details extends Fragment {
 
 
     private static final String TAG = "DETAILS_TEAM_FRAGMENT";
@@ -37,7 +37,7 @@ public class DetailsTeam_Fragment extends Fragment {
 
     private Player_DAO player_dao;
 
-    public DetailsTeam_Fragment() {
+    public Team_Fragment_Details() {
         // Required empty public constructor
     }
 
@@ -48,7 +48,7 @@ public class DetailsTeam_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_team_details, container, false);
+        View view =  lf.inflate(R.layout.team_fragment_details, container, false);
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_description = (TextView) view.findViewById(R.id.description);
         tv_season = (TextView) view.findViewById(R.id.season);

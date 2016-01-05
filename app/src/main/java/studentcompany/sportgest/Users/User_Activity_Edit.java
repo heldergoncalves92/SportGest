@@ -13,14 +13,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Role;
-import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.User;
 
-public class EditUser_Activity extends AppCompatActivity {
+public class User_Activity_Edit extends AppCompatActivity {
 
     //DAOs
     private User_DAO user_dao;
@@ -34,7 +32,7 @@ public class EditUser_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_user);
+        setContentView(R.layout.user_activity_edit);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
@@ -147,8 +145,8 @@ public class EditUser_Activity extends AppCompatActivity {
                                 user_dao.insert(user);
                             }
                         } catch (GenericDAOException ex) {
-                            System.err.println(CreateUser_Activity.class.getName() + " [WARNING] " + ex.toString());
-                            Logger.getLogger(CreateUser_Activity.class.getName()).log(Level.WARNING, null, ex);
+                            System.err.println(User_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                            Logger.getLogger(User_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                         }
                         Intent intent = new Intent();
                         setResult(1, intent);

@@ -31,7 +31,7 @@ import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Role;
 import studentcompany.sportgest.domains.Team;
 
-public class EditSquad_Activity extends AppCompatActivity{
+public class Squad_Activity_Edit extends AppCompatActivity{
 
     //DAOs
     private Team_DAO team_dao;

@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,7 +52,7 @@ import studentcompany.sportgest.domains.Role;
 import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.User;
 
-public class CreateUser_Activity extends AppCompatActivity {
+public class User_Activity_Create extends AppCompatActivity {
 
     private User user;
     private long userID;
@@ -312,7 +311,7 @@ public class CreateUser_Activity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), R.string.user_save_successful, Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(this, UserListActivity.class);
+                    Intent intent = new Intent(this, User_Activity_ListView.class);
                     intent.putExtra("ID", userID);
                     //setResult(112);
                     setResult(112,intent);

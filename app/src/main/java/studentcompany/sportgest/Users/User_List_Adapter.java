@@ -1,5 +1,6 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Users;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
@@ -10,40 +11,38 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import studentcompany.sportgest.Positions.Position_Fragment_List;
-import studentcompany.sportgest.Positions.Position_List_Adapter;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.User;
+
 
 /**
- * Created by heldergoncalves on 27/12/15.
+ * Created by heldergoncalves on 04/01/16.
  */
-public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapter.ViewHolder> {
+public class User_List_Adapter extends RecyclerView.Adapter<User_List_Adapter.ViewHolder> {
 
-    private static Player_Fragment_List.OnItemSelected mListener;
-    private List<Player> mDataset;
+    private static User_Fragment_List.OnItemSelected mListener;
+    private List<User> mDataset;
 
     private int currentPos = -1;
     private ViewHolder currentVH = null;
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-
-        private Player_List_Adapter su = null;
+        private User_List_Adapter su;
         public AppCompatTextView mTextView_name;
         public CardView parent;
 
-
-        public ViewHolder(View view, Player_List_Adapter su) {
+        public ViewHolder(View view, User_List_Adapter su) {
             super(view);
             view.setOnClickListener(this);
 
             this.su = su;
-            parent = (CardView) view;
-            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            parent = (CardView)view;
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.user_name);
         }
 
         @Override
@@ -61,7 +60,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener) {
+    public User_List_Adapter(List<User> myDataset, User_Fragment_List.OnItemSelected mListener) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
@@ -69,11 +68,11 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Player_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public User_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_card_item, parent, false);
+                .inflate(R.layout.user_card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -86,13 +85,11 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        //holder.mTextView.setText(mDataset[position]);
-        Player player = mDataset.get(position);
 
-        if (player != null) {
-            //holder.mTextView_num.setText(String.valueOf(player.getNumber()));
-            holder.mTextView_name.setText(player.getName());
+        User user = mDataset.get(position);
 
+        if (user != null) {
+            holder.mTextView_name.setText(user.getName());
         }
     }
 
@@ -111,5 +108,4 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         currentVH = vh;
         currentPos = position;
     }
-
 }

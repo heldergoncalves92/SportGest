@@ -13,13 +13,13 @@ import java.util.List;
 import studentcompany.sportgest.R;
 
 
-public class ListTeam_Fragment extends ListFragment {
+public class Team_Fragment_List extends ListFragment {
 
     private static final String TAG = "LIST_TEAM_FRAGMENT";
     private List<String> list;
     OnItemSelected mListener;
 
-    public ListTeam_Fragment() {
+    public Team_Fragment_List() {
         // Required empty public constructor
     }
 
@@ -43,7 +43,7 @@ public class ListTeam_Fragment extends ListFragment {
 
         // Set the list adapter for the ListView
         if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.fragment_team_list, list));
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.team_fragment_list, list));
 
 
         // Set the list choice mode to allow only one selection at a time

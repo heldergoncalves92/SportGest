@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +29,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.User;
 
-public class UserListActivity extends AppCompatActivity implements ListUser_Fragment.OnItemSelected {
+public class User_Activity_ListView extends AppCompatActivity implements User_Fragment_List.OnItemSelected {
 
 
     private User_DAO userDao;
@@ -39,8 +41,8 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListUser_Fragment mListUsers = new ListUser_Fragment();
-    private DetailsUser_Fragment mDetailsUser = new DetailsUser_Fragment();
+    private User_Fragment_List mListUsers = new User_Fragment_List();
+    private User_Fragment_Details mDetailsUser = new User_Fragment_Details();
     private static final String TAG = "USERS_ACTIVITY";
 
     private final int EDIT_TAG = 19;
@@ -49,7 +51,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.user_activity_list_view);
 
         if(savedInstanceState != null)
             currentPos = savedInstanceState.getInt("currentPos");
@@ -66,9 +68,9 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                      u.setTeam(t.get(0)); // Get the Team
             }
             if(users.isEmpty()) {
-                //noElems();
-                insertUserTest(userDao);
-                users = userDao.getAll();
+                noElems();
+                //insertUserTest(userDao);
+                //users = userDao.getAll();
             }
             //mListUsers.setList(getNamesList(users));
             mListUsers.setList(users);
@@ -115,11 +117,20 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
     public void noElems(){
 
-        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
         l.setVisibility(View.GONE);
 
-        TextView t= (TextView)findViewById(R.id.without_elems);
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
         t.setVisibility(View.VISIBLE);
+    }
+
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
     }
 
     public void removeUser(){
@@ -127,16 +138,17 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
 
         userDao.deleteById(users.get(currentPos).getId());
         mListUsers.removeItem(currentPos);
-        //users.remove(currentPos);
+        currentPos = -1;
 
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
 
+        item = mOptionsMenu.findItem(R.id.action_edit);
+        item.setVisible(false);
+
         if(users.isEmpty()){
-            currentPos = -1;
-            noElems();}
-        else
-            currentPos = 0;
+            noElems();
+        }
     }
 
     /************************************
@@ -150,6 +162,11 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
+
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
+
+                mDetailsUser.showFirstElem();
             }
 
             currentPos = position;
@@ -183,7 +200,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    User_Activity_ListView activity = (User_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -191,7 +208,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    UserListActivity activity = (UserListActivity) getActivity();
+                                    User_Activity_ListView activity = (User_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeUser();
                                 }
@@ -251,12 +268,12 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
         switch (item.getItemId()) {
             case R.id.action_add:
 
-                intent = new Intent(this, CreateUser_Activity.class);
+                intent = new Intent(this, User_Activity_Create.class);
                 startActivityForResult(intent,CREATE_TAG);
                 return true;
 
             case R.id.action_edit:
-                intent = new Intent(this, CreateUser_Activity.class);
+                intent = new Intent(this, User_Activity_Create.class);
                 user_id = users.get(currentPos).getId();
                 intent.putExtra("ID",user_id);
                 startActivityForResult(intent,EDIT_TAG);
@@ -320,9 +337,15 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                 if(extras != null) {
                     //get User ID
                     long id = extras.getLong("ID");
+
                     if(id>0){
                         User user = userDao.getById(id);
-                        mListUsers.updateList(user);}
+                        //users.add(user);
+                        mListUsers.updateList(user);
+
+                        if(users.size() == 1)
+                            withElems();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -338,6 +361,7 @@ public class UserListActivity extends AppCompatActivity implements ListUser_Frag
                                 user1.setTeam(t.get(0)); // Get the Team
 
                     mDetailsUser.showUser(user1);}
+                    mListUsers.updatePosition(user1, currentPos);
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }

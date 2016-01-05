@@ -26,7 +26,7 @@ import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 
-public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fragment.OnItemSelected{
+public class Team_Activity_ListView extends AppCompatActivity implements Team_Fragment_List.OnItemSelected{
 
     private Team_DAO teamDao;
     private List<Team> teams;
@@ -35,8 +35,8 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListTeam_Fragment mListTeams = new ListTeam_Fragment();
-    private DetailsTeam_Fragment mDetailsTeam = new DetailsTeam_Fragment();
+    private Team_Fragment_List mListTeams = new Team_Fragment_List();
+    private Team_Fragment_Details mDetailsTeam = new Team_Fragment_Details();
     private static final String TAG = "TEAM_ACTIVITY";
 
     private final int EDIT_TAG = 19;
@@ -165,7 +165,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TeamList_Activity activity = (TeamList_Activity) getActivity();
+                                    Team_Activity_ListView activity = (Team_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -173,7 +173,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TeamList_Activity activity = (TeamList_Activity) getActivity();
+                                    Team_Activity_ListView activity = (Team_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeTeam();
                                 }
@@ -208,7 +208,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(this, CreateTeam_Activity.class);
+                Intent intent = new Intent(this, Team_Activity_Create.class);
                 startActivityForResult(intent, CREATE_TAG);
                 return true;
 
@@ -218,7 +218,7 @@ public class TeamList_Activity extends AppCompatActivity implements ListTeam_Fra
                 return true;
 
             case R.id.action_edit:
-                Intent intent2 = new Intent(this, EditTeam_Activity.class);
+                Intent intent2 = new Intent(this, Team_Activity_Edit.class);
                 intent2.putExtra("id",teams.get(currentPos).getId());
                 startActivityForResult(intent2, EDIT_TAG);
                 return true;

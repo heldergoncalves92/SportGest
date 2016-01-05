@@ -6,7 +6,6 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.EditText;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,13 +24,13 @@ import studentcompany.sportgest.domains.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailsUser_Fragment extends Fragment {
+public class User_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_USER_FRAGMENT";
     private EditText et_username, et_name, et_email,et_role,et_team;
     private ImageView et_photo;
 
-    public DetailsUser_Fragment() {
+    public User_Fragment_Details() {
         // Required empty public constructor
     }
 
@@ -44,7 +42,7 @@ public class DetailsUser_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_user_details, container, false);
+        View view =  lf.inflate(R.layout.user_fragment_details, container, false);
         et_username = (EditText) view.findViewById(R.id.input_details_user_username);
         et_name = (EditText) view.findViewById(R.id.input_details_user_name);
         et_email = (EditText) view.findViewById(R.id.input_details_user_email);
@@ -87,12 +85,27 @@ public class DetailsUser_Fragment extends Fragment {
     }
 
     public void clearDetails(){
+
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.GONE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.VISIBLE);
+
         et_username.setText("");
         et_name.setText("");
         et_email.setText("");
         et_role.setText("");
         et_team.setText("");
         //et_photo.setImageURI(Uri.parse("default"));
+    }
+
+    public void showFirstElem(){
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.VISIBLE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.GONE);
     }
 
     public Bitmap getImageBitmap(Context context,String name){

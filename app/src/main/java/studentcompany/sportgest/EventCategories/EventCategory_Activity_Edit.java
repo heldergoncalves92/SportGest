@@ -33,7 +33,7 @@ public class EventCategory_Activity_Edit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_eventcategory);
+        setContentView(R.layout.event_category_activity_edit);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){

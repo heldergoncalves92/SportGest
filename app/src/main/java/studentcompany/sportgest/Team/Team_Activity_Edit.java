@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,13 +18,12 @@ import android.widget.Toast;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 
-public class EditTeam_Activity extends AppCompatActivity {
+public class Team_Activity_Edit extends AppCompatActivity {
 
     //DAOs
     private Team_DAO team_dao;
@@ -42,7 +40,7 @@ public class EditTeam_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_team);
+        setContentView(R.layout.team_activity_edit);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
@@ -104,7 +102,7 @@ public class EditTeam_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), EditSquad_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Squad_Activity_Edit.class);
                 intent.putExtra("id", teamID);
                 startActivityForResult(intent, EDIT_SQUAD);
             }
@@ -170,8 +168,8 @@ public class EditTeam_Activity extends AppCompatActivity {
                         corrected = true;
                     }
                 }catch (GenericDAOException ex){
-                    System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Team_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Team_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
                 Intent intent = new Intent();
                 setResult(corrected?1:2, intent);
@@ -269,7 +267,7 @@ public class EditTeam_Activity extends AppCompatActivity {
     }
 
     private void selectTeam() {
-        Intent intent = new Intent(this, EditSquad_Activity.class);
+        Intent intent = new Intent(this, Squad_Activity_Edit.class);
         intent.putExtra("id", teamID);
         startActivityForResult(intent, EDIT_SQUAD);
     }

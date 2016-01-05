@@ -31,7 +31,7 @@ public class RolesListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_roles);
+        setContentView(R.layout.roles_activity_list);
 
         role_dao = new Role_DAO(this);
 

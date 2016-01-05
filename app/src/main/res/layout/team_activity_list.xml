@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="studentcompany.sportgest.Team.TeamList_Activity">
+    tools:context=".Team.Team_Activity_ListView">
 
     <TextView
         android:id="@+id/without_elems"

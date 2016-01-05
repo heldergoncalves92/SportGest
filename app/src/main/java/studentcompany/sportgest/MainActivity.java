@@ -24,9 +24,9 @@ import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
-import studentcompany.sportgest.Team.TeamList_Activity;
+import studentcompany.sportgest.Team.Team_Activity_ListView;
 import studentcompany.sportgest.Users.RolesListActivity;
-import studentcompany.sportgest.Users.UserListActivity;
+import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Users(View v){
-        Intent intent = new Intent(this, UserListActivity.class);
+        Intent intent = new Intent(this, User_Activity_ListView.class);
         startActivity(intent);
     }
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Teams(View v){
-        Intent intent = new Intent(this, TeamList_Activity.class);
+        Intent intent = new Intent(this, Team_Activity_ListView.class);
         startActivity(intent);
     }
 
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.drawer_Users:
                                 if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(getApplicationContext(), UserListActivity.class);
+                                intent = new Intent(getApplicationContext(), User_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Players:

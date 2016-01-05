@@ -35,7 +35,7 @@ public class EventCategory_Activity_Create extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_eventcategory);
+        setContentView(R.layout.event_category_activity_create);
 
         event_category_dao = new Event_Category_DAO(this);
 

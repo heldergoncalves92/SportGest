@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +41,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //set activity layout
-        setContentView(R.layout.activity_display_role);
+        setContentView(R.layout.roles_activity_display);
         //get layout components
         roleName = (TextView) findViewById(R.id.input_permission_name);
         rolePermissionsListView = (ListView) findViewById(R.id.rolePermissions);

@@ -21,7 +21,7 @@ import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Team;
 
-public class CreateTeam_Activity extends AppCompatActivity {
+public class Team_Activity_Create extends AppCompatActivity {
 
     //DAOs
     private Team_DAO team_dao;
@@ -39,7 +39,7 @@ public class CreateTeam_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_team);
+        setContentView(R.layout.team_activity_create);
 
         team_dao = new Team_DAO(this);
 
@@ -112,8 +112,8 @@ public class CreateTeam_Activity extends AppCompatActivity {
                     if(teamID>0)
                         corrected=true;
                 }catch (GenericDAOException ex){
-                    System.err.println(CreateTeam_Activity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTeam_Activity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Team_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Team_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();

@@ -30,7 +30,7 @@ public class EventCategory_Fragment_Details extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_eventcategory_details, container, false);
+        View view =  lf.inflate(R.layout.event_category_fragment_details, container, false);
         tv_category = (TextView) view.findViewById(R.id.category);
 
         return view;

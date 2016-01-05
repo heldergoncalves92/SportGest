@@ -29,11 +29,11 @@
         <activity
             android:name=".EventCategories.EventCategory_List_Adapter"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Users.UserListActivity" />
+        <activity android:name=".Users.User_Activity_ListView" />
         <activity android:name=".Players.Player_Activity_ListView" />
         <activity android:name=".Positions.Position_Activity_ListView" />
         <activity
-            android:name=".Users.CreateUser_Activity"
+            android:name=".Users.User_Activity_Create"
             android:label="@string/app_newUser" />
         <activity
             android:name=".Positions.Position_Activity_Create"
@@ -42,10 +42,10 @@
             android:name=".Players.Player_Activity_Create"
             android:label="@string/app_newPlayer" />
         <activity
-            android:name=".Team.TeamList_Activity"
+            android:name=".Team.Team_Activity_ListView"
             android:label="@string/app_teamView" />
         <activity
-            android:name=".Team.CreateTeam_Activity"
+            android:name=".Team.Team_Activity_Create"
             android:label="@string/app_newTeam" />
         <activity
             android:name=".Games.GameTest_Activity"
@@ -70,8 +70,8 @@
             android:label="@string/title_activity_login2" />
         <activity android:name=".Games.GamesList_Activity" />
         <activity android:name=".Games.GameGeneralView_Activity" />
-        <activity android:name=".Team.EditTeam_Activity" />
-        <activity android:name=".Users.EditUser_Activity" />
+        <activity android:name=".Team.Team_Activity_Edit" />
+        <activity android:name=".Users.User_Activity_Edit" />
         <activity android:name=".Players.Player_Activity_Edit" />
         <activity android:name=".Positions.Position_Activity_Edit" />
         <activity android:name=".Attributes.AttributeListActivity" />
@@ -89,7 +89,7 @@
             android:label="@string/app_newTraining" />
         <activity android:name=".Roles.Role_Activity_ListView"></activity>
         <activity android:name=".Roles.Role_Activity_Create"></activity>
-        <activity android:name=".Team.EditSquad_Activity"></activity>
+        <activity android:name=".Team.Squad_Activity_Edit"></activity>
         <activity android:name=".Players.EditPosition_Activity"/>
         <activity
             android:name=".Games.Game_Activity_GameMode"
