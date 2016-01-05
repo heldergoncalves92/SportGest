@@ -177,5 +177,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="userPhoto">Photo</string>
     <string name="NoSelected_Role">Select a Role!</string>
     <string name="NoSelected_User">Select a User!</string>
+    <string name="NoSelected_Team">Select a Team!</string>
 
 </resources>

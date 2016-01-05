@@ -109,6 +109,12 @@ public class Team_Fragment_Details extends Fragment {
 
     public void clearDetails(){
 
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.GONE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.VISIBLE);
+
         tv_name.setText("");
         tv_description.setText("");
         tv_season.setText("");
@@ -116,5 +122,13 @@ public class Team_Fragment_Details extends Fragment {
         tv_logo.setImageURI(Uri.parse("lego_face"));
         tv_squad.setAdapter(null);
         text_squad.setText("");
+    }
+
+    public void showFirstElem(){
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.VISIBLE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.GONE);
     }
 }

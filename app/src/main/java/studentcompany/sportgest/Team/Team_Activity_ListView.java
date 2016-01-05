@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,17 +52,16 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
         if(savedInstanceState != null)
             currentPos = savedInstanceState.getInt("currentPos");
 
-        //this.testUsers();
         try {
             teamDao = new Team_DAO(getApplicationContext());
             teams = teamDao.getAll();
             if(teams.isEmpty()) {
 
-                //noElems();
-                insertTest(teamDao);
-                teams = teamDao.getAll();
+                noElems();
+                //insertTest(teamDao);
+                //teams = teamDao.getAll();
             }
-            mListTeams.setList(getNamesList(teams));
+            mListTeams.setList(teams);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -97,21 +98,30 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
 
     public void noElems(){
 
-        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
         l.setVisibility(View.GONE);
 
-        TextView t= (TextView)findViewById(R.id.without_elems);
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
         t.setVisibility(View.VISIBLE);
+    }
+
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
     }
 
     public void removeTeam(){
         mDetailsTeam.clearDetails();
-        mListTeams.removeItem(currentPos);
 
         teamDao.deleteById(teams.get(currentPos).getId());
-        teams.remove(currentPos);
-
+        mListTeams.removeItem(currentPos);
         currentPos = -1;
+
+
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
         item.setVisible(false);
         item = mOptionsMenu.findItem(R.id.action_edit);
@@ -131,8 +141,11 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
+
                 item = mOptionsMenu.findItem(R.id.action_edit);
                 item.setVisible(true);
+
+                mDetailsTeam.showFirstElem();
             }
 
             currentPos = position;
@@ -264,7 +277,7 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
         teams.add(u3);
         teams.add(u4);
 
-        mListTeams.setList(getNamesList(teams));
+        mListTeams.setList(teams);
     }
 
     @Override
@@ -274,8 +287,10 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
             if(resultCode == 1){
                 try {
                     team=teamDao.getById(teams.get(currentPos).getId());
-                    teams.set(currentPos,team);
+
+                    mListTeams.updatePosition(team, currentPos);
                     mDetailsTeam.showTeam(team);
+
                     Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
@@ -291,10 +306,15 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
                     Bundle bundle = data.getExtras();
                     long id = (long) bundle.get("id");
                     int idToSearch = (int) (id + 0);
+
                     team=teamDao.getById(idToSearch);
-                    teams.add(team);
+
+                    mListTeams.insert_Item(team);
                     mDetailsTeam.showTeam(team);
-                    mListTeams.addItem(team.getName());
+
+                    if(teams.size() == 1)
+                        withElems();
+
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
                     e.printStackTrace();

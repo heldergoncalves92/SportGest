@@ -56,7 +56,7 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
         if(savedInstanceState != null)
             currentPos = savedInstanceState.getInt("currentPos");
 
-        //this.testUsers();
+
         try {
             userDao = new User_DAO(getApplicationContext());
             user_team_dao = new User_Team_DAO(getApplicationContext());
@@ -72,7 +72,6 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
                 //insertUserTest(userDao);
                 //users = userDao.getAll();
             }
-            //mListUsers.setList(getNamesList(users));
             mListUsers.setList(users);
 
         } catch (GenericDAOException e) {
@@ -340,7 +339,6 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
 
                     if(id>0){
                         User user = userDao.getById(id);
-                        //users.add(user);
                         mListUsers.updateList(user);
 
                         if(users.size() == 1)

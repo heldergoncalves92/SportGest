@@ -2,22 +2,33 @@ package studentcompany.sportgest.Team;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.domains.Team;
 
 
-public class Team_Fragment_List extends ListFragment {
+public class Team_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_TEAM_FRAGMENT";
-    private List<String> list;
+    private List<Team> list;
     OnItemSelected mListener;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     public Team_Fragment_List() {
         // Required empty public constructor
@@ -36,28 +47,48 @@ public class Team_Fragment_List extends ListFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedState){
-        Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
-        super.onActivityCreated(savedState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.role_fragment_list, container, false);
 
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.role_recyclerView);
+        mRecyclerView.setHasFixedSize(true);
 
-        // Set the list adapter for the ListView
-        if(list != null)
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.team_fragment_list, list));
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        // specify an adapter (see also next example)
+        mAdapter = new Team_List_Adapter(list, mListener);
+        mRecyclerView.setAdapter(mAdapter);
 
-        // Set the list choice mode to allow only one selection at a time
-        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        return v;
     }
 
-    public void setList(List<String> list){
+    public void setList(List<Team> list){
         this.list = list;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        getListView().invalidateViews();
+    public void insert_Item(Team team){
+        this.list.add(team);
+        mAdapter.notifyItemInserted(this.list.size() - 1);
+
+        //mAdapter = new User_List_Adapter(list, mListener);
+        //mRecyclerView.setAdapter(mAdapter);
     }
+
+    public void updatePosition(Team team, int position){
+        this.list.set(position, team);
+        mAdapter.notifyItemChanged(position);
+    }
+
+
+    public void removeItem(int position){
+        this.list.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+
 
     /************************************
      ****     Listener Functions     ****
@@ -66,19 +97,6 @@ public class Team_Fragment_List extends ListFragment {
     // Container Activity must implement this interface
     public interface OnItemSelected{
         void itemSelected(int position);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i(TAG, getClass().getSimpleName() + ":entered onListItemClick()");
-        getListView().setItemChecked(position, true);
-
-        mListener.itemSelected(position);
-    }
-
-    public void addItem(String team){
-        list.add(team);
-        getListView().invalidateViews();
     }
 
 }
