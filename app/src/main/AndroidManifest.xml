@@ -84,6 +84,10 @@
         <activity
             android:name=".Trainings.CreateTrainingActivity"
             android:label="@string/app_newTraining" />
+
+        <activity android:name=".Evaluation.ExerciseAttributesActivity"
+            android:label="SportGest - Exercise Evaluation" />
+        
         <activity
             android:name=".Trainings.CreateTrainingExerciseActivity"
             android:label="@string/app_newTraining" />

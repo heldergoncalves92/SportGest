@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="studentcompany.sportgest.Exercises.ExerciseListActivity">
+    tools:context="studentcompany.sportgest.Evaluation.ExerciseAttributesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
-        <!-- TODO: colocar o textview para quando nao tiver nenhum exercicio -->
 
         <FrameLayout
             android:id="@+id/exercise_list_fragment_container"
@@ -19,10 +18,10 @@
             android:layout_weight="1"/>
 
         <FrameLayout
-            android:id="@+id/exercise_detail_fragment_container"
+            android:id="@+id/exercise_attributes_players_evaluation_fragment_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"/>
-    </LinearLayout>
 
+    </LinearLayout>
 </RelativeLayout>
