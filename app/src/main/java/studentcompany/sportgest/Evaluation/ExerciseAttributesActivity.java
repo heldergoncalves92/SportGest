@@ -1,22 +1,16 @@
 package studentcompany.sportgest.Evaluation;
+/**
+ * Required input info: team_id and training_id
+ */
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,30 +18,31 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Exercises.CreateExerciseActivity;
-import studentcompany.sportgest.Exercises.DetailsExercise_Fragment;
-import studentcompany.sportgest.Exercises.Exercises_Adapter;
 import studentcompany.sportgest.Exercises.ListExercise_Fragment;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Record_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Record;
+import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 
 public class ExerciseAttributesActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
 
     //Required id
+    private long team_id = 0;
     private long training_id = 0;
+
 
     //DAOs
     private Training_DAO training_dao;
@@ -62,10 +57,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
     private List<Exercise> exerciseList = new ArrayList<>();
     private List<Player> playerList = new ArrayList<>();
     private List<Attribute> exerciseAttributesList = new ArrayList<>();
-
-    //Layouts
-    private LayoutInflater inflater;
-    private TextInputLayout til;
+    private List<Record> evaluations;
 
     private int currentPos = -1;
     private Menu mOptionsMenu;
@@ -73,6 +65,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
+    private ExerciseAttributes_Fragment mExerciseAttributes = new ExerciseAttributes_Fragment();
     private static final String TAG = "EVALUATE_EXERCISE_ATTRIBUTES_ACTIVITY";
 
     @Override
@@ -89,20 +82,15 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         record_dao = new Record_DAO(this);
         player_dao = new Player_DAO(this);
 
-        //Layouts
-        inflater = getLayoutInflater();
-        til = (TextInputLayout) findViewById(R.id.text_layout_selected_attributes);
-
-        Training training;
-
         //get trainingID
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            //get training ID
+            //get IDs
+            team_id = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID);
             training_id = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
 
             //validation
-            if (training_id > 0) {
+            if (training_id > 0 && team_id > 0) {
                 //get the training information
                 ArrayList<TrainingExercise> te = new ArrayList<>();
                 try {
@@ -126,13 +114,13 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
                 System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "training_id invalid");
             }
         } else {
-            System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "training_id does not exist");
+            System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "training_id or team_id does not exist");
         }
 
 
         //get list of players (TODO: subtract list of missing players for some training -> Missing DAO)
         try {
-            playerList = (ArrayList<Player>) player_dao.getAll();
+            playerList = player_dao.getByCriteria(new Player(new Team(team_id)));
         } catch (GenericDAOException ex) {
             System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
@@ -152,6 +140,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
 
         // Add the TitleFragment to the layout
         fragmentTransaction.add(R.id.exercise_list_fragment_container , mListExercises);
+        fragmentTransaction.add(R.id.exercise_attributes_players_evaluation_fragment_container, mExerciseAttributes);
 
         fragmentTransaction.commit();
     }
@@ -165,39 +154,6 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         return list;
     }
 
-    public List<String> getAttributesNamesList(List<Attribute> attributeList){
-        ArrayList<String> list = new ArrayList<>();
-
-        for(Attribute a: attributeList)
-            list.add(a.getName());
-        Collections.sort(list);
-        return list;
-    }
-
-    public void removeExercise(){
-        //TODO: mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
-
-        try {
-            Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
-            if(exercise != null) {
-                //remove list of attributes
-                ArrayList<Attribute> previousExerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exercise.getId());
-                for (Attribute a : previousExerciseAttributes) {
-                    attribute_exercise_dao.delete(new Pair<>(a, exercise));
-                }
-                //remove exercise
-                exercise_dao.deleteById(exerciseList.get(currentPos).getId());
-            }
-        }catch (GenericDAOException ex){
-            ex.printStackTrace();
-        }
-        exerciseList.remove(currentPos);
-
-        currentPos = -1;
-        mOptionsMenu.findItem(R.id.Delete).setVisible(false);
-        mOptionsMenu.findItem(R.id.Edit).setVisible(false);
-    }
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -215,11 +171,17 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
             currentPos = position;
             try {
                 exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
+                //get previous/current evaluations
+                evaluations = record_dao.getByCriteria(new Record(-1, -1, -1, -1,
+                        new Training(training_id),
+                        new Exercise(exercise.getId()),
+                        null, null, null));
             } catch (GenericDAOException ex){
                 ex.printStackTrace();
                 exerciseAttributesList = new ArrayList<>();
+                evaluations = new ArrayList<>();
             }
-            //TODO: mDetailsExercise.showExercise(exercise, getAttributesNamesList(exerciseAttributesList));
+            mExerciseAttributes.showExercise(exercise, exerciseAttributesList, evaluations);
         }
     }
 
@@ -227,42 +189,6 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
      ****      Dialog Functions      ****
      ************************************/
 
-    public void DialogDismiss(){
-        mDialog.dismiss();
-    }
-
-    public static class AlertToDelete_DialogFragment extends DialogFragment {
-
-        public static AlertToDelete_DialogFragment newInstance(){
-            return new AlertToDelete_DialogFragment();
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
-            Resources res = getResources();
-
-            return new AlertDialog.Builder(getActivity())
-                    .setMessage(res.getString(R.string.are_you_sure))
-                    .setCancelable(false)
-                    .setNegativeButton(res.getString(R.string.negative_answer),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseAttributesActivity activity = (ExerciseAttributesActivity) getActivity();
-                                    activity.DialogDismiss();
-                                }
-                            })
-                    .setPositiveButton(res.getString(R.string.positive_answer),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseAttributesActivity activity = (ExerciseAttributesActivity) getActivity();
-                                    activity.DialogDismiss();
-                                    activity.removeExercise();
-                                }
-                            }).create();
-        }
-    }
 
     /************************************
      ****       Menu Functions       ****
@@ -270,11 +196,13 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*
         getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         mOptionsMenu = menu;
         menu.findItem(R.id.Edit).setVisible(false);
         menu.findItem(R.id.Delete).setVisible(false);
         menu.findItem(R.id.Save).setVisible(false);
+        */
         return true;
     }
 
@@ -283,26 +211,12 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         Intent intent;
         // Handle item selection
         switch (item.getItemId()) {
+            /*
             case R.id.Add:
                 intent = new Intent(this, CreateExerciseActivity.class);
                 startActivityForResult(intent, 0);
                 return true;
-
-            case R.id.Edit:
-                intent = new Intent(this, CreateExerciseActivity.class);
-                //put current exercise ID in extras
-                Bundle dataBundle = new Bundle();
-                dataBundle.putLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID, exerciseList.get(currentPos).getId());
-                //add data
-                intent.putExtras(dataBundle);
-                //start activity
-                startActivityForResult(intent, 0);
-                return true;
-
-            case R.id.Delete:
-                mDialog = AlertToDelete_DialogFragment.newInstance();
-                mDialog.show(mFragmentManager, "Alert");
-                return true;
+            */
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -320,7 +234,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }
-            //TODO: mDetailsExercise.clearDetails();
+            mExerciseAttributes.clearDetails();
             currentPos = -1;
             mOptionsMenu.findItem(R.id.Delete).setVisible(false);
             mOptionsMenu.findItem(R.id.Edit).setVisible(false);

@@ -17,6 +17,10 @@ public class Training extends DomainPojo {
         this.team = team;
     }
 
+    public Training(long id) {
+        this.id = id;
+    }
+
     @Override
     public long getId() {
         return id;

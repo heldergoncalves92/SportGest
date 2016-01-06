@@ -13,6 +13,10 @@ public class Exercise extends DomainPojo {
         this.duration = duration;
     }
 
+    public Exercise(long id) {
+        this.id = id;
+    }
+
     @Override
     public long getId() {
         return id;
