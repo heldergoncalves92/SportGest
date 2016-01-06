@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/without_elems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAlignment="center"
-        android:text="@string/no_players"
+        android:text="@string/no_roles"
         android:gravity="center"
         android:textSize="24dp"
         android:visibility="invisible"/>
@@ -27,6 +28,7 @@
 
         <FrameLayout
             android:id="@+id/detail_fragment_container"
+            android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"/>

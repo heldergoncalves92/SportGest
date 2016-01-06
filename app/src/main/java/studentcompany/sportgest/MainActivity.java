@@ -13,18 +13,20 @@ import android.view.View;
 import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.AttributeListActivity;
-import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
+import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
+import studentcompany.sportgest.Games.Game_Activity_GameMode;
+import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
-import studentcompany.sportgest.Players.PlayersList_Activity;
+import studentcompany.sportgest.Players.Player_Activity_ListView;
+import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
-import studentcompany.sportgest.Trainings.CreateTrainingActivity;
 import studentcompany.sportgest.Trainings.TrainingListActivity;
-import studentcompany.sportgest.Team.TeamList_Activity;
+import studentcompany.sportgest.Team.Team_Activity_ListView;
 import studentcompany.sportgest.Users.RolesListActivity;
-import studentcompany.sportgest.Users.UserListActivity;
+import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
@@ -32,7 +34,7 @@ import studentcompany.sportgest.domains.Team;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton;
+    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton, gametestbutton;
     private MenuItem menuItem;
     private DrawerLayout mDrawerLayout;
 
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("id", id_To_Search);
                 */
-                Intent intent = new Intent(getApplicationContext(), ListEventCategoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EventCategory_List_Adapter.class);
 
                 //intent.putExtras(dataBundle);
                 startActivity(intent);
@@ -84,6 +86,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //gameTestButton
+        gametestbutton = (Button)findViewById(R.id.game_test_button);
+        gametestbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameTest_Activity.class);
+
+                startActivity(intent);
+            }
+        });
+
 
         //RoleButton
         rolesButton = (Button)findViewById(R.id.roles_button);
@@ -91,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
+                //Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
 
                 startActivity(intent);
             }
@@ -129,13 +143,18 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
 
+    public void goTo_Positions(View v){
+        Intent intent = new Intent(this, Position_Activity_ListView.class);
+        startActivity(intent);
+    }
+
     public void goTo_Users(View v){
-        Intent intent = new Intent(this, UserListActivity.class);
+        Intent intent = new Intent(this, User_Activity_ListView.class);
         startActivity(intent);
     }
 
     public void goTo_Players(View v){
-        Intent intent = new Intent(this, PlayersList_Activity.class);
+        Intent intent = new Intent(this, Player_Activity_ListView.class);
         intent.putExtra("TEAM",1);
         startActivity(intent);
     }
@@ -156,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Teams(View v){
-        Intent intent = new Intent(this, TeamList_Activity.class);
+        Intent intent = new Intent(this, Team_Activity_ListView.class);
         startActivity(intent);
     }
 
@@ -176,11 +195,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goTo_GameTest(View v){
+        Intent intent = new Intent(this, GameTest_Activity.class);
+        startActivity(intent);
+    }
+
     public void goTo_Game_GeneralView(View v){
         Intent intent = new Intent(this, GameGeneralView_Activity.class);
         startActivity(intent);
     }
 
+    public void goTo_GameModeView(View v){
+        Intent intent = new Intent(this, Game_Activity_GameMode.class);
+        intent.putExtra("GAME",3);
+        startActivity(intent);
+    }
 
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -188,9 +217,30 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent;
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                                Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Users:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), User_Activity_ListView.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Players:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), Player_Activity_ListView.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Exercise:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
                                 startActivity(intent);
                                 return true;
                         }

@@ -1,6 +1,5 @@
 package studentcompany.sportgest.Roles;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,32 +12,36 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Users.CreateRole_Activity;
 import studentcompany.sportgest.daos.Role_DAO;
+import studentcompany.sportgest.daos.Role_Permission_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Permission;
 import studentcompany.sportgest.domains.Role;
 
-public class Role_Activity_ListView extends AppCompatActivity implements ListRole_Fragment.OnItemSelected{
+public class Role_Activity_ListView extends AppCompatActivity implements Role_Fragment_List.OnItemSelected{
 
 
     private Role_DAO roleDao;
+    private Role_Permission_DAO role_permission_dao;
+
     private List<Role> roles;
     private int currentPos = -1;
-    private long user_id;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListRole_Fragment mListRoles = new ListRole_Fragment();
-    //private DetailsRole_Fragment mDetailsRole = new DetailsRole_Fragment();
+    private Role_Fragment_List mListRoles = new Role_Fragment_List();
+    private Role_Fragment_Details mDetailsRole = new Role_Fragment_Details();
     private static final String TAG = "ROLE_ACTIVITY";
 
     @Override
@@ -50,15 +53,25 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
         if(savedInstanceState != null)
             currentPos = savedInstanceState.getInt("currentPos");
 
-        //this.testUsers();
+
         try {
             roleDao = new Role_DAO(getApplicationContext());
+            role_permission_dao = new Role_Permission_DAO(getApplicationContext());
             roles = roleDao.getAll();
 
             if (roles.isEmpty()) {
                 noElems();
                 //insertUserTest(userDao);
                 //users = userDao.getAll();
+            }else{
+
+                //Get the permission list of each Role
+                List<Permission> lp;
+
+                for(Role r: roles){
+                    lp = role_permission_dao.getPermissionsByRoleId(r.getId());
+                    r.setPermissionList(lp);
+                }
             }
             mListRoles.setList(roles);
 
@@ -75,19 +88,12 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
 
         // Add the TitleFragment to the layout
         fragmentTransaction.add(R.id.title_fragment_container , mListRoles);
-        //fragmentTransaction.add(R.id.detail_fragment_container, mDetailsRole);
+        fragmentTransaction.add(R.id.detail_fragment_container, mDetailsRole);
 
         fragmentTransaction.commit();
-
-
-        if(roles.size()>0) {
-            currentPos=0;
-            //mDetailsUser.startActivity();
-            //mDetailsUser.showUser(users.get(currentPos));
-        }
     }
 
-    public void noElems(){
+    private void noElems(){
 
         LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
         l.setVisibility(View.GONE);
@@ -96,12 +102,21 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
         t.setVisibility(View.VISIBLE);
     }
 
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
+    }
+
     public void removeRole(){
-        //mDetailsUser.clearDetails();
+        mDetailsRole.clearDetails();
 
         roleDao.deleteById(roles.get(currentPos).getId());
         mListRoles.removeItem(currentPos);
-        //users.remove(currentPos);
+        roles.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
@@ -115,17 +130,23 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
      ****     Listener Functions     ****
      ************************************/
 
+    @Override
     public void itemSelected(int position) {
-        Role user = roles.get(position);
+        Role role = roles.get(position);
 
-        if(user != null){
+        if(role != null){
             if(currentPos == -1) {
                 MenuItem item = mOptionsMenu.findItem(R.id.action_del);
                 item.setVisible(true);
+
+                item = mOptionsMenu.findItem(R.id.action_edit);
+                item.setVisible(true);
+
+                mDetailsRole.showFirstElem();
             }
 
             currentPos = position;
-            //mDetailsUser.showUser(user);
+            mDetailsRole.showRole(role);
         }
     }
 
@@ -179,55 +200,43 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        MenuItem item;
-
-        if(roles.size()==0)
-        {
-            item = mOptionsMenu.findItem(R.id.action_add);
-            item.setVisible(true);
-            item = mOptionsMenu.findItem(R.id.action_edit);
-            item.setVisible(false);
-            item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(false);
-            item = mOptionsMenu.findItem(R.id.action_settings);
-            item.setVisible(false);
-        }else {
-            item = mOptionsMenu.findItem(R.id.action_edit);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_add);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_settings);
-            item.setVisible(false);
-        }
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //To restore state on Layout Rotation
-        /*if(currentPos != -1) {
-            mDetailsUser.showUser(users.get(currentPos));
-        }*/
+        if(currentPos != -1) {
+            mDetailsRole.showRole(roles.get(currentPos));
+
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(true);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-       switch (item.getItemId()) {
-            /*case R.id.action_add:
-                Intent intent = new Intent(this, CreateUser_Activity.class);
+        Intent intent;
+
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                intent = new Intent(this, Role_Activity_Create.class);
                 startActivityForResult(intent,112);
                 return true;
 
             case R.id.action_edit:
-                intent = new Intent(this, CreateUser_Activity.class);
-                user_id = users.get(currentPos).getId();
-                intent.putExtra("ID",user_id);
-                startActivityForResult(intent,1112);
+                //put current role ID in extras
+                Bundle dataBundle = new Bundle();
+                dataBundle.putLong(Role_DAO.TABLE_NAME+Role_DAO.COLUMN_ID, roles.get(currentPos).getId());
+
+                //declare intention to start CreateRoleActivity
+                intent = new Intent(getApplicationContext(), Role_Activity_Create.class);
+                intent.putExtras(dataBundle);
+
+                //start activity
+                startActivityForResult(intent, 112);
                 return true;
 
             case R.id.action_del:
@@ -235,13 +244,68 @@ public class Role_Activity_ListView extends AppCompatActivity implements ListRol
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
 
-
-            case android.R.id.home:
-                finish();
-                return true;*/
-
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //*************************
+        //***    Result Code    ***
+        //*************************
+        //***   0 - Nothing     ***
+        //***   1 - Create      ***
+        //***   2 - Edit        ***
+        //*************************
+
+
+        if (requestCode == 112) {
+
+            if(resultCode == 1) {
+                try {
+                    roles = roleDao.getAll();
+                    mListRoles.updateList(roles);
+
+                    if(roles.size() == 1)
+                        withElems();
+
+                    //Get the permission list of each Role
+                    List<Permission> lp;
+
+                    for(Role r: roles){
+                        lp = role_permission_dao.getPermissionsByRoleId(r.getId());
+                        r.setPermissionList(lp);
+                    }
+
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if(resultCode == 2) {
+                try {
+                    Role newRole = roleDao.getById(roles.get(currentPos).getId());
+                    newRole.setPermissionList(role_permission_dao.getPermissionsByRoleId(newRole.getId()));
+
+                    //Update ViewDetails
+                    mDetailsRole.showRole(newRole);
+                    roles.set(currentPos, newRole);
+
+                    //Update RecyclerView
+                    mListRoles.updatePosition(newRole, currentPos);
+
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

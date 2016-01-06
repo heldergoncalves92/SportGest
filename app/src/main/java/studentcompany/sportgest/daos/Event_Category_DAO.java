@@ -22,12 +22,12 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
 
     //Table columns
     public static final String COLUMN_ID          = "ID";
-    public static final String COLUMN_CATEGORY    = "CATEGORY";
+    public static final String COLUMN_NAME    = "NAME";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-            COLUMN_CATEGORY + " TEXT NOT NULL); ";
+            COLUMN_NAME + " TEXT NOT NULL); ";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -41,7 +41,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         //aux variables;
         ArrayList<EventCategory> resEventCategory = new ArrayList<>();
         long id;
-        String category;
+        String name;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
@@ -50,10 +50,12 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
         //Parse data
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
-            category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
-            resEventCategory.add(new EventCategory(id, category));
+            name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+            resEventCategory.add(new EventCategory(id, name));
             res.moveToNext();
         }
+
+        res.close();
 
         return resEventCategory;
     }
@@ -62,52 +64,65 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
     public EventCategory getById(long id) throws GenericDAOException{
         //aux variables;
         EventCategory resEventCategory;
-        String category;
+        String name;
 
         //Query
         Cursor rs = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
         rs.moveToFirst();
 
         //Parse data
-        category = rs.getString(rs.getColumnIndexOrThrow(COLUMN_CATEGORY));
-        resEventCategory = new EventCategory(id, category);
+        name = rs.getString(rs.getColumnIndexOrThrow(COLUMN_NAME));
+        resEventCategory = new EventCategory(id, name);
 
+        rs.close();
         return resEventCategory;
     }
 
     @Override
     public long insert(EventCategory object) throws GenericDAOException{
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_CATEGORY, object.getName());
+
+        if(object.getId()>0)
+            contentValues.put(COLUMN_ID, object.getId());
+        contentValues.put(COLUMN_NAME,  object.getName());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
     @Override
     public boolean delete(EventCategory object) throws GenericDAOException{
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     @Override
     public boolean deleteById(long id){
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(EventCategory object) throws GenericDAOException{
+
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_CATEGORY, object.getName());
+        contentValues.put(COLUMN_ID, object.getId());
+        contentValues.put(COLUMN_NAME,  object.getName());
+
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) } );
+                new String[]{Long.toString(object.getId())});
         return true;
     }
 
@@ -133,7 +148,7 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_CATEGORY + " = '" + tmpString + "'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " = '" + tmpString + "'");
             fields++;
         }
 
@@ -162,24 +177,25 @@ public class Event_Category_DAO extends GenericDAO<EventCategory> implements IGe
             fields++;
         }
         if ((tmpString = object.getName()) != null) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_CATEGORY + " LIKE '%" + tmpString + "%'");
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_NAME + " LIKE '%" + tmpString + "%'");
             fields++;
         }
 
         if (fields > 0) {
 
             long id;
-            String category;
+            String name;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
-                    category = res.getString(res.getColumnIndexOrThrow(COLUMN_CATEGORY));
-                    resEventCategory.add(new EventCategory(id, category));
+                    name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+                    resEventCategory.add(new EventCategory(id, name));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

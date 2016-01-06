@@ -47,7 +47,9 @@
     <string name="select_user">Select a user</string>
     <string name="app_newUser">SportGest - New User</string>
     <string name="app_newTeam">SportGest - New Team</string>
+    <string name="app_gameTest">SportGest - Game Test</string>
     <string name="app_newPlayer">SportGest - New Player</string>
+    <string name="app_newPosition">SportGest - New Position</string>
     <string name="action_del_user">Delete User</string>
     <string name="positive_answer">Yes</string>
     <string name="negative_answer">No</string>
@@ -129,13 +131,16 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="teamName">Name</string>
 
     <string name="err_password_match">Password do not match</string>
-    <string name="err_name_short">Name is short</string>
+    <string name="err_name_short">Name is too short</string>
     <string name="err_username_short">Username is short</string>
     <string name="err_valid_email">Email is not valid</string>
     <string name="err_address_short">Address is short</string>
     <string name="err_number">Invalid number</string>
     <string name="err_description_short">Description is short</string>
-
+    <string name="err_weight_invalid">Invalid weight</string>
+    <string name="err_height_invalid">Invalid height</string>
+    <string name="err_nickname_short">Nickname is short</string>
+    <string name="err_season">Invalid Season</string>
 
     <string name="userTeam">Team</string>
     <string name="pickTeam">Choose a Team</string>
@@ -149,6 +154,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_occured">An error ocurred</string>
     <string name="goTo_gamesView_button">View Game</string>
     <string name="goTo_squadCall_button">Manage Squad</string>
+
+    <string name="goTo_gameTest_button">Game Test</string>
     <string name="description_label"><b>Description</b></string>
     <string name="attributes_evaluated"><b>Evaluated attributes</b></string>
     <string name="exercise_name_label"><b>Name</b></string>
@@ -160,4 +167,16 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="app_newExercise">SportGest - New Exercise</string>
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
+    <string name="err_category_short">Category is short</string>
+    <string name="no_roles">There are no Roles!</string>
+    <string name="something_wrong">Something went wrong!</string>
+    <string name="err_position_short">Position is short</string>
+    <string name="teamSquad">Squad</string>
+    <string name="goTo_position_button">Manage Positions</string>
+    <string name="goTo_gameModeView_button">Game Mode View</string>
+    <string name="userPhoto">Photo</string>
+    <string name="NoSelected_Role">Select a Role!</string>
+    <string name="NoSelected_User">Select a User!</string>
+    <string name="NoSelected_Team">Select a Team!</string>
+
 </resources>

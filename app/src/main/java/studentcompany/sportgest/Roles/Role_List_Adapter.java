@@ -1,6 +1,9 @@
 package studentcompany.sportgest.Roles;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,28 +18,51 @@ import studentcompany.sportgest.domains.Role;
  * Created by heldergoncalves on 16/12/15.
  */
 public class Role_List_Adapter extends RecyclerView.Adapter<Role_List_Adapter.ViewHolder> {
-private List<Role> mDataset;
 
+    private Context context;
+    private static Role_Fragment_List.OnItemSelected mListener;
+    private List<Role> mDataset;
 
-// Provide a reference to the views for each data item
-// Complex data items may need more than one view per item, and
-// you provide access to all the views for a data item in a view holder
-static class ViewHolder extends RecyclerView.ViewHolder {
-    // each data item is just a string in this case
-    public AppCompatTextView mTextView_num, mTextView_name;
-    public View parent;
+    private int currentPos = -1;
+    private ViewHolder currentVH = null;
 
-    public ViewHolder(View view) {
-        super(view);
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // each data item is just a string in this case
+        private Role_List_Adapter su;
+        public AppCompatTextView mTextView_name;
+        public CardView parent;
 
-        parent = view;
-        mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+        public ViewHolder(View view, Role_List_Adapter su) {
+            super(view);
+            view.setOnClickListener(this);
+
+            this.su = su;
+            parent = (CardView) view;
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+        }
+
+        @Override
+        public void onClick(View v) {
+            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+            su.itemSelected(this, getLayoutPosition());
+
+            mListener.itemSelected(getLayoutPosition());
+        }
+
+        public void focus_loss() {
+            parent.setCardBackgroundColor(Color.WHITE);
+        }
     }
-}
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Role_List_Adapter(List<Role> myDataset) {
-        mDataset = myDataset;
+    public Role_List_Adapter(List<Role> myDataset, Context context, Role_Fragment_List.OnItemSelected mListener) {
+
+        this.mDataset = myDataset;
+        this.context = context;
+        this.mListener = mListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -49,7 +75,7 @@ static class ViewHolder extends RecyclerView.ViewHolder {
         // set the view's size, margins, paddings and layout parameters
 
 
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v, this);
         return vh;
     }
 
@@ -65,8 +91,6 @@ static class ViewHolder extends RecyclerView.ViewHolder {
             //holder.mTextView_num.setText(String.valueOf(player.getNumber()));
             holder.mTextView_name.setText(role.getName());
 
-
-
         }
     }
 
@@ -74,6 +98,16 @@ static class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void itemSelected(ViewHolder vh, int position){
+
+        if(currentPos != -1 && currentVH != null){
+            currentVH.focus_loss();
+        }
+
+        currentVH = vh;
+        currentPos = position;
     }
     
 }

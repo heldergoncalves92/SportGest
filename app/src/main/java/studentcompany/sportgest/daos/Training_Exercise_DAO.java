@@ -78,14 +78,7 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
                     repetitions));
             res.moveToNext();
         }
-
-        //Sorting
-        Collections.sort(resTrainingExercise, new Comparator<TrainingExercise>() {
-            @Override
-            public int compare(TrainingExercise lhs, TrainingExercise rhs) {
-                return lhs.getExercise().getTitle().compareTo(rhs.getExercise().getTitle());
-            }
-        });
+        res.close();
 
         return resTrainingExercise;
     }
@@ -113,11 +106,19 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
                 exercise_dao.getById(exerciseId),
                 repetitions);
 
+        res.close();
         return resTrainingExercise;
     }
 
     @Override
     public long insert(TrainingExercise object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
+
+        if(object.getTraining()==null || object.getExercise() == null)
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
@@ -129,22 +130,26 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
 
     @Override
     public boolean delete(TrainingExercise object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id) {
-
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(TrainingExercise object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getTraining()==null || object.getExercise() == null)
+            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
@@ -177,13 +182,17 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if (object.getTraining() != null && (tmpLong = object.getTraining().getId()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
-            fields++;
+        if (object.getTraining() != null){
+            if((tmpLong = object.getTraining().getId()) > 0){
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if (object.getExercise() != null && (tmpLong = object.getExercise().getId()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
-            fields++;
+        if (object.getExercise() != null){
+            if((tmpLong = object.getExercise().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong);
+                fields++;
+            }
         }
         if ((tmpInt = object.getRepetitions()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
@@ -214,13 +223,17 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if (object.getTraining() != null && (tmpLong = object.getTraining().getId()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
-            fields++;
+        if (object.getTraining() != null){
+            if((tmpLong = object.getTraining().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if (object.getExercise() != null && (tmpLong = object.getExercise().getId()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
-            fields++;
+        if (object.getExercise() != null){
+            if((tmpLong = object.getExercise().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong);
+                fields++;
+            }
         }
         if ((tmpInt = object.getRepetitions()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_REPETITIONS + " = " + tmpInt );
@@ -248,16 +261,8 @@ public class Training_Exercise_DAO extends GenericDAO<TrainingExercise> implemen
                             repetitions));
                     res.moveToNext();
                 }
+            res.close();
         }
-
-        //Sorting
-        Collections.sort(resTrainingExercise, new Comparator<TrainingExercise>() {
-            @Override
-            public int compare(TrainingExercise lhs, TrainingExercise rhs) {
-                return lhs.getExercise().getTitle().compareTo(rhs.getExercise().getTitle());
-            }
-        });
-
 
         return resTrainingExercise;
     }
