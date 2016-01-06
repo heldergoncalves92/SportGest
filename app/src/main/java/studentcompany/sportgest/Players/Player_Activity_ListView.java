@@ -139,7 +139,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Player player = players.get(position);
 
         if(player != null){

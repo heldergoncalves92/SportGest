@@ -17,7 +17,7 @@
             android:id="@+id/game_InGame_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"/>
+            android:layout_weight="4.5"/>
 
         <ImageButton
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:id="@+id/game_OnBench_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"/>
+            android:layout_weight="5.5"/>
 
 
     </LinearLayout>

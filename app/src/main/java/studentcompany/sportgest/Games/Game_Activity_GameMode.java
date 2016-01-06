@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.SynchronousQueue;
 
 import studentcompany.sportgest.Players.Player_Fragment_List;
@@ -23,7 +25,7 @@ import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
-public class Game_Activity_GameMode extends AppCompatActivity {
+public class Game_Activity_GameMode extends AppCompatActivity implements Player_Fragment_List.OnItemSelected {
 
     private List<Player> inGame, onBench;
     private Player_DAO playerDao;
@@ -35,6 +37,7 @@ public class Game_Activity_GameMode extends AppCompatActivity {
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
     private Player_Fragment_List mList_onBench = new Player_Fragment_List();
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
+    private static final int ON_BENCH = 0, IN_GAME = 1;
 
 
     @Override
@@ -47,27 +50,41 @@ public class Game_Activity_GameMode extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null){
-                baseGameID = extras.getInt("GAME");
+                baseGameID = extras.getLong("GAME");
 
             } else
                 baseGameID = -1;
 
         } else {
-            baseGameID = savedInstanceState.getInt("baseGameID");
+            baseGameID = savedInstanceState.getLong("baseGameID");
         }
 
-        squadCallDao = new Squad_Call_DAO(getApplicationContext());
+
 
         try {
+            //Initializations
+            squadCallDao = new Squad_Call_DAO(getApplicationContext());
+            onBench = new ArrayList<Player>();
+            inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
-            List<Pair<Player,Game>> list = squadCallDao.getAll();
-            onBench = squadCallDao.getPlayersBy_GameID(baseGameID);
-
-
-            if(onBench == null){
+            if(inGame == null){
                 //insertTest();
+                finish();
+                return;
             }
 
+            if(inGame.size() > 5) {
+                while(inGame.size() != 5){
+                    onBench.add(inGame.get(5));
+                    inGame.remove(5);
+                }
+            }
+
+            mList_inGame.setList(inGame);
+            mList_onBench.setList(onBench);
+
+            mList_inGame.setTag(IN_GAME);
+            mList_onBench.setTag(ON_BENCH);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -75,18 +92,22 @@ public class Game_Activity_GameMode extends AppCompatActivity {
 
 
         // Get a reference to the FragmentManager
-       /* mFragmentManager = getSupportFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
 
         // Start a new FragmentTransaction
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.title_fragment_container , mList_inGame);
-        fragmentTransaction.add(R.id.title_fragment_container , mList_onBench);
+        fragmentTransaction.add(R.id.game_InGame_list , mList_inGame);
+        fragmentTransaction.add(R.id.game_OnBench_list , mList_onBench);
 
         fragmentTransaction.commit();
 
-        */
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putLong("baseGameID", baseGameID);
     }
 
 
@@ -133,6 +154,16 @@ public class Game_Activity_GameMode extends AppCompatActivity {
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void itemSelected(int position, int tag){
+        int i;
+        if (tag == IN_GAME) {
+            i=0;
+
+        }else if (tag == ON_BENCH)
+            i=1;
 
     }
 

@@ -22,6 +22,7 @@ public class Player_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_PLAYER_FRAGMENT";
     private List<Player> list;
+    private int tag = 0;
     OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
@@ -56,7 +57,7 @@ public class Player_Fragment_List extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Player_List_Adapter(list, mListener);
+        mAdapter = new Player_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
@@ -67,10 +68,14 @@ public class Player_Fragment_List extends Fragment {
         this.list = list;
     }
 
+    public void setTag(int tag){
+        this.tag = tag;
+    }
+
     public void updateList(List<Player> list){
         this.list = list;
 
-        mAdapter = new Player_List_Adapter(list, mListener);
+        mAdapter = new Player_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -91,7 +96,7 @@ public class Player_Fragment_List extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 
 }

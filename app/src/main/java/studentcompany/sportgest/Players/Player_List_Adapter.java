@@ -23,6 +23,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     private static Player_Fragment_List.OnItemSelected mListener;
     private List<Player> mDataset;
 
+    private int tag;
     private int currentPos = -1;
     private ViewHolder currentVH = null;
 
@@ -51,7 +52,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
             parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
             su.itemSelected(this, getLayoutPosition());
 
-            mListener.itemSelected(getLayoutPosition());
+            mListener.itemSelected(getLayoutPosition(), su.tag);
         }
 
 
@@ -61,10 +62,11 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener) {
+    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener, int tag) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
+        this.tag = tag;
     }
 
     // Create new views (invoked by the layout manager)
