@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Games;
 
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,18 +10,18 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import studentcompany.sportgest.Positions.Position_Fragment_List;
-import studentcompany.sportgest.Positions.Position_List_Adapter;
+import studentcompany.sportgest.Games.GameMode_Event_Fragment_List;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Event;
+import studentcompany.sportgest.domains.EventCategory;
 
 /**
  * Created by heldergoncalves on 27/12/15.
  */
-public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapter.ViewHolder> {
+public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_Event_List_Adapter.ViewHolder> {
 
-    private static Player_Fragment_List.OnItemSelected mListener;
-    private List<Player> mDataset;
+    private static GameMode_Event_Fragment_List.OnItemSelected mListener;
+    private List<EventCategory> mDataset;
 
     private int tag;
     private int currentPos = -1;
@@ -33,12 +33,12 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
 
-        private Player_List_Adapter su = null;
+        private GameMode_Event_List_Adapter su = null;
         public AppCompatTextView mTextView_name;
         public CardView parent;
 
 
-        public ViewHolder(View view, Player_List_Adapter su) {
+        public ViewHolder(View view, GameMode_Event_List_Adapter su) {
             super(view);
             view.setOnClickListener(this);
 
@@ -49,33 +49,20 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
         @Override
         public void onClick(View v) {
-            int pos = getLayoutPosition();
+            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+            su.itemSelected(this, getLayoutPosition());
 
-            if(su.currentPos != pos){
-                parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
-                su.itemSelected(this, getLayoutPosition());
-                mListener.itemSelected(getLayoutPosition(), su.tag);
-
-            } else if(su.tag != 0){
-                focus_loss();
-            }
+            mListener.itemSelected(getLayoutPosition(), su.tag);
         }
+
 
         public void focus_loss() {
             parent.setCardBackgroundColor(Color.WHITE);
-            su.currentPos=-1;
-            su.currentVH=null;
-        }
-
-        public void focus_gain() {
-            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
-            su.currentVH = this;
-            su.currentPos = -1;
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener, int tag) {
+    public GameMode_Event_List_Adapter(List<EventCategory> myDataset, GameMode_Event_Fragment_List.OnItemSelected mListener, int tag) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
@@ -84,7 +71,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Player_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public GameMode_Event_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -101,11 +88,12 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        //holder.mTextView.setText(mDataset[position]);
+        EventCategory event = mDataset.get(position);
 
-        Player player = mDataset.get(position);
-
-        if (player != null) {
-            holder.mTextView_name.setText(player.getName());
+        if (event != null) {
+            //holder.mTextView_num.setText(String.valueOf(event.getNumber()));
+            holder.mTextView_name.setText(event.getName());
 
         }
     }
@@ -125,11 +113,5 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         currentVH = vh;
         currentPos = position;
     }
-
-    public int getCurrentPos(){
-        return currentPos;
-    }
-
-
 
 }

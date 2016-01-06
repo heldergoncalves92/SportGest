@@ -1,8 +1,9 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Games;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,17 +12,19 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import studentcompany.sportgest.Games.GameMode_Event_List_Adapter;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Event;
+import studentcompany.sportgest.domains.EventCategory;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Player_Fragment_List extends Fragment {
+public class GameMode_Event_Fragment_List extends Fragment {
 
 
-    private static final String TAG = "LIST_PLAYER_FRAGMENT";
-    private List<Player> list;
+    private static final String TAG = "GAMEMODE_EVENT_FRAGMENT";
+    private List<EventCategory> list;
     private int tag = 0;
     OnItemSelected mListener;
 
@@ -53,18 +56,18 @@ public class Player_Fragment_List extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new GridLayoutManager(getContext(),3);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Player_List_Adapter(list, mListener, tag);
+        mAdapter = new GameMode_Event_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
 
     }
 
-    public void setList(List<Player> list){
+    public void setList(List<EventCategory> list){
         this.list = list;
     }
 
@@ -72,45 +75,22 @@ public class Player_Fragment_List extends Fragment {
         this.tag = tag;
     }
 
-    public void updateList(List<Player> list){
+    public void updateList(List<EventCategory> list){
         this.list = list;
 
-        mAdapter = new Player_List_Adapter(list, mListener, tag);
+        mAdapter = new GameMode_Event_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updatePosition(Player player, int position){
-        this.list.set(position, player);
+    public void updatePosition(EventCategory event, int position){
+        this.list.set(position, event);
         mAdapter.notifyItemChanged(position);
     }
 
-    public void insert_Item(Player player){
-        this.list.add(player);
-        mAdapter.notifyItemInserted(list.size() - 1);
-    }
-
-    public void selectFirstItem(){
-
-        Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
-        v.focus_gain();
-    }
-
-    public void unselect_Item(int position){
-
-        Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-        v.focus_loss();
-    }
 
 
-    public Player removeItem(int position){
-        Player p = list.remove(position);
+    public void removeItem(int position){
         mAdapter.notifyItemRemoved(position);
-
-        return p;
-    }
-
-    public int has_Selection(){
-        return ((Player_List_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************
