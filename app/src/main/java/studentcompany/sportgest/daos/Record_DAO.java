@@ -298,23 +298,23 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_STATE + " = " + tmpInt );
             fields++;
         }
-        if ((tmpLong = object.getTraining().getId()) >= 0) {
+        if (object.getTraining()!=null && (tmpLong = object.getTraining().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getExercise().getId()) >= 0) {
+        if (object.getExercise()!=null && (tmpLong = object.getExercise().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getAttribute().getId()) >= 0) {
+        if (object.getAttribute()!=null && (tmpLong = object.getAttribute().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+        if (object.getPlayer()!=null && (tmpLong = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getUser().getId()) >= 0) {
+        if (object.getUser()!=null && (tmpLong = object.getUser().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong );
             fields++;
         }
