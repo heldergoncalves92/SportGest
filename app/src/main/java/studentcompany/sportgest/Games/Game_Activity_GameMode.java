@@ -16,27 +16,33 @@ import java.util.concurrent.SynchronousQueue;
 
 import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Squad_Call_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Event;
+import studentcompany.sportgest.domains.EventCategory;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
-public class Game_Activity_GameMode extends AppCompatActivity implements Player_Fragment_List.OnItemSelected {
+public class Game_Activity_GameMode extends AppCompatActivity implements Player_Fragment_List.OnItemSelected, GameMode_Event_Fragment_List.OnItemSelected {
 
     private List<Player> inGame, onBench;
+    private List<EventCategory> events;
     private Player_DAO playerDao;
     private Squad_Call_DAO squadCallDao;
+    private Event_Category_DAO event_category_dao;
 
     private long baseGameID;
 
     private FragmentManager mFragmentManager;
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
     private Player_Fragment_List mList_onBench = new Player_Fragment_List();
+    private GameMode_Event_Fragment_List mList_Events = new GameMode_Event_Fragment_List();
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
     private static final int ON_BENCH = 1, IN_GAME = 2;
 
@@ -67,11 +73,13 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         try {
             //Initializations
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
+            event_category_dao = new Event_Category_DAO(getApplicationContext());
             onBench = new ArrayList<Player>();
             inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
+            events = event_category_dao.getAll();
             if(inGame == null){
-                //insertTest();
+                insertTest();
                 finish();
                 return;
             }
@@ -89,6 +97,8 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             mList_inGame.setTag(IN_GAME);
             mList_onBench.setTag(ON_BENCH);
 
+            mList_Events.setList(events);
+
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -103,6 +113,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         // Add the TitleFragment to the layout
         fragmentTransaction.add(R.id.game_InGame_list , mList_inGame);
         fragmentTransaction.add(R.id.game_OnBench_list , mList_onBench);
+        fragmentTransaction.add(R.id.game_EventCategory_list , mList_Events);
 
         fragmentTransaction.commit();
 
@@ -131,6 +142,18 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             Game game = new Game(team,team, new Date().getTime(), "", -1 , -1, 40.0f);
             long gameID = game_dao.insert(game);
             game.setId(gameID);
+
+            EventCategory event = new EventCategory(0,"Goal");
+            event_category_dao.insert(event);
+
+            event = new EventCategory(0,"Yellow Card");
+            event_category_dao.insert(event);
+
+            event = new EventCategory(0,"Foul");
+            event_category_dao.insert(event);
+
+            event = new EventCategory(0,"Explosion");
+            event_category_dao.insert(event);
 
 
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
@@ -162,6 +185,9 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
     public void itemSelected(int position, int tag){
 
+
+    }
+    public void itemSelected(int position){
 
     }
 
