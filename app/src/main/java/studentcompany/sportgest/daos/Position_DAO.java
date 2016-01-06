@@ -83,6 +83,10 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
 
     @Override
     public long insert(Position object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
 
@@ -91,22 +95,25 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
 
     @Override
     public boolean delete(Position object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
-    @Override
-    public boolean deleteById(long id) {
-        int deletedCount = db.delete(TABLE_NAME,
+    public boolean deleteById(long id){
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Position object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
         db.update(TABLE_NAME,

@@ -28,14 +28,14 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     //Table columns
     public final static String COLUMN_ID = "ID"; // é a chave primaria
     public final static String COLUMN_VALUE = "VALUE";
-    public final static String COLUMN_PLAYER_ID = "PLAYER_ID"; //Forgen key
-    public final static String COLUMN_POSITION_ID = "TEAM_ID";//gforgen key
+    public final static String COLUMN_PLAYER_ID = "PLAYER_ID";
+    public final static String COLUMN_POSITION_ID = "TEAM_ID";
 
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID      + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_VALUE    + " TEXT NOT NULL, " +
+            COLUMN_VALUE    + " INTEGER NOT NULL, " +
             COLUMN_PLAYER_ID    + " TEXT NOT NULL, " +
             COLUMN_POSITION_ID + " INTEGER NOT NULL);";
 
@@ -46,7 +46,6 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
         this.db = MyDB.getInstance(context).db;
         this.player_dao= new Player_DAO(context);
         this.position_dao= new Position_DAO(context);
-
     }
 
     @Override
@@ -104,6 +103,9 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     @Override
     public long insert(PlayerPosition object) throws GenericDAOException {
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
         contentValues.put(COLUMN_POSITION_ID, object.getPosition().getId());
@@ -114,20 +116,28 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
     @Override
     public boolean delete(PlayerPosition object) throws GenericDAOException {
 
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id){
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) }) > 0 ? true : false;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(PlayerPosition object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+
+        if(object.getPlayer() == null || object.getPosition() == null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
         contentValues.put(COLUMN_POSITION_ID, object.getPosition().getId());
@@ -136,7 +146,6 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
                 contentValues,
                 COLUMN_ID + " = ? ",
                 new String[]{Long.toString(object.getId())}) >0 ? true : false ;
-
     }
 
     public int numberOfRows(){
@@ -159,17 +168,19 @@ public class Player_Position_DAO extends GenericDAO<PlayerPosition> implements I
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if(object.getPlayer()!=null)
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
-            fields++;
+        if(object.getPlayer()!=null){
+            if ((tmpLong = object.getPlayer().getId()) >= 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong + "");
+                fields++;
+            }
         }
-        if(object.getPosition()!=null)
-        if ((tmpLong = object.getPosition().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
-            fields++;
+        if(object.getPosition()!=null) {
+            if ((tmpLong = object.getPosition().getId()) >= 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSITION_ID + " = " + tmpLong + "");
+                fields++;
+            }
         }
-        if ((tmpInt = object.getValue()) <= 0 ) {
+        if ((tmpInt = object.getValue()) <= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_VALUE + " = " + tmpInt + "");
             fields++;
         }

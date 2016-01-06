@@ -1,6 +1,8 @@
 package studentcompany.sportgest.domains;
 
-public class Attribute extends DomainPojo {
+import java.util.Comparator;
+
+public class Attribute extends DomainPojo implements Comparator<Attribute>{
     private long id;
     private String type;
     private String name;
@@ -49,6 +51,12 @@ public class Attribute extends DomainPojo {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compare(Attribute lhs, Attribute rhs) {
+        //Sorting
+        return lhs.getName().compareTo(rhs.getName());
     }
 
     @Override

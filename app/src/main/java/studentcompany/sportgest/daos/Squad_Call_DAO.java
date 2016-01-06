@@ -26,13 +26,13 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
     public static final String TABLE_NAME         = "SQUAD_CALL";
 
     //Table columns
-    public static final String COLUMN_GAME_ID = "GAME_ID";
     public static final String COLUMN_PLAYER_ID = "PLAYER_ID";
+    public static final String COLUMN_GAME_ID = "GAME_ID";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-            COLUMN_GAME_ID + " INTEGER NOT NULL, " +
             COLUMN_PLAYER_ID + " INTEGER NOT NULL, " +
+            COLUMN_GAME_ID + " INTEGER NOT NULL, " +
             "PRIMARY KEY (" + COLUMN_GAME_ID + ", " + COLUMN_PLAYER_ID + "), " +
             "FOREIGN KEY(" + COLUMN_GAME_ID + ") REFERENCES " + Game_DAO.TABLE_NAME + "(" + Game_DAO.COLUMN_ID + "), " +
             "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES " + Player_DAO.TABLE_NAME + "(" + Player_DAO.COLUMN_ID + "));";
@@ -42,8 +42,8 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
     public Squad_Call_DAO(Context context) {
         this.db = MyDB.getInstance(context).db;
-        this.game_dao = new Game_DAO(context);
         this.player_dao = new Player_DAO(context);
+        this.game_dao = new Game_DAO(context);
     }
 
     @Override
@@ -59,8 +59,8 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
         //Parse data
         while(res.isAfterLast() == false) {
-            gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+            gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             resList.add(
                     new Pair<>(
                             player_dao.getById(playerId),
@@ -113,6 +113,11 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
     @Override
     public long insert(Pair<Player, Game> object) throws GenericDAOException {
+        if (object == null)
+            return -1;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return -1;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getFirst().getId());
         contentValues.put(COLUMN_GAME_ID, object.getSecond().getId());
@@ -122,15 +127,32 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
 
     @Override
     public boolean delete(Pair<Player, Game> object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
+        if (object == null)
+            return false;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return false;
+
+        return db.delete(TABLE_NAME,
                 COLUMN_PLAYER_ID + " = ? , " + COLUMN_GAME_ID + " = ? ",
-                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) });
-        return true;
+                new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) })  > 0;
+
     }
 
     @Override
     public boolean exists(Pair<Player, Game> object) throws GenericDAOException {
-        return false;
+        if (object == null)
+            return false;
+
+        if (object.getFirst() == null || object.getSecond() == null)
+            return false;
+
+        StringBuilder statement = new StringBuilder("SELECT * FROM " + TABLE_NAME + " where ");
+        statement.append(COLUMN_PLAYER_ID).append("=").append(object.getFirst().getId());
+        statement.append(" AND ").append(COLUMN_GAME_ID).append("=").append(object.getSecond().getId());
+
+        Cursor res = db.rawQuery(statement.toString(), null);
+        return res.moveToFirst();
     }
 
     public List<Player> getPlayersBy_GameID(long gameId) throws GenericDAOException{

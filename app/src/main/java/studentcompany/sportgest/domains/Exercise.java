@@ -1,6 +1,8 @@
 package studentcompany.sportgest.domains;
 
-public class Exercise extends DomainPojo {
+import java.util.Comparator;
+
+public class Exercise extends DomainPojo implements Comparator<Exercise>{
     private long id;
     private String title;
     private String description;
@@ -54,6 +56,11 @@ public class Exercise extends DomainPojo {
                 ", description='" + description + '\'' +
                 ", duration=" + duration +
                 '}';
+    }
+
+    @Override
+    public int compare(Exercise lhs, Exercise rhs) {
+        return lhs.getTitle().compareTo(rhs.getTitle());
     }
 
     @Override
