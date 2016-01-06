@@ -23,12 +23,13 @@ import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Record;
+import studentcompany.sportgest.domains.TrainingExercise;
 
 public class ExerciseAttributes_Fragment extends Fragment {
 
     private static final String TAG = "EXERCISE_ATTRIBUTES_FRAGMENT";
     private View view;
-    private TextView tv_name, tv_duration;
+    private TextView tv_name, tv_duration, tv_repetitions;
     private TableLayout table;
 
     public ExerciseAttributes_Fragment() {
@@ -45,6 +46,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
         view =  lf.inflate(R.layout.fragment_exercise_attributes_evaluation, container, false);
         tv_name = (TextView) view.findViewById(R.id.exercise_name);
         tv_duration = (TextView) view.findViewById(R.id.exercise_duration);
+        tv_repetitions = (TextView) view.findViewById(R.id.exercise_repetitions);
 
         table = new TableLayout(getActivity());
         table.setStretchAllColumns(true);
@@ -62,7 +64,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
         return list;
     }
 
-    public void showExercise(Exercise exercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations){
+    public void showExercise(Exercise exercise, TrainingExercise trainingExercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations){
         clearDetails();
         tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
@@ -70,6 +72,9 @@ public class ExerciseAttributes_Fragment extends Fragment {
         tv_duration.setText("" + exercise.getDuration());
         tv_duration.setFocusable(false);
         tv_duration.setClickable(false);
+        tv_repetitions.setText("" + trainingExercise.getRepetitions());
+        tv_repetitions.setFocusable(false);
+        tv_repetitions.setClickable(false);
 
         //TODO: create table with relations from players to attributes and his evaluation -> TableLayout
         FragmentActivity fa = getActivity();
@@ -154,6 +159,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
     public void clearDetails(){
         tv_name.setText("");
         tv_duration.setText("");
+        tv_repetitions.setText("");
         table.removeAllViews();
     }
 }

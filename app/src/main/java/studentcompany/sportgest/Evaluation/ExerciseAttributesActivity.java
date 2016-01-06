@@ -161,6 +161,8 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
     @Override
     public void itemSelected(int position) {
         Exercise exercise = exerciseList.get(position);
+        List<TrainingExercise> trainingExerciseList;
+        TrainingExercise trainingExercise = null;
 
         if(exercise != null){
             if(currentPos == -1) {
@@ -171,6 +173,10 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
             currentPos = position;
             try {
                 exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
+                trainingExerciseList = training_exercise_dao.getByCriteria(new TrainingExercise(-1, training_dao.getById(training_id), exercise, -1));
+                if(!trainingExerciseList.isEmpty()){
+                    trainingExercise = trainingExerciseList.get(0);
+                }
                 //get previous/current evaluations
                 evaluations = record_dao.getByCriteria(new Record(-1, -1, -1, -1,
                         new Training(training_id),
@@ -181,7 +187,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
                 exerciseAttributesList = new ArrayList<>();
                 evaluations = new ArrayList<>();
             }
-            mExerciseAttributes.showExercise(exercise, exerciseAttributesList, playerList, evaluations);
+            mExerciseAttributes.showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
         }
     }
 

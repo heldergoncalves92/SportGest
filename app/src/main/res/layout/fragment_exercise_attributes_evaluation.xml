@@ -22,7 +22,7 @@
             android:id="@+id/layout_exercise_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8">
+            android:layout_weight="4">
 
             <EditText
                 android:id="@+id/exercise_name"
