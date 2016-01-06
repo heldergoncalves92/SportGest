@@ -196,13 +196,12 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*
         getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         mOptionsMenu = menu;
         menu.findItem(R.id.Edit).setVisible(false);
         menu.findItem(R.id.Delete).setVisible(false);
         menu.findItem(R.id.Save).setVisible(false);
-        */
+
         return true;
     }
 

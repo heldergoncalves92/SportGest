@@ -117,6 +117,12 @@
                 android:id="@+id/training_button"
                 android:onClick="goTo_Training"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ExerciseEvaluationTest"
+                android:id="@+id/exercise_attributes_evaluation" />
+
         </android.support.v7.widget.LinearLayoutCompat>
     </ScrollView>
 </RelativeLayout>

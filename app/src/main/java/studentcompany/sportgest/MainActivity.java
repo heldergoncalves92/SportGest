@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.AttributeListActivity;
+import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
 import studentcompany.sportgest.EventCategories.ListEventCategoryActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
@@ -25,6 +26,8 @@ import studentcompany.sportgest.Team.TeamList_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.UserListActivity;
 import studentcompany.sportgest.daos.Game_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
+import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Team;
@@ -91,6 +94,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
 
+                startActivity(intent);
+            }
+        });
+
+        //Evaluation Button
+        Button exerEval  = (Button)findViewById(R.id.exercise_attributes_evaluation);
+        exerEval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExerciseAttributesActivity.class);
+
+                //put current team ID and training ID in extras
+                Bundle dataBundle = new Bundle();
+                dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, 1);
+                dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, 1);
+                //add data
+                intent.putExtras(dataBundle);
+                //start activity
                 startActivity(intent);
             }
         });

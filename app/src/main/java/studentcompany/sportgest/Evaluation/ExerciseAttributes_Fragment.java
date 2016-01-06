@@ -76,6 +76,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
 
         //TextViews
         TextView tv;
+        TableRow tr;
 
         //Data structures
         int rowNumber = 1;
@@ -88,13 +89,17 @@ public class ExerciseAttributes_Fragment extends Fragment {
         //fill rows (player names)
         tv = new TextView(fa);
         tv.setText("");
-        evaluationTable.put(new Pair<Integer, Integer>(0,0), tv);
+        evaluationTable.put(new Pair<Integer, Integer>(0, 0), tv);
+        tr = new TableRow(fa);
+        tableRows.add(tr);
         for(Player p: playerList){
             playerRow.put(p.getId(), rowNumber);
             tv = new TextView(fa);
             tv.setText(p.getName());
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             evaluationTable.put(new Pair<Integer, Integer>(rowNumber, 0), tv);
+            tr = new TableRow(fa);
+            tableRows.add(tr);
             rowNumber++;
         }
 
@@ -142,6 +147,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
         }
 
         TextInputLayout til = (TextInputLayout) view.findViewById(R.id.text_layout_exercise_attributes);
+        til.removeAllViews();
         til.addView(table);
     }
 
