@@ -84,10 +84,33 @@ public class Player_Fragment_List extends Fragment {
         mAdapter.notifyItemChanged(position);
     }
 
+    public void insert_Item(Player player){
+        this.list.add(player);
+        mAdapter.notifyItemInserted(list.size() - 1);
+    }
+
+    public void selectFirstItem(){
+
+        Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
 
 
-    public void removeItem(int position){
+    public Player removeItem(int position){
+        Player p = list.remove(position);
         mAdapter.notifyItemRemoved(position);
+
+        return p;
+    }
+
+    public int has_Selection(){
+        return ((Player_List_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************

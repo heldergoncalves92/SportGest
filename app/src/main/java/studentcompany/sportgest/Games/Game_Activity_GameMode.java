@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +38,9 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
     private Player_Fragment_List mList_onBench = new Player_Fragment_List();
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
-    private static final int ON_BENCH = 0, IN_GAME = 1;
+    private static final int ON_BENCH = 1, IN_GAME = 2;
+
+    private int tag = -1;
 
 
     @Override
@@ -158,13 +161,44 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     }
 
     public void itemSelected(int position, int tag){
-        int i;
-        if (tag == IN_GAME) {
-            i=0;
 
-        }else if (tag == ON_BENCH)
-            i=1;
 
+    }
+
+    public void swapPlayers(View v){
+        Player p, p2;
+
+        int selected_InGame, selectedOnBench;
+
+        selected_InGame = mList_inGame.has_Selection();
+        selectedOnBench = mList_onBench.has_Selection();
+
+        //Swap
+        if (selected_InGame != -1 && selectedOnBench != -1) {
+            mList_inGame.unselect_Item(selected_InGame);
+            mList_onBench.unselect_Item(selectedOnBench);
+
+            p = mList_inGame.removeItem(selected_InGame);
+            p2 = mList_onBench.removeItem(selectedOnBench);
+
+            mList_inGame.insert_Item(p2);
+            mList_onBench.insert_Item(p);
+
+
+            //Move to onBench
+        }else if (selected_InGame != -1){
+            mList_inGame.unselect_Item(selected_InGame);
+            p = mList_inGame.removeItem(selected_InGame);
+            mList_onBench.insert_Item(p);
+
+
+            //Move to inGame
+        }else if (selectedOnBench != -1){
+            mList_onBench.unselect_Item(selectedOnBench);
+            p = mList_onBench.removeItem(selectedOnBench);
+            mList_inGame.insert_Item(p);
+
+        }
     }
 
 }

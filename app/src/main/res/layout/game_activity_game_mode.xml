@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_swap_vert_black_24dp"/>
+            android:src="@drawable/ic_swap_vert_black_24dp"
+            android:onClick="swapPlayers"/>
 
         <FrameLayout
             android:id="@+id/game_OnBench_list"

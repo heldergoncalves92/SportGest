@@ -49,15 +49,28 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
         @Override
         public void onClick(View v) {
-            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
-            su.itemSelected(this, getLayoutPosition());
+            int pos = getLayoutPosition();
 
-            mListener.itemSelected(getLayoutPosition(), su.tag);
+            if(su.currentPos != pos){
+                parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+                su.itemSelected(this, getLayoutPosition());
+                mListener.itemSelected(getLayoutPosition(), su.tag);
+
+            } else if(su.tag != 0){
+                focus_loss();
+            }
         }
-
 
         public void focus_loss() {
             parent.setCardBackgroundColor(Color.WHITE);
+            su.currentPos=-1;
+            su.currentVH=null;
+        }
+
+        public void focus_gain() {
+            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+            su.currentVH = this;
+            su.currentPos = -1;
         }
     }
 
@@ -88,11 +101,10 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        //holder.mTextView.setText(mDataset[position]);
+
         Player player = mDataset.get(position);
 
         if (player != null) {
-            //holder.mTextView_num.setText(String.valueOf(player.getNumber()));
             holder.mTextView_name.setText(player.getName());
 
         }
@@ -113,5 +125,11 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         currentVH = vh;
         currentPos = position;
     }
+
+    public int getCurrentPos(){
+        return currentPos;
+    }
+
+
 
 }

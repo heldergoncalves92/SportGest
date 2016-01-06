@@ -125,7 +125,6 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         mListPlayer.removeItem(currentPos);
 
         playerDao.deleteById(players.get(currentPos).getId());
-        players.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
@@ -173,8 +172,11 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
-            if(players.size()>0)
+
+            if(players.size()>0) {
                 mDetailsPlayer.showPlayer(players.get(currentPos));
+                mListPlayer.selectFirstItem();
+            }
         }
         return true;
     }
