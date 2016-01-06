@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Games;
 
+import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,13 +21,18 @@ public class Games_Adapter extends RecyclerView.Adapter<Games_Adapter.ViewHolder
     // you provide access to all the views for a data item in a view holder
      static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public AppCompatTextView mTextView, mTextView2; ;
+        public AppCompatTextView mTextView, mTextView2, score1, score2;
+        public View parent;
 
         public ViewHolder(View view) {
             super(view);
 
-            mTextView = (AppCompatTextView)view.findViewById(R.id.text_view);
-            mTextView2 = (AppCompatTextView)view.findViewById(R.id.text_view2);
+            parent = view;
+
+            mTextView = (AppCompatTextView)view.findViewById(R.id.name_home);
+            mTextView2 = (AppCompatTextView)view.findViewById(R.id.name_visitor);
+            score1 = (AppCompatTextView)view.findViewById(R.id.score_home);
+            score2 = (AppCompatTextView)view.findViewById(R.id.score_visitor);
 
         }
     }
@@ -61,8 +67,14 @@ public class Games_Adapter extends RecyclerView.Adapter<Games_Adapter.ViewHolder
         if (game.getHome_team() != null) {
             holder.mTextView.setText(game.getReport());
             holder.mTextView2.setText(game.getReport());
-
+            holder.score1.setText(String.valueOf(game.getHome_score()));
+            holder.score2.setText(String.valueOf(game.getVisitor_score()));
         }
+
+
+        if (position%2 ==0)
+            holder.parent.setBackgroundColor(Color.LTGRAY);
+
 
     }
 

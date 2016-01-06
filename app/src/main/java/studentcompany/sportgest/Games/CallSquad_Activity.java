@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,12 +57,13 @@ public class CallSquad_Activity extends AppCompatActivity {
     private  ArrayAdapter<String> adapter1;
 
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_squal_call);
-
-
 
         ListView lvc = (ListView) findViewById(R.id.lvc);
 
@@ -82,16 +84,15 @@ public class CallSquad_Activity extends AppCompatActivity {
 
 
             ArrayList<String> firstArrayList = new ArrayList<String>(getNamesList(players));
-            adapter = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, firstArrayList);
+            adapter = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_multiple_choice, firstArrayList);
             lvnc.setAdapter(adapter);
-
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
 
         ArrayList<String> secondArrayList = new ArrayList<String>();
-        adapter1 = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, secondArrayList);
+        adapter1 = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_multiple_choice, secondArrayList);
         lvc.setAdapter(adapter1);
 
 
@@ -117,27 +118,76 @@ public class CallSquad_Activity extends AppCompatActivity {
                 String s = adapter.getItem(i);
                 showPlayerSelected(s);
 
+                //ListView check2 = (ListView) findViewById(R.id.lvc);
+                //check2.setFocusable(false);
+
+                /*
                 adapter1.add(s);
                 adapter.remove(s);
                 adapter.notifyDataSetChanged();
                 adapter1.notifyDataSetChanged();
+                */
             }
         });
 
         lvc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView2, View view, int a, long b) {
+                String s = adapter1.getItem(a);
+                showPlayerSelected(s);
                 //To change body of implemented methods use File | Settings | File Templates.
+                /*
                 String x = adapter1.getItem(a);
                 adapter.add(x);
                 adapter1.remove(x);
                 adapter.notifyDataSetChanged();
                 adapter1.notifyDataSetChanged();
+                */
+                //ListView check = (ListView) findViewById(R.id.lvnc);
+                //check.setFocusable(false);
+
             }
         });
 
     }
 
+    public void SelectPlayer(View view) {
+
+        ListView check = (ListView) findViewById(R.id.lvnc);
+        ListView check2 = (ListView) findViewById(R.id.lvc);
+
+        SparseBooleanArray checkedPositions = check.getCheckedItemPositions();
+        SparseBooleanArray checkedPositions2 = check2.getCheckedItemPositions();
+
+
+        int conta=check.getCount();
+
+        for (int i = 0; i <conta; i++) {
+            if (checkedPositions.get(i)) {
+                String s = adapter.getItem(i);
+                adapter1.add(s);
+                adapter.remove(s);
+                adapter.notifyDataSetChanged();
+                adapter1.notifyDataSetChanged();
+
+            }
+        }
+
+        int conta2=check2.getCount();
+        for (int i = 0; i <conta2; i++) {
+            if (checkedPositions2.get(i)) {
+                String x = adapter1.getItem(i);
+                adapter.add(x);
+                adapter1.remove(x);
+                adapter.notifyDataSetChanged();
+                adapter1.notifyDataSetChanged();
+
+            }
+        }
+
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -202,14 +252,17 @@ public class CallSquad_Activity extends AppCompatActivity {
             Player p1 = new Player("Jocka", "1João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
             Player p2 = new Player("Fabinho", "2Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
             Player p3 = new Player("Jorge D.", "3Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "4Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
+            Player p4 = new Player("A", "4Manuel ", "Portuguesa2", "Solteiro2", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 6, new Team(1), null);
+            Player p5 = new Player("A", "5Manuel ", "Portuguesa2", "Solteiro2", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 5, new Team(1), null);
+            Player p6 = new Player("B", "6Fábio", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(1), null);
             long id;
 
             id = p_dao.insert(p1);
             id = p_dao.insert(p2);
             id = p_dao.insert(p3);
             id = p_dao.insert(p4);
+            id = p_dao.insert(p5);
+            id = p_dao.insert(p6);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();

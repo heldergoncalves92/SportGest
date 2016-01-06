@@ -44,10 +44,10 @@ public class GamesList_Activity extends AppCompatActivity {
         }
 */
         games = new ArrayList<Game>();
-        games.add(new Game(new Team(1), new Team(2), 0, "O jogo foi muito competitivo!!", 3, 1, 40f));
-        games.add(new Game(new Team(3), new Team(4), 0, "O jogo foi muito competitivo!!", 1, 1, 50f));
-        games.add(new Game(new Team(1), new Team(3), 0, "O jogo foi muito competitivo!!", 2, 3, 40f));
-        games.add(new Game(new Team(2), new Team(4), 0, "O jogo foi muito competitivo!!", 3, 2, 40f));
+        games.add(new Game(new Team(1), new Team(2), 0, "A - B", 3, 1, 40f));
+        games.add(new Game(new Team(3), new Team(4), 0, "C - D", 1, 1, 50f));
+        games.add(new Game(new Team(1), new Team(3), 0, "A - C", 2, 3, 40f));
+        games.add(new Game(new Team(2), new Team(4), 0, "D - B", 3, 2, 40f));
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
