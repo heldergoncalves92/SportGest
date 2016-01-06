@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_GameModeView(View v){
         Intent intent = new Intent(this, Game_Activity_GameMode.class);
-        intent.putExtra("GAME",1);
+        intent.putExtra("GAME",(long)1);
         startActivity(intent);
     }
 

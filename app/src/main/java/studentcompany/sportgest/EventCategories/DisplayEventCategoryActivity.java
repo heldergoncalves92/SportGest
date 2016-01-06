@@ -66,7 +66,8 @@ public class DisplayEventCategoryActivity extends AppCompatActivity {
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.display_event_category_toolbar);
-        setSupportActionBar(toolbar);
+        if(getSupportActionBar()==null)
+            setSupportActionBar(toolbar);
     }
 
     @Override

@@ -181,9 +181,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
     @Override
     public long insert(Player object) throws GenericDAOException {
 
-        if(object.getTeam() == null)
-            return -1;
-
         ContentValues contentValues = new ContentValues();
 
         if(object.getId()>0)
@@ -223,9 +220,6 @@ public class Player_DAO extends GenericDAO<Player> implements IGenericDAO<Player
 
     @Override
     public boolean update(Player object) throws GenericDAOException {
-
-        if(object.getTeam() == null)
-            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, object.getId());
