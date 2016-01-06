@@ -181,7 +181,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
                 exerciseAttributesList = new ArrayList<>();
                 evaluations = new ArrayList<>();
             }
-            mExerciseAttributes.showExercise(exercise, exerciseAttributesList, evaluations);
+            mExerciseAttributes.showExercise(exercise, exerciseAttributesList, playerList, evaluations);
         }
     }
 
