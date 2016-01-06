@@ -32,7 +32,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     //Table columns
     public static final String COLUMN_ID                   = "ID";
     public static final String COLUMN_DESCRIPTION          = "DESCRIPTION";
-    public static final String COLUMN_DATE                 = "\"DATE\"";
+    public static final String COLUMN_DATE                 = "DATE";
     public static final String COLUMN_POSX                 = "POSX";
     public static final String COLUMN_POSY                 = "POSY";
     public static final String COLUMN_EVENT_CATEGORYID     = "EVENT_CATEGORYID";
@@ -70,7 +70,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         ArrayList<Event> resEvent = new ArrayList<>();
         long id;
         String description;
-        int date;
+        long date;
         int posx;
         int posy;
         long eventCategoryId;
@@ -85,7 +85,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
             posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
             eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
@@ -107,7 +107,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         //aux variables;
         Event resEvent;
         String description;
-        int date;
+        long date;
         int posx;
         int posy;
         long eventCategoryId;
@@ -120,7 +120,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
         //Parse data
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
         posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
         eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
@@ -212,7 +212,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -220,8 +220,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpInt = object.getPosx()) >= 0) {
@@ -233,20 +233,20 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             fields++;
         }
         if(object.getEventCategory() != null) {
-            if ((tmpLong = object.getEventCategory().getId()) >= 0) {
+            if ((tmpLong = object.getEventCategory().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getGame() != null) {
-            if ((tmpLong = object.getGame().getId()) >= 0) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong);
                 fields++;
             }
         }
 
         if(object.getPlayer() != null) {
-            if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
                 fields++;
             }
@@ -273,7 +273,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -281,8 +281,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getPosx()) >= 0) {
@@ -294,19 +294,19 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             fields++;
         }
         if(object.getEventCategory()!=null) {
-            if ((tmpLong = object.getEventCategory().getId()) >= 0) {
+            if ((tmpLong = object.getEventCategory().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getGame()!=null) {
-            if ((tmpLong = object.getGame().getId()) >= 0) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getPlayer() != null) {
-            if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
                 fields++;
             }
@@ -316,7 +316,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
             long id;
             String description;
-            int date;
+            long date;
             int posx;
             int posy;
             long eventCategoryId;
@@ -329,7 +329,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
                     posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
                     eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));

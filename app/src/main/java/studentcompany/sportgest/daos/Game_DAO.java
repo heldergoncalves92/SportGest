@@ -27,7 +27,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
     public static final String COLUMN_ID                    = "ID";
     public static final String COLUMN_HOME_TEAMID           = "HOME_TEAMID";
     public static final String COLUMN_VISITOR_TEAMID        = "VISITOR_TEAMID";
-    public static final String COLUMN_DATE                  = "\"DATE\"";
+    public static final String COLUMN_DATE                  = "DATE";
     public static final String COLUMN_REPORT                = "REPORT";
     public static final String COLUMN_HOME_SCORE            = "HOME_SCORE";
     public static final String COLUMN_VISITOR_SCORE         = "VISITOR_SCORE";
@@ -61,7 +61,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         long id;
         long home_team;
         long visitor_team;
-        int date;
+        long date;
         String report;
         int home_score;
         int visitor_score;
@@ -76,7 +76,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             home_team = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
             visitor_team = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             report = res.getString(res.getColumnIndex(COLUMN_REPORT));
             home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
             visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
@@ -96,7 +96,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         Game resGame;
         long home_teamid;
         long visitor_teamid;
-        int date;
+        long date;
         String report;
         int home_score;
         int visitor_score;
@@ -107,10 +107,10 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         res.moveToFirst();
 
         //Parse data
-        id = res.getInt(res.getColumnIndex(COLUMN_ID));
+        id = res.getLong(res.getColumnIndex(COLUMN_ID));
         home_teamid = res.getLong(res.getColumnIndex(COLUMN_HOME_TEAMID));
         visitor_teamid = res.getLong(res.getColumnIndex(COLUMN_VISITOR_TEAMID));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         report = res.getString(res.getColumnIndex(COLUMN_REPORT));
         home_score = res.getInt(res.getColumnIndex(COLUMN_HOME_SCORE));
         visitor_score = res.getInt(res.getColumnIndex(COLUMN_VISITOR_SCORE));
@@ -214,12 +214,12 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         float tmpFloat;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
         if(object.getHome_team() != null) {
-            if ((tmpLong = object.getHome_team().getId()) >= 0) {
+            if ((tmpLong = object.getHome_team().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_HOME_TEAMID + " = " + tmpLong);
                 fields++;
             }
@@ -230,7 +230,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
                 fields++;
             }
         }
-        if ((tmpLong = object.getDate()) >= 0) {
+        if ((tmpLong = object.getDate()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
@@ -272,7 +272,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         float tmpFloat;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -288,7 +288,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
                 fields++;
             }
         }
-        if ((tmpLong = object.getDate()) >= 0) {
+        if ((tmpLong = object.getDate()) > 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }

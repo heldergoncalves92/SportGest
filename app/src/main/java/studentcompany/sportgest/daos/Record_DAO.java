@@ -29,7 +29,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
     //Table columns
     public static final String COLUMN_ID            = "ID";
-    public static final String COLUMN_DATE          = "\"DATE\"";
+    public static final String COLUMN_DATE          = "DATE";
     public static final String COLUMN_VALUE         = "VALUE";
     public static final String COLUMN_STATE         = "STATE";
     public static final String COLUMN_TRAINING_ID   = "TRAINING_ID";
@@ -73,7 +73,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         //aux variables;
         ArrayList<Record> resRecord = new ArrayList<>();
         long id;
-        int date;
+        long date;
         float value;
         int state;
         long trainingId;
@@ -89,7 +89,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         //Parse data
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
             state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
             trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
@@ -115,7 +115,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
         //aux variables;
         Record resRecord;
-        int date;
+        long date;
         float value;
         int state;
         long trainingId;
@@ -129,7 +129,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         res.moveToFirst();
 
         //Parse data
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
         state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
         trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
@@ -224,12 +224,12 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         float tmpFloat;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getValue()) >= 0) {
@@ -242,31 +242,31 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         }
 
         if(object.getTraining()!=null) {
-            if ((tmpLong = object.getTraining().getId()) >= 0) {
+            if ((tmpLong = object.getTraining().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getExercise()!=null) {
-            if ((tmpLong = object.getExercise().getId()) >= 0) {
+            if ((tmpLong = object.getExercise().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getAttribute()!=null) {
-            if ((tmpLong = object.getAttribute().getId()) >= 0) {
+            if ((tmpLong = object.getAttribute().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getPlayer()!=null) {
-            if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getUser()!=null) {
-            if ((tmpLong = object.getUser().getId()) >= 0) {
+            if ((tmpLong = object.getUser().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong);
                 fields++;
             }
@@ -293,12 +293,12 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         float tmpFloat;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getValue()) >= 0) {
@@ -310,31 +310,31 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
             fields++;
         }
         if(object.getTraining()!=null) {
-            if ((tmpLong = object.getTraining().getId()) >= 0) {
+            if ((tmpLong = object.getTraining().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getExercise()!=null) {
-            if ((tmpLong = object.getExercise().getId()) >= 0) {
+            if ((tmpLong = object.getExercise().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getAttribute()!=null) {
-            if ((tmpLong = object.getAttribute().getId()) >= 0) {
+            if ((tmpLong = object.getAttribute().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getPlayer()!=null) {
-            if ((tmpLong = object.getPlayer().getId()) >= 0) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
                 fields++;
             }
         }
         if(object.getUser()!=null) {
-            if ((tmpLong = object.getUser().getId()) >= 0) {
+            if ((tmpLong = object.getUser().getId()) > 0) {
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong);
                 fields++;
             }
@@ -343,7 +343,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         if (fields > 0) {
 
             long id;
-            int date;
+            long date;
             float value;
             int state;
             long trainingId;
@@ -357,7 +357,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
                     state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
                     trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));

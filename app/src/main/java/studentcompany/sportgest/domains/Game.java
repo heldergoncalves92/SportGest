@@ -63,7 +63,7 @@ public class Game extends DomainPojo {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

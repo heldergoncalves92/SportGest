@@ -60,11 +60,12 @@ public class Game_Activity_GameMode extends AppCompatActivity {
 
         try {
 
-            //List<Pair<Player,Game>> list = squadCallDao.getAll();
+            List<Pair<Player,Game>> list = squadCallDao.getAll();
             onBench = squadCallDao.getPlayersBy_GameID(baseGameID);
 
+
             if(onBench == null){
-                insertTest();
+                //insertTest();
             }
 
 
@@ -103,8 +104,9 @@ public class Game_Activity_GameMode extends AppCompatActivity {
             long teamID = team_dao.insert(team);
             team.setId(teamID);
 
-            Game game = new Game(team,team,new Date().getTime(), "", -1 , -1, 40.0f);
+            Game game = new Game(team,team, new Date().getTime(), "", -1 , -1, 40.0f);
             long gameID = game_dao.insert(game);
+            game.setId(gameID);
 
 
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);

@@ -116,7 +116,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
         if (object == null)
             return -1;
 
-        if (object.getFirst() == null || object.getSecond() == null)
+        if (object.getFirst() == null || object.getSecond() == null || object.getFirst().getId() <= 0 || object.getSecond().getId() <= 0)
             return -1;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getFirst().getId());
@@ -162,9 +162,14 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
         String nickname, name, photo;
         ArrayList<Player> players = null;
 
-        String sql = "SELECT * FROM " + Player_DAO.TABLE_NAME + " AS PL, " + Squad_Call_DAO.TABLE_NAME
+     /*   String sql = "SELECT * FROM " + Player_DAO.TABLE_NAME + " AS PL, " + Squad_Call_DAO.TABLE_NAME
                 + " AS SQ WHERE SQ." + Squad_Call_DAO.COLUMN_GAME_ID + "=" + gameId
                 + " AND SQ." + Squad_Call_DAO.COLUMN_PLAYER_ID + "=PL." + Player_DAO.COLUMN_ID;
+*/
+        String sql = "SELECT PL.* FROM " + Player_DAO.TABLE_NAME + " AS PL INNER JOIN " + Squad_Call_DAO.TABLE_NAME
+                + " ON " + Squad_Call_DAO.COLUMN_GAME_ID + "=" + gameId;
+
+
 
         //Query
         Cursor res = db.rawQuery(sql, null);

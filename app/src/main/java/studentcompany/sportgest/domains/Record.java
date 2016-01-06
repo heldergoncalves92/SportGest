@@ -2,7 +2,7 @@ package studentcompany.sportgest.domains;
 
 public class Record extends DomainPojo {
     private long id;
-    private int date;
+    private long date;
     private float value;
     private int state;
     private Training training;
@@ -11,7 +11,7 @@ public class Record extends DomainPojo {
     private Player player;
     private User user;
 
-    public Record(long id, int date, float value, int state, Training training, Exercise exercise, Attribute attribute, Player player, User user) {
+    public Record(long id, long date, float value, int state, Training training, Exercise exercise, Attribute attribute, Player player, User user) {
         this.id = id;
         this.date = date;
         this.value = value;
@@ -28,7 +28,7 @@ public class Record extends DomainPojo {
         return id;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
@@ -64,7 +64,7 @@ public class Record extends DomainPojo {
         this.id = id;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -136,7 +136,7 @@ public class Record extends DomainPojo {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + date;
+        result = 31 * result + (int) (date ^ (date >>> 32));
         result = 31 * result + (value != +0.0f ? Float.floatToIntBits(value) : 0);
         result = 31 * result + state;
         result = 31 * result + (training != null ? training.hashCode() : 0);
