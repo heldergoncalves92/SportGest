@@ -86,6 +86,9 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
     @Override
     public long insert(ObsCategory object) throws GenericDAOException{
 
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getCategory());
 
@@ -94,20 +97,24 @@ public class Obs_Category_DAO extends GenericDAO<ObsCategory> implements IGeneri
 
     @Override
     public boolean delete(ObsCategory object) throws GenericDAOException{
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
-    @Override
-    public boolean deleteById(long id){
-        int deletedCount = db.delete(TABLE_NAME,
+
+    public boolean deleteById(long id) {
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
+
     @Override
     public boolean update(ObsCategory object) throws GenericDAOException{
+
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CATEGORY, object.getCategory());
         db.update(TABLE_NAME,
