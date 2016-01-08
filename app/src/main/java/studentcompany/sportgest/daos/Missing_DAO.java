@@ -107,6 +107,12 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
     @Override
     public long insert(Missing object) throws GenericDAOException {
 
+        if(object==null)
+            return -1;
+
+        if(object.getPlayer() == null || object.getTraining() == null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
         contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
@@ -117,22 +123,26 @@ public class Missing_DAO extends GenericDAO<Missing> implements IGenericDAO<Miss
 
     @Override
     public boolean delete(Missing object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id) {
-
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Missing object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getPlayer() == null || object.getTraining() == null)
+            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());

@@ -12,6 +12,8 @@ import java.util.List;
 import studentcompany.sportgest.daos.db.MyDB;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Position;
+import studentcompany.sportgest.domains.Role;
+import studentcompany.sportgest.domains.User;
 
 public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Position>{
     //Database name
@@ -63,21 +65,28 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
         String name;
 
         //Query
-        Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
+        Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
         res.moveToFirst();
-        if(res.getCount()==1){
-        //Parse data
-            id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
-            name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
-            resPosition= new Position(id, name);
 
-        return resPosition;}
-        else
+        //Parse data
+        if(res.getCount()==1)
+        {
+            name = res.getString(res.getColumnIndexOrThrow(COLUMN_NAME));
+            res.close(); // Close the cursor
+            return new Position(id,name);
+        }
+        else {
+            res.close(); // Close the cursor
             return null;
+        }
     }
 
     @Override
     public long insert(Position object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
 
@@ -86,22 +95,25 @@ public class Position_DAO extends GenericDAO<Position> implements IGenericDAO<Po
 
     @Override
     public boolean delete(Position object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
-    @Override
-    public boolean deleteById(long id) {
-        int deletedCount = db.delete(TABLE_NAME,
+    public boolean deleteById(long id){
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Position object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, object.getName());
         db.update(TABLE_NAME,

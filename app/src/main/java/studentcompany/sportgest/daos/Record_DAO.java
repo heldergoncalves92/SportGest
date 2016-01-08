@@ -29,7 +29,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
     //Table columns
     public static final String COLUMN_ID            = "ID";
-    public static final String COLUMN_DATE          = "\"DATE\"";
+    public static final String COLUMN_DATE          = "DATE";
     public static final String COLUMN_VALUE         = "VALUE";
     public static final String COLUMN_STATE         = "STATE";
     public static final String COLUMN_TRAINING_ID   = "TRAINING_ID";
@@ -73,7 +73,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         //aux variables;
         ArrayList<Record> resRecord = new ArrayList<>();
         long id;
-        int date;
+        long date;
         float value;
         int state;
         long trainingId;
@@ -89,7 +89,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         //Parse data
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
             state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
             trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
@@ -105,6 +105,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
                     user_dao.getById(userId)));
             res.moveToNext();
         }
+        res.close();
 
         return resRecord;
     }
@@ -114,7 +115,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
         //aux variables;
         Record resRecord;
-        int date;
+        long date;
         float value;
         int state;
         long trainingId;
@@ -128,7 +129,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         res.moveToFirst();
 
         //Parse data
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
         state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
         trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
@@ -143,11 +144,18 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
                 player_dao.getById(playerId),
                 user_dao.getById(userId));
 
+        res.close();
         return resRecord;
     }
 
     @Override
     public long insert(Record object) throws GenericDAOException {
+
+        if(object==null)
+            return -1;
+
+        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null)
+            return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DATE        , object.getDate());
@@ -163,22 +171,26 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
     @Override
     public boolean delete(Record object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
     public boolean deleteById(long id) {
-
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Record object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null)
+            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DATE        , object.getDate());
@@ -216,8 +228,8 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getValue()) >= 0) {
@@ -274,8 +286,8 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getValue()) >= 0) {
@@ -286,23 +298,23 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_STATE + " = " + tmpInt );
             fields++;
         }
-        if ((tmpLong = object.getTraining().getId()) >= 0) {
+        if (object.getTraining()!=null && (tmpLong = object.getTraining().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_TRAINING_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getExercise().getId()) >= 0) {
+        if (object.getExercise()!=null && (tmpLong = object.getExercise().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_EXERCISE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getAttribute().getId()) >= 0) {
+        if (object.getAttribute()!=null && (tmpLong = object.getAttribute().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_ATTRIBUTE_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
+        if (object.getPlayer()!=null && (tmpLong = object.getPlayer().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getUser().getId()) >= 0) {
+        if (object.getUser()!=null && (tmpLong = object.getUser().getId()) >= 0) {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong );
             fields++;
         }
@@ -310,7 +322,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         if (fields > 0) {
 
             long id;
-            int date;
+            long date;
             float value;
             int state;
             long trainingId;
@@ -324,7 +336,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
 
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     value = res.getFloat(res.getColumnIndex(COLUMN_VALUE));
                     state = res.getInt(res.getColumnIndex(COLUMN_VALUE));
                     trainingId = res.getLong(res.getColumnIndex(COLUMN_TRAINING_ID));
@@ -340,6 +352,7 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
                             user_dao.getById(userId)));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

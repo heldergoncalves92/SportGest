@@ -3,14 +3,14 @@ package studentcompany.sportgest.domains;
 public class Event extends DomainPojo{
     private long id;
     private String description;
-    private int date;
-    private float posx;
-    private float posy;
+    private long date;
+    private int posx;
+    private int posy;
     private EventCategory eventCategory;
     private Game game;
     private Player player;
 
-    public Event(long id, String description, int date, float posx, float posy, EventCategory eventCategory, Game game, Player player) {
+    public Event(long id, String description, long date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
         this.id = id;
         this.description = description;
         this.date = date;
@@ -29,15 +29,15 @@ public class Event extends DomainPojo{
         return description;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
-    public float getPosx() {
+    public int getPosx() {
         return posx;
     }
 
-    public float getPosy() {
+    public int getPosy() {
         return posy;
     }
 
@@ -61,15 +61,15 @@ public class Event extends DomainPojo{
         this.description = description;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
-    public void setPosx(float posx) {
+    public void setPosx(int posx) {
         this.posx = posx;
     }
 
-    public void setPosy(float posy) {
+    public void setPosy(int posy) {
         this.posy = posy;
     }
 
@@ -123,9 +123,9 @@ public class Event extends DomainPojo{
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + date;
-        result = 31 * result + (posx != +0.0f ? Float.floatToIntBits(posx) : 0);
-        result = 31 * result + (posy != +0.0f ? Float.floatToIntBits(posy) : 0);
+        result = 31 * result + (int) (date ^ (date >>> 32));
+        result = 31 * result + posx;
+        result = 31 * result + posy;
         result = 31 * result + (eventCategory != null ? eventCategory.hashCode() : 0);
         result = 31 * result + (game != null ? game.hashCode() : 0);
         result = 31 * result + (player != null ? player.hashCode() : 0);

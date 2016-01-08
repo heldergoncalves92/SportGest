@@ -83,12 +83,26 @@
 
             </android.support.v7.widget.LinearLayoutCompat>
 
-
-            <Button
+            <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/goTo_squadCall_button"
-                android:id="@+id/game_squadCall_button" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_squadCall_button"
+                    android:id="@+id/game_squadCall_button"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/goTo_gameModeView_button"
+                    android:onClick="goTo_GameModeView"/>
+
+            </android.support.v7.widget.LinearLayoutCompat>
 
             <Button
                 android:layout_width="match_parent"
@@ -116,6 +130,33 @@
                 android:text="@string/goTo_training_button"
                 android:id="@+id/training_button"
                 android:onClick="goTo_Training"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_position_button"
+                android:id="@+id/positions_button"
+                android:onClick="goTo_Positions"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_gameTest_button"
+                android:id="@+id/game_test_button" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                android:onClick="goTo_Login" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ExerciseEvaluationTest"
+                android:id="@+id/exercise_attributes_evaluation" />
 
         </android.support.v7.widget.LinearLayoutCompat>
     </ScrollView>

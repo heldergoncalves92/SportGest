@@ -1,6 +1,8 @@
 package studentcompany.sportgest.domains;
 //TODO all
 
+import java.util.ArrayList;
+
 public class Player extends DomainPojo{
 
     private long id = 0;
@@ -8,7 +10,7 @@ public class Player extends DomainPojo{
     private String name;
     private String nationality;
     private String marital_status;
-    private int birthDate;
+    private String birthDate;
     private int height;
     private float weight;
     private String address;
@@ -18,9 +20,9 @@ public class Player extends DomainPojo{
     private String preferedFoot;
     private int number;
     private Team team;
-    private Position position;
+    private ArrayList<PlayerPosition> positions;
 
-    public Player(long id,String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(long id,String nickname, String name, String nationality, String marital_status, String birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, ArrayList<PlayerPosition> positions) {
         this.id = id;
         this.nickname = nickname;
         this.name = name;
@@ -36,9 +38,9 @@ public class Player extends DomainPojo{
         this.preferedFoot = preferedFoot;
         this.number = number;
         this.team = team;
-        this.position=position;
+        this.positions=positions;
     }
-    public Player(String nickname, String name, String nationality, String marital_status, int birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, Position position) {
+    public Player(String nickname, String name, String nationality, String marital_status, String birthDate, int height, float weight, String address, String gender, String photo, String email, String preferedFoot, int number, Team team, ArrayList<PlayerPosition> positions) {
         this.nickname = nickname;
         this.name = name;
         this.nationality = nationality;
@@ -53,7 +55,7 @@ public class Player extends DomainPojo{
         this.preferedFoot = preferedFoot;
         this.number = number;
         this.team = team;
-        this.position=position;
+        this.positions=positions;
     }
 
     public Player(Team team) {
@@ -101,11 +103,11 @@ public class Player extends DomainPojo{
         this.marital_status = marital_status;
     }
 
-    public int getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(int birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -181,12 +183,12 @@ public class Player extends DomainPojo{
         this.team = team;
     }
 
-    public Position getPosition() {
-        return position;
+    public ArrayList<PlayerPosition> getPositions() {
+        return positions;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPositions(ArrayList<PlayerPosition> positions) {
+        this.positions = positions;
     }
 
     @Override
@@ -221,7 +223,6 @@ public class Player extends DomainPojo{
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (marital_status != null ? marital_status.hashCode() : 0);
-        result = 31 * result + birthDate;
         result = 31 * result + height;
         result = 31 * result + (weight != +0.0f ? Float.floatToIntBits(weight) : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
@@ -231,7 +232,11 @@ public class Player extends DomainPojo{
         result = 31 * result + (preferedFoot != null ? preferedFoot.hashCode() : 0);
         result = 31 * result + number;
         result = 31 * result + (team != null ? team.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

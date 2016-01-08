@@ -31,7 +31,7 @@ public class Team extends DomainPojo {
         this.is_com = is_com;
     }
 
-    public Team(int id) {
+    public Team(long id) {
         this.id = id;
     }
 

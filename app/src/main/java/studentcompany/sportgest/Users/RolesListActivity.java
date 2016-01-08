@@ -31,7 +31,7 @@ public class RolesListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_roles);
+        setContentView(R.layout.roles_activity_list);
 
         role_dao = new Role_DAO(this);
 
@@ -42,7 +42,6 @@ public class RolesListActivity extends AppCompatActivity {
             }
             roleList = role_dao.getAll();
         } catch (GenericDAOException ex) {
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(RolesListActivity.class.getName()).log(Level.WARNING, null, ex);
             roleList = null;
         }
@@ -84,7 +83,6 @@ public class RolesListActivity extends AppCompatActivity {
         try {
             roleList = role_dao.getAll();
         } catch (GenericDAOException ex) {
-            //System.err.println(ListEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(RolesListActivity.class.getName()).log(Level.WARNING, null, ex);
             roleList = null;
         }
