@@ -88,9 +88,9 @@ public class Position_Activity_Create extends AppCompatActivity{
                     ok = true;
 
                 if (!ok) {
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
                 }
 

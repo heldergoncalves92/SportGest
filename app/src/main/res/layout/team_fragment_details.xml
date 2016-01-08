@@ -76,6 +76,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textNoSuggestions"
+                            android:enabled="false"
                             android:hint="@string/teamName" />
 
                     </LinearLayout>
@@ -107,6 +108,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/teamDescription"
+                        android:enabled="false"
                         android:editable="false"/>
 
                     </LinearLayout>
@@ -138,6 +140,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textNoSuggestions"
                             android:hint="@string/teamSeason"
+                            android:enabled="false"
                             android:editable="false"/>
 
                     </LinearLayout>
@@ -164,6 +167,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
+                        android:enabled="false"
                         android:hint="@string/userEmail" />
 
                 </android.support.design.widget.TextInputLayout>

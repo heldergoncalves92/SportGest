@@ -1,39 +1,66 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_height="wrap_content">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/no_Selection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView">
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="41dp">
+        android:visibility="gone">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="24dp"
+            android:text="@string/NoSelected_Team"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/frame_details"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12">
 
 
-            <LinearLayout
-                android:orientation="vertical"
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutCategory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category"
-                    android:id="@+id/textView" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/category"
-                    android:text="X"/>
-            </LinearLayout>
 
-        </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:id="@+id/textView52" />
 
-    </ScrollView>
+                    <EditText
+                        android:id="@+id/category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:enabled="false"
+                        android:hint="@string/category" />
 
-</LinearLayout>
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+</ScrollView>
+    </RelativeLayout>

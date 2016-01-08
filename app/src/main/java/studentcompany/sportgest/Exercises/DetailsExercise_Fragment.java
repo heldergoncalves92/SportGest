@@ -73,13 +73,6 @@ public class DetailsExercise_Fragment extends Fragment {
             lv_exerciseAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub -> implement edit attribute details
-                    /*int id_To_Search = position + 1;
-                    Bundle dataBundle = new Bundle();
-                    dataBundle.putInt("id", id_To_Search);
-                    Intent intent = new Intent(getApplicationContext(), DisplayEventCategoryActivity.class);
-                    intent.putExtras(dataBundle);
-                    startActivity(intent);*/
                 }
             });
         } else {

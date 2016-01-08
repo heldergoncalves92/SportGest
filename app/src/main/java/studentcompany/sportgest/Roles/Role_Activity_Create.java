@@ -132,15 +132,6 @@ public class Role_Activity_Create extends AppCompatActivity{
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                     // TODO Auto-generated method stub -> implement edit attribute details
-                    /*int id_To_Search = arg2 + 1;
-
-                    Bundle dataBundle = new Bundle();
-                    dataBundle.putInt("id", id_To_Search);
-
-                    Intent intent = new Intent(getApplicationContext(), DisplayEventCategoryActivity.class);
-
-                    intent.putExtras(dataBundle);
-                    startActivity(intent);*/
                 }
             });
 

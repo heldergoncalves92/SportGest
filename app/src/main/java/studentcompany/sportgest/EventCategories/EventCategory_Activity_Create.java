@@ -19,16 +19,15 @@ import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.EventCategory;
 
-public class EventCategory_Activity_Create extends AppCompatActivity {
+public class EventCategory_Activity_Create extends AppCompatActivity{
 
     //DAOs
-    private Event_Category_DAO event_category_dao;
+    private Event_Category_DAO ec_dao;
 
-    EventCategory eventCategory = null;
-    long eventID = -1;
+    EventCategory ec = null;
+    long ecID = -1;
 
     private final int CREATE_TAG = 20;
-
     private EditText tv_category;
     private TextInputLayout inputLayoutCategory;
 
@@ -37,11 +36,12 @@ public class EventCategory_Activity_Create extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_category_activity_create);
 
-        event_category_dao = new Event_Category_DAO(this);
+        ec_dao = new Event_Category_DAO(this);
 
         tv_category = (EditText) findViewById(R.id.category);
 
         tv_category.addTextChangedListener(new MyTextWatcher(tv_category));
+
         inputLayoutCategory = (TextInputLayout) findViewById(R.id.inputLayoutCategory);
     }
 
@@ -63,31 +63,38 @@ public class EventCategory_Activity_Create extends AppCompatActivity {
         {
             //add action
             case R.id.Add:
-                 tv_category= (EditText) findViewById(R.id.category);
+                boolean okUntilNow = true;
+                tv_category = (EditText) findViewById(R.id.category);
 
-                String category = tv_category.getText().toString();
+                String categoryStr = tv_category.getText().toString();
 
                 boolean ok = false;
                 if (validateCategory())
                     ok = true;
 
-                if (!ok)
+                if (!ok) {
+                    //Intent intent = new Intent();
+                    //setResult(1, intent);
+                    //finish();
                     return false;
+                }
 
-                eventCategory = new EventCategory(0,category);
+                ec = new EventCategory(categoryStr);
 
+                boolean corrected = false;
                 //insert
                 try {
-                    eventID = event_category_dao.insert(eventCategory);
-                    System.out.println("INSERIDO");
+                    ecID = ec_dao.insert(ec);
+                    if(ecID >0)
+                        corrected = true;
                 } catch (GenericDAOException ex) {
                     System.err.println(EventCategory_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(EventCategory_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 Intent intent = new Intent();
-                intent.putExtra("id", eventID);
-                setResult(1, intent);
+                intent.putExtra("id", ecID);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
             default:
@@ -120,7 +127,7 @@ public class EventCategory_Activity_Create extends AppCompatActivity {
 
     private boolean validateCategory() {
         String pw = tv_category.getText().toString().trim();
-        if (pw.isEmpty() || pw.length() < 5) {
+        if (pw.isEmpty() || pw.length() < 3) {
             inputLayoutCategory.setError(getString(R.string.err_category_short));
             //requestFocus(inputLayoutPassword);
             return false;
@@ -128,5 +135,4 @@ public class EventCategory_Activity_Create extends AppCompatActivity {
         inputLayoutCategory.setErrorEnabled(false);
         return true;
     }
-
 }
