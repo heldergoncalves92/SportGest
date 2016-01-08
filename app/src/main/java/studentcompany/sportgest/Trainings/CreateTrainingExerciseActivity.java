@@ -72,6 +72,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
     private long trainingDateInMilis;
     private int trainingExerciseRepetitions;
     private Menu mOptionsMenu;
+    private int positionaux;
+    private int passing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +108,13 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         exerciseAttributesList = new ArrayList<>();
         availableExercises = new ArrayList<>();
         trainingExercises = new ArrayList<>();
+        positionaux=-1;
+        passing=-1;
 
-        tv_repetitions.setText("");
+        //tv_repetitions.setText("");
         tv_repetitions.setFocusable(true);
         tv_repetitions.setClickable(true);
-        tv_duration.setText("");
+        //tv_duration.setText("");
         tv_duration.setFocusable(true);
         tv_duration.setClickable(true);
         b_repMore.setOnClickListener(new ImageButton.OnClickListener() {
@@ -122,7 +126,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                     repetitions = Integer.parseInt(currentRep);
                     if (repetitions < 0) repetitions = 0;
                 }
-                tv_repetitions.setText(repetitions + 1);
+                repetitions++;
+                tv_repetitions.setText(Integer.toString(repetitions));
             }
         });
         b_repLess.setOnClickListener(new ImageButton.OnClickListener(){
@@ -137,67 +142,76 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                 if(repetitions > 0) {
                     repetitions -=1;
                 }
-                tv_repetitions.setText(repetitions);
+                tv_repetitions.setText(Integer.toString(repetitions));
             }
         });
-        lv_availableExercises.setFocusable(false);
-        lv_trainingExercise.setFocusable(false);
+        lv_availableExercises.setFocusable(true);
+        lv_trainingExercise.setFocusable(true);
         lv_availableExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Add the attribute to the selected ones
-                long id_To_Search = availableExercises.get(position).getId();
-                try {
-                    Exercise ex = exercise_dao.getById(id_To_Search);
-                    if (ex != null) {
-                        availableExercises.remove(ex);
-                        trainingExercises.add(ex);
+                if (positionaux!=position) {
+                    positionaux = position;
 
-                        Collections.sort(trainingExercises, new Comparator<Exercise>() {
-                            @Override
-                            public int compare(Exercise lhs, Exercise rhs) {
-                                return lhs.getTitle().compareTo(rhs.getTitle());
-                            }
-                        });
+                } else {
+                    long id_To_Search = availableExercises.get(position).getId();
+                    try {
+                        Exercise ex = exercise_dao.getById(id_To_Search);
+                        if (ex != null) {
+                            availableExercises.remove(ex);
+                            trainingExercises.add(ex);
 
-                        //update ListViews
-                        lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
-                        lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
+                            Collections.sort(trainingExercises, new Comparator<Exercise>() {
+                                @Override
+                                public int compare(Exercise lhs, Exercise rhs) {
+                                    return lhs.getTitle().compareTo(rhs.getTitle());
+                                }
+                            });
+
+                            //update ListViews
+                            lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
+                            lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
+                        }
+                    } catch (GenericDAOException ex) {
+                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
                     }
-                } catch (GenericDAOException ex) {
-                    System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
-                }
-            }//onItemClick
-
+                    positionaux=-1;
+                }//onItemClick
+            }
         });//setOnItemClickListener
         lv_trainingExercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                long id_To_Search = trainingExercises.get(position).getId();
-                try {
-                    Exercise ex = exercise_dao.getById(id_To_Search);
-                    if(ex != null){
-                        trainingExercises.remove(ex);
-                        availableExercises.add(ex);
+                if (passing != position) {
+                    passing=position;
+                } else {
+                    long id_To_Search = trainingExercises.get(position).getId();
+                    try {
+                        Exercise ex = exercise_dao.getById(id_To_Search);
+                        if (ex != null) {
+                            trainingExercises.remove(ex);
+                            availableExercises.add(ex);
 
-                        Collections.sort(availableExercises, new Comparator<Exercise>() {
-                            @Override
-                            public int compare(Exercise lhs, Exercise rhs) {
-                                return lhs.getTitle().compareTo(rhs.getTitle());
-                            }
-                        });
+                            Collections.sort(availableExercises, new Comparator<Exercise>() {
+                                @Override
+                                public int compare(Exercise lhs, Exercise rhs) {
+                                    return lhs.getTitle().compareTo(rhs.getTitle());
+                                }
+                            });
 
-                        //update ListViews
-                        lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
-                        lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
+                            //update ListViews
+                            lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
+                            lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
+                        }
+                    } catch (GenericDAOException ex) {
+                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
                     }
-                } catch (GenericDAOException ex){
-                    System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
-                }
-            }//onItemClick
-
+                    passing=-1;
+                }//onItemClick
+            }
         });//setOnItemClickListener
         b_next.setOnClickListener(new Button.OnClickListener() {
             @Override
