@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.AttributeListActivity;
 import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
+import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
@@ -67,13 +68,9 @@ public class MainActivity extends AppCompatActivity {
         eventCategoiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*int id_To_Search = arg2 + 1;
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", id_To_Search);
-                */
-                Intent intent = new Intent(getApplicationContext(), EventCategory_List_Adapter.class);
 
-                //intent.putExtras(dataBundle);
+                Intent intent = new Intent(getApplicationContext(), EventCategory_Activity_ListView.class);
+
                 startActivity(intent);
             }
         });

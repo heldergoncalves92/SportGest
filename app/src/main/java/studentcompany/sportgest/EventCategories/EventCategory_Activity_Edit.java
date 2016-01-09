@@ -22,10 +22,10 @@ import studentcompany.sportgest.domains.EventCategory;
 public class EventCategory_Activity_Edit extends AppCompatActivity {
 
     //DAOs
-    private Event_Category_DAO event_category_dao;
+    private Event_Category_DAO ec_dao;
 
-    EventCategory eventCategory = null;
-    int eventID = -1;
+    EventCategory ec = null;
+    int ecID = -1;
 
     private EditText tv_category;
     private TextInputLayout inputLayoutCategory;
@@ -37,28 +37,30 @@ public class EventCategory_Activity_Edit extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            eventID = (int) (b.getLong("id")+0);
+            ecID = (int) (b.getLong("id")+0);
         }
 
-         tv_category = (EditText) findViewById(R.id.category);
+        tv_category = (EditText) findViewById(R.id.category);
 
-        EventCategory eventFromDB=null;
-        event_category_dao = new Event_Category_DAO(this);
+        EventCategory ecFromDB = null;
+        ec_dao = new Event_Category_DAO(this);
 
         try {
-            eventFromDB = event_category_dao.getById(eventID);
+            ecFromDB = ec_dao.getById(ecID);
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
-        if (eventFromDB!=null) {
-            if (eventFromDB.getName() != null)
-                tv_category.setText(eventFromDB.getName());
+        if (ecFromDB!=null) {
+            if (ecFromDB.getName() != null)
+                tv_category.setText(ecFromDB.getName());
             else
                 tv_category.setText("");
         }
 
         tv_category.addTextChangedListener(new MyTextWatcher(tv_category));
+
         inputLayoutCategory = (TextInputLayout) findViewById(R.id.inputLayoutCategory);
+
     }
 
     @Override
@@ -79,25 +81,31 @@ public class EventCategory_Activity_Edit extends AppCompatActivity {
         {
             //add action
             case R.id.Edit:
-
+                boolean okUntilNow = true;
                 tv_category = (EditText) findViewById(R.id.category);
-
-                String category = tv_category.getText().toString();
+                String categoryStr = tv_category.getText().toString();
 
                 boolean ok = false;
                 if (validateCategory())
-                    ok = true;
+                    ok=true;
 
-                if (!ok)
+                if (!ok) {
+                    //Intent intent = new Intent();
+                    //setResult(2, intent);
+                    //finish();
                     return false;
+                }
 
-                eventCategory=new EventCategory(0,category);
-
+                ec =new EventCategory(ecID,categoryStr);
+                boolean corrected = false;
+                //insert/update database
                 try {
-                    if(eventID > 0){
-                        event_category_dao.update(eventCategory);
+                    if(ecID > 0){
+                        ec_dao.update(ec);
+                        corrected = true;
                     } else {
-                        event_category_dao.insert(eventCategory);
+                        ec_dao.insert(ec);
+                        corrected = true;
                     }
                 }catch (GenericDAOException ex){
                     System.err.println(EventCategory_Activity_Edit.class.getName() + " [WARNING] " + ex.toString());
@@ -105,7 +113,7 @@ public class EventCategory_Activity_Edit extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent();
-                setResult(1,intent);
+                setResult(corrected?1:2, intent);
                 finish();
                 return true;
             default:
@@ -138,7 +146,7 @@ public class EventCategory_Activity_Edit extends AppCompatActivity {
 
     private boolean validateCategory() {
         String pw = tv_category.getText().toString().trim();
-        if (pw.isEmpty() || pw.length() < 5) {
+        if (pw.isEmpty() || pw.length() < 3) {
             inputLayoutCategory.setError(getString(R.string.err_category_short));
             //requestFocus(inputLayoutPassword);
             return false;

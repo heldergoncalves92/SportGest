@@ -2,7 +2,7 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Position extends DomainPojo {
-    private long id = -1;
+    private long id = 0;
     private String name;
 
     public Position(long id, String name) {

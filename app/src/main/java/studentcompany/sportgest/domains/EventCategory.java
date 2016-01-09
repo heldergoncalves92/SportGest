@@ -1,11 +1,15 @@
 package studentcompany.sportgest.domains;
 
 public class EventCategory extends DomainPojo {
-    private long id;
+    private long id=0;
     private String name;
 
     public EventCategory(long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public EventCategory(String name) {
         this.name = name;
     }
 
