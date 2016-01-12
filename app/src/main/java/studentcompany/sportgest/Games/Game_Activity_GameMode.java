@@ -1,12 +1,22 @@
 package studentcompany.sportgest.Games;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +56,13 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
     private static final int ON_BENCH = 1, IN_GAME = 2;
 
+    private SurfaceView field;
+    private SurfaceHolder holder;
+    private Paint paint = new Paint(Paint.DITHER_FLAG);
+
+    private int posx,posy;
+    private long event_id;
+
     private int tag = -1;
 
 
@@ -69,6 +86,34 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         }
 
 
+        field = (SurfaceView)findViewById(R.id.game_field);
+        holder = field.getHolder();
+        paint.setColor(Color.RED);
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setStyle(Paint.Style.FILL);
+
+
+        field.setBackgroundColor(Color.TRANSPARENT);
+        field.setZOrderOnTop(true); //necessary
+        holder.setFormat(PixelFormat.TRANSPARENT);
+
+        field.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (holder.getSurface().isValid()) {
+                        Canvas canvas = holder.lockCanvas();
+                        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                        canvas.drawCircle(event.getX(), event.getY(), 30, paint);
+                        posx = (int) ((event.getX()*1000) / v.getWidth());
+                        posy = (int) ((event.getY()*1000) / v.getWidth());
+                        holder.unlockCanvasAndPost(canvas);
+                    }
+                }
+                return true;
+            }
+        });
 
         try {
             //Initializations

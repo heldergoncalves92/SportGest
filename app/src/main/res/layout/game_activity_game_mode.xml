@@ -40,13 +40,18 @@
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:orientation="vertical">
-        
-        <FrameLayout
-            android:id="@+id/game_field"
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="7.5"
-            android:background="@drawable/futsal_field"/>
+            android:background="@drawable/futsal_field">
+            <SurfaceView
+                android:id="@+id/game_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/game_EventCategory_list"
