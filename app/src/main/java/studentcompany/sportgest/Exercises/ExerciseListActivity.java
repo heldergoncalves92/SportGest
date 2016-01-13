@@ -134,7 +134,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
      ************************************/
 
     @Override
-    public void itemSelected(int position) {
+     public void itemSelected(int position) {
         Exercise exercise = exerciseList.get(position);
 
         if(exercise != null){

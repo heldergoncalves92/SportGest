@@ -335,6 +335,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         }
         menu.findItem(R.id.Add).setVisible(false);
         menu.findItem(R.id.Edit).setVisible(false);
+        menu.findItem(R.id.Forward).setVisible(false);
         return true;
     }
 
