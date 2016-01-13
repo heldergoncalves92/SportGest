@@ -308,6 +308,10 @@ public class CreateTrainingActivity extends AppCompatActivity {
     }
 
     public void goto_NextActivity(View view){
+        trainingName = tv_name.getText().toString();
+        trainingDescription = tv_description.getText().toString();
+        trainingDateInMillis = cal.getTimeInMillis();
+
         Intent intent;
         intent = new Intent(this, CreateTrainingExerciseActivity.class);
         //put current training info in extras
