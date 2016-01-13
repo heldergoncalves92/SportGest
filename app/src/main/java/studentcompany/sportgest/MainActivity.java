@@ -118,19 +118,20 @@ public class MainActivity extends AppCompatActivity {
         exerEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExerciseAttributesActivity.class);
+                String sEvaluation="Evaluation";
+                Intent intent = new Intent(getApplicationContext(), TrainingListActivity.class);
 
                 //put current team ID and training ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, 1);
                 dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, 1);
+                dataBundle.putString("sEvaluation",sEvaluation);
                 //add data
                 intent.putExtras(dataBundle);
                 //start activity
                 startActivity(intent);
             }
         });
-        
     }
 
     @Override
