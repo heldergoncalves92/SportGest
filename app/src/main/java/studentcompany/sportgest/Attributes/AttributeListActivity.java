@@ -45,7 +45,7 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         try {
             attribute_dao = new Attribute_DAO(getApplicationContext());
             updateAttributeList();
-            mListAttributes.setAttributeList(getNamesList(attributeList));
+            mListAttributes.setAttributeList(attributeList);
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
