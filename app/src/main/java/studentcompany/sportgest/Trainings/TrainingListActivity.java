@@ -56,7 +56,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                 new TrainingTestData(getApplicationContext());
                 trainingList = training_dao.getAll();
             }
-            mListTrainings.setTrainingList(getNamesList(trainingList));
+            mListTrainings.setTrainingList(trainingList);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -243,7 +243,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         if (requestCode == 0) {
             try {
                 trainingList = training_dao.getAll();
-                mListTrainings.setTrainingList(getNamesList(trainingList));
+                mListTrainings.setTrainingList(trainingList);
                 mListTrainings.updateList();
 
             } catch (GenericDAOException e) {

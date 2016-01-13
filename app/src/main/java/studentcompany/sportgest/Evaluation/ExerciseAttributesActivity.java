@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import studentcompany.sportgest.Exercises.ListExercise_Fragment;
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Trainings.TrainingTestData;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -81,6 +82,15 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         attribute_exercise_dao = new Attribute_Exercise_DAO(this);
         record_dao = new Record_DAO(this);
         player_dao = new Player_DAO(this);
+
+        //TEST ONLY -> REMOVE
+        try {
+            if(training_dao.getAll().size() == 0) {
+                new TrainingTestData(getApplicationContext());
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
 
         //get trainingID
         Bundle extras = getIntent().getExtras();
