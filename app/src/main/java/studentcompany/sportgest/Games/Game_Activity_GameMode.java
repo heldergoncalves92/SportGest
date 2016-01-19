@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,9 @@ import java.util.concurrent.SynchronousQueue;
 import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Event_Category_DAO;
+import studentcompany.sportgest.daos.Event_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
+import studentcompany.sportgest.daos.GenericDAO;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Squad_Call_DAO;
@@ -45,6 +48,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private List<EventCategory> events;
     private Player_DAO playerDao;
     private Squad_Call_DAO squadCallDao;
+    private Event_DAO event_dao;
     private Event_Category_DAO event_category_dao;
 
     private long baseGameID;
@@ -54,14 +58,16 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private Player_Fragment_List mList_onBench = new Player_Fragment_List();
     private GameMode_Event_Fragment_List mList_Events = new GameMode_Event_Fragment_List();
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
-    private static final int ON_BENCH = 1, IN_GAME = 2;
+    private static final int ON_BENCH = 1, IN_GAME = 2, EVENT = 3;
 
     private SurfaceView field;
     private SurfaceHolder holder;
     private Paint paint = new Paint(Paint.DITHER_FLAG);
 
-    private int posx,posy;
-    private long event_id;
+    private int posx=0,posy=0;
+    private long event_id=-1, player_id=-1;
+    private EventCategory eventCategory=null;
+    private Player player=null;
 
     private int tag = -1;
 
@@ -102,13 +108,28 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (holder.getSurface().isValid()) {
+                    eventCategory = mList_Events.getCurrentItem();
+                    player = mList_inGame.getCurrentItem();
+                    if (holder.getSurface().isValid() && player != null && eventCategory != null) {
                         Canvas canvas = holder.lockCanvas();
                         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                         canvas.drawCircle(event.getX(), event.getY(), 30, paint);
                         posx = (int) ((event.getX()*1000) / v.getWidth());
                         posy = (int) ((event.getY()*1000) / v.getWidth());
                         holder.unlockCanvasAndPost(canvas);
+                        Event eventz = new Event("desc",20,posx,posy,eventCategory,new Game(baseGameID),player);
+                        try {
+                            long idz = event_dao.insert(eventz);
+                            if(idz<0)
+                                throw new GenericDAOException();
+                            ArrayList<Event> x = event_dao.getAll();
+                            mList_Events.unselect_Item();
+                            eventCategory = null;
+                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
+                        } catch (GenericDAOException e) {
+                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
                     }
                 }
                 return true;
@@ -119,14 +140,17 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             //Initializations
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
             event_category_dao = new Event_Category_DAO(getApplicationContext());
+            event_dao = new Event_DAO(getApplicationContext());
             onBench = new ArrayList<Player>();
             inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
             events = event_category_dao.getAll();
             if(inGame == null){
                 insertTest();
-                finish();
-                return;
+                inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
+                events = event_category_dao.getAll();
+                //finish();
+                //return;
             }
 
             if(inGame.size() > 5) {
@@ -143,6 +167,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             mList_onBench.setTag(ON_BENCH);
 
             mList_Events.setList(events);
+            mList_Events.setTag(EVENT);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -188,18 +213,17 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             long gameID = game_dao.insert(game);
             game.setId(gameID);
 
-            EventCategory event = new EventCategory(0,"Goal");
+            EventCategory event = new EventCategory("Goal");
+            gameID = event_category_dao.insert(event);
+
+            event = new EventCategory("Yellow Card");
             event_category_dao.insert(event);
 
-            event = new EventCategory(0,"Yellow Card");
+            event = new EventCategory("Foul");
             event_category_dao.insert(event);
 
-            event = new EventCategory(0,"Foul");
+            event = new EventCategory("Explosion");
             event_category_dao.insert(event);
-
-            event = new EventCategory(0,"Explosion");
-            event_category_dao.insert(event);
-
 
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
             id = player_dao.insert(p);

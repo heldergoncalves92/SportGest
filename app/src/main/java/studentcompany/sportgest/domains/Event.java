@@ -1,7 +1,7 @@
 package studentcompany.sportgest.domains;
 
 public class Event extends DomainPojo{
-    private long id;
+    private long id=-1;
     private String description;
     private long date;
     private int posx;
@@ -12,6 +12,15 @@ public class Event extends DomainPojo{
 
     public Event(long id, String description, long date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
         this.id = id;
+        this.description = description;
+        this.date = date;
+        this.posx = posx;
+        this.posy = posy;
+        this.eventCategory = eventCategory;
+        this.game = game;
+        this.player = player;
+    }
+    public Event(String description, long date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
         this.description = description;
         this.date = date;
         this.posx = posx;

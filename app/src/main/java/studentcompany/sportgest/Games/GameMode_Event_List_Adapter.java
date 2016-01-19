@@ -114,4 +114,18 @@ public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_E
         currentPos = position;
     }
 
+    public int getCurrentPos(){
+        return currentPos;
+    }
+
+    public EventCategory getCurrentItem(){
+        if(currentPos>=0)
+            return mDataset.get(currentPos);
+        else
+            return null;
+    }
+
+    public void unselectItem(){
+        this.currentPos = -1;
+    }
 }

@@ -57,6 +57,9 @@ public class Player extends DomainPojo{
         this.team = team;
         this.positions=positions;
     }
+    public Player(long id) {
+        this.id=id;
+    }
 
     public Player(Team team) {
         this.team = team;
