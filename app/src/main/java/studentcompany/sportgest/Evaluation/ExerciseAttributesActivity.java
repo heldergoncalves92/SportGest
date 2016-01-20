@@ -141,7 +141,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         }
 
         //fill exercise list
-        mListExercises.setExerciseList(exerciseList);
+        //mListExercises.setExerciseList(exerciseList);
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -150,8 +150,8 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.exercise_list_fragment_container , mListExercises);
-        fragmentTransaction.add(R.id.exercise_attributes_players_evaluation_fragment_container, mExerciseAttributes);
+        /*fragmentTransaction.add(R.id.exercise_list_fragment_container , mListExercises);
+        fragmentTransaction.add(R.id.exercise_attributes_players_evaluation_fragment_container, mExerciseAttributes);*/
 
         fragmentTransaction.commit();
     }
@@ -198,7 +198,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
                 exerciseAttributesList = new ArrayList<>();
                 evaluations = new ArrayList<>();
             }
-            mExerciseAttributes.showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
+            //mExerciseAttributes.showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
         }
     }
 
@@ -244,13 +244,13 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         if (requestCode == 0) {
             try {
                 exerciseList = exercise_dao.getAll();
-                mListExercises.setExerciseList(exerciseList);
-                mListExercises.updateList();
+                //mListExercises.setExerciseList(exerciseList);
+                //mListExercises.updateList();
 
             } catch (GenericDAOException e) {
                 e.printStackTrace();
             }
-            mExerciseAttributes.clearDetails();
+            //mExerciseAttributes.clearDetails();
             currentPos = -1;
             mOptionsMenu.findItem(R.id.Delete).setVisible(false);
             mOptionsMenu.findItem(R.id.Edit).setVisible(false);

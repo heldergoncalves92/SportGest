@@ -74,7 +74,6 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
             trainingID = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
             sEvaluation = extras.getString("sEvaluation");
             teamID = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, 1);
-            System.out.println(sEvaluation);
 
         }
 

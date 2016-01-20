@@ -48,7 +48,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
     }
 
     public PlayerAttributesItem_Fragment(String type) {
-        switch (type){
+        switch (type) {
             case Attribute.QUANTITATIVE:
                 mEvaluationType = new PlayerAttributesQuantitativeEvaluation_Fragment();
                 break;
@@ -70,7 +70,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        view =  lf.inflate(R.layout.fragment_player_attributes_evaluation_item, container, false);
+        view = lf.inflate(R.layout.fragment_player_attributes_evaluation_item, container, false);
         tv_attribute_name = (TextView) view.findViewById(R.id.attribute_name);
 
         // Get a reference to the FragmentManager
@@ -80,25 +80,25 @@ public class PlayerAttributesItem_Fragment extends Fragment {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.evaluation_fragment_container , mEvaluationType);
+        fragmentTransaction.add(R.id.evaluation_fragment_container, mEvaluationType);
 
         fragmentTransaction.commit();
 
         return view;
     }
 
-    public List<String> getAttributesNamesList(List<Attribute> attributeList){
+    public List<String> getAttributesNamesList(List<Attribute> attributeList) {
         ArrayList<String> list = new ArrayList<>();
 
-        for(Attribute a: attributeList)
+        for (Attribute a : attributeList)
             list.add(a.getName());
         Collections.sort(list);
         return list;
     }
 
-    public void showExercise(Exercise exercise, TrainingExercise trainingExercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations){
-        clearDetails();
-        tv_name.setText(exercise.getTitle());
+    public void showExercise(Exercise exercise, TrainingExercise trainingExercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations) {
+        //clearDetails();
+        /*tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
         tv_duration.setText("" + exercise.getDuration());
@@ -106,7 +106,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
         tv_duration.setClickable(false);
         tv_repetitions.setText("" + trainingExercise.getRepetitions());
         tv_repetitions.setFocusable(false);
-        tv_repetitions.setClickable(false);
+        tv_repetitions.setClickable(false);*/
 
         //TODO: create globalTable with relations from players to attributes and his evaluation -> TableLayout
         FragmentActivity fa = getActivity();
@@ -135,7 +135,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
         tr.setBackgroundColor(Color.WHITE);
         tr.setGravity(Gravity.CENTER_VERTICAL);
         tableRows.add(tr);
-        for(Player p: playerList){
+        for (Player p : playerList) {
             playerRow.put(p.getId(), rowNumber);
             tv = new TextView(fa);
             tv.setText(p.getName());
@@ -147,7 +147,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
             evaluationTable.put(new Pair<>(rowNumber, 0), tv);
             tr = new TableRow(fa);
             tr.setPadding(0, 2, 0, 2); //Border between rows
-            if(rowNumber%2 == 0){
+            if (rowNumber % 2 == 0) {
                 tr.setBackgroundColor(Color.GRAY);
             } else {
                 tr.setBackgroundColor(Color.DKGRAY);
@@ -158,7 +158,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
         }
 
         //fill columns (attribute names)
-        for(Attribute a: exerciseAttributes){
+        for (Attribute a : exerciseAttributes) {
             attributeCol.put(a.getId(), colNumber);
             tv = new TextView(fa);
             tv.setText(a.getName());
@@ -173,7 +173,7 @@ public class PlayerAttributesItem_Fragment extends Fragment {
 
         //fill content
         int auxRow, auxCol;
-        for(Record r: evaluations){
+        for (Record r : evaluations) {
             //TODO: validation
             auxRow = playerRow.get(r.getPlayer().getId());
             auxCol = attributeCol.get(r.getAttribute().getId());
@@ -188,39 +188,12 @@ public class PlayerAttributesItem_Fragment extends Fragment {
             evaluationTable.put(new Pair<>(auxRow, auxCol), tv);
         }
 
-        //build Table View
-        TableRow auxTR;
-        for(auxRow=0; auxRow < rowNumber; auxRow++){
-            auxTR = tableRows.get(auxRow);
-            for(auxCol=0; auxCol<colNumber; auxCol++){
-                if(evaluationTable.containsKey(new Pair<>(auxRow, auxCol))){
-                    auxTR.addView(evaluationTable.get(new Pair<>(auxRow, auxCol)));
-                } else {
-                    tv = new TextView(fa);
-                    tv.setText("N/A");
-                    tv.setMinimumWidth(10);
-                    tv.setMaxWidth(200);
-                    tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                    tv.setPadding(5, 5, 5, 5);
-                    auxTR.addView(tv);
-                }
-            }
-            tableRows.set(auxRow, auxTR);
-        }
 
-        for(auxRow=0; auxRow < rowNumber; auxRow++) {
-            globalTable.addView(tableRows.get(auxRow));
-        }
-
-        HorizontalScrollView til = (HorizontalScrollView) view.findViewById(R.id.text_layout_exercise_attributes);
-        til.removeAllViews();
-        til.addView(globalTable);
-    }
-
-    public void clearDetails(){
+    /*public void clearDetails(){
         tv_name.setText("");
         tv_duration.setText("");
         tv_repetitions.setText("");
         globalTable.removeAllViews();
+    }*/
     }
 }

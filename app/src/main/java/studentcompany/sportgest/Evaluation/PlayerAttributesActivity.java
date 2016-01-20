@@ -49,7 +49,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.player_activity_list_view);
+        setContentView(R.layout.fragment_player_attributes_evaluation);
 
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();

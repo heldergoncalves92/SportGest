@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String sEvaluation="Evaluation";
                 Intent intent = new Intent(getApplicationContext(), TrainingListActivity.class);
+                System.out.println("BRAGA");
 
                 //put current team ID and training ID in extras
                 Bundle dataBundle = new Bundle();

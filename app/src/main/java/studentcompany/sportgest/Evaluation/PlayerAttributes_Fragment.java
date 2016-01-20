@@ -39,7 +39,7 @@ public class PlayerAttributes_Fragment extends Fragment {
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private studentcompany.sportgest.Players.Player_Fragment_List mAttributeItem = new studentcompany.sportgest.Evaluation.PlayerAttributesItem_Fragment();
+    //private studentcompany.sportgest.Players.Player_Fragment_List mAttributeItem = new studentcompany.sportgest.Evaluation.PlayerAttributesItem_Fragment();
 
     public PlayerAttributes_Fragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class PlayerAttributes_Fragment extends Fragment {
         LayoutInflater lf = getActivity().getLayoutInflater();
 
         view =  lf.inflate(R.layout.fragment_exercise_attributes_evaluation, container, false);
-        tv_name = (TextView) view.findViewById(R.id.exercise_name);
+        /*tv_name = (TextView) view.findViewById(R.id.exercise_name);
         tv_duration = (TextView) view.findViewById(R.id.exercise_duration);
         tv_repetitions = (TextView) view.findViewById(R.id.exercise_repetitions);
 
@@ -64,7 +64,7 @@ public class PlayerAttributes_Fragment extends Fragment {
 
         table = new TableLayout(getActivity());
 
-        scrollableTable = new HorizontalScrollView(getActivity());
+        scrollableTable = new HorizontalScrollView(getActivity());*/
 
         return view;
     }
@@ -80,7 +80,7 @@ public class PlayerAttributes_Fragment extends Fragment {
 
     public void showExercise(Exercise exercise, TrainingExercise trainingExercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations){
         clearDetails();
-        tv_name.setText(exercise.getTitle());
+        /*tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
         tv_duration.setText("" + exercise.getDuration());
@@ -88,7 +88,7 @@ public class PlayerAttributes_Fragment extends Fragment {
         tv_duration.setClickable(false);
         tv_repetitions.setText("" + trainingExercise.getRepetitions());
         tv_repetitions.setFocusable(false);
-        tv_repetitions.setClickable(false);
+        tv_repetitions.setClickable(false);*/
 
         //TODO: create globalTable with relations from players to attributes and his evaluation -> TableLayout
         FragmentActivity fa = getActivity();
@@ -191,18 +191,18 @@ public class PlayerAttributes_Fragment extends Fragment {
         }
 
         for(auxRow=0; auxRow < rowNumber; auxRow++) {
-            globalTable.addView(tableRows.get(auxRow));
+            //globalTable.addView(tableRows.get(auxRow));
         }
 
         HorizontalScrollView til = (HorizontalScrollView) view.findViewById(R.id.text_layout_exercise_attributes);
         til.removeAllViews();
-        til.addView(globalTable);
+        //til.addView(globalTable);
     }
 
     public void clearDetails(){
-        tv_name.setText("");
+        /*tv_name.setText("");
         tv_duration.setText("");
         tv_repetitions.setText("");
-        globalTable.removeAllViews();
+        globalTable.removeAllViews();*/
     }
 }
