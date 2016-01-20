@@ -49,6 +49,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private Player_DAO playerDao;
     private Squad_Call_DAO squadCallDao;
     private Event_DAO event_dao;
+    private Game_DAO game_dao;
     private Event_Category_DAO event_category_dao;
 
     private long baseGameID;
@@ -117,15 +118,17 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
                         posx = (int) ((event.getX()*1000) / v.getWidth());
                         posy = (int) ((event.getY()*1000) / v.getWidth());
                         holder.unlockCanvasAndPost(canvas);
-                        Event eventz = new Event("desc",20,posx,posy,eventCategory,new Game(baseGameID),player);
+
                         try {
+
+                            Event eventz = new Event(eventCategory.getName() == null ? "" : eventCategory.getName(),20,posx,posy,eventCategory,new Game(baseGameID),player);
+
                             long idz = event_dao.insert(eventz);
                             if(idz<0)
                                 throw new GenericDAOException();
-                            ArrayList<Event> x = event_dao.getAll();
                             mList_Events.unselect_Item();
                             eventCategory = null;
-                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
                         } catch (GenericDAOException e) {
                             Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
@@ -141,6 +144,8 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
             event_category_dao = new Event_Category_DAO(getApplicationContext());
             event_dao = new Event_DAO(getApplicationContext());
+            game_dao = new Game_DAO(getApplicationContext());
+            playerDao = new Player_DAO(getApplicationContext());
             onBench = new ArrayList<Player>();
             inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 

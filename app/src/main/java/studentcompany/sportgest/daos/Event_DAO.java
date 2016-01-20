@@ -29,7 +29,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     private Player_DAO          player_dao;
 
     //Table names
-    public static final String TABLE_NAME                  = "EVENTS";
+    public static final String TABLE_NAME                  = "EVENT";
 
     //Table columns
     public static final String COLUMN_ID                   = "ID";
@@ -140,10 +140,10 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     public long insert(Event object) throws GenericDAOException {
 
         if(object==null)
-            return -1;
+            return -2;
 
-        if(object.getGame()!=null && object.getEventCategory() != null && object.getPlayer() != null)
-            return -1;
+        if(object.getGame()==null || object.getEventCategory() == null || object.getPlayer() == null)
+            return -3;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
@@ -152,19 +152,9 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         contentValues.put(COLUMN_POSY, object.getPosy());
         contentValues.put(COLUMN_EVENT_CATEGORYID, object.getEventCategory().getId());
         contentValues.put(COLUMN_GAMEID, object.getGame().getId());
-        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId() + 99);
+        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
 
-        long x = -1;
-        try
-        {
-            x = db.insertOrThrow(TABLE_NAME, null, contentValues);
-        }
-        catch(SQLException e)
-        {
-            Log.e("Exception", "SQLException" + String.valueOf(e.getMessage()));
-            e.printStackTrace();
-        }
-        return x;
+        return db.insertOrThrow(TABLE_NAME, null, contentValues);
 
     }
 
