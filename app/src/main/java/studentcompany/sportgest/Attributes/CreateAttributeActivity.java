@@ -48,9 +48,9 @@ public class CreateAttributeActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         List<String> list = new ArrayList<String>();
-        list.add("Qualificativo");
-        list.add("Quantitativo");
-        list.add("Racio");
+        list.add(Attribute.QUALITATIVE);
+        list.add(Attribute.QUANTITATIVE);
+        list.add(Attribute.RATIO);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

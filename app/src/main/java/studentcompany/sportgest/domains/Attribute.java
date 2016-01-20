@@ -8,6 +8,10 @@ public class Attribute extends DomainPojo implements Comparator<Attribute>{
     private String name;
     private int deleted;
 
+    public static final String RATIO = "Ratio";
+    public static final String QUANTITATIVE = "Quantitative";
+    public static final String QUALITATIVE = "Qualitative";
+
     public Attribute(long id, String type, String name, int deleted) {
         this.id = id;
         this.type = type;
