@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.Exercises.ListExercise_Fragment;
+import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.Trainings.TrainingTestData;
 import studentcompany.sportgest.daos.Attribute_DAO;
@@ -65,8 +66,8 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
-    private ExerciseAttributes_Fragment mExerciseAttributes = new ExerciseAttributes_Fragment();
+    private Player_Fragment_List mListPlayers = new Player_Fragment_List();
+    private PlayerAttributes_Fragment mPlayerAttributes = new PlayerAttributes_Fragment();
     private static final String TAG = "EVALUATE_EXERCISE_ATTRIBUTES_ACTIVITY";
 
     @Override
