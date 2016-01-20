@@ -92,8 +92,11 @@
         <activity android:name=".Team.Squad_Activity_Edit"></activity>
         <activity android:name=".Players.EditPosition_Activity"/>
         <activity
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".Games.Game_Activity_GameMode"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
             android:label="@string/app_teamView" />
