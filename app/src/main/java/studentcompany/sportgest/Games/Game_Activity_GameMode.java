@@ -44,10 +44,11 @@ import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
-public class Game_Activity_GameMode extends AppCompatActivity implements Player_Fragment_List.OnItemSelected, GameMode_Event_Fragment_List.OnItemSelected {
+public class Game_Activity_GameMode extends AppCompatActivity implements Player_Fragment_List.OnItemSelected, GameMode_Event_Fragment_List.OnItemSelected, Game_Fragment_GameMode_History.OnItemSelected {
 
     private List<Player> inGame, onBench;
     private List<EventCategory> events;
+    private List<Event> historyEvents;
     private Player_DAO playerDao;
     private Squad_Call_DAO squadCallDao;
     private Event_DAO event_dao;
@@ -60,8 +61,9 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
     private Player_Fragment_List mList_onBench = new Player_Fragment_List();
     private GameMode_Event_Fragment_List mList_Events = new GameMode_Event_Fragment_List();
+    private Game_Fragment_GameMode_History mHistoryEvents = new Game_Fragment_GameMode_History();
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
-    private static final int ON_BENCH = 1, IN_GAME = 2, EVENT = 3;
+    private static final int ON_BENCH = 1, IN_GAME = 2, EVENT = 3, HISTORY_GAME = 4;
 
     private SurfaceView field;
     private SurfaceHolder holder;
@@ -136,6 +138,10 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
                             long idz = event_dao.insert(eventz);
                             if(idz<0)
                                 throw new GenericDAOException();
+
+                            eventz.setId(idz);
+                            mHistoryEvents.insert_Item(eventz);
+
                             mList_Events.unselect_Item();
                             eventCategory = null;
                             Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
@@ -184,6 +190,12 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             mList_Events.setList(events);
             mList_Events.setTag(EVENT);
 
+            historyEvents = new ArrayList<Event>();
+
+            mHistoryEvents.setList(historyEvents);
+            mHistoryEvents.setTag(HISTORY_GAME);
+
+
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -199,6 +211,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         fragmentTransaction.add(R.id.game_InGame_list , mList_inGame);
         fragmentTransaction.add(R.id.game_OnBench_list , mList_onBench);
         fragmentTransaction.add(R.id.game_EventCategory_list , mList_Events);
+        fragmentTransaction.add(R.id.game_History_list , mHistoryEvents);
 
         fragmentTransaction.commit();
 
@@ -269,8 +282,18 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
     public void itemSelected(int position, int tag){
 
-
+        //From HistoryGameMode
+        if(tag == HISTORY_GAME)
+            mHistoryEvents.showButtons();
     }
+
+    public void itemDesselected(int position, int tag){
+
+        //From HistoryGameMode
+        if(tag == HISTORY_GAME)
+            mHistoryEvents.hideButtons();
+    }
+
     public void itemSelected(int position){
 
     }
@@ -311,4 +334,22 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         }
     }
 
+
+    public void deleteHistory(View v){
+
+        Event e;
+        int selected_Item = mHistoryEvents.has_Selection();
+
+        if(selected_Item != -1){
+            try {
+
+                mHistoryEvents.unselect_Item(selected_Item);
+                e = mHistoryEvents.removeItem(selected_Item);
+                event_dao.delete(e);
+
+            } catch (GenericDAOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
 }
