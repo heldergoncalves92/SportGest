@@ -87,7 +87,19 @@ public class GameMode_Event_Fragment_List extends Fragment {
         mAdapter.notifyItemChanged(position);
     }
 
+    public void unselect_Item(int position){
 
+        GameMode_Event_List_Adapter.ViewHolder v = (GameMode_Event_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+        ((GameMode_Event_List_Adapter) mAdapter).unselectItem();
+    }
+    public void unselect_Item(){
+        int pos = has_Selection();
+        unselect_Item(pos);
+    }
+    public int has_Selection(){
+        return ((GameMode_Event_List_Adapter) mAdapter).getCurrentPos();
+    }
 
     public void removeItem(int position){
         mAdapter.notifyItemRemoved(position);
@@ -100,6 +112,13 @@ public class GameMode_Event_Fragment_List extends Fragment {
     // Container Activity must implement this interface
     public interface OnItemSelected{
         void itemSelected(int position, int tag);
+    }
+
+    public EventCategory getCurrentItem(){
+        if(mAdapter == null)
+            return null;
+        else
+            return ((GameMode_Event_List_Adapter) mAdapter).getCurrentItem();
     }
 
 }

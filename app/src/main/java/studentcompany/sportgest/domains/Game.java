@@ -33,6 +33,9 @@ public class Game extends DomainPojo {
         this.visitor_score = visitor_score;
         this.duration = duration;
     }
+    public Game( long id) {
+        this.id = id;
+    }
 
     @Override
     public long getId() {

@@ -131,5 +131,11 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
 
+    public Player getCurrentItem(){
+        if(currentPos>=0)
+            return mDataset.get(currentPos);
+        else
+            return null;
+    }
 
 }

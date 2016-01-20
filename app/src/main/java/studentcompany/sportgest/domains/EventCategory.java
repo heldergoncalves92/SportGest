@@ -8,6 +8,9 @@ public class EventCategory extends DomainPojo {
         this.id = id;
         this.name = name;
     }
+    public EventCategory(long id) {
+        this.id = id;
+    }
 
     public EventCategory(String name) {
         this.name = name;

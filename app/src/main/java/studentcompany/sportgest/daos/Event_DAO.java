@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             COLUMN_PLAYER_ID + " INTEGER NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_EVENT_CATEGORYID + ") REFERENCES " + Event_DAO.TABLE_NAME + "(" + Event_DAO.COLUMN_ID + "), " +
             "FOREIGN KEY(" + COLUMN_GAMEID + ") REFERENCES " + Game_DAO.TABLE_NAME + "(" + Game_DAO.COLUMN_ID + "), " +
-            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES PLAYER(ID)); ";
+            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES " + Player_DAO.TABLE_NAME + "(" + Player_DAO.COLUMN_ID + ")); ";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -138,10 +140,10 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     public long insert(Event object) throws GenericDAOException {
 
         if(object==null)
-            return -1;
+            return -2;
 
-        if(object.getGame()!=null && object.getEventCategory() != null && object.getPlayer() != null)
-            return -1;
+        if(object.getGame()==null || object.getEventCategory() == null || object.getPlayer() == null)
+            return -3;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
@@ -152,7 +154,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         contentValues.put(COLUMN_GAMEID, object.getGame().getId());
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
 
-        return db.insert(TABLE_NAME, null, contentValues);
+        return db.insertOrThrow(TABLE_NAME, null, contentValues);
+
     }
 
     @Override
