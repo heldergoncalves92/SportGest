@@ -129,12 +129,12 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
             return -1;
 
         ContentValues contentValues = new ContentValues();
-        if(object.getHome_team()==null)
+        if(object.getHome_team()!=null)
             contentValues.put(COLUMN_HOME_TEAMID, object.getHome_team().getId());
         else
             contentValues.putNull(COLUMN_HOME_TEAMID);
 
-        if(object.getVisitor_team()==null)
+        if(object.getVisitor_team()!=null)
             contentValues.put(COLUMN_VISITOR_TEAMID, object.getVisitor_team().getId());
         else
             contentValues.putNull(COLUMN_VISITOR_TEAMID);

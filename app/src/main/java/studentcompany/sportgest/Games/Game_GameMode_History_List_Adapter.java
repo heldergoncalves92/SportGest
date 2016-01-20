@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Players;
+package studentcompany.sportgest.Games;
 
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,18 +10,16 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import studentcompany.sportgest.Positions.Position_Fragment_List;
-import studentcompany.sportgest.Positions.Position_List_Adapter;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Event;
 
 /**
- * Created by heldergoncalves on 27/12/15.
+ * Created by heldergoncalves on 20/01/16.
  */
-public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapter.ViewHolder> {
+public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Game_GameMode_History_List_Adapter.ViewHolder> {
 
-    private static Player_Fragment_List.OnItemSelected mListener;
-    private List<Player> mDataset;
+    private static Game_Fragment_GameMode_History.OnItemSelected mListener;
+    private List<Event> mDataset;
 
     private int tag;
     private int currentPos = -1;
@@ -33,12 +31,12 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
 
-        private Player_List_Adapter su = null;
+        private Game_GameMode_History_List_Adapter su = null;
         public AppCompatTextView mTextView_name;
         public CardView parent;
 
 
-        public ViewHolder(View view, Player_List_Adapter su) {
+        public ViewHolder(View view, Game_GameMode_History_List_Adapter su) {
             super(view);
             view.setOnClickListener(this);
 
@@ -58,6 +56,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
             } else if(su.tag != 0){
                 focus_loss();
+                mListener.itemDesselected(pos, su.tag);
             }
         }
 
@@ -75,7 +74,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Player_List_Adapter(List<Player> myDataset, Player_Fragment_List.OnItemSelected mListener, int tag) {
+    public Game_GameMode_History_List_Adapter(List<Event> myDataset, Game_Fragment_GameMode_History.OnItemSelected mListener, int tag) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
@@ -84,8 +83,8 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Player_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                           int viewType) {
+    public Game_GameMode_History_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                             int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.role_card_item, parent, false);
@@ -102,10 +101,10 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        Player player = mDataset.get(position);
+        Event event = mDataset.get(position);
 
-        if (player != null) {
-            holder.mTextView_name.setText(player.getName());
+        if (event != null) {
+            holder.mTextView_name.setText(event.getPlayer().getNickname());
 
         }
     }
@@ -131,7 +130,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
     }
 
 
-    public Player getCurrentItem(){
+    public Event getCurrentItem(){
         if(currentPos>=0)
             return mDataset.get(currentPos);
         else

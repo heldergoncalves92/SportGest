@@ -122,4 +122,10 @@ public class Player_Fragment_List extends Fragment {
         void itemSelected(int position, int tag);
     }
 
+    public Player getCurrentItem(){
+        if(mAdapter == null)
+            return null;
+        else
+            return ((Player_List_Adapter) mAdapter).getCurrentItem();
+    }
 }

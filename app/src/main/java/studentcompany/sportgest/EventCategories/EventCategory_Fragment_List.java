@@ -1,9 +1,8 @@
-package studentcompany.sportgest.Games;
+package studentcompany.sportgest.EventCategories;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,20 +11,16 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import studentcompany.sportgest.Games.GameMode_Event_List_Adapter;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Event;
 import studentcompany.sportgest.domains.EventCategory;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class GameMode_Event_Fragment_List extends Fragment {
+import studentcompany.sportgest.domains.Position;
 
 
-    private static final String TAG = "GAMEMODE_EVENT_FRAGMENT";
+public class EventCategory_Fragment_List extends Fragment {
+
+
+    private static final String TAG = "LIST_EVENTCATEGORY_FRAGMENT";
     private List<EventCategory> list;
-    private int tag = 0;
     OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
@@ -56,11 +51,11 @@ public class GameMode_Event_Fragment_List extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new GridLayoutManager(getContext(),3);
+        mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameMode_Event_List_Adapter(list, mListener, tag);
+        mAdapter = new EventCategory_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
@@ -71,35 +66,19 @@ public class GameMode_Event_Fragment_List extends Fragment {
         this.list = list;
     }
 
-    public void setTag(int tag){
-        this.tag = tag;
-    }
-
     public void updateList(List<EventCategory> list){
         this.list = list;
 
-        mAdapter = new GameMode_Event_List_Adapter(list, mListener, tag);
+        mAdapter = new EventCategory_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updatePosition(EventCategory event, int position){
-        this.list.set(position, event);
+    public void updateEventCategory(EventCategory positionObj, int position){
+        this.list.set(position, positionObj);
         mAdapter.notifyItemChanged(position);
     }
 
-    public void unselect_Item(int position){
 
-        GameMode_Event_List_Adapter.ViewHolder v = (GameMode_Event_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-        v.focus_loss();
-        ((GameMode_Event_List_Adapter) mAdapter).unselectItem();
-    }
-    public void unselect_Item(){
-        int pos = has_Selection();
-        unselect_Item(pos);
-    }
-    public int has_Selection(){
-        return ((GameMode_Event_List_Adapter) mAdapter).getCurrentPos();
-    }
 
     public void removeItem(int position){
         mAdapter.notifyItemRemoved(position);
@@ -111,14 +90,7 @@ public class GameMode_Event_Fragment_List extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position, int tag);
-    }
-
-    public EventCategory getCurrentItem(){
-        if(mAdapter == null)
-            return null;
-        else
-            return ((GameMode_Event_List_Adapter) mAdapter).getCurrentItem();
+        void itemSelected(int position);
     }
 
 }

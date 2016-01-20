@@ -55,6 +55,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNickname"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -86,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerName"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -116,6 +118,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNationality"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -146,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/maritalstatus"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -176,6 +180,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerBirthday"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -207,6 +212,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerHeight"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -237,6 +243,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerWeight"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -267,6 +274,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerAddress"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -295,6 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/playerGender"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -325,6 +334,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerEmail"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -353,6 +363,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/playerPreferredFoot"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -383,6 +394,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNumber"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>

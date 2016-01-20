@@ -25,10 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventCategories.DisplayEventCategoryActivity" />
-        <activity
-            android:name=".EventCategories.EventCategory_List_Adapter"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Users.User_Activity_ListView" />
         <activity android:name=".Players.Player_Activity_ListView" />
         <activity android:name=".Positions.Position_Activity_ListView" />
@@ -96,8 +92,19 @@
         <activity android:name=".Team.Squad_Activity_Edit"></activity>
         <activity android:name=".Players.EditPosition_Activity"/>
         <activity
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".Games.Game_Activity_GameMode"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".EventCategories.EventCategory_Activity_Create"
+            android:label="@string/app_teamView" />
+        <activity
+            android:name=".EventCategories.EventCategory_Activity_Edit"
+            android:label="@string/app_newTeam" />
+        <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
+
     </application>
 
 </manifest>

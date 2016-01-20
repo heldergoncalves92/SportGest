@@ -1,118 +1,83 @@
 package studentcompany.sportgest.EventCategories;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Event_Category_DAO;
-import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.EventCategory;
 
-public class EventCategory_List_Adapter extends AppCompatActivity {
-    //Interface
-    private ListView listView;
+public class EventCategory_List_Adapter extends RecyclerView.Adapter<EventCategory_List_Adapter.ViewHolder> {
 
-    //DAOs
-    private Event_Category_DAO event_categorydao;
+    private static EventCategory_Fragment_List.OnItemSelected mListener;
+    private List<EventCategory> mDataset;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_event_category);
 
-        event_categorydao = new Event_Category_DAO(this);
-        ArrayList<EventCategory> eventCategorylist;
-        try {
-            eventCategorylist = event_categorydao.getAll();
-        } catch (GenericDAOException ex){
-            Logger.getLogger(EventCategory_List_Adapter.class.getName()).log(Level.WARNING, null, ex);
-            eventCategorylist = null;
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // each data item is just a string in this case
+        public AppCompatTextView mTextView_name;
+        public View parent;
+
+        public ViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this);
+
+            parent = view;
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
         }
-        ArrayList<String> array_list = new ArrayList<>();
-        for(EventCategory ec : eventCategorylist){
-            array_list.add(ec.getName());
+
+        @Override
+        public void onClick(View v) {
+            mListener.itemSelected(getLayoutPosition());
         }
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-
-        listView = (ListView)findViewById(R.id.event_category_ListView);
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-                // TODO Auto-generated method stub
-                int id_To_Search = arg2 + 1;
-
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", id_To_Search);
-
-                Intent intent = new Intent(getApplicationContext(),DisplayEventCategoryActivity.class);
-
-                intent.putExtras(dataBundle);
-                startActivity(intent);
-            }
-        });
-
-        //Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.list_event_category_toolbar);
-        setSupportActionBar(toolbar);
     }
 
-    @Override
-    public void onResume() {//update list
-        super.onResume();  // Always call the superclass method first
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public EventCategory_List_Adapter(List<EventCategory> myDataset, EventCategory_Fragment_List.OnItemSelected mListener) {
 
-        ArrayList<EventCategory> eventCategorylist;
-        try {
-            eventCategorylist = event_categorydao.getAll();
-        } catch (GenericDAOException ex){
-            Logger.getLogger(EventCategory_List_Adapter.class.getName()).log(Level.WARNING, null, ex);
-            eventCategorylist = null;
-        }
-        ArrayList<String> array_list = new ArrayList<>();
-        for(EventCategory ec : eventCategorylist){
-            array_list.add(ec.getName());
-        }
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-        listView = (ListView)findViewById(R.id.event_category_ListView);
-        listView.setAdapter(arrayAdapter);
+        this.mDataset = myDataset;
+        this.mListener = mListener;
     }
 
+    // Create new views (invoked by the layout manager)
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_list_event_category, menu);
-        return true;
+    public EventCategory_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                               int viewType) {
+        // create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.role_card_item, parent, false);
+        // set the view's size, margins, paddings and layout parameters
+
+
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        super.onOptionsItemSelected(item);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        //holder.mTextView.setText(mDataset[position]);
+        EventCategory positionObj = mDataset.get(position);
 
-        switch(item.getItemId())
-        {
-            case R.id.Add_Event_Category:Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", 0);
+        if (positionObj != null) {
+            holder.mTextView_name.setText(positionObj.getName());
 
-                Intent intent = new Intent(getApplicationContext(),DisplayEventCategoryActivity.class);
-                intent.putExtras(dataBundle);
-
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
     }
 
 }
