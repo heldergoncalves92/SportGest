@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +41,7 @@ public class RoleDisplayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //set activity layout
-        setContentView(R.layout.activity_display_role);
+        setContentView(R.layout.roles_activity_display);
         //get layout components
         roleName = (TextView) findViewById(R.id.input_permission_name);
         rolePermissionsListView = (ListView) findViewById(R.id.rolePermissions);
@@ -188,19 +187,20 @@ public class RoleDisplayActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 112) {
-            if(resultCode == 1)
+            if(resultCode == 1) {
                 try {
                     Role r = role_dao.getById(roleID);
                     roleName.setText(r.getName().toString());
                     List<Permission> permissions = role_permission_dao.getPermissionsByRoleId(roleID);
                     //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, permissions);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, permissions);
 
                     //set list in layout ListView
                     rolePermissionsListView.setAdapter(arrayAdapter);
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
+            }
         }
     }
 

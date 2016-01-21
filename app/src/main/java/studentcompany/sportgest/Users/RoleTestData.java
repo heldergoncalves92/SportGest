@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.EventCategories.DisplayEventCategoryActivity;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Role_DAO;
 import studentcompany.sportgest.daos.Role_Permission_DAO;
@@ -57,8 +56,6 @@ public class RoleTestData {
             role_permission_dao.insert(new Pair<Role, Permission>(role2,perm3));
             role_permission_dao.insert(new Pair<Role, Permission>(role2,perm4));
         }catch (GenericDAOException ex){
-            System.err.println(DisplayEventCategoryActivity.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(DisplayEventCategoryActivity.class.getName()).log(Level.WARNING, null, ex);
             ex.printStackTrace();
         }
     }

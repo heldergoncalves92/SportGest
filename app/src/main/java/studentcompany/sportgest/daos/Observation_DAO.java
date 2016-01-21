@@ -32,7 +32,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
     public static final String COLUMN_ID             = "ID";
     public static final String COLUMN_TITLE          = "TITLE";
     public static final String COLUMN_DESCRIPTION    = "DESCRIPTION";
-    public static final String COLUMN_DATE           = "\"DATE\"";
+    public static final String COLUMN_DATE           = "DATE";
     public static final String COLUMN_OBS_CATEGORYID = "OBS_CATEGORYID";
     public static final String COLUMN_PLAYER_ID      = "PLAYER_ID";
     public static final String COLUMN_USER_ID        = "USER_ID";
@@ -49,8 +49,8 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             COLUMN_USER_ID + " INTEGER NOT NULL, \n" +
             COLUMN_GAME_ID + " INTEGER NOT NULL, \n" +
             "FOREIGN KEY(" + COLUMN_OBS_CATEGORYID + ") REFERENCES " + Obs_Category_DAO.TABLE_NAME + "(" + Obs_Category_DAO.COLUMN_ID + "), \n" +
-            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES PLAYER(ID), \n" +
-            "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES \"USER\"(ID), \n" +
+            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES " + Player_DAO.TABLE_NAME + "(" + Player_DAO.COLUMN_ID + "), \n" +
+            "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + User_DAO.TABLE_NAME + "(" + User_DAO.COLUMN_ID + "), \n" +
             "FOREIGN KEY(" + COLUMN_GAME_ID + ") REFERENCES " + Game_DAO.TABLE_NAME + "(" + Game_DAO.COLUMN_ID + "));\n";
 
     //Drop table
@@ -72,7 +72,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         long id;
         String title;
         String description;
-        int date;
+        long date;
         long obsCatId;
         long playerId;
         long gameId;
@@ -87,31 +87,19 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             title = res.getString(res.getColumnIndex(COLUMN_TITLE));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             obsCatId = res.getLong(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
             userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
 
-            if(obsCatId < 0 || playerId <0 || gameId <0 || userId <0){
-                resObservation.add(new Observation(id,title,description,
-                        date,null,
-                        null,
-                         null,
-                        null));
-                res.moveToNext();
-            }
-            else{
-                resObservation.add(new Observation(id,title,description,
-                        date,obsCategory_dao.getById(obsCatId),
-                        player_dao.getById(playerId),
-                        user_dao.getById(userId),
-                        game_dao.getById(gameId)));
-                res.moveToNext();
-            }
-
+            resObservation.add(new Observation(id,title,description,
+                    date,obsCategory_dao.getById(obsCatId),
+                    player_dao.getById(playerId),
+                    user_dao.getById(userId),
+                    game_dao.getById(gameId)));
+            res.moveToNext();
         }
-        res.close();
 
         return resObservation;
     }
@@ -123,7 +111,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         Observation resObservation;
         String title;
         String description;
-        int date;
+        long date;
         long obsCatId;
         long playerId;
         long gameId;
@@ -136,35 +124,18 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         res.moveToFirst();
 
         //Parse data
-        if(res.getCount()==1){
         title = res.getString(res.getColumnIndex(COLUMN_TITLE));
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         obsCatId = res.getLong(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
         playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
         gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));
         userId = res.getLong(res.getColumnIndex(COLUMN_USER_ID));
 
-        if(obsCatId < 0 || playerId <0 || gameId <0 || userId <0){
-            resObservation = (new Observation(id,title,description,date,null,null,
-                    null,null));
+        resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
+                user_dao.getById(userId),game_dao.getById(gameId)));
 
-            return resObservation;
-
-        }
-        else{
-            resObservation = (new Observation(id,title,description,date,obsCategory_dao.getById(obsCatId),player_dao.getById(playerId),
-                    user_dao.getById(userId),game_dao.getById(gameId)));
-
-            return resObservation;
-        }
-        }
-        else
-            {
-            res.close();
-            return null;
-             }
-
+        return resObservation;
     }
 
     @Override
@@ -173,30 +144,17 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         if(object==null)
             return -1;
 
+        if(object.getPlayer()==null || object.getObservationcategory()==null || object.getGame()==null || object.getUser()==null)
+            return -1;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DATE, object.getDate());
-        if(object.getObservationcategory() == null){
-            contentValues.put(COLUMN_OBS_CATEGORYID, -1);
-        } else {
-            contentValues.put(COLUMN_OBS_CATEGORYID,  object.getObservationcategory().getId());
-        }
-        if(object.getPlayer() == null){
-            contentValues.put(COLUMN_PLAYER_ID, -1);
-        } else {
-            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
-        }
-        if(object.getGame() == null) {
-            contentValues.put(COLUMN_GAME_ID, -1);
-        } else {
-            contentValues.put(COLUMN_GAME_ID,  object.getGame().getId());
-        }
-        if(object.getUser() == null){
-            contentValues.put(COLUMN_USER_ID, -1);
-        } else {
-            contentValues.put(COLUMN_USER_ID,  object.getUser().getId());
-        }
+        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
+        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
+        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
+        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -208,12 +166,11 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
 
         return deleteById(object.getId());
     }
-    @Override
-    public boolean deleteById(long id) {
 
+    public boolean deleteById(long id) {
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) }) > 0;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
@@ -222,30 +179,17 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         if(object==null)
             return false;
 
+        if(object.getPlayer()==null || object.getObservationcategory()==null || object.getGame()==null || object.getUser()==null)
+            return false;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DATE, object.getDate());
-        if(object.getObservationcategory() == null){
-            contentValues.put(COLUMN_OBS_CATEGORYID, -1);
-        } else {
-            contentValues.put(COLUMN_OBS_CATEGORYID,  object.getObservationcategory().getId());
-        }
-        if(object.getPlayer() == null){
-            contentValues.put(COLUMN_PLAYER_ID, -1);
-        } else {
-            contentValues.put(COLUMN_PLAYER_ID,  object.getPlayer().getId());
-        }
-        if(object.getGame() == null) {
-            contentValues.put(COLUMN_GAME_ID, -1);
-        } else {
-            contentValues.put(COLUMN_GAME_ID,  object.getGame().getId());
-        }
-        if(object.getUser() == null){
-            contentValues.put(COLUMN_USER_ID, -1);
-        } else {
-            contentValues.put(COLUMN_USER_ID, object.getUser().getId());
-        }
+        contentValues.put(COLUMN_OBS_CATEGORYID, object.getObservationcategory().getId());
+        contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
+        contentValues.put(COLUMN_GAME_ID, object.getGame().getId());
+        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
 
         db.update(TABLE_NAME,
                 contentValues,
@@ -270,7 +214,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -282,25 +226,33 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getObservationcategory().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpLong );
-            fields++;
+        if(object.getObservationcategory()!=null) {
+            if ((tmpLong = object.getObservationcategory().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getPlayer()!=null) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getGame().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpLong );
-            fields++;
+        if(object.getGame()!=null) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getUser().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getUser()!=null) {
+            if ((tmpLong = object.getUser().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong);
+                fields++;
+            }
         }
 
         if (fields > 0) {
@@ -324,7 +276,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -336,25 +288,33 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
-        if ((tmpLong = object.getObservationcategory().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpLong );
-            fields++;
+            if(object.getObservationcategory()!=null) {
+            if ((tmpLong = object.getObservationcategory().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_OBS_CATEGORYID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getPlayer()!=null) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getGame().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpLong );
-            fields++;
+        if(object.getObservationcategory()!=null) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAME_ID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getUser().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getUser()!=null) {
+            if ((tmpLong = object.getUser().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_USER_ID + " = " + tmpLong);
+                fields++;
+            }
         }
 
         if (fields > 0) {
@@ -362,7 +322,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
             long id;
             String title;
             String description;
-            int date;
+            long date;
             long obsCatId;
             long playerId;
             long gameId;
@@ -375,7 +335,7 @@ public class Observation_DAO extends GenericDAO<Observation> implements IGeneric
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     title = res.getString(res.getColumnIndex(COLUMN_TITLE));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     obsCatId = res.getLong(res.getColumnIndex(COLUMN_OBS_CATEGORYID));
                     playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
                     gameId = res.getLong(res.getColumnIndex(COLUMN_GAME_ID));

@@ -39,7 +39,7 @@ public class User_DAO extends GenericDAO<User> implements IGenericDAO<User>{
             COLUMN_NAME + " TEXT NOT NULL," +
             COLUMN_USERNAME + " TEXT NOT NULL," +
             COLUMN_PASSWORD + " TEXT NOT NULL," +
-            COLUMN_PHOTO + " TEXT NOT NULL," +
+            COLUMN_PHOTO + " TEXT," +
             COLUMN_EMAIL + " TEXT NOT NULL," +
             COLUMN_ROLE_ID + " INTEGER," + // NOT NULL," +
             "FOREIGN KEY(" + COLUMN_ROLE_ID + ") REFERENCES " + Role_DAO.TABLE_NAME + "(" + Role_DAO.COLUMN_ID + ")"+

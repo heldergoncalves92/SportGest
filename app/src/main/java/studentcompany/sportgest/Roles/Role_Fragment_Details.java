@@ -6,15 +6,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.domains.Permission;
+import studentcompany.sportgest.domains.Role;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Role_Fragment_Details extends Fragment {
 
+    //Id of current role displayed
+    private long roleID;
+    private EditText roleName;
+    private ListView rolePermissionsListView;
 
     public Role_Fragment_Details() {
         // Required empty public constructor
@@ -28,56 +39,42 @@ public class Role_Fragment_Details extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        View view =  lf.inflate(R.layout.fragment_user_details, container, false);
+        View view =  lf.inflate(R.layout.role_fragment_details, container, false);
+        //get layout components
+        roleName = (EditText) view.findViewById(R.id.input_permission_name);
+        roleName.setSelected(false);
 
+        rolePermissionsListView = (ListView) view.findViewById(R.id.rolePermissions);
 
         return view;
     }
 
-   /* public void showUser(User user){
-        et_username.setText(user.getUsername());
-        et_name.setText(user.getName());
-        et_email.setText(user.getEmail());
+    public void showRole(Role role){
+        roleName.setText(role.getName());
 
-        if(user.getRole()!=null)
-            et_role.setText(user.getRole().getName());
-        else
-            et_role.setText("");
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.role_item_permission, role.getPermissionList());
 
-        if(user.getTeam()!=null)
-            et_team.setText(user.getTeam().getName());
-        else
-            et_team.setText("");
-
-        //et_photo.setImageURI(Uri.parse(user.getPhoto()));
-        et_photo.setImageBitmap(getImageBitmap(this.getContext(),user.getPhoto()));
+        //set list in layout ListView
+        rolePermissionsListView.setAdapter(arrayAdapter);
     }
 
     public void clearDetails(){
-        et_username.setText("");
-        et_name.setText("");
-        et_email.setText("");
-        et_role.setText("");
-        et_team.setText("");
-        //et_photo.setImageURI(Uri.parse("default"));
+
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.GONE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.VISIBLE);
+        roleName.setText("");
     }
 
-    public Bitmap getImageBitmap(Context context,String name){
-        //name=name+"."+extension;
-        try{
-            ContextWrapper cw = new ContextWrapper(this.getContext());
-            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            // Create imageDir
-            File mypath=new File(directory,name);
-            FileInputStream fis = new FileInputStream(mypath);
-            Bitmap b = BitmapFactory.decodeStream(fis);
-            fis.close();
-            return b;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
+    public void showFirstElem(){
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.VISIBLE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.GONE);
     }
-*/
+
+
 }

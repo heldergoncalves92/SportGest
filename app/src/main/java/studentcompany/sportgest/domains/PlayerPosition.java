@@ -4,8 +4,8 @@ package studentcompany.sportgest.domains;
 public class PlayerPosition extends DomainPojo{
 
     private long id = -1;
-    private Player player = null;
-    private Position position = null;
+    private Player player;
+    private Position position;
     private int value;
 
     public PlayerPosition(long id, Player player, Position position, int value) {
@@ -14,6 +14,7 @@ public class PlayerPosition extends DomainPojo{
         this.position = position;
         this.value = value;
     }
+
     public PlayerPosition(Player player, Position position, int value) {
         this.player = player;
         this.position = position;
@@ -74,5 +75,16 @@ public class PlayerPosition extends DomainPojo{
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + value;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        if(position!=null){
+            if(position.getName()!=null){
+                return position.getName()+ " - " + value;
+            }
+        }
+
+        return "No valid to String";
     }
 }

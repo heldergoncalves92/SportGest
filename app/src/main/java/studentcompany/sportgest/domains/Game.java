@@ -3,17 +3,17 @@ package studentcompany.sportgest.domains;
 
 public class Game extends DomainPojo {
 
-    private long id=-1;
-    private Team home_team = null;
-    private Team visitor_team = null;
-    private int date;
+    private long id;
+    private Team home_team;
+    private Team visitor_team;
+    private long date;
     private String report;
     private int home_score;
     private int visitor_score;
     private float duration;
 
 
-    public Game(long id, Team home_team, Team visitor_team, int date, String report, int home_score, int visitor_score, float duration) {
+    public Game(long id, Team home_team, Team visitor_team, long date, String report, Integer home_score, Integer visitor_score, float duration) {
         this.id = id;
         this.home_team = home_team;
         this.visitor_team = visitor_team;
@@ -24,7 +24,7 @@ public class Game extends DomainPojo {
         this.duration = duration;
     }
 
-    public Game(Team home_team, Team visitor_team, int date, String report, int home_score, int visitor_score, float duration) {
+    public Game( Team home_team, Team visitor_team, long date, String report, Integer home_score, Integer visitor_score, float duration) {
         this.home_team = home_team;
         this.visitor_team = visitor_team;
         this.date = date;
@@ -32,6 +32,9 @@ public class Game extends DomainPojo {
         this.home_score = home_score;
         this.visitor_score = visitor_score;
         this.duration = duration;
+    }
+    public Game( long id) {
+        this.id = id;
     }
 
     @Override
@@ -59,11 +62,11 @@ public class Game extends DomainPojo {
         this.visitor_team = visitor_team;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -122,14 +125,12 @@ public class Game extends DomainPojo {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (home_team != null ? home_team.hashCode() : 0);
         result = 31 * result + (visitor_team != null ? visitor_team.hashCode() : 0);
-        result = 31 * result + date;
+        result = (int) (31 * result + date);
         result = 31 * result + (report != null ? report.hashCode() : 0);
         result = 31 * result + home_score;
         result = 31 * result + visitor_score;
         result = 31 * result + (duration != +0.0f ? Float.floatToIntBits(duration) : 0);
         return result;
     }
-
-
 }
 

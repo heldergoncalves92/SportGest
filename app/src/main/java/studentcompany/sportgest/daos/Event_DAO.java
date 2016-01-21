@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     //Table columns
     public static final String COLUMN_ID                   = "ID";
     public static final String COLUMN_DESCRIPTION          = "DESCRIPTION";
-    public static final String COLUMN_DATE                 = "\"DATE\"";
+    public static final String COLUMN_DATE                 = "DATE";
     public static final String COLUMN_POSX                 = "POSX";
     public static final String COLUMN_POSY                 = "POSY";
     public static final String COLUMN_EVENT_CATEGORYID     = "EVENT_CATEGORYID";
@@ -44,14 +46,14 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_DESCRIPTION + " TEXT, " +
             COLUMN_DATE + " INTEGER NOT NULL, " +
-            COLUMN_POSX + " REAL NOT NULL, " +
-            COLUMN_POSY + " REAL NOT NULL, " +
+            COLUMN_POSX + " INTEGER NOT NULL, " +
+            COLUMN_POSY + " INTEGER NOT NULL, " +
             COLUMN_EVENT_CATEGORYID + " INTEGER NOT NULL, " +
             COLUMN_GAMEID + " INTEGER NOT NULL, " +
             COLUMN_PLAYER_ID + " INTEGER NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_EVENT_CATEGORYID + ") REFERENCES " + Event_DAO.TABLE_NAME + "(" + Event_DAO.COLUMN_ID + "), " +
             "FOREIGN KEY(" + COLUMN_GAMEID + ") REFERENCES " + Game_DAO.TABLE_NAME + "(" + Game_DAO.COLUMN_ID + "), " +
-            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES PLAYER(ID)); ";
+            "FOREIGN KEY(" + COLUMN_PLAYER_ID + ") REFERENCES " + Player_DAO.TABLE_NAME + "(" + Player_DAO.COLUMN_ID + ")); ";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -70,9 +72,9 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         ArrayList<Event> resEvent = new ArrayList<>();
         long id;
         String description;
-        int date;
-        float posx;
-        float posy;
+        long date;
+        int posx;
+        int posy;
         long eventCategoryId;
         long gameId;
         long playerId;
@@ -85,9 +87,9 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
-            posx = res.getFloat(res.getColumnIndex(COLUMN_POSX));
-            posy = res.getFloat(res.getColumnIndex(COLUMN_POSY));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+            posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
+            posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
             eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAMEID));
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
@@ -107,15 +109,12 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         //aux variables;
         Event resEvent;
         String description;
-        int date;
-        float posx;
-        float posy;
+        long date;
+        int posx;
+        int posy;
         long eventCategoryId;
         long gameId;
         long playerId;
-        EventCategory eventCategory;
-        Game game;
-        Player player;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
@@ -123,9 +122,9 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
         //Parse data
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
-        posx = res.getFloat(res.getColumnIndex(COLUMN_POSX));
-        posy = res.getFloat(res.getColumnIndex(COLUMN_POSY));
+        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+        posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
+        posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
         eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
         gameId = res.getLong(res.getColumnIndex(COLUMN_GAMEID));
         playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
@@ -140,6 +139,12 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
     @Override
     public long insert(Event object) throws GenericDAOException {
 
+        if(object==null)
+            return -2;
+
+        if(object.getGame()==null || object.getEventCategory() == null || object.getPlayer() == null)
+            return -3;
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DATE, object.getDate());
@@ -149,28 +154,32 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         contentValues.put(COLUMN_GAMEID, object.getGame().getId());
         contentValues.put(COLUMN_PLAYER_ID, object.getPlayer().getId());
 
-        return db.insert(TABLE_NAME, null, contentValues);
+        return db.insertOrThrow(TABLE_NAME, null, contentValues);
+
     }
 
     @Override
     public boolean delete(Event object) throws GenericDAOException {
-        int deletedCount = db.delete(TABLE_NAME,
-                COLUMN_ID + " = ? ",
-                new String[] { Long.toString(object.getId()) });
-        return true;
+        if(object==null)
+            return false;
+
+        return deleteById(object.getId());
     }
 
-    @Override
     public boolean deleteById(long id) {
-
-        int deletedCount = db.delete(TABLE_NAME,
+        return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
-                new String[] { Long.toString(id) });
-        return true;
+                new String[]{Long.toString(id)}) > 0;
     }
 
     @Override
     public boolean update(Event object) throws GenericDAOException {
+
+        if(object==null)
+            return false;
+
+        if(object.getGame()!=null && object.getEventCategory() != null && object.getPlayer() != null)
+            return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
@@ -202,11 +211,11 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         int fields = 0;
         String tmpString;
         int tmpInt;
-        float tmpFloat;
+        int tmpFloat;
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -214,31 +223,37 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
-        if ((tmpFloat = object.getPosx()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSX + " = " + tmpFloat );
+        if ((tmpInt = object.getPosx()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSX + " = " + tmpInt );
             fields++;
         }
-        if ((tmpFloat = object.getPosy()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSY + " = " + tmpFloat );
+        if ((tmpInt = object.getPosy()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSY + " = " + tmpInt );
             fields++;
         }
-        if ((tmpLong = object.getEventCategory().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong );
-            fields++;
+        if(object.getEventCategory() != null) {
+            if ((tmpLong = object.getEventCategory().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getGame().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong );
-            fields++;
-        }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getGame() != null) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong);
+                fields++;
+            }
         }
 
+        if(object.getPlayer() != null) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
+                fields++;
+            }
+        }
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
             return res.moveToFirst();
@@ -257,11 +272,11 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         int fields = 0;
         String tmpString;
         int tmpInt;
-        float tmpFloat;
+        int tmpFloat;
         long tmpLong;
 
         StringBuilder statement = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" where ");
-        if ((tmpLong = object.getId()) >= 0) {
+        if ((tmpLong = object.getId()) > 0) {
             statement.append(COLUMN_ID + "=" + tmpLong);
             fields++;
         }
@@ -269,8 +284,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpInt = object.getDate()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
+        if ((tmpLong = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
             fields++;
         }
         if ((tmpFloat = object.getPosx()) >= 0) {
@@ -281,26 +296,32 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_POSY + " = " + tmpFloat );
             fields++;
         }
-        if ((tmpLong = object.getEventCategory().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong );
-            fields++;
+        if(object.getEventCategory()!=null) {
+            if ((tmpLong = object.getEventCategory().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_EVENT_CATEGORYID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getGame().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong );
-            fields++;
+        if(object.getGame()!=null) {
+            if ((tmpLong = object.getGame().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_GAMEID + " = " + tmpLong);
+                fields++;
+            }
         }
-        if ((tmpLong = object.getPlayer().getId()) >= 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong );
-            fields++;
+        if(object.getPlayer() != null) {
+            if ((tmpLong = object.getPlayer().getId()) > 0) {
+                statement.append(((fields != 0) ? " AND " : "") + COLUMN_PLAYER_ID + " = " + tmpLong);
+                fields++;
+            }
         }
 
         if (fields > 0) {
 
             long id;
             String description;
-            int date;
-            float posx;
-            float posy;
+            long date;
+            int posx;
+            int posy;
             long eventCategoryId;
             long gameId;
             long playerId;
@@ -311,9 +332,9 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
-                    posx = res.getFloat(res.getColumnIndex(COLUMN_POSX));
-                    posy = res.getFloat(res.getColumnIndex(COLUMN_POSY));
+                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+                    posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
+                    posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
                     eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
                     gameId = res.getLong(res.getColumnIndex(COLUMN_GAMEID));
                     playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
@@ -323,6 +344,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
                             player_dao.getById(playerId)));
                     res.moveToNext();
                 }
+            res.close();
         }
 
 

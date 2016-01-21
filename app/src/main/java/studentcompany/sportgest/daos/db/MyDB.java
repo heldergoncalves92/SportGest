@@ -62,9 +62,11 @@ public class MyDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Drop tables
-        db.execSQL("DROP TABLE IF EXISTS "+DATABASE_NAME);
+        //db.execSQL("DROP DATABASE "+DATABASE_NAME);
 
         //Create tables
+        db.execSQL(Permission_DAO.CREATE_TABLE);
+        db.execSQL(Role_DAO.CREATE_TABLE);
         db.execSQL(User_DAO.CREATE_TABLE);
         db.execSQL(Team_DAO.CREATE_TABLE);
         db.execSQL(Position_DAO.CREATE_TABLE);
@@ -73,15 +75,13 @@ public class MyDB extends SQLiteOpenHelper {
         db.execSQL(Obs_Category_DAO.CREATE_TABLE);
         db.execSQL(Game_DAO.CREATE_TABLE);
         db.execSQL(Squad_Call_DAO.CREATE_TABLE);
-        db.execSQL(Event_DAO.CREATE_TABLE);
         db.execSQL(Event_Category_DAO.CREATE_TABLE);
+        db.execSQL(Event_DAO.CREATE_TABLE);
         db.execSQL(Training_DAO.CREATE_TABLE);
         db.execSQL(Exercise_DAO.CREATE_TABLE);
         db.execSQL(Attribute_DAO.CREATE_TABLE);
         db.execSQL(Record_DAO.CREATE_TABLE);
         db.execSQL(Missing_DAO.CREATE_TABLE);
-        db.execSQL(Role_DAO.CREATE_TABLE);
-        db.execSQL(Permission_DAO.CREATE_TABLE);
         // PAIRS
         db.execSQL(User_Team_DAO.CREATE_TABLE);
         db.execSQL(Role_Permission_DAO.CREATE_TABLE);

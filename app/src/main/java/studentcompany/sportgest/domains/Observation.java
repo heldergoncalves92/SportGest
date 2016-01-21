@@ -2,17 +2,17 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class Observation extends DomainPojo {
-        private long id = -1;
+        private long id;
         private String title;
         private String description;
-        private int date;
-        private ObsCategory observationcategory = null;
-        private Player player = null;
-        private User user = null;
-        private Game game = null;
+        private long date;
+        private ObsCategory observationcategory;
+        private Player player;
+        private User user;
+        private Game game;
 
 
-        public Observation (long id,String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
+        public Observation (long id,String title, String description,long date,ObsCategory observationcategory,Player player,User user,Game game) {
             this.id = id;
             this.title=title;
             this.description = description;
@@ -23,17 +23,6 @@ public class Observation extends DomainPojo {
             this.game = game;
 
         }
-
-    public Observation (String title, String description,int date,ObsCategory observationcategory,Player player,User user,Game game) {
-        this.title=title;
-        this.description = description;
-        this.date = date;
-        this.observationcategory = observationcategory;
-        this.player = player;
-        this.user=user;
-        this.game = game;
-
-    }
 
     @Override
     public long getId() {
@@ -60,11 +49,11 @@ public class Observation extends DomainPojo {
         this.description = description;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -137,7 +126,7 @@ public class Observation extends DomainPojo {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + date;
+        result = 31 * result + (int) (date ^ (date >>> 32));
         result = 31 * result + (observationcategory != null ? observationcategory.hashCode() : 0);
         result = 31 * result + (player != null ? player.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
