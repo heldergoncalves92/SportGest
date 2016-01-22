@@ -151,10 +151,11 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         lv_availableExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 //Add the attribute to the selected ones
                 if (positionaux!=position) {
                     positionaux = position;
-                    printExercise(position,1);
+                    printExercise(position, 1);
 
                 } else {
                     long id_To_Search = availableExercises.get(position).getId();
@@ -278,6 +279,9 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                         for(TrainingExercise te : auxTE){
                             if(te.getExercise()!=null) {
                                 trainingExercises.add(te.getExercise());
+
+                                repetitionsExercises.put(te.getExercise().getId(),te.getRepetitions());
+                                updateDuration(te.getExercise().getDuration(),te.getRepetitions(),1);
                             }
                         }
                     } catch (GenericDAOException ex){
@@ -432,7 +436,9 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                                 training_exercise_dao.delete(te);
                             }
                             for(Exercise e:trainingExercises){
-                                training_exercise_dao.insert(new TrainingExercise(-1, training, e, trainingExerciseRepetitions));
+                                //training_exercise_dao.insert(new TrainingExercise(-1, training, e, trainingExerciseRepetitions));
+                                training_exercise_dao.insert(new TrainingExercise(-1, training, e, repetitionsExercises.get(e.getId())));
+
                             }
                         }
                     }catch (GenericDAOException ex){
