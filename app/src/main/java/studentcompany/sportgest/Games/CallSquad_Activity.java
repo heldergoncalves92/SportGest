@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import studentcompany.sportgest.Players.CreatePlayer_Activity;
-import studentcompany.sportgest.Players.DetailsPlayers_Fragment;
-import studentcompany.sportgest.Players.ListPlayers_Fragment;
+
+import studentcompany.sportgest.Players.Player_Fragment_Details;
+import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Pair;
@@ -49,8 +49,8 @@ public class CallSquad_Activity extends AppCompatActivity {
     private int baseTeamID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListPlayers_Fragment mListPlayer = new ListPlayers_Fragment();
-    private DetailsPlayers_Fragment mDetailsPlayer = new DetailsPlayers_Fragment();
+    private Player_Fragment_List mListPlayer = new Player_Fragment_List();
+    private Player_Fragment_Details mDetailsPlayer = new Player_Fragment_Details();
 
 
     private  ArrayAdapter<String> adapter;
@@ -249,12 +249,12 @@ public class CallSquad_Activity extends AppCompatActivity {
     private void insertUserTest(Player_DAO p_dao){
 
         try {
-            Player p1 = new Player("Jocka", "1João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "2Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "3Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("A", "4Manuel ", "Portuguesa2", "Solteiro2", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 6, new Team(1), null);
-            Player p5 = new Player("A", "5Manuel ", "Portuguesa2", "Solteiro2", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 5, new Team(1), null);
-            Player p6 = new Player("B", "6Fábio", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(1), null);
+            Player p1 = new Player("Jocka", "1João Alberto", "Portuguesa", "Solteiro", "12-12-12", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
+            Player p2 = new Player("Fabinho", "2Fábio Gomes", "Portuguesa", "Solteiro", "12-12-12", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
+            Player p3 = new Player("Jorge D.", "3Jorge Duarte", "Portuguesa", "Solteiro", "12-12-12", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
+            Player p4 = new Player("A", "4Manuel ", "Portuguesa2", "Solteiro2", "12-12-12", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 6, new Team(1), null);
+            Player p5 = new Player("A", "5Manuel ", "Portuguesa2", "Solteiro2", "12-12-12", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 5, new Team(1), null);
+            Player p6 = new Player("B", "6Fábio", "Portuguesa", "Solteiro", "12-12-12", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(1), null);
             long id;
 
             id = p_dao.insert(p1);

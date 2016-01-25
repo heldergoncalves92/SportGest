@@ -25,7 +25,7 @@ public class GamesList_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_games_list);
+        setContentView(R.layout.activity_games_list_fragment);
         mRecyclerView = (RecyclerView) findViewById(R.id.games_recycler_view);
 
         /*try {

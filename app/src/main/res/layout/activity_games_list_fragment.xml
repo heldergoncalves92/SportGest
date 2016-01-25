@@ -9,6 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="studentcompany.sportgest.Games.GamesList_Activity">
 
+    <include
+        android:id="@+id/game_item"
+        layout="@layout/fragment_exercise_list_item" />
+
     <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/games_recycler_view"
