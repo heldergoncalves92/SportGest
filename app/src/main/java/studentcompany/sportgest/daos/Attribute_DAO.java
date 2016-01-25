@@ -53,7 +53,7 @@ public class Attribute_DAO extends GenericDAO<Attribute> implements IGenericDAO<
         int deleted;
 
         //Query
-        Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_NAME, null );
         res.moveToFirst();
 
         //Parse data
