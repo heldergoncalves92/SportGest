@@ -20,19 +20,54 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Trainings.TrainingTestData;
+import studentcompany.sportgest.daos.Attribute_DAO;
+import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
+import studentcompany.sportgest.daos.Exercise_DAO;
+import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
+import studentcompany.sportgest.daos.Record_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
+import studentcompany.sportgest.daos.Training_DAO;
+import studentcompany.sportgest.daos.Training_Exercise_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
+import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
+import studentcompany.sportgest.domains.Record;
 import studentcompany.sportgest.domains.Team;
+import studentcompany.sportgest.domains.Training;
+import studentcompany.sportgest.domains.TrainingExercise;
 
 public class PlayerAttributesActivity extends AppCompatActivity implements studentcompany.sportgest.Players.Player_Fragment_List.OnItemSelected {
 
-    private Player_DAO playerDao;
-    private List<Player> players;
+    //Required id
+    private long team_id = 0;
+    private long training_id = 0;
+    private long exercise_id = 0;
+
+    //DAOs
+    private Training_DAO training_dao;
+    private Training_Exercise_DAO training_exercise_dao;
+    private Exercise_DAO exercise_dao;
+    private Attribute_DAO attribute_dao;
+    private Attribute_Exercise_DAO attribute_exercise_dao;
+    private Record_DAO record_dao;
+    private Player_DAO player_dao;
+
+    //Lists
+    private Exercise exercise;
+    private Player player;
+    private List<Player> playerList = new ArrayList<>();
+    private List<Attribute> exerciseAttributesList = new ArrayList<>();
+    private List<Record> evaluations = new ArrayList<>();
+
     private int currentPos = 0;
     private Menu mOptionsMenu;
 
@@ -40,8 +75,8 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private studentcompany.sportgest.Players.Player_Fragment_List mListPlayer = new studentcompany.sportgest.Players.Player_Fragment_List();
-    private studentcompany.sportgest.Players.Player_Fragment_Details mDetailsPlayer = new studentcompany.sportgest.Players.Player_Fragment_Details();
-    private static final String TAG = "PLAYERS_LIST_ACTIVITY";
+    private studentcompany.sportgest.Evaluation.PlayerAttributes_Fragment mPlayerAttributes = new studentcompany.sportgest.Evaluation.PlayerAttributes_Fragment();
+    private static final String TAG = "PLAYERS_EVALUATION_ACTIVITY";
 
     private final int EDIT_TAG = 19;
     private final int CREATE_TAG = 20;
@@ -49,25 +84,62 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_player_attributes_evaluation);
+        setContentView(R.layout.activity_eval_player_attributes);
 
-        if(savedInstanceState == null){
-            Bundle extras = getIntent().getExtras();
+        //DAOs
+        training_dao = new Training_DAO(this);
+        training_exercise_dao = new Training_Exercise_DAO(this);
+        exercise_dao = new Exercise_DAO(this);
+        attribute_dao = new Attribute_DAO(this);
+        attribute_exercise_dao = new Attribute_Exercise_DAO(this);
+        record_dao = new Record_DAO(this);
+        player_dao = new Player_DAO(this);
 
-            if (extras != null){
-                baseTeamID = extras.getInt("TEAM");
-
-            } else
-                baseTeamID = 0;
-
-        } else {
-            baseTeamID = savedInstanceState.getInt("baseTeamID");
-            currentPos = savedInstanceState.getInt("currentPos");
+        //TEST ONLY -> REMOVE
+        try {
+            if(training_dao.getAll().size() == 0) {
+                new TrainingTestData(getApplicationContext());
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
         }
 
+        //get trainingID
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            //get IDs
+            team_id = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID);
+            training_id = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
+            exercise_id = extras.getLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID);
+
+            //validation
+            if (training_id > 0 && team_id > 0 && exercise_id > 0) {
+                //get the exercise information
+                try {
+                    exercise = exercise_dao.getById(exercise_id);
+                    playerList = player_dao.getByCriteria(new Player(new Team(team_id)));
+                    exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise_id);
+                    evaluations = record_dao.getByCriteria(new Record(-1, -1, -1, -1,
+                            new Training(training_id),
+                            new Exercise(exercise.getId()),
+                            null, null, null));
+                } catch (GenericDAOException ex) {
+                    System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
+                }
+            } else {
+                System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "training_id or team_id or exercise_id invalid");
+            }
+        } else {
+            System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "NO EXTRAS!!!");
+            team_id = 0;
+            training_id = 0;
+            exercise_id = 0;
+        }
+/*
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            players = playerDao.getAll();//playerDao.getByCriteria(new Player(new Team(baseTeamID)));
             //players = playerDao.getAll();
             if(players.isEmpty()) {
 
@@ -80,6 +152,8 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+*/
+        mListPlayer.setList(playerList);
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -89,7 +163,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
         // Add the TitleFragment to the layout
         fragmentTransaction.add(R.id.title_fragment_container , mListPlayer);
-        fragmentTransaction.add(R.id.detail_fragment_container, mDetailsPlayer);
+        fragmentTransaction.add(R.id.detail_fragment_container, mPlayerAttributes);
 
         fragmentTransaction.commit();
     }
@@ -101,16 +175,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         outState.putInt("currentPos", currentPos);
     }
 
-    public List<String> getNamesList(List<Player> playerList){
-
-        ArrayList<String> list = new ArrayList<String>();
-
-        for(Player p: playerList)
-            list.add(p.getName());
-
-        return list;
-    }
-
     public void noElems(){
 
         LinearLayout l = (LinearLayout)findViewById(R.id.linear);
@@ -120,40 +184,29 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         t.setVisibility(View.VISIBLE);
     }
 
-    public void removePlayer(){
-        mDetailsPlayer.clearDetails();
-        mListPlayer.removeItem(currentPos);
-
-        playerDao.deleteById(players.get(currentPos).getId());
-
-        currentPos = -1;
-        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-        item.setVisible(false);
-
-        if(players.isEmpty())
-            noElems();
-    }
-
     /************************************
      ****     Listener Functions     ****
      ************************************/
 
+    @Override
     public void itemSelected(int position, int tag) {
-        Player player = players.get(position);
+        player = playerList.get(position);
+        List<TrainingExercise> trainingExerciseList;
+        TrainingExercise trainingExercise = null;
 
         if(player != null){
             if(currentPos == -1) {
-                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-                item.setVisible(true);
-
-                item = mOptionsMenu.findItem(R.id.action_edit);
-                item.setVisible(true);
+                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                mOptionsMenu.findItem(R.id.Edit).setVisible(true);
             }
 
             currentPos = position;
-            mDetailsPlayer.showPlayer(player);
+
+            mPlayerAttributes.showEvaluations(exerciseAttributesList);
+            //showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
         }
     }
+
 
     /************************************
      ****       Menu Functions       ****
@@ -162,191 +215,69 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_users_view, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
 
-        //To restore state on Layout Rotation
-        if(currentPos != -1) {
-            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_edit);
-            item.setVisible(true);
-
-            if(players.size()>0) {
-                mDetailsPlayer.showPlayer(players.get(currentPos));
-                mListPlayer.selectFirstItem();
-            }
+        //if its for updating an entry -> Save & Delete
+        if(!evaluations.isEmpty()) {
+            menu.findItem(R.id.Add).setVisible(false);
+            menu.findItem(R.id.Edit).setVisible(false);
+        } else {//for inserting a new entry -> Save
+            menu.findItem(R.id.Add).setVisible(false);
+            menu.findItem(R.id.Edit).setVisible(false);
+            menu.findItem(R.id.Delete).setVisible(false);
         }
+
+//        //To restore state on Layout Rotation
+//        if(currentPos != -1) {
+//            if(playerList.size()>0) {
+//                mPlayerAttributes.showEvaluations(exerciseAttributesList);
+//            }
+//        }
+
         return true;
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                Intent intent = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Create.class);
-                startActivityForResult(intent, CREATE_TAG);
+        super.onOptionsItemSelected(item);
+
+        boolean result = false;
+
+
+        switch(item.getItemId())
+        {
+            //add action
+            case R.id.Save:
+                // TODO: validate inputs
+
+                finish();
+
                 return true;
 
-            case R.id.action_del:
-                mDialog = AlertToDelete_DialogFragment.newInstance();
-                mDialog.show(mFragmentManager, "Alert");
-                return true;
+            case R.id.Delete:
 
-            case R.id.action_edit:
-                if(players.size()>0) {
-                    Intent intent2 = new Intent(this, studentcompany.sportgest.Players.Player_Activity_Edit.class);
-                    intent2.putExtra("id", players.get(currentPos).getId());
-                    startActivityForResult(intent2, EDIT_TAG);
-                    return true;
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.delete_confirmation)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //TODO: delete
+                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                AlertDialog d = builder.create();
+                d.setTitle(R.string.are_you_sure);
+                d.show();
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
     }
-
-    /************************************
-     ****      Dialog Functions      ****
-     ************************************/
-
-    public void DialogDismiss(){
-        mDialog.dismiss();
-    }
-
-    public static class AlertToDelete_DialogFragment extends DialogFragment {
-
-        public static AlertToDelete_DialogFragment newInstance(){
-            return new AlertToDelete_DialogFragment();
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
-            Resources res = getResources();
-
-            return new AlertDialog.Builder(getActivity())
-                    .setMessage(res.getString(R.string.are_you_sure))
-                    .setCancelable(false)
-                    .setNegativeButton(res.getString(R.string.negative_answer),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    studentcompany.sportgest.Players.Player_Activity_ListView activity = (studentcompany.sportgest.Players.Player_Activity_ListView) getActivity();
-                                    activity.DialogDismiss();
-                                }
-                            })
-                    .setPositiveButton(res.getString(R.string.positive_answer),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    studentcompany.sportgest.Players.Player_Activity_ListView activity = (studentcompany.sportgest.Players.Player_Activity_ListView) getActivity();
-                                    activity.DialogDismiss();
-                                    activity.removePlayer();
-                                }
-                            }).create();
-        }
-    }
-
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertUserTest(Player_DAO p_dao){
-
-        try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portugal", "Single", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portugal", "Married", "1222-1-23", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portugal", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
-            Position po1 = new Position("Ala");
-            PlayerPosition pp1 = new PlayerPosition(1,p1,po1,5);
-
-            long id;
-
-            id = p_dao.insert(p1);
-            id = p_dao.insert(p2);
-            id = p_dao.insert(p3);
-            id = p_dao.insert(p4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void testPlayers(){
-
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portugual", "Single", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portugual", "Married", "1231-2-3", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portugual", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
-        players = new ArrayList<Player>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
-
-        mListPlayer.setList(players);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Player player = null;
-        if (requestCode == EDIT_TAG) {
-            if(resultCode == 1){
-                try {
-                    player=playerDao.getById(players.get(currentPos).getId());
-                    players.set(currentPos,player);
-                    mListPlayer.updatePosition(player, currentPos);
-                    mDetailsPlayer.showPlayer(player);
-
-                    Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(resultCode == 2){
-                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (requestCode == CREATE_TAG) {
-            if(resultCode == 1){
-                try {
-                    Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    player=playerDao.getById(idToSearch);
-                    System.out.println(player);
-                    players.add(player);
-                    mDetailsPlayer.showPlayer(player);
-
-                    /*
-                    Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    player=playerDao.getById(idToSearch);
-                    players.add(player);
-                    mDetailsPlayer.showPlayer(player);
-                    mListPlayer.addItem(player);
-                    */
-
-
-                    players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-                    mListPlayer.updateList(players);
-
-                    Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
-                } catch (GenericDAOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(resultCode == 2){
-                Toast.makeText(getApplicationContext(), R.string.something_wrong, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
 }

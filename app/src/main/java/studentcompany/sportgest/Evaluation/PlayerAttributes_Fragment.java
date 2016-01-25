@@ -1,49 +1,60 @@
 package studentcompany.sportgest.Evaluation;
 
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.domains.Attribute;
-import studentcompany.sportgest.domains.Exercise;
-import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.Record;
-import studentcompany.sportgest.domains.TrainingExercise;
 
 public class PlayerAttributes_Fragment extends Fragment {
 
-    private static final String TAG = "PLAYER_ATTRIBUTES_FRAGMENT";
+    private static final String TAG = "EXERCISE_ATTRIBUTES_FRAGMENT";
     private View view;
+    //Layout
+    private LinearLayout ll;
 
-    private DialogFragment mDialog;
-    private FragmentManager mFragmentManager;
-    //private studentcompany.sportgest.Players.Player_Fragment_List mAttributeItem = new studentcompany.sportgest.Evaluation.PlayerAttributesItem_Fragment();
+    private List<Attribute> attributes;
+
+    //LayoutElems
+    private HashMap<Long, Integer> quantitativeHashMap = new HashMap<>();
+    private HashMap<Long, Integer> qualitativeHashMap = new HashMap<>();
+    private HashMap<Long, Float> ratioPartialHashMap = new HashMap<>();
+    private HashMap<Long, Float> ratioTotalHashMap = new HashMap<>();
+
+    //DEFINES
+    private static final int SEEKBAR_MAX = 20;
+    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+    private static final String TOTAL = "Total";        //TODO: put in String.xml
+    private static final String PARTIAL = "Partial";    //TODO: put in String.xml
 
     public PlayerAttributes_Fragment() {
         // Required empty public constructor
-
     }
 
     @Override
@@ -53,156 +64,203 @@ public class PlayerAttributes_Fragment extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
 
-        view =  lf.inflate(R.layout.fragment_exercise_attributes_evaluation, container, false);
-        /*tv_name = (TextView) view.findViewById(R.id.exercise_name);
-        tv_duration = (TextView) view.findViewById(R.id.exercise_duration);
-        tv_repetitions = (TextView) view.findViewById(R.id.exercise_repetitions);
+        view =  lf.inflate(R.layout.fragment_player_attributes_evaluation, container, false);
 
-        globalTable = new TableLayout(getActivity());
-        globalTable.setStretchAllColumns(false);
-        globalTable.setShrinkAllColumns(false);
-
-        table = new TableLayout(getActivity());
-
-        scrollableTable = new HorizontalScrollView(getActivity());*/
+        ll = (LinearLayout) view.findViewById(R.id.attribute_item_fragment_container);
 
         return view;
     }
 
-    public List<String> getAttributesNamesList(List<Attribute> attributeList){
-        ArrayList<String> list = new ArrayList<>();
-
-        for(Attribute a: attributeList)
-            list.add(a.getName());
-        Collections.sort(list);
-        return list;
-    }
-
-    public void showExercise(Exercise exercise, TrainingExercise trainingExercise, List<Attribute> exerciseAttributes, List<Player> playerList, List<Record> evaluations){
+    public void showEvaluations(List<Attribute> attributeList){
         clearDetails();
-        /*tv_name.setText(exercise.getTitle());
-        tv_name.setFocusable(false);
-        tv_name.setClickable(false);
-        tv_duration.setText("" + exercise.getDuration());
-        tv_duration.setFocusable(false);
-        tv_duration.setClickable(false);
-        tv_repetitions.setText("" + trainingExercise.getRepetitions());
-        tv_repetitions.setFocusable(false);
-        tv_repetitions.setClickable(false);*/
+        attributes = attributeList;
 
-        //TODO: create globalTable with relations from players to attributes and his evaluation -> TableLayout
         FragmentActivity fa = getActivity();
 
-        //TextViews
-        TextView tv;
-        TableRow tr;
+        //TODO: initialize variables with current evaluations (if applicable)
+        for(Attribute a:attributeList){
+            final long attribute_id = a.getId();
+            //Horizontal Layout
+            LinearLayout linearLayout = new LinearLayout(getActivity());
+            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        //Data structures
-        int rowNumber = 1;
-        int colNumber = 1;
-        HashMap<Long, Integer> playerRow = new HashMap<>();
-        HashMap<Long, Integer> attributeCol = new HashMap<>();
-        HashMap<Pair<Integer, Integer>, TextView> evaluationTable = new HashMap<>();
-        ArrayList<TableRow> tableRows = new ArrayList<>();
+            //Attribute Name
+            TextView tv_name = new TextView(fa);
+            tv_name.setText(a.getName());
+            tv_name.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+            linearLayout.addView(tv_name);
 
-        //fill rows (player names)
-        tv = new TextView(fa);
-        tv.setText("");
-        tv.setPadding(5, 5, 5, 5);
-        tv.setMinimumWidth(10);
-        tv.setBackgroundColor(Color.WHITE);
-        evaluationTable.put(new Pair<>(0, 0), tv);
-        tr = new TableRow(fa);
-        tr.setPadding(0, 2, 0, 2); //Border between rows
-        tr.setBackgroundColor(Color.WHITE);
-        tr.setGravity(Gravity.CENTER_VERTICAL);
-        tableRows.add(tr);
-        for(Player p: playerList){
-            playerRow.put(p.getId(), rowNumber);
-            tv = new TextView(fa);
-            tv.setText(p.getName());
-            tv.setMinimumWidth(10);
-            tv.setMaxWidth(250);
-            tv.setBackgroundColor(Color.WHITE);
-            tv.setPadding(5, 5, 5, 5);
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            evaluationTable.put(new Pair<>(rowNumber, 0), tv);
-            tr = new TableRow(fa);
-            tr.setPadding(0, 2, 0, 2); //Border between rows
-            if(rowNumber%2 == 0){
-                tr.setBackgroundColor(Color.GRAY);
-            } else {
-                tr.setBackgroundColor(Color.DKGRAY);
+            switch (a.getType()){
+                case Attribute.QUANTITATIVE:
+                    final int v_id;
+                    //Value indication
+                    TextView tv_progress = new TextView(fa);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
+                        v_id = generateViewId();
+                    else
+                        v_id = View.generateViewId();
+                    tv_progress.setId(v_id);
+                    tv_progress.setText(SEEKBAR_MAX / 2 + "/" + SEEKBAR_MAX);
+                    tv_progress.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.5f));
+
+                    //SeekBar
+                    SeekBar sb = new SeekBar(fa);
+                    sb.setMax(SEEKBAR_MAX);
+                    sb.setProgress(SEEKBAR_MAX / 2);
+                    sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            TextView display = (TextView) view.findViewById(v_id);
+                            display.setText(progress + "/" + SEEKBAR_MAX);
+                            quantitativeHashMap.put(attribute_id, progress);
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+                        }
+                    });
+                    sb.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f));
+
+                    //Add to the layout
+                    linearLayout.addView(sb);
+                    linearLayout.addView(tv_progress);
+                    break;
+                case Attribute.QUALITATIVE:
+                    Spinner spinner = new Spinner(fa);
+                    ArrayList<String> qualitativeEval = new ArrayList<>();
+
+                    List<Attribute.QUALITATIVE_TYPE> typeList = Arrays.asList(Attribute.QUALITATIVE_TYPE.values());
+                    for(Attribute.QUALITATIVE_TYPE q:typeList){
+                        qualitativeEval.add(q.name());
+                    }
+                    ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, qualitativeEval);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                    spinner.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            qualitativeHashMap.put(attribute_id, position);
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {}
+                    });
+
+                    //Add to the layout
+                    linearLayout.addView(spinner);
+                    break;
+                case Attribute.RATIO:
+                    //sub-LinearLayout
+                    LinearLayout linearLayoutRatio = new LinearLayout(getActivity());
+                    linearLayoutRatio.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
+                    linearLayoutRatio.setOrientation(LinearLayout.HORIZONTAL);
+
+                    TextInputLayout til_partial = new TextInputLayout(fa);
+                    til_partial.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    EditText et_partial = new EditText(fa);
+                    et_partial.setText("");
+                    et_partial.setEms(5);
+                    et_partial.setHint(PARTIAL);
+                    et_partial.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    et_partial.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    et_partial.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            ratioPartialHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                        }
+                    });
+                    til_partial.addView(et_partial);
+
+                    TextView tv_divisor = new TextView(fa);
+                    tv_divisor.setText("/");
+                    tv_divisor.setGravity(Gravity.BOTTOM);
+                    tv_divisor.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+                    TextInputLayout til_total = new TextInputLayout(fa);
+                    til_total.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    EditText et_total = new EditText(fa);
+                    et_total.setText("");
+                    et_total.setEms(5);
+                    et_total.setHint(TOTAL);
+                    et_total.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    et_total.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    et_total.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            ratioTotalHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                        }
+                    });
+                    til_total.addView(et_total);
+
+                    //Add to the layout
+                    linearLayoutRatio.addView(til_partial);
+                    linearLayoutRatio.addView(tv_divisor);
+                    linearLayoutRatio.addView(til_total);
+                    linearLayout.addView(linearLayoutRatio);
+                    break;
+                default:
+                    TextView tv_na = new TextView(fa);
+                    tv_na.setText("Sorry, not supported.");
+                    tv_na.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
+                    linearLayout.addView(tv_na);
             }
-            tr.setGravity(Gravity.CENTER_VERTICAL);
-            tableRows.add(tr);
-            rowNumber++;
-        }
 
-        //fill columns (attribute names)
-        for(Attribute a: exerciseAttributes){
-            attributeCol.put(a.getId(), colNumber);
-            tv = new TextView(fa);
-            tv.setText(a.getName());
-            tv.setMinimumWidth(10);
-            tv.setMaxWidth(200);
-            tv.setBackgroundColor(Color.WHITE);
-            tv.setPadding(5, 5, 5, 5);
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            evaluationTable.put(new Pair<>(0, colNumber), tv);
-            colNumber++;
+            ll.addView(linearLayout);
         }
-
-        //fill content
-        int auxRow, auxCol;
-        for(Record r: evaluations){
-            //TODO: validation
-            auxRow = playerRow.get(r.getPlayer().getId());
-            auxCol = attributeCol.get(r.getAttribute().getId());
-            //TODO: print da nota consoante o tipo
-            tv = new TextView(fa);
-            tv.setMinimumWidth(10);
-            tv.setMaxWidth(200);
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            tv.setPadding(5, 5, 5, 5);
-            tv.setText("" + r.getValue());
-            //TODO: verify key does not exists
-            evaluationTable.put(new Pair<>(auxRow, auxCol), tv);
-        }
-
-        //build Table View
-        TableRow auxTR;
-        for(auxRow=0; auxRow < rowNumber; auxRow++){
-            auxTR = tableRows.get(auxRow);
-            for(auxCol=0; auxCol<colNumber; auxCol++){
-                if(evaluationTable.containsKey(new Pair<>(auxRow, auxCol))){
-                    auxTR.addView(evaluationTable.get(new Pair<>(auxRow, auxCol)));
-                } else {
-                    tv = new TextView(fa);
-                    tv.setText("N/A");
-                    tv.setMinimumWidth(10);
-                    tv.setMaxWidth(200);
-                    tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                    tv.setPadding(5, 5, 5, 5);
-                    auxTR.addView(tv);
-                }
-            }
-            tableRows.set(auxRow, auxTR);
-        }
-
-        for(auxRow=0; auxRow < rowNumber; auxRow++) {
-            //globalTable.addView(tableRows.get(auxRow));
-        }
-
-        HorizontalScrollView til = (HorizontalScrollView) view.findViewById(R.id.text_layout_exercise_attributes);
-        til.removeAllViews();
-        //til.addView(globalTable);
     }
 
     public void clearDetails(){
-        /*tv_name.setText("");
-        tv_duration.setText("");
-        tv_repetitions.setText("");
-        globalTable.removeAllViews();*/
+        ll.removeAllViews();
+    }
+
+    /**
+     * Generate a value suitable for use in @link #setId(int).
+     * This value will not collide with ID values generated at build time by aapt for R.id.
+     *
+     * @return a generated ID value
+     */
+    public static int generateViewId() {
+        for (;;) {
+            final int result = sNextGeneratedId.get();
+            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
+            int newValue = result + 1;
+            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                return result;
+            }
+        }
+    }
+
+    public HashMap<Long, Integer> getQuantitativeHashMap() {
+        return quantitativeHashMap;
+    }
+
+    public HashMap<Long, Integer> getQualitativeHashMap() {
+        return qualitativeHashMap;
+    }
+
+    public HashMap<Long, Float> getRatioPartialHashMap() {
+        return ratioPartialHashMap;
+    }
+
+    public HashMap<Long, Float> getRatioTotalHashMap() {
+        return ratioTotalHashMap;
     }
 }

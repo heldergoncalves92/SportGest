@@ -12,6 +12,10 @@ public class Attribute extends DomainPojo implements Comparator<Attribute>{
     public static final String QUANTITATIVE = "Quantitative";
     public static final String QUALITATIVE = "Qualitative";
 
+    public enum QUALITATIVE_TYPE {
+        Poor, Fair, Average, Good, Excellent
+    }
+
     public Attribute(long id, String type, String name, int deleted) {
         this.id = id;
         this.type = type;

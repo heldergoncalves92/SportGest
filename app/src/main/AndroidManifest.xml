@@ -87,6 +87,8 @@
 
         <activity android:name=".Evaluation.ExerciseAttributesActivity"
             android:label="SportGest - Exercise Evaluation" />
+        <activity android:name=".Evaluation.PlayerAttributesActivity"
+            android:label="SportGest - Player Evaluation" />
         
         <activity
             android:name=".Trainings.CreateTrainingExerciseActivity"

@@ -222,17 +222,12 @@ public class CreateExerciseActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         //if its for updating an entry -> Save & Delete
         if(exercise != null) {
-            MenuItem addItem = menu.findItem(R.id.Add);
-            MenuItem editItem = menu.findItem(R.id.Edit);
-            addItem.setVisible(false);
-            editItem.setVisible(false);
+            menu.findItem(R.id.Add).setVisible(false);
+            menu.findItem(R.id.Edit).setVisible(false);
         } else {//for inserting a new entry -> Save
-            MenuItem addItem = menu.findItem(R.id.Add);
-            MenuItem editItem = menu.findItem(R.id.Edit);
-            MenuItem delItem = menu.findItem(R.id.Delete);
-            addItem.setVisible(false);
-            editItem.setVisible(false);
-            delItem.setVisible(false);
+            menu.findItem(R.id.Add).setVisible(false);
+            menu.findItem(R.id.Edit).setVisible(false);
+            menu.findItem(R.id.Delete).setVisible(false);
         }
         return true;
     }
