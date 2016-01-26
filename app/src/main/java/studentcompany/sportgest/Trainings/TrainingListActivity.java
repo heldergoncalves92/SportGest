@@ -24,10 +24,12 @@ import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
+import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
+import studentcompany.sportgest.domains.User;
 
 public class TrainingListActivity extends AppCompatActivity implements ListTraining_Fragment.OnItemSelected  {
 
@@ -284,6 +286,19 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
                 //put current team ID and training ID in extras
                 dataBundle = new Bundle();
+
+                // REMOVER!!!! APENAS PARA TESTE!!! (precisa haver pelo menos um user na BD)
+                try{
+                    User_DAO user_dao = new User_DAO(this);
+                    if(user_dao.getAll().isEmpty()){
+                        user_dao.insert(new User("user1","user1","default.jpg","User1","user1@email.com",null));
+                    }
+                } catch (GenericDAOException ex){
+                    ex.printStackTrace();
+                }
+                // REMOVER!!!! APENAS PARA TESTE!!!
+
+                dataBundle.putLong(User_DAO.TABLE_NAME + User_DAO.COLUMN_ID, 1);//TODO !!!!!TEMPORARIO!!!!! -> Aterar este valor depois para o que tiver login feito!
                 dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, teamID);
                 dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, trainingList.get(currentPos).getId());
                 //add data

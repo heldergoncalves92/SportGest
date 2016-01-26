@@ -34,7 +34,7 @@ import studentcompany.sportgest.domains.Attribute;
 
 public class PlayerAttributes_Fragment extends Fragment {
 
-    private static final String TAG = "EXERCISE_ATTRIBUTES_FRAGMENT";
+    private static final String TAG = "EVALUATE_PLAYER_ATTRIBUTES_FRAGMENT";
     private View view;
     //Layout
     private LinearLayout ll;
@@ -108,6 +108,7 @@ public class PlayerAttributes_Fragment extends Fragment {
                     SeekBar sb = new SeekBar(fa);
                     sb.setMax(SEEKBAR_MAX);
                     sb.setProgress(SEEKBAR_MAX / 2);
+                    quantitativeHashMap.put(attribute_id, SEEKBAR_MAX / 2);
                     sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -142,6 +143,7 @@ public class PlayerAttributes_Fragment extends Fragment {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
                     spinner.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
+                    qualitativeHashMap.put(attribute_id, typeList.size()/2);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {

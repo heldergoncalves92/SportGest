@@ -4,21 +4,34 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +47,7 @@ import studentcompany.sportgest.daos.Record_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
+import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
@@ -44,15 +58,18 @@ import studentcompany.sportgest.domains.Record;
 import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
+import studentcompany.sportgest.domains.User;
 
 public class PlayerAttributesActivity extends AppCompatActivity implements studentcompany.sportgest.Players.Player_Fragment_List.OnItemSelected {
 
     //Required id
+    private long user_id = 0;
     private long team_id = 0;
     private long training_id = 0;
     private long exercise_id = 0;
 
     //DAOs
+    private User_DAO user_dao;
     private Training_DAO training_dao;
     private Training_Exercise_DAO training_exercise_dao;
     private Exercise_DAO exercise_dao;
@@ -62,7 +79,9 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     private Player_DAO player_dao;
 
     //Lists
+    private User user;
     private Exercise exercise;
+    private Training training;
     private Player player;
     private List<Player> playerList = new ArrayList<>();
     private List<Attribute> exerciseAttributesList = new ArrayList<>();
@@ -76,10 +95,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     private FragmentManager mFragmentManager;
     private studentcompany.sportgest.Players.Player_Fragment_List mListPlayer = new studentcompany.sportgest.Players.Player_Fragment_List();
     private studentcompany.sportgest.Evaluation.PlayerAttributes_Fragment mPlayerAttributes = new studentcompany.sportgest.Evaluation.PlayerAttributes_Fragment();
-    private static final String TAG = "PLAYERS_EVALUATION_ACTIVITY";
-
-    private final int EDIT_TAG = 19;
-    private final int CREATE_TAG = 20;
+    private static final String TAG = "EVALUATE_PLAYER_ATTRIBUTES_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +103,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         setContentView(R.layout.activity_eval_player_attributes);
 
         //DAOs
+        user_dao = new User_DAO(this);
         training_dao = new Training_DAO(this);
         training_exercise_dao = new Training_Exercise_DAO(this);
         exercise_dao = new Exercise_DAO(this);
@@ -108,21 +125,24 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             //get IDs
+            user_id = extras.getLong(User_DAO.TABLE_NAME + User_DAO.COLUMN_ID);
             team_id = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID);
             training_id = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
             exercise_id = extras.getLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID);
 
             //validation
-            if (training_id > 0 && team_id > 0 && exercise_id > 0) {
+            if (user_id > 0 && training_id > 0 && team_id > 0 && exercise_id > 0) {
                 //get the exercise information
                 try {
+                    user = user_dao.getById(user_id);
                     exercise = exercise_dao.getById(exercise_id);
+                    training = training_dao.getById(training_id);
                     playerList = player_dao.getByCriteria(new Player(new Team(team_id)));
                     exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise_id);
                     evaluations = record_dao.getByCriteria(new Record(-1, -1, -1, -1,
-                            new Training(training_id),
-                            new Exercise(exercise.getId()),
-                            null, null, null));
+                            training,
+                            exercise,
+                            null, null, user));
                 } catch (GenericDAOException ex) {
                     System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
                     Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
@@ -132,27 +152,12 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
             }
         } else {
             System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + "NO EXTRAS!!!");
+            user_id = 0;
             team_id = 0;
             training_id = 0;
             exercise_id = 0;
         }
-/*
-        try {
-            playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getAll();//playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-            //players = playerDao.getAll();
-            if(players.isEmpty()) {
 
-                //noElems();
-                insertUserTest(playerDao);
-                //players = playerDao.getAll();
-            }
-            mListPlayer.setList(players);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-*/
         mListPlayer.setList(playerList);
 
         // Get a reference to the FragmentManager
@@ -248,7 +253,62 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         {
             //add action
             case R.id.Save:
-                // TODO: validate inputs
+                //Get inserted values
+                HashMap<Long, Integer> quantitativeHashMap = mPlayerAttributes.getQuantitativeHashMap();
+                HashMap<Long, Integer> qualitativeHashMap = mPlayerAttributes.getQualitativeHashMap();
+                HashMap<Long, Float> ratioPartialHashMap = mPlayerAttributes.getRatioPartialHashMap();
+                HashMap<Long, Float> ratioTotalHashMap = mPlayerAttributes.getRatioTotalHashMap();
+                // validate inputs
+                Attribute missingEvaluation;
+                for(Attribute a:exerciseAttributesList){
+                    missingEvaluation = null;
+                    switch (a.getType()){
+                        case Attribute.QUANTITATIVE:
+                            if(!quantitativeHashMap.containsKey(a.getId())){
+                                missingEvaluation = a;
+                            }
+                            break;
+                        case Attribute.QUALITATIVE:
+                            if(!qualitativeHashMap.containsKey(a.getId())){
+                                missingEvaluation = a;
+                            }
+                            break;
+                        case Attribute.RATIO:
+                            if(!ratioPartialHashMap.containsKey(a.getId()) || !ratioTotalHashMap.containsKey(a.getId())){
+                                missingEvaluation = a;
+                            }
+                            break;
+                    }
+
+                    //if some attribute was not evaluated -> break and dialog
+                    if(missingEvaluation != null){
+                        Toast.makeText(getApplicationContext(),"Failed: "+ missingEvaluation.getName() + " not evaluated", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+
+                //only reach this space if it was validated
+                for(Attribute att:exerciseAttributesList) {
+                    Record newRecord = new Record(-1,1111/*TODO set time*/,0/*modified bellow*/,1,training,exercise,att,player,user);
+
+                    switch (att.getType()) {
+                        case Attribute.QUANTITATIVE:
+                            newRecord.setValue(quantitativeHashMap.get(att.getId()));
+                            break;
+                        case Attribute.QUALITATIVE:
+                            newRecord.setValue(qualitativeHashMap.get(att.getId()));
+                            break;
+                        case Attribute.RATIO:
+                            newRecord.setValue(ratioPartialHashMap.get(att.getId())/ratioTotalHashMap.get(att.getId()));
+                            break;
+                    }
+                    try {
+                        record_dao.insert(newRecord);
+                    } catch (GenericDAOException ex) {
+                        System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
+                    }
+                }
 
                 finish();
 
@@ -261,6 +321,14 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //TODO: delete
+                                try {
+                                    List<Record> playerEvaluations = record_dao.getByCriteria(new Record(-1,-1,-1,-1,training,exercise,null,player,user));
+                                    for(Record r: playerEvaluations){
+                                        record_dao.deleteById(r.getId());
+                                    }
+                                } catch (GenericDAOException e) {
+                                    e.printStackTrace();
+                                }
                                 Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }

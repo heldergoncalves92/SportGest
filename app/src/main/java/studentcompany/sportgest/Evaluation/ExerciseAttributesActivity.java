@@ -1,6 +1,6 @@
 package studentcompany.sportgest.Evaluation;
 /**
- * Required input info: team_id and training_id
+ * Required input info: user_id, team_id and training_id
  */
 
 import android.content.Intent;
@@ -29,6 +29,7 @@ import studentcompany.sportgest.daos.Record_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
+import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
@@ -37,15 +38,17 @@ import studentcompany.sportgest.domains.Record;
 import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
+import studentcompany.sportgest.domains.User;
 
 public class ExerciseAttributesActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
 
     //Required id
+    private long user_id = 0;
     private long team_id = 0;
     private long training_id = 0;
 
-
     //DAOs
+    private User_DAO user_dao;
     private Training_DAO training_dao;
     private Training_Exercise_DAO training_exercise_dao;
     private Exercise_DAO exercise_dao;
@@ -60,10 +63,12 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
     private List<Attribute> exerciseAttributesList = new ArrayList<>();
     private List<Record> evaluations;
 
+    //Objects
+    private User user;
+
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
-    private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
     private ExerciseAttributes_Fragment mExerciseAttributes = new ExerciseAttributes_Fragment();
@@ -75,6 +80,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         setContentView(R.layout.activity_eval_exercise_attributes_list);
 
         //DAOs
+        user_dao = new User_DAO(this);
         training_dao = new Training_DAO(this);
         training_exercise_dao = new Training_Exercise_DAO(this);
         exercise_dao = new Exercise_DAO(this);
@@ -96,14 +102,17 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             //get IDs
+            user_id = extras.getLong(User_DAO.TABLE_NAME + User_DAO.COLUMN_ID);
+            team_id = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID);
             team_id = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID);
             training_id = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
 
             //validation
-            if (training_id > 0 && team_id > 0) {
+            if (user_id > 0 && training_id > 0 && team_id > 0) {
                 //get the training information
                 ArrayList<TrainingExercise> te = new ArrayList<>();
                 try {
+                    user = user_dao.getById(user_id);
                     te = (ArrayList<TrainingExercise>) training_exercise_dao.getByCriteria(new TrainingExercise(-1, training_dao.getById(training_id), null, -1));
                 } catch (GenericDAOException ex) {
                     System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
@@ -155,15 +164,6 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         fragmentTransaction.commit();
     }
 
-    public List<String> getNamesList(List<Exercise> exerciseList){
-        ArrayList<String> list = new ArrayList<>();
-
-        for(Exercise e: exerciseList)
-            list.add(e.getTitle());
-        Collections.sort(list);
-        return list;
-    }
-
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -180,6 +180,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
             }
 
             currentPos = position;
+
             try {
                 exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
                 trainingExerciseList = training_exercise_dao.getByCriteria(new TrainingExercise(-1, training_dao.getById(training_id), exercise, -1));
@@ -190,7 +191,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
                 evaluations = record_dao.getByCriteria(new Record(-1, -1, -1, -1,
                         new Training(training_id),
                         new Exercise(exercise.getId()),
-                        null, null, null));
+                        null, null, user));
             } catch (GenericDAOException ex){
                 ex.printStackTrace();
                 exerciseAttributesList = new ArrayList<>();
@@ -239,6 +240,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
 
                 //put current team ID and training ID in extras
                 dataBundle = new Bundle();
+                dataBundle.putLong(User_DAO.TABLE_NAME + User_DAO.COLUMN_ID, user_id);
                 dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, team_id);
                 dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, training_id);
                 dataBundle.putLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID, exerciseList.get(currentPos).getId());

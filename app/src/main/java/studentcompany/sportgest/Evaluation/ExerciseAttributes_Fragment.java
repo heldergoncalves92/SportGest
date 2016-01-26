@@ -35,8 +35,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
     private static final String TAG = "EXERCISE_ATTRIBUTES_FRAGMENT";
     private View view;
     private TextView tv_name, tv_duration, tv_repetitions;
-    private TableLayout globalTable, table;
-    private HorizontalScrollView scrollableTable;
+    private TableLayout globalTable;
 
     public ExerciseAttributes_Fragment() {
         // Required empty public constructor
@@ -58,10 +57,6 @@ public class ExerciseAttributes_Fragment extends Fragment {
         globalTable = new TableLayout(getActivity());
         globalTable.setStretchAllColumns(false);
         globalTable.setShrinkAllColumns(false);
-
-        table = new TableLayout(getActivity());
-
-        scrollableTable = new HorizontalScrollView(getActivity());
 
         return view;
     }
@@ -162,7 +157,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
             tv.setMaxWidth(200);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setPadding(5, 5, 5, 5);
-            tv.setText("" + r.getValue());
+            tv.setText("" + r.getValue());//TODO: change displayed value based on AttributeType
             //TODO: verify key does not exists
             evaluationTable.put(new Pair<>(auxRow, auxCol), tv);
         }
