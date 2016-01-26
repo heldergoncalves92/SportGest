@@ -8,20 +8,79 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/text_view"
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IMAGE"/>
+
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/name_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/score_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
             android:layout_weight="1"/>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/text_view2"
+            android:id="@+id/score_visitor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/name_visitor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
             android:layout_weight="1" />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/image2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IMAGE2"/>
+
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image" />
 
 </LinearLayout>

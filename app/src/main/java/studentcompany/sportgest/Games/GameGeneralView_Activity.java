@@ -27,7 +27,7 @@ public class GameGeneralView_Activity extends AppCompatActivity {
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
 
-        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
 
         tabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
@@ -57,7 +57,12 @@ public class GameGeneralView_Activity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return GameSquad_Fragment.newInstance(position);
+            if(position==0)
+                return GameEvents_Fragment.newInstance(position);
+            else if(position==1)
+                return GameStatistics_Fragment.newInstance(position);
+            else
+                return GameSquad_Fragment.newInstance(position);
         }
     }
 }

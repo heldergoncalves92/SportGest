@@ -2,11 +2,15 @@ package studentcompany.sportgest.domains;
 //TODO all
 
 public class ObsCategory extends DomainPojo {
-        private long id;
+        private long id= -1;
         private String category;
 
     public ObsCategory(long id, String category) {
         this.id = id;
+        this.category = category;
+    }
+
+    public ObsCategory(String category) {
         this.category = category;
     }
 

@@ -1,54 +1,54 @@
 package studentcompany.sportgest.Games;
 
 import android.graphics.Color;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Game;
+import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.EventCategory;
+
+import static studentcompany.sportgest.R.id.event_count;
+import static studentcompany.sportgest.R.id.event_name;
 
 
-public class Games_Adapter extends RecyclerView.Adapter<Games_Adapter.ViewHolder> {
-    private List<Game> mDataset;
+public class Game_ListEvents_Adapter extends RecyclerView.Adapter<Game_ListEvents_Adapter.ViewHolder> {
+    private List<EventCategory> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-     static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public AppCompatTextView mTextView, mTextView2, score1, score2;
+        public TextView mTextView_num, mTextView_name;
         public View parent;
 
         public ViewHolder(View view) {
             super(view);
 
             parent = view;
-
-            mTextView = (AppCompatTextView)view.findViewById(R.id.name_home);
-            mTextView2 = (AppCompatTextView)view.findViewById(R.id.name_visitor);
-            score1 = (AppCompatTextView)view.findViewById(R.id.score_home);
-            score2 = (AppCompatTextView)view.findViewById(R.id.score_visitor);
-
+            mTextView_num = (TextView)view.findViewById(event_count);
+            mTextView_name = (TextView)view.findViewById(event_name);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Games_Adapter(List<Game> myDataset) {
+    public Game_ListEvents_Adapter(List<EventCategory> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Games_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_game_base, parent, false);
+                .inflate(R.layout.game_events_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -62,19 +62,16 @@ public class Games_Adapter extends RecyclerView.Adapter<Games_Adapter.ViewHolder
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        Game game = mDataset.get(position);
+        EventCategory eventcat = mDataset.get(position);
 
-        if (game.getHome_team() != null) {
-            holder.mTextView.setText(game.getReport());
-            holder.mTextView2.setText(game.getReport());
-            holder.score1.setText(String.valueOf(game.getHome_score()));
-            holder.score2.setText(String.valueOf(game.getVisitor_score()));
+        if (eventcat != null) {
+            holder.mTextView_num.setText(String.valueOf(eventcat.getId()));
+            holder.mTextView_name.setText(eventcat.getName());
+
+            if (position%2 ==0)
+                holder.parent.setBackgroundColor(Color.LTGRAY);
+
         }
-
-
-        if (position%2 ==0)
-            holder.parent.setBackgroundColor(Color.LTGRAY);
-
 
     }
 

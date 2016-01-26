@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
@@ -68,8 +69,24 @@ public class GameSquad_Fragment extends Fragment {
         mAdapter = new Game_SquadPlayer_Adapter(players);
         mRecyclerView.setAdapter(mAdapter);
 
+
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.advr_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        players = playersToTestadvr();
+        mAdapter = new Game_SquadPlayer_Adapter(players);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        /*
         View title = v.findViewById(R.id.game_squad_title);
         TextView tv = (TextView)title.findViewById(R.id.player_num);
+
         tv.setTypeface(null, Typeface.BOLD_ITALIC);
         tv.setTextColor(Color.BLACK);
 
@@ -80,6 +97,7 @@ public class GameSquad_Fragment extends Fragment {
 
         //textView = (TextView)v.findViewById(R.id.text_view);
         //textView.setText("CARD "+position);
+        */
         return v;
     }
 
@@ -97,6 +115,40 @@ public class GameSquad_Fragment extends Fragment {
         list.add(p2);
         list.add(p3);
         list.add(p4);
+
+        return list;
+    }
+
+    public static List<Player> playersToTestadvr(){
+
+        ArrayList<Player> list = new ArrayList<Player>();
+
+        Player p1 = new Player(1,"Hulk", "João Alberto", "Portuguesa", "Solteiro", "2012-12-12", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 9, new Team(1), null);
+        Player p2 = new Player(2,"Rafa", "Fábio Gomes", "Portuguesa", "Solteiro", "2012-12-12", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 10, new Team(1), null);
+        Player p3 = new Player(3,"Rocha", "Jorge Duarte", "Portuguesa", "Solteiro", "2012-12-12", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 7, new Team(1), null);
+        Player p4 = new Player(4,"Roberto", "Manuel Arouca", "Portuguesa", "Solteiro", "2012-12-12", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+        list.add(p4);
+
+        return list;
+    }
+
+    public static List<Attribute> atributos(){
+
+        ArrayList<Attribute> list = new ArrayList<Attribute>();
+
+        Attribute a1 = new Attribute(1,"senas","passe",1);
+        Attribute a2 = new Attribute(2,"senas","remate",1);
+        Attribute a3 = new Attribute(3,"senas","corte",1);
+        Attribute a4 = new Attribute(4,"senas","desmarcaçao",1);
+
+        list.add(a1);
+        list.add(a2);
+        list.add(a3);
+        list.add(a4);
 
         return list;
     }
