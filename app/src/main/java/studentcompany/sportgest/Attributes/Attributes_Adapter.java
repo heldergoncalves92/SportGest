@@ -1,4 +1,4 @@
-package studentcompany.sportgest.Exercises;
+package studentcompany.sportgest.Attributes;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Exercise;
+import studentcompany.sportgest.Attributes.ListAttribute_Fragment;
+import studentcompany.sportgest.domains.Attribute;
 
 
-public class Exercises_Adapter extends RecyclerView.Adapter<Exercises_Adapter.ViewHolder> {
+public class Attributes_Adapter extends RecyclerView.Adapter<Attributes_Adapter.ViewHolder> {
     private Context context;
-    private static ListExercise_Fragment.OnItemSelected mListener;
-    private List<Exercise> mDataset;
+    private static ListAttribute_Fragment.OnItemSelected mListener;
+    private List<Attribute> mDataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -34,14 +35,14 @@ public class Exercises_Adapter extends RecyclerView.Adapter<Exercises_Adapter.Vi
         }
     }
 
-    public Exercises_Adapter(List<Exercise> myDataset, Context context, ListExercise_Fragment.OnItemSelected itemListener) {
+    public Attributes_Adapter(List<Attribute> myDataset, Context context, ListAttribute_Fragment.OnItemSelected itemListener) {
         this.mDataset = myDataset;
         this.context = context;
         this.mListener = itemListener;
     }
 
     @Override
-    public Exercises_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Attributes_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_item, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
@@ -50,10 +51,10 @@ public class Exercises_Adapter extends RecyclerView.Adapter<Exercises_Adapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Exercise exercise = mDataset.get(position);
+        Attribute attribute = mDataset.get(position);
 
-        if (exercise != null) {
-            holder.mTextView.setText(exercise.getTitle());
+        if (attribute != null) {
+            holder.mTextView.setText(attribute.getName());
         }
 
     }

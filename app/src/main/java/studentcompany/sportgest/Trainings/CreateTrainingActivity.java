@@ -179,6 +179,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
         menu.findItem(R.id.Add).setVisible(false);
         menu.findItem(R.id.Edit).setVisible(false);
         menu.findItem(R.id.Save).setVisible(false);
+        menu.findItem(R.id.Forward).setVisible(false);
         return true;
     }
 
@@ -308,6 +309,10 @@ public class CreateTrainingActivity extends AppCompatActivity {
     }
 
     public void goto_NextActivity(View view){
+        trainingName = tv_name.getText().toString();
+        trainingDescription = tv_description.getText().toString();
+        trainingDateInMillis = cal.getTimeInMillis();
+
         Intent intent;
         intent = new Intent(this, CreateTrainingExerciseActivity.class);
         //put current training info in extras

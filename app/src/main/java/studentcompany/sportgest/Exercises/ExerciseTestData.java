@@ -57,6 +57,8 @@ public class ExerciseTestData {
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(3), exercise_dao.getById(1)));
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(4), exercise_dao.getById(1)));
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(5), exercise_dao.getById(1)));
+            attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(9), exercise_dao.getById(1)));
+            attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(10), exercise_dao.getById(1)));
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(1), exercise_dao.getById(2)));
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(8), exercise_dao.getById(3)));
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(1), exercise_dao.getById(4)));

@@ -6,14 +6,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,7 +22,6 @@ import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
-import studentcompany.sportgest.domains.Role;
 
 public class CreateAttributeActivity extends AppCompatActivity {
 
@@ -34,6 +30,13 @@ public class CreateAttributeActivity extends AppCompatActivity {
     private TextInputLayout inputLayoutName;
     private EditText inputName;
     private Spinner spinner;
+
+    private enum Mode {
+        CREATE, UPDATE;
+    }
+    private Mode mode;
+
+    private Attribute attribute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +51,30 @@ public class CreateAttributeActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         List<String> list = new ArrayList<String>();
-        list.add("Qualificativo");
-        list.add("Quantitativo");
-        list.add("Racio");
+        list.add(Attribute.QUALITATIVE);
+        list.add(Attribute.QUANTITATIVE);
+        list.add(Attribute.RATIO);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            mode = Mode.UPDATE;
+            setTitle(R.string.app_updateAttribute);
+            long attributeID = extras.getLong(Attribute_DAO.TABLE_NAME + Attribute_DAO.COLUMN_ID);
+            try {
+                attribute = dao.getById(attributeID);
+                inputName.setText(attribute.getName());
+                spinner.setSelection(list.indexOf(attribute.getType()));
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            mode = Mode.CREATE;
+            setTitle(R.string.app_newAttribute);
+        }
     }
 
     private void submitForm() {
@@ -62,26 +83,38 @@ public class CreateAttributeActivity extends AppCompatActivity {
         }
 
         try {
-            dao.insert(new Attribute(-1, spinner.getSelectedItem().toString(), inputName.getText().toString(), 0));//TODO define convention for field "deleted"
-            Toast.makeText(getApplicationContext(), "Attribute added!", Toast.LENGTH_LONG).show();
+            String name = inputName.getText().toString(),
+                    type = spinner.getSelectedItem().toString();
+            if (mode == Mode.CREATE){
+                dao.insert(new Attribute(-1, type, name, 0));
+            }
+            else {
+                attribute.setName(name);
+                attribute.setType(type);
+                dao.update(attribute);
+            }
+            Toast.makeText(getApplicationContext(), "Attribute " + (mode == Mode.CREATE ? "added" : "updated") + "!", Toast.LENGTH_LONG).show();
             goToAttributeListActivity();
         } catch (GenericDAOException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Could not add the attribute. Try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Could not " + (mode == Mode.CREATE ? "add" : "update") + " the attribute. Try again.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean validateName() {
-        if (inputName.getText().toString().trim().isEmpty()) {
+        String name = inputName.getText().toString().trim();
+        if (name.isEmpty()) {
             inputLayoutName.setError("Enter the name of the attribute");
             requestFocus(inputName);
             return false;
         }  else {
             try {
                 if (dao.exists(new Attribute(-1, null, inputName.getText().toString(), -1))) {
-                    inputLayoutName.setError("There is already an attribute with this name");
-                    requestFocus(inputName);
-                    return false;
+                    if(attribute == null || !attribute.getName().equals(name)) {
+                        inputLayoutName.setError("There is already an attribute with this name");
+                        requestFocus(inputName);
+                        return false;
+                    }
                 }
             } catch (GenericDAOException e) {
                 e.printStackTrace();
@@ -129,6 +162,7 @@ public class CreateAttributeActivity extends AppCompatActivity {
         menu.findItem(R.id.Add).setVisible(false);
         menu.findItem(R.id.Edit).setVisible(false);
         menu.findItem(R.id.Delete).setVisible(false);
+        menu.findItem(R.id.Forward).setVisible(false);
         return true;
     }
 

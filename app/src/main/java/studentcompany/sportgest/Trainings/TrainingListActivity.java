@@ -18,14 +18,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Pair;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
+import studentcompany.sportgest.daos.User_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
+import studentcompany.sportgest.domains.User;
 
 public class TrainingListActivity extends AppCompatActivity implements ListTraining_Fragment.OnItemSelected  {
 
@@ -42,6 +46,10 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
     private DetailsTraining_Fragment mDetailsTraining = new DetailsTraining_Fragment();
     private static final String TAG = "TRAINING_ACTIVITY";
 
+    private long trainingID;
+    private long teamID;
+    private String sEvaluation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +64,19 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                 new TrainingTestData(getApplicationContext());
                 trainingList = training_dao.getAll();
             }
-            mListTrainings.setTrainingList(getNamesList(trainingList));
+            mListTrainings.setTrainingList(trainingList);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            //get Exercise ID
+            trainingID = extras.getLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID);
+            sEvaluation = extras.getString("sEvaluation");
+            teamID = extras.getLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, 1);
+
         }
 
         // Get a reference to the FragmentManager
@@ -134,21 +151,40 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
     public void itemSelected(int position) {
         Training training = trainingList.get(position);
 
-        if(training != null){
-            if(currentPos == -1) {
-                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
-                mOptionsMenu.findItem(R.id.Edit).setVisible(true);
-            }
+        if(sEvaluation==null) {
+            if (training != null) {
+                if (currentPos == -1) {
+                    mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                    mOptionsMenu.findItem(R.id.Edit).setVisible(true);
+                }
 
-            currentPos = position;
-            try {
-                TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
-                trainingExercisesList = training_exercise_dao.getByCriteria(trainingExercise);
-            } catch (GenericDAOException ex){
-                ex.printStackTrace();
-                trainingExercisesList = new ArrayList<>();
+                currentPos = position;
+                try {
+                    TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
+                    trainingExercisesList = training_exercise_dao.getByCriteria(trainingExercise);
+                } catch (GenericDAOException ex) {
+                    ex.printStackTrace();
+                    trainingExercisesList = new ArrayList<>();
+                }
+                mDetailsTraining.showTraining(training, getExercisesNamesList(trainingExercisesList));
             }
-            mDetailsTraining.showTraining(training, getExercisesNamesList(trainingExercisesList));
+        }
+        else{
+            if (training != null) {
+                if (currentPos == -1) {
+                    mOptionsMenu.findItem(R.id.Forward).setVisible(true);
+                }
+
+                currentPos = position;
+                try {
+                    TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
+                    trainingExercisesList = training_exercise_dao.getByCriteria(trainingExercise);
+                } catch (GenericDAOException ex) {
+                    ex.printStackTrace();
+                    trainingExercisesList = new ArrayList<>();
+                }
+                mDetailsTraining.showTraining(training, getExercisesNamesList(trainingExercisesList));
+            }
         }
     }
 
@@ -201,9 +237,19 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         mOptionsMenu = menu;
-        menu.findItem(R.id.Edit).setVisible(false);
-        menu.findItem(R.id.Delete).setVisible(false);
-        menu.findItem(R.id.Save).setVisible(false);
+        if(sEvaluation==null) {
+            menu.findItem(R.id.Edit).setVisible(false);
+            menu.findItem(R.id.Delete).setVisible(false);
+            menu.findItem(R.id.Save).setVisible(false);
+            menu.findItem(R.id.Forward).setVisible(false);
+        }
+        else{
+            menu.findItem(R.id.Edit).setVisible(false);
+            menu.findItem(R.id.Delete).setVisible(false);
+            menu.findItem(R.id.Save).setVisible(false);
+            menu.findItem(R.id.Add).setVisible(false);
+            menu.findItem(R.id.Forward).setVisible(false);
+        }
         return true;
     }
 
@@ -234,6 +280,32 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+
+            case R.id.Forward:
+                intent = new Intent(getApplicationContext(), ExerciseAttributesActivity.class);
+
+                //put current team ID and training ID in extras
+                dataBundle = new Bundle();
+
+                // REMOVER!!!! APENAS PARA TESTE!!! (precisa haver pelo menos um user na BD)
+                try{
+                    User_DAO user_dao = new User_DAO(this);
+                    if(user_dao.getAll().isEmpty()){
+                        user_dao.insert(new User("user1","user1","default.jpg","User1","user1@email.com",null));
+                    }
+                } catch (GenericDAOException ex){
+                    ex.printStackTrace();
+                }
+                // REMOVER!!!! APENAS PARA TESTE!!!
+
+                dataBundle.putLong(User_DAO.TABLE_NAME + User_DAO.COLUMN_ID, 1);//TODO !!!!!TEMPORARIO!!!!! -> Aterar este valor depois para o que tiver login feito!
+                dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, teamID);
+                dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, trainingList.get(currentPos).getId());
+                //add data
+                intent.putExtras(dataBundle);
+                //start activity
+                startActivityForResult(intent, 0);
+                return true;
         }
     }
 
@@ -243,7 +315,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         if (requestCode == 0) {
             try {
                 trainingList = training_dao.getAll();
-                mListTrainings.setTrainingList(getNamesList(trainingList));
+                mListTrainings.setTrainingList(trainingList);
                 mListTrainings.updateList();
 
             } catch (GenericDAOException e) {

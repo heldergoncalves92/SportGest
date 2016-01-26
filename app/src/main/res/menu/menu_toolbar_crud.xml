@@ -30,5 +30,13 @@
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_done"/>
 
+    <item
+        android:id="@+id/Forward"
+        android:orderInCategory="104"
+        android:title="@string/next_button"
+        android:visible="false"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_forward_white_24dp"/>
+
 
 </menu>

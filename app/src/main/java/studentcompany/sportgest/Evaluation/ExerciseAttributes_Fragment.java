@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Evaluation;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toolbar;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,10 +35,11 @@ public class ExerciseAttributes_Fragment extends Fragment {
     private static final String TAG = "EXERCISE_ATTRIBUTES_FRAGMENT";
     private View view;
     private TextView tv_name, tv_duration, tv_repetitions;
-    private TableLayout table;
+    private TableLayout globalTable;
 
     public ExerciseAttributes_Fragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -48,9 +54,9 @@ public class ExerciseAttributes_Fragment extends Fragment {
         tv_duration = (TextView) view.findViewById(R.id.exercise_duration);
         tv_repetitions = (TextView) view.findViewById(R.id.exercise_repetitions);
 
-        table = new TableLayout(getActivity());
-        table.setStretchAllColumns(true);
-        table.setShrinkAllColumns(true);
+        globalTable = new TableLayout(getActivity());
+        globalTable.setStretchAllColumns(false);
+        globalTable.setShrinkAllColumns(false);
 
         return view;
     }
@@ -76,7 +82,7 @@ public class ExerciseAttributes_Fragment extends Fragment {
         tv_repetitions.setFocusable(false);
         tv_repetitions.setClickable(false);
 
-        //TODO: create table with relations from players to attributes and his evaluation -> TableLayout
+        //TODO: create globalTable with relations from players to attributes and his evaluation -> TableLayout
         FragmentActivity fa = getActivity();
 
         //TextViews
@@ -94,16 +100,33 @@ public class ExerciseAttributes_Fragment extends Fragment {
         //fill rows (player names)
         tv = new TextView(fa);
         tv.setText("");
-        evaluationTable.put(new Pair<Integer, Integer>(0, 0), tv);
+        tv.setPadding(5, 5, 5, 5);
+        tv.setMinimumWidth(10);
+        tv.setBackgroundColor(Color.WHITE);
+        evaluationTable.put(new Pair<>(0, 0), tv);
         tr = new TableRow(fa);
+        tr.setPadding(0, 2, 0, 2); //Border between rows
+        tr.setBackgroundColor(Color.WHITE);
+        tr.setGravity(Gravity.CENTER_VERTICAL);
         tableRows.add(tr);
         for(Player p: playerList){
             playerRow.put(p.getId(), rowNumber);
             tv = new TextView(fa);
             tv.setText(p.getName());
+            tv.setMinimumWidth(10);
+            tv.setMaxWidth(250);
+            tv.setBackgroundColor(Color.WHITE);
+            tv.setPadding(5, 5, 5, 5);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            evaluationTable.put(new Pair<Integer, Integer>(rowNumber, 0), tv);
+            evaluationTable.put(new Pair<>(rowNumber, 0), tv);
             tr = new TableRow(fa);
+            tr.setPadding(0, 2, 0, 2); //Border between rows
+            if(rowNumber%2 == 0){
+                tr.setBackgroundColor(Color.GRAY);
+            } else {
+                tr.setBackgroundColor(Color.DKGRAY);
+            }
+            tr.setGravity(Gravity.CENTER_VERTICAL);
             tableRows.add(tr);
             rowNumber++;
         }
@@ -113,8 +136,12 @@ public class ExerciseAttributes_Fragment extends Fragment {
             attributeCol.put(a.getId(), colNumber);
             tv = new TextView(fa);
             tv.setText(a.getName());
+            tv.setMinimumWidth(10);
+            tv.setMaxWidth(200);
+            tv.setBackgroundColor(Color.WHITE);
+            tv.setPadding(5, 5, 5, 5);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            evaluationTable.put(new Pair<Integer, Integer>(0, colNumber), tv);
+            evaluationTable.put(new Pair<>(0, colNumber), tv);
             colNumber++;
         }
 
@@ -126,9 +153,13 @@ public class ExerciseAttributes_Fragment extends Fragment {
             auxCol = attributeCol.get(r.getAttribute().getId());
             //TODO: print da nota consoante o tipo
             tv = new TextView(fa);
-            tv.setText(""+r.getValue());
+            tv.setMinimumWidth(10);
+            tv.setMaxWidth(200);
+            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            tv.setPadding(5, 5, 5, 5);
+            tv.setText("" + r.getValue());//TODO: change displayed value based on AttributeType
             //TODO: verify key does not exists
-            evaluationTable.put(new Pair<Integer, Integer>(auxRow, auxCol), tv);
+            evaluationTable.put(new Pair<>(auxRow, auxCol), tv);
         }
 
         //build Table View
@@ -136,11 +167,15 @@ public class ExerciseAttributes_Fragment extends Fragment {
         for(auxRow=0; auxRow < rowNumber; auxRow++){
             auxTR = tableRows.get(auxRow);
             for(auxCol=0; auxCol<colNumber; auxCol++){
-                if(evaluationTable.containsKey(new Pair<Integer, Integer>(auxRow, auxCol))){
-                    auxTR.addView(evaluationTable.get(new Pair<Integer, Integer>(auxRow, auxCol)));
+                if(evaluationTable.containsKey(new Pair<>(auxRow, auxCol))){
+                    auxTR.addView(evaluationTable.get(new Pair<>(auxRow, auxCol)));
                 } else {
                     tv = new TextView(fa);
-                    tv.setText("");
+                    tv.setText("N/A");
+                    tv.setMinimumWidth(10);
+                    tv.setMaxWidth(200);
+                    tv.setGravity(Gravity.CENTER_HORIZONTAL);
+                    tv.setPadding(5, 5, 5, 5);
                     auxTR.addView(tv);
                 }
             }
@@ -148,18 +183,18 @@ public class ExerciseAttributes_Fragment extends Fragment {
         }
 
         for(auxRow=0; auxRow < rowNumber; auxRow++) {
-            table.addView(tableRows.get(auxRow));
+            globalTable.addView(tableRows.get(auxRow));
         }
 
-        TextInputLayout til = (TextInputLayout) view.findViewById(R.id.text_layout_exercise_attributes);
+        HorizontalScrollView til = (HorizontalScrollView) view.findViewById(R.id.text_layout_exercise_attributes);
         til.removeAllViews();
-        til.addView(table);
+        til.addView(globalTable);
     }
 
     public void clearDetails(){
         tv_name.setText("");
         tv_duration.setText("");
         tv_repetitions.setText("");
-        table.removeAllViews();
+        globalTable.removeAllViews();
     }
 }

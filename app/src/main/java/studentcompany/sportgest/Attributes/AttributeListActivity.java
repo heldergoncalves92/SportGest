@@ -45,7 +45,7 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         try {
             attribute_dao = new Attribute_DAO(getApplicationContext());
             updateAttributeList();
-            mListAttributes.setAttributeList(getNamesList(attributeList));
+            mListAttributes.setAttributeList(attributeList);
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -76,15 +76,14 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
     }
 
     public void removeAttribute(){
-        mDetailsAttribute.clearDetails();
-        mListAttributes.removeItem(currentPos);
-
         attribute_dao.deleteById(attributeList.get(currentPos).getId());
         attributeList.remove(currentPos);
 
+        mDetailsAttribute.clearDetails();
+        mListAttributes.removeItem(currentPos);
         currentPos = -1;
-        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-        item.setVisible(false);
+        mOptionsMenu.findItem(R.id.Delete).setVisible(false);
+        mOptionsMenu.findItem(R.id.Edit).setVisible(false);
     }
 
     public void updateAttributeList() throws GenericDAOException {
@@ -103,8 +102,8 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
 
         if(attribute != null){
             if(currentPos == -1) {
-                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
-                item.setVisible(true);
+                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                mOptionsMenu.findItem(R.id.Edit).setVisible(true);
             }
 
             currentPos = position;
@@ -159,9 +158,12 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_crud, menu);
         mOptionsMenu = menu;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_attributes_list, menu);
+        menu.findItem(R.id.Edit).setVisible(false);
+        menu.findItem(R.id.Delete).setVisible(false);
+        menu.findItem(R.id.Save).setVisible(false);
+        menu.findItem(R.id.Forward).setVisible(false);
         return true;
     }
 
@@ -169,14 +171,22 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_add:
+            case R.id.Add:
                 Intent intent = new Intent(this, CreateAttributeActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
-            case R.id.action_del:
+            case R.id.Delete:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
+                return true;
+            case R.id.Edit:
+                intent = new Intent(this, CreateAttributeActivity.class);
+                Bundle dataBundle = new Bundle();
+                dataBundle.putLong(Attribute_DAO.TABLE_NAME + Attribute_DAO.COLUMN_ID, attributeList.get(currentPos).getId());
+                intent.putExtras(dataBundle);
+                startActivity(intent);
+                finish();
                 return true;
             default:
                 return false;

@@ -7,6 +7,9 @@
     android:background="#E1E1E1"
     tools:context=".Exercises.ListExercise_Fragment">
 
+    <include
+        android:id="@+id/exercise_item"
+        layout="@layout/fragment_list_item" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/exercise_recycler_view"

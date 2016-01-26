@@ -86,7 +86,6 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_layout_exercise_attributes"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -97,7 +96,20 @@
                 android:textSize="@dimen/text_size_default"
                 android:hint="Exercise Attributes" />
 
-            <!-- TABLELAYOUT -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <HorizontalScrollView
+                    android:id="@+id/text_layout_exercise_attributes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- TABLELAYOUT -->
+
+                </HorizontalScrollView>
+
+            </ScrollView>
 
         </android.support.design.widget.TextInputLayout>
 

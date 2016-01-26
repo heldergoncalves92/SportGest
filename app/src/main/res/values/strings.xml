@@ -165,6 +165,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="goTo_training_button">Manage Trainings</string>
     <string name="goTo_attribute_button">Manage Attributes</string>
     <string name="app_newAttribute">SportGest - New Attribute</string>
+    <string name="app_updateAttribute">SportGest - Update Attribute</string>
     <string name="app_newExercise">SportGest - New Exercise</string>
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
