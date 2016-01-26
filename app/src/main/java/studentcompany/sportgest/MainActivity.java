@@ -21,7 +21,7 @@ import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
-import studentcompany.sportgest.Games.GamesList_Activity;
+import studentcompany.sportgest.Games.Game_list;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Games(View v){
         //insertGamesTest();
-        Intent intent = new Intent(this, GamesList_Activity.class);
+        Intent intent = new Intent(this, Game_list.class);
         startActivity(intent);
     }
 

@@ -123,10 +123,10 @@ public class GameSquad_Fragment extends Fragment {
 
         ArrayList<Player> list = new ArrayList<Player>();
 
-        Player p1 = new Player(1,"Hulk", "João Alberto", "Portuguesa", "Solteiro", 123123, 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 9, new Team(1), null);
-        Player p2 = new Player(2,"Rafa", "Fábio Gomes", "Portuguesa", "Solteiro", 123123, 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 10, new Team(1), null);
-        Player p3 = new Player(3,"Rocha", "Jorge Duarte", "Portuguesa", "Solteiro", 123123, 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 7, new Team(1), null);
-        Player p4 = new Player(4,"Roberto", "Manuel Arouca", "Portuguesa", "Solteiro", 123123, 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
+        Player p1 = new Player(1,"Hulk", "João Alberto", "Portuguesa", "Solteiro", "123123", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 9, new Team(1), null);
+        Player p2 = new Player(2,"Rafa", "Fábio Gomes", "Portuguesa", "Solteiro", "123123", 170 ,83 , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 10, new Team(1), null);
+        Player p3 = new Player(3,"Rocha", "Jorge Duarte", "Portuguesa", "Solteiro", "123123", 180 ,73.6f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 7, new Team(1), null);
+        Player p4 = new Player(4,"Roberto", "Manuel Arouca", "Portuguesa", "Solteiro", "123123", 194 ,69.69f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
 
         list.add(p1);
         list.add(p2);
