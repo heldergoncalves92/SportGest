@@ -47,6 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nickname"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView30" />
 
                     <EditText
@@ -56,6 +57,7 @@
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNickname"
                         android:enabled="false"
+                        android:textSize="@dimen/text_size_default"
                         android:editable="false"/>
 
                 </LinearLayout>
@@ -79,6 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView31" />
 
                     <EditText
@@ -87,6 +90,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerName"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -110,6 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nationality"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView3" />
 
                     <EditText
@@ -118,6 +123,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNationality"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -141,6 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Marital Status"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView4" />
 
                     <EditText
@@ -149,6 +156,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/maritalstatus"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -172,6 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Birthday Date"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView20" />
 
                     <EditText
@@ -180,6 +189,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerBirthday"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -204,6 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Height"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView32" />
 
                     <EditText
@@ -212,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerHeight"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -235,6 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Weight"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView33" />
 
                     <EditText
@@ -243,6 +256,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerWeight"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -266,6 +280,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Address"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView34" />
 
                     <EditText
@@ -274,6 +289,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerAddress"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -295,6 +311,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_default"
                         android:text="Gender"
                         android:id="@+id/textView5" />
 
@@ -303,6 +320,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/playerGender"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -326,6 +344,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView35" />
 
                     <EditText
@@ -334,6 +353,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerEmail"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -356,6 +376,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Preferred Foot"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView6" />
 
                     <EditText
@@ -363,6 +384,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/playerPreferredFoot"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -386,6 +408,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Number"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView36" />
 
                     <EditText
@@ -394,6 +417,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:hint="@string/playerNumber"
+                        android:textSize="@dimen/text_size_default"
                         android:enabled="false"
                         android:editable="false"/>
 
@@ -442,6 +466,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Positions"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView71" />
 
                     <ListView

@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
+                android:textSize="@dimen/text_size_default"
                 android:hint="Name" />
 
         </android.support.design.widget.TextInputLayout>
@@ -46,6 +47,7 @@
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:ems="5"
+                android:textSize="@dimen/text_size_default"
                 android:hint="Duration" />
 
         </android.support.design.widget.TextInputLayout>
@@ -56,6 +58,7 @@
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="min"
+            android:textSize="@dimen/text_size_default"
             android:gravity="left|center" />
 
     </LinearLayout>
@@ -83,6 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="Description" />
 
             </android.support.design.widget.TextInputLayout>
@@ -103,6 +107,7 @@
                         android:id="@+id/exercise_image_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="Exercise illustration" />
 
                     <ImageView
@@ -128,6 +133,7 @@
                 android:id="@+id/text_selected_attributes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
                 android:hint="Selected Attributes" />
 
             <ListView

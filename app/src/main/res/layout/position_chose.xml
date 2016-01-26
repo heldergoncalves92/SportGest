@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_permissions"
+                android:textSize="@dimen/text_size_default"
                 android:text="Position Name" />
 
             <LinearLayout
@@ -69,12 +70,14 @@
             android:id="@+id/btnAddSelected"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_default"
             android:text="Add Selected" />
 
         <Button
             android:id="@+id/btnRemoveSelected"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_default"
             android:text="Remove Selected" />
 
 
@@ -96,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_permissions"
+            android:textSize="@dimen/text_size_default"
             android:text="Positions" />
 
     </android.support.design.widget.TextInputLayout>

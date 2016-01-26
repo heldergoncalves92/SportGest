@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textNoSuggestions"
+            android:textSize="@dimen/text_size_default"
             android:hint="@string/hint_name" />
 
     </android.support.design.widget.TextInputLayout>
@@ -57,6 +58,7 @@
             android:id="@+id/text_permissions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_default"
             android:hint="@string/hint_permissions" />
 
     </android.support.design.widget.TextInputLayout>

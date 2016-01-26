@@ -60,10 +60,10 @@ public class ListExercise_Fragment extends Fragment {
         mAdapter = new Exercises_Adapter(list, getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
-        View title = v.findViewById(R.id.exercise_item);
-        TextView tv = (TextView)title.findViewById(R.id.text_view);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
+        //View title = v.findViewById(R.id.exercise_item);
+        //TextView tv = (TextView)title.findViewById(R.id.text_view);
+        //tv.setTypeface(null, Typeface.BOLD_ITALIC);
+        //tv.setTextColor(Color.BLACK);
 
         //textView = (TextView)v.findViewById(R.id.text_view);
         //textView.setText("CARD "+position);

@@ -46,6 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Category"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView52" />
 
                     <EditText
@@ -54,6 +55,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:enabled="false"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/category" />
 
                 </LinearLayout>

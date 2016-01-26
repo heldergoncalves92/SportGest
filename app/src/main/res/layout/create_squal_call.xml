@@ -17,7 +17,7 @@
             android:id="@+id/text_jogadores"
             android:layout_weight="0.3"
             android:text="Jogadores"
-            android:textSize="25dp"
+            android:textSize="18sp"
             android:gravity="center"
             android:inputType="none" />
 
@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:text=""
             android:id="@+id/editText3"
+            android:textSize="@dimen/text_size_default"
             android:layout_weight="0.40" />
 
         <TextView
@@ -33,7 +34,7 @@
             android:layout_height="match_parent"
             android:text="Equipa Convodada"
             android:id="@+id/editText4"
-            android:textSize="25dp"
+            android:textSize="18sp"
             android:gravity="center"
             android:layout_weight="0.3" />
     </LinearLayout>
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:src="@drawable/ic_swap_horiz_black_24dp"
+                    android:src="@drawable/ic_swap_horiz_black_18dp"
                     android:id="@+id/bt_switch" />
 
             </LinearLayout>

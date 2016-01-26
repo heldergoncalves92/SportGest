@@ -34,6 +34,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerNickname" />
 
                 </LinearLayout>
@@ -57,6 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerName" />
 
                 </LinearLayout>
@@ -102,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Marital Status"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView4" />
 
                     <Spinner
@@ -131,6 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Birthday Date"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView32" />
 
                     <ImageButton
@@ -147,6 +151,7 @@
                         android:layout_gravity="center"
                         android:text="date"
                         android:id="@+id/txtDate"
+                        android:textSize="@dimen/text_size_default"
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>
 
@@ -170,6 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerHeight" />
 
                 </LinearLayout>
@@ -193,6 +199,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerWeight" />
 
                 </LinearLayout>
@@ -216,6 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerAddress" />
 
                 </LinearLayout>
@@ -238,6 +246,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Gender"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView5" />
 
                     <Spinner
@@ -266,6 +275,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView34" />
 
                     <EditText
@@ -273,6 +283,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerEmail" />
 
                 </LinearLayout>
@@ -295,6 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Preferred Foot"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView6" />
 
                     <Spinner
@@ -323,6 +335,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/playerNumber" />
 
                 </LinearLayout>
@@ -343,13 +356,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Positions"
+                        android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView7" />
 
                     <Button
                         android:id="@+id/btnPositionOpen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Positions" />
+                        android:text="Select Positions"
+                        android:textSize="@dimen/text_size_default"/>
 
                 </LinearLayout>
 
@@ -366,6 +381,7 @@
                     android:id="@+id/btnSelectPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_default"
                     android:text="Select Photo" />
 
             </LinearLayout>

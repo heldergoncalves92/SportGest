@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:enabled="false"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="@string/playerPosition" />
 
             </android.support.design.widget.TextInputLayout>

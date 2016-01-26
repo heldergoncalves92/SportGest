@@ -39,8 +39,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
     private int baseTeamID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private studentcompany.sportgest.Players.Player_Fragment_List mListPlayer = new studentcompany.sportgest.Players.Player_Fragment_List();
-    private studentcompany.sportgest.Players.Player_Fragment_Details mDetailsPlayer = new studentcompany.sportgest.Players.Player_Fragment_Details();
+    private Player_Fragment_List mListPlayer = new Player_Fragment_List();
+    private Player_Fragment_Details mDetailsPlayer = new Player_Fragment_Details();
     private static final String TAG = "PLAYERS_LIST_ACTIVITY";
 
     private final int EDIT_TAG = 19;

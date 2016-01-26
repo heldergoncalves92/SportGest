@@ -58,7 +58,8 @@
                     android:layout_weight="0.58"
                     android:autoText="false"
                     android:editable="true"
-                    android:elegantTextHeight="true" />
+                    android:elegantTextHeight="true"
+                    android:textSize="@dimen/text_size_default"/>
 
             </LinearLayout>
 
@@ -81,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/username"
                         android:hint="@string/userUsername"
+                        android:textSize="@dimen/text_size_default"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
@@ -104,6 +106,7 @@
                         android:inputType="textEmailAddress"
                         android:id="@+id/email"
                         android:hint="@string/userEmail"
+                        android:textSize="@dimen/text_size_default"
                         android:layout_gravity="center_horizontal" />
                 </LinearLayout>
 
@@ -125,6 +128,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:id="@+id/password0"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/userPasswordOriginal"
                         android:layout_gravity="center_horizontal" />
 
@@ -148,6 +152,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:id="@+id/password1"
+                        android:textSize="@dimen/text_size_default"
                         android:hint="@string/userPassword"
                         android:layout_gravity="center_horizontal" />
 

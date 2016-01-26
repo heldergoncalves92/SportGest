@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
+        android:textSize="@dimen/text_size_default"
         android:id="@+id/game_test_textview"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

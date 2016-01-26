@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
+                android:textSize="@dimen/text_size_default"
                 android:hint="@string/training_name"
                 android:text="Test training name"/>
 
@@ -42,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Date"
+                android:textSize="@dimen/text_size_default"
                 android:text="2015/12/12"
                 android:ems="5"/>
 
@@ -57,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Time"
+                android:textSize="@dimen/text_size_default"
                 android:text="12:00"
                 android:ems="3"/>
 
@@ -76,6 +79,7 @@
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:hint="@string/description_label"
+            android:textSize="@dimen/text_size_default"
             android:text="@string/lorem"
             android:gravity="top|left"/>
 
@@ -85,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next_button"
+        android:textSize="@dimen/text_size_default"
         android:id="@+id/next_button"
         android:layout_gravity="bottom|right"
         android:onClick="goto_NextActivity"/>

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="8dp"
+        android:textSize="@dimen/text_size_default"
         tools:text="Card" />
 
     <android.support.v7.widget.CardView
@@ -34,6 +35,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:text="@string/squad"
                 android:textStyle="bold"
+                android:textSize="@dimen/text_size_default"
                 android:paddingBottom="5dp"/>
 
             <include

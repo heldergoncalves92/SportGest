@@ -35,7 +35,7 @@
                 android:inputType="textNoSuggestions"
                 android:hint="Name"
                 android:text="Training Name"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_default"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:hint="Date"
                 android:text="12/12/2015 21:00"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_default"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -75,7 +75,7 @@
                 android:ems="5"
                 android:text="65"
                 android:hint="Duration"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_default"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -86,7 +86,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="min"
             android:gravity="left|center"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size_default"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -103,7 +103,7 @@
             android:inputType="textMultiLine"
             android:hint="Description"
             android:text="@string/lorem"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size_default"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Selected Exercises"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size_default"/>
 
         <android.support.v7.internal.widget.ListViewCompat
             android:id="@+id/selected_exercises_list"

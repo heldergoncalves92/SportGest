@@ -45,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="@string/teamName" />
 
             </android.support.design.widget.TextInputLayout>
@@ -61,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="@string/teamDescription" />
 
             </android.support.design.widget.TextInputLayout>
@@ -77,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/teamSeason"
+                    android:textSize="@dimen/text_size_default"
                     android:inputType="number" />
 
             </android.support.design.widget.TextInputLayout>
@@ -108,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="@string/userEmail" />
 
             </android.support.design.widget.TextInputLayout>
@@ -122,6 +126,7 @@
                     android:id="@+id/btnSelectPhoto"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_default"
                     android:text="Select Photo" />
 
             </LinearLayout>

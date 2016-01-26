@@ -69,12 +69,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="false"
+                    android:textSize="@dimen/text_size_default"
                     android:inputType="textNoSuggestions"
                     android:hint="@string/userPhoto" />
                 <Button
                     android:id="@+id/btnSelectPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_default"
                     android:text="Select Photo" />
 
             </LinearLayout>
@@ -98,6 +100,7 @@
                 android:id="@+id/input_create_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/userName" />
 
@@ -115,6 +118,7 @@
                 android:id="@+id/input_create_user_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/userUsername" />
 
@@ -132,6 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_default"
                     android:hint="@string/userEmail" />
 
             </android.support.design.widget.TextInputLayout>
@@ -151,6 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:textSize="@dimen/text_size_default"
                 android:hint="@string/userPassword" />
 
         </android.support.design.widget.TextInputLayout>
@@ -166,6 +172,7 @@
                 android:id="@+id/input_create_user_password2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
                 android:inputType="textPassword"
                 android:hint="@string/userPasswordConfirmation" />
 
@@ -184,6 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
+                android:textSize="@dimen/text_size_default"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/userRole" />
 
@@ -208,6 +216,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
+                android:textSize="@dimen/text_size_default"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/userTeam" />
 

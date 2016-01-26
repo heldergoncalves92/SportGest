@@ -6,4 +6,4 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:divider="#00000000"
-    android:textSize="12sp" />
+    android:textSize="@dimen/text_size_default" />

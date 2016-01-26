@@ -69,7 +69,7 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
         public void focus_gain() {
             parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
             su.currentVH = this;
-            su.currentPos = -1;
+            su.currentPos = getLayoutPosition();
         }
     }
 

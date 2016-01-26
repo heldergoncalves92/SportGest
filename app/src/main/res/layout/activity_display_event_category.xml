@@ -23,6 +23,7 @@
         android:layout_alignBottom="@+id/event_category_editText"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="28dp"
+        android:textSize="@dimen/text_size_default"
         android:text="@string/category"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -33,6 +34,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="65dp"
+        android:textSize="@dimen/text_size_default"
         android:layout_marginLeft="112dp"
         android:layout_marginRight="28dp"
         android:inputType="text" >
