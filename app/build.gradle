@@ -28,4 +28,5 @@ dependencies {
     compile 'com.jpardogo.materialtabstrip:library:1.1.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
