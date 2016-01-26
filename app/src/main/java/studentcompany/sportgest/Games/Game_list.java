@@ -13,7 +13,7 @@ import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Team;
 
-public class GamesList_Activity extends AppCompatActivity {
+public class Game_list extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -21,11 +21,12 @@ public class GamesList_Activity extends AppCompatActivity {
 
     private List<Game> games;
     private Game_DAO gameDao;
+    //private Game_DAO gameDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_games_list);
+        setContentView(R.layout.activity_games_list_fragment);
         mRecyclerView = (RecyclerView) findViewById(R.id.games_recycler_view);
 
         /*try {

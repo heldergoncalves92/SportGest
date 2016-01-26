@@ -73,6 +73,7 @@
         <activity android:name=".Attributes.AttributeListActivity" />
         <activity android:name=".Exercises.ExerciseListActivity" />
         <activity android:name=".Trainings.TrainingListActivity" />
+        <activity android:name=".Games.GamesListActivity" />
         <activity
             android:name=".Attributes.CreateAttributeActivity"
             android:label="@string/app_newAttribute" />
@@ -104,6 +105,11 @@
             android:name=".EventCategories.EventCategory_Activity_Edit"
             android:label="@string/app_newTeam" />
         <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

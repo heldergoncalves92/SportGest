@@ -27,7 +27,7 @@ public class GameSquad_Fragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
 
-    private List<Player> players;
+    private static List<Player> players;
     private TextView textView;
     private int position;
 
@@ -36,11 +36,12 @@ public class GameSquad_Fragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    public static GameSquad_Fragment newInstance(int position) {
+    public static GameSquad_Fragment newInstance(int position, List<Player> playersgames) {
         GameSquad_Fragment f = new GameSquad_Fragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
+        //players=playersgames;
         return f;
     }
 

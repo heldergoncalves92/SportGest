@@ -15,6 +15,7 @@ import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Event;
 import studentcompany.sportgest.domains.EventCategory;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
@@ -26,6 +27,7 @@ public class GameEvents_Fragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
 
+    private static List<Event> eventt;
 
     private List<EventCategory> eventcategoria;
     private TextView textView;
@@ -36,11 +38,12 @@ public class GameEvents_Fragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    public static GameEvents_Fragment newInstance(int position) {
+    public static GameEvents_Fragment newInstance(int position, List<Event> event) {
         GameEvents_Fragment f = new GameEvents_Fragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
+        eventt=event;
         return f;
     }
 
