@@ -154,17 +154,18 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         if(object==null)
             return -1;
 
-        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null)
+        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null || object.getUser()==null)
             return -1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DATE        , object.getDate());
         contentValues.put(COLUMN_VALUE       , object.getValue());
         contentValues.put(COLUMN_STATE       , object.getState());
-        contentValues.put(COLUMN_TRAINING_ID , object.getTraining().getId());
+        contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
         contentValues.put(COLUMN_EXERCISE_ID , object.getExercise().getId());
         contentValues.put(COLUMN_ATTRIBUTE_ID, object.getAttribute().getId());
         contentValues.put(COLUMN_PLAYER_ID   , object.getPlayer().getId());
+        contentValues.put(COLUMN_USER_ID     , object.getUser().getId());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -189,17 +190,18 @@ public class Record_DAO extends GenericDAO<Record> implements IGenericDAO<Record
         if(object==null)
             return false;
 
-        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null)
+        if(object.getTraining()==null || object.getExercise()==null || object.getAttribute()==null || object.getPlayer()==null || object.getUser()==null)
             return false;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_DATE        , object.getDate());
         contentValues.put(COLUMN_VALUE       , object.getValue());
         contentValues.put(COLUMN_STATE       , object.getState());
-        contentValues.put(COLUMN_TRAINING_ID , object.getTraining().getId());
+        contentValues.put(COLUMN_TRAINING_ID, object.getTraining().getId());
         contentValues.put(COLUMN_EXERCISE_ID , object.getExercise().getId());
         contentValues.put(COLUMN_ATTRIBUTE_ID, object.getAttribute().getId());
         contentValues.put(COLUMN_PLAYER_ID   , object.getPlayer().getId());
+        contentValues.put(COLUMN_USER_ID, object.getUser().getId());
 
         db.update(TABLE_NAME,
                 contentValues,

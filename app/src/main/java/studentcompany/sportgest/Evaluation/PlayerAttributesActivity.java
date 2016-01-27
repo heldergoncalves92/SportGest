@@ -90,7 +90,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     private int currentPos = 0;
     private Menu mOptionsMenu;
 
-    private int baseTeamID;
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private studentcompany.sportgest.Players.Player_Fragment_List mListPlayer = new studentcompany.sportgest.Players.Player_Fragment_List();
@@ -176,7 +175,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("baseTeamID", baseTeamID);
+        outState.putInt("baseTeamID", (int)team_id);
         outState.putInt("currentPos", currentPos);
     }
 
@@ -207,7 +206,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
             currentPos = position;
 
-            mPlayerAttributes.showEvaluations(exerciseAttributesList);
+            mPlayerAttributes.showEvaluations(exerciseAttributesList, evaluations, player);
             //showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
         }
     }

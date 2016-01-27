@@ -2,7 +2,6 @@ package studentcompany.sportgest.Evaluation;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
@@ -13,9 +12,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toolbar;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,9 +118,9 @@ public class ExerciseAttributes_Fragment extends Fragment {
             tr = new TableRow(fa);
             tr.setPadding(0, 2, 0, 2); //Border between rows
             if(rowNumber%2 == 0){
-                tr.setBackgroundColor(Color.GRAY);
+                tr.setBackgroundColor(0xFFBBBBBB);
             } else {
-                tr.setBackgroundColor(Color.DKGRAY);
+                tr.setBackgroundColor(0xFF888888);
             }
             tr.setGravity(Gravity.CENTER_VERTICAL);
             tableRows.add(tr);
@@ -136,10 +132,10 @@ public class ExerciseAttributes_Fragment extends Fragment {
             attributeCol.put(a.getId(), colNumber);
             tv = new TextView(fa);
             tv.setText(a.getName());
-            tv.setMinimumWidth(10);
-            tv.setMaxWidth(200);
+            tv.setMinimumWidth(200);
+            tv.setMaxWidth(250);
             tv.setBackgroundColor(Color.WHITE);
-            tv.setPadding(5, 5, 5, 5);
+            tv.setPadding(20, 5, 20, 5);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             evaluationTable.put(new Pair<>(0, colNumber), tv);
             colNumber++;
@@ -157,7 +153,22 @@ public class ExerciseAttributes_Fragment extends Fragment {
             tv.setMaxWidth(200);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setPadding(5, 5, 5, 5);
-            tv.setText("" + r.getValue());//TODO: change displayed value based on AttributeType
+            Attribute att = r.getAttribute();
+            if(att!=null) {
+                switch (att.getType()) {
+                    case Attribute.QUANTITATIVE:
+                        tv.setText(String.valueOf((int)r.getValue()));
+                        break;
+                    case Attribute.QUALITATIVE:
+                        tv.setText((Attribute.QUALITATIVE_TYPE.values()[(int)r.getValue()].name()));
+                        break;
+                    case Attribute.RATIO:
+                        tv.setText(String.format("%.2f", r.getValue()*100) + "%");
+                        break;
+                }
+            } else {
+                tv.setText(String.valueOf((int)r.getValue()));
+            }
             //TODO: verify key does not exists
             evaluationTable.put(new Pair<>(auxRow, auxCol), tv);
         }

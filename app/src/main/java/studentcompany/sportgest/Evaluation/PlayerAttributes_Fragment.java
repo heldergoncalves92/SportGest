@@ -31,6 +31,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Player;
+import studentcompany.sportgest.domains.Record;
 
 public class PlayerAttributes_Fragment extends Fragment {
 
@@ -71,11 +73,12 @@ public class PlayerAttributes_Fragment extends Fragment {
         return view;
     }
 
-    public void showEvaluations(List<Attribute> attributeList){
+    public void showEvaluations(List<Attribute> attributeList, List<Record> evaluations, Player player){
         clearDetails();
         attributes = attributeList;
 
         FragmentActivity fa = getActivity();
+        boolean recordFound;
 
         //TODO: initialize variables with current evaluations (if applicable)
         for(Attribute a:attributeList){
@@ -107,8 +110,20 @@ public class PlayerAttributes_Fragment extends Fragment {
                     //SeekBar
                     SeekBar sb = new SeekBar(fa);
                     sb.setMax(SEEKBAR_MAX);
-                    sb.setProgress(SEEKBAR_MAX / 2);
-                    quantitativeHashMap.put(attribute_id, SEEKBAR_MAX / 2);
+                    //TODO: Optimize this!
+                    recordFound = false;
+                    for(Record r: evaluations){
+                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
+                            sb.setProgress((int) r.getValue());
+                            quantitativeHashMap.put(attribute_id, (int) r.getValue());
+                            recordFound = true;
+                            break;
+                        }
+                    }
+                    if(!recordFound) {
+                        sb.setProgress(SEEKBAR_MAX / 2);
+                        quantitativeHashMap.put(attribute_id, SEEKBAR_MAX / 2);
+                    }
                     sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -143,7 +158,20 @@ public class PlayerAttributes_Fragment extends Fragment {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
                     spinner.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
-                    qualitativeHashMap.put(attribute_id, typeList.size()/2);
+                    //TODO: Optimize this!
+                    recordFound = false;
+                    for(Record r: evaluations){
+                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
+                            spinner.setSelection((int) r.getValue());
+                            qualitativeHashMap.put(attribute_id, (int) r.getValue());
+                            recordFound = true;
+                            break;
+                        }
+                    }
+                    if(!recordFound) {
+                        spinner.setSelection(typeList.size()/2);
+                        qualitativeHashMap.put(attribute_id, typeList.size()/2);
+                    }
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -210,6 +238,17 @@ public class PlayerAttributes_Fragment extends Fragment {
                         }
                     });
                     til_total.addView(et_total);
+
+                    //TODO: Optimize this!
+                    for(Record r: evaluations){
+                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
+                            et_partial.setText(String.valueOf((int)(r.getValue()*100)));
+                            ratioPartialHashMap.put(attribute_id, r.getValue());
+                            et_total.setText("100");
+                            ratioTotalHashMap.put(attribute_id, 1f);
+                            break;
+                        }
+                    }
 
                     //Add to the layout
                     linearLayoutRatio.addView(til_partial);
