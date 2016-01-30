@@ -11,24 +11,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import studentcompany.sportgest.Exercises.CreateExerciseActivity;
-import studentcompany.sportgest.Exercises.DetailsExercise_Fragment;
-import studentcompany.sportgest.Exercises.ExerciseTestData;
+import studentcompany.sportgest.Exercises.Exercise_Activity_Create;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
-import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
-import studentcompany.sportgest.daos.GenericDAO;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
 
@@ -44,7 +36,6 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private Game_Fragment_list mListExercises = new Game_Fragment_list();
-    //private DetailsExercise_Fragment mDetailsExercise = new DetailsExercise_Fragment();
     private static final String TAG = "EXERCISE_ACTIVITY";
 
     @Override
@@ -66,18 +57,6 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
-
-        /*//if there are at lest one element, display the first one
-        if(exerciseList.size() > 0){
-            try {
-                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exerciseList.get(0).getId());
-            } catch (GenericDAOException ex){
-                ex.printStackTrace();
-                exerciseAttributesList = new ArrayList<>();
-            }
-            System.out.println(exerciseList.get(0).toString());
-            mDetailsExercise.showExercise(exerciseList.get(0), getAttributesNamesList(exerciseAttributesList));
-        }*/
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -210,12 +189,12 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 startActivityForResult(intent, 0);
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 //put current exercise ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Game_DAO.TABLE_NAME + Game_DAO.COLUMN_ID, gameList.get(currentPos).getId());

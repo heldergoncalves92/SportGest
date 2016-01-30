@@ -183,5 +183,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="game_mode_add_eventcategory_failed">Failed to add the Event</string>
     <string name="game_mode_add_eventcategory_success">Event added sucessfully</string>
     <string name="NoSelected_Attribute">Select an Attribute!</string>
+    <string name="NoSelected_Player">Select a Player!</string>
+    <string name="NoSelected_Exercise">Select an Exercise!</string>
 
 </resources>

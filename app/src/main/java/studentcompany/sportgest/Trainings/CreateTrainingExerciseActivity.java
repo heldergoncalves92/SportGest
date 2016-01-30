@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Exercises.DetailsExercise_Fragment;
+import studentcompany.sportgest.Exercises.Exercise_Fragment_Details;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -43,7 +42,7 @@ import studentcompany.sportgest.domains.TrainingExercise;
 public class CreateTrainingExerciseActivity extends AppCompatActivity {
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private DetailsExercise_Fragment mDetailsExercise = new DetailsExercise_Fragment();
+    private Exercise_Fragment_Details mDetailsExercise = new Exercise_Fragment_Details();
 
     private static final String TAG = "CREATE_TRAINING_ACTIVITY";
     private TextView tv_repetitions, tv_duration;

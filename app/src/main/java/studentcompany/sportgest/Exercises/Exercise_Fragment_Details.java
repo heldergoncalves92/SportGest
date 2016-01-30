@@ -21,7 +21,7 @@ import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 
-public class DetailsExercise_Fragment extends Fragment {
+public class Exercise_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_EXERCISE_FRAGMENT";
     private TextView tv_name, tv_duration;
@@ -29,7 +29,7 @@ public class DetailsExercise_Fragment extends Fragment {
     private ImageView iv_image;
     private ListView lv_exerciseAttributes;
 
-    public DetailsExercise_Fragment() {
+    public Exercise_Fragment_Details() {
         // Required empty public constructor
     }
 
@@ -51,7 +51,7 @@ public class DetailsExercise_Fragment extends Fragment {
     }
 
     public void showExercise(Exercise exercise, List<String> exerciseAttributes){
-        clearDetails();
+        //clearDetails();
         tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
@@ -82,10 +82,25 @@ public class DetailsExercise_Fragment extends Fragment {
     }
 
     public void clearDetails(){
+
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.GONE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.VISIBLE);
+
         tv_name.setText("");
         et_description.setText("");
         tv_duration.setText("");
         lv_exerciseAttributes.setAdapter(new ArrayAdapter(this.getContext(), R.layout.listview_style1, new ArrayList<String>()));
         iv_image.setImageResource(R.drawable.inf);
+    }
+
+    public void showFirstElem(){
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.VISIBLE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.GONE);
     }
 }

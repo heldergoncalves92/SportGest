@@ -14,7 +14,7 @@ import android.widget.Button;
 
 import studentcompany.sportgest.Attributes.Attribute_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
-import studentcompany.sportgest.Exercises.ExerciseListActivity;
+import studentcompany.sportgest.Exercises.Exercise_Activity_ListView;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GameTest_Activity;
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Exercise(View v){
-        Intent intent = new Intent(this, ExerciseListActivity.class);
+        Intent intent = new Intent(this, Exercise_Activity_ListView.class);
         startActivity(intent);
     }
 
@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.drawer_Exercise:
                                 if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
+                                intent = new Intent(getApplicationContext(), Exercise_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                         }

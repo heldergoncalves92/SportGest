@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import studentcompany.sportgest.Exercises.ListExercise_Fragment;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Training;
 
 

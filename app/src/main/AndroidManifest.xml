@@ -47,7 +47,7 @@
             android:name=".Games.GameTest_Activity"
             android:label="@string/app_gameTest" />
         <activity
-            android:name=".Exercises.CreateExerciseActivity" />
+            android:name=".Exercises.Exercise_Activity_Create" />
 
         <activity
             android:name=".Games.CallSquad_Activity"
@@ -71,7 +71,7 @@
         <activity android:name=".Players.Player_Activity_Edit" />
         <activity android:name=".Positions.Position_Activity_Edit" />
         <activity android:name=".Attributes.Attribute_Activity_ListView" />
-        <activity android:name=".Exercises.ExerciseListActivity" />
+        <activity android:name=".Exercises.Exercise_Activity_ListView" />
         <activity android:name=".Trainings.TrainingListActivity" />
         <activity android:name=".Games.GamesListActivity" />
         <activity

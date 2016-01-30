@@ -132,10 +132,10 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
         if(players.isEmpty())
             noElems();
-        else{
+        /*else{
             mDetailsPlayer.showPlayer(players.get(0));
             mListPlayer.selectFirstItem();
-        }
+        }*/
     }
 
     /************************************
@@ -152,6 +152,8 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
                 item = mOptionsMenu.findItem(R.id.action_edit);
                 item.setVisible(true);
+
+                mDetailsPlayer.showFirstElem();
             }
 
             currentPos = position;

@@ -5,7 +5,6 @@ package studentcompany.sportgest.Evaluation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Exercises.ListExercise_Fragment;
+import studentcompany.sportgest.Exercises.Exercise_Fragment_List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.Trainings.TrainingTestData;
 import studentcompany.sportgest.daos.Attribute_DAO;
@@ -40,7 +38,7 @@ import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 import studentcompany.sportgest.domains.User;
 
-public class ExerciseAttributesActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
+public class ExerciseAttributesActivity extends AppCompatActivity implements Exercise_Fragment_List.OnItemSelected  {
 
     //Required id
     private long user_id = 0;
@@ -70,7 +68,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
     private Menu mOptionsMenu;
 
     private FragmentManager mFragmentManager;
-    private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
+    private Exercise_Fragment_List mListExercises = new Exercise_Fragment_List();
     private ExerciseAttributes_Fragment mExerciseAttributes = new ExerciseAttributes_Fragment();
     private static final String TAG = "EVALUATE_EXERCISE_ATTRIBUTES_ACTIVITY";
 
@@ -169,7 +167,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
      ************************************/
 
     @Override
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Exercise exercise = exerciseList.get(position);
         List<TrainingExercise> trainingExerciseList;
         TrainingExercise trainingExercise = null;
@@ -229,12 +227,7 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Lis
         Bundle dataBundle;
         // Handle item selection
         switch (item.getItemId()) {
-            /*
-            case R.id.Add:
-                intent = new Intent(this, CreateExerciseActivity.class);
-                startActivityForResult(intent, 0);
-                return true;
-            */
+
             case R.id.Forward:
                 intent = new Intent(getApplicationContext(), PlayerAttributesActivity.class);
 

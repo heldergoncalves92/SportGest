@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -21,31 +20,33 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
-import studentcompany.sportgest.daos.GenericDAO;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
-public class ExerciseListActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
+public class Exercise_Activity_ListView extends AppCompatActivity implements Exercise_Fragment_List.OnItemSelected  {
 
     private Exercise_DAO exercise_dao;
     private Attribute_Exercise_DAO attribute_exercise_dao;
     private List<Exercise> exerciseList;
     private List<Attribute> exerciseAttributesList;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
-    private DetailsExercise_Fragment mDetailsExercise = new DetailsExercise_Fragment();
+    private Exercise_Fragment_List mListExercises = new Exercise_Fragment_List();
+    private Exercise_Fragment_Details mDetailsExercise = new Exercise_Fragment_Details();
     private static final String TAG = "EXERCISE_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_list);
+
+        if(savedInstanceState != null)
+            currentPos = savedInstanceState.getInt("currentPos");
 
         try {
             exercise_dao = new Exercise_DAO(getApplicationContext());
@@ -87,6 +88,12 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
+    }
+
+
     public List<String> getNamesList(List<Exercise> exerciseList){
         ArrayList<String> list = new ArrayList<>();
 
@@ -106,8 +113,6 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
     }
 
     public void removeExercise(){
-        mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
 
         try {
             Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
@@ -123,7 +128,9 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
-        exerciseList.remove(currentPos);
+
+        mDetailsExercise.clearDetails();
+        mListExercises.removeItem(currentPos);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -134,13 +141,15 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
      ************************************/
 
     @Override
-     public void itemSelected(int position) {
+     public void itemSelected(int position, int tag) {
         Exercise exercise = exerciseList.get(position);
 
         if(exercise != null){
             if(currentPos == -1) {
                 mOptionsMenu.findItem(R.id.Delete).setVisible(true);
                 mOptionsMenu.findItem(R.id.Edit).setVisible(true);
+
+                mDetailsExercise.showFirstElem();
             }
 
             currentPos = position;
@@ -179,7 +188,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseListActivity activity = (ExerciseListActivity) getActivity();
+                                    Exercise_Activity_ListView activity = (Exercise_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -187,7 +196,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseListActivity activity = (ExerciseListActivity) getActivity();
+                                    Exercise_Activity_ListView activity = (Exercise_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeExercise();
                                 }
@@ -206,6 +215,29 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         menu.findItem(R.id.Edit).setVisible(false);
         menu.findItem(R.id.Delete).setVisible(false);
         menu.findItem(R.id.Save).setVisible(false);
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1 && exerciseList.size()>0) {
+            MenuItem item = mOptionsMenu.findItem(R.id.Delete);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.Edit);
+            item.setVisible(true);
+
+            try {
+
+                Exercise exercise = exerciseList.get(currentPos);
+                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
+
+                mDetailsExercise.showFirstElem();
+                mDetailsExercise.showExercise(exercise, getAttributesNamesList(exerciseAttributesList));
+                mListExercises.select_Item(currentPos);
+
+            } catch (GenericDAOException ex){
+                ex.printStackTrace();
+                exerciseAttributesList = new ArrayList<>();
+            }
+        }
         return true;
     }
 
@@ -215,12 +247,12 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 startActivityForResult(intent, 0);
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 //put current exercise ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID, exerciseList.get(currentPos).getId());
