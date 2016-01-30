@@ -1,6 +1,7 @@
 package studentcompany.sportgest.Games;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,10 +9,14 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,8 +32,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.SynchronousQueue;
 
+import studentcompany.sportgest.Exercises.ExerciseListActivity;
+import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Users.RolesListActivity;
+import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Event_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
@@ -76,6 +85,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
     private int tag = -1;
 
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +98,16 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_activity_game_mode);
+        setContentView(R.layout.game_activity_game_mode_main);
+
+
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_game_mode);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_game_mode);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
 
         if(savedInstanceState == null){
@@ -352,4 +371,48 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             }
         }
     }
+
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent;
+                        switch (menuItem.getItemId()) {
+                            case R.id.drawer_roles:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), RolesListActivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Users:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), User_Activity_ListView.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Players:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), Player_Activity_ListView.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.drawer_Exercise:
+                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
+                                startActivity(intent);
+                                return true;
+                        }
+
+                        //menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+
+
 }
