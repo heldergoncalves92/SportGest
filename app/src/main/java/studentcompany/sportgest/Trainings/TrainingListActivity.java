@@ -120,7 +120,6 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
     public void removeTraining(){
         mDetailsTraining.clearDetails();
-        mListTrainings.removeItem(currentPos);
 
         try {
             Training training = training_dao.getById(trainingList.get(currentPos).getId());
@@ -139,6 +138,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
             ex.printStackTrace();
         }
         trainingList.remove(currentPos);
+        mListTrainings.updateList();
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);

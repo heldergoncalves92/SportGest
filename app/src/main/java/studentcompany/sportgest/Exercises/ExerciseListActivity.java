@@ -107,7 +107,6 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
     public void removeExercise(){
         mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
 
         try {
             Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
@@ -124,6 +123,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
             ex.printStackTrace();
         }
         exerciseList.remove(currentPos);
+        mListExercises.updateList();
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);

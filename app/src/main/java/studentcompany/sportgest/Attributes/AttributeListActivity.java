@@ -77,7 +77,6 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
 
     public void removeAttribute(){
         attribute_dao.deleteById(attributeList.get(currentPos).getId());
-        attributeList.remove(currentPos);
 
         mDetailsAttribute.clearDetails();
         mListAttributes.removeItem(currentPos);
