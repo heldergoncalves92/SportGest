@@ -44,9 +44,6 @@
             android:name=".Team.Team_Activity_Create"
             android:label="@string/app_newTeam" />
         <activity
-            android:name=".Games.GameTest_Activity"
-            android:label="@string/app_gameTest" />
-        <activity
             android:name=".Exercises.CreateExerciseActivity" />
 
         <activity
@@ -64,7 +61,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
-        <activity android:name=".Games.GamesList_Activity" />
         <activity android:name=".Games.GameGeneralView_Activity" />
         <activity android:name=".Team.Team_Activity_Edit" />
         <activity android:name=".Users.User_Activity_Edit" />
