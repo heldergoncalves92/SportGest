@@ -63,18 +63,6 @@ public class Exercise_Activity_ListView extends AppCompatActivity implements Exe
             e.printStackTrace();
         }
 
-        /*//if there are at lest one element, display the first one
-        if(exerciseList.size() > 0){
-            try {
-                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exerciseList.get(0).getId());
-            } catch (GenericDAOException ex){
-                ex.printStackTrace();
-                exerciseAttributesList = new ArrayList<>();
-            }
-            System.out.println(exerciseList.get(0).toString());
-            mDetailsExercise.showExercise(exerciseList.get(0), getAttributesNamesList(exerciseAttributesList));
-        }*/
-
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
 

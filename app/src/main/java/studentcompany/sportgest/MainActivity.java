@@ -25,7 +25,7 @@ import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Team.Team_Activity_ListView;
-import studentcompany.sportgest.Trainings.TrainingListActivity;
+import studentcompany.sportgest.Trainings.Training_Activity_ListView;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String sEvaluation="Evaluation";
-                Intent intent = new Intent(getApplicationContext(), TrainingListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Training_Activity_ListView.class);
                 System.out.println("BRAGA");
 
                 //put current team ID and training ID in extras
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Training(View v){
-        Intent intent = new Intent(this, TrainingListActivity.class);
+        Intent intent = new Intent(this, Training_Activity_ListView.class);
         startActivity(intent);
     }
 

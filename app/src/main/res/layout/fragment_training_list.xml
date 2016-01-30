@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:textSize="@dimen/text_size_default"
     android:background="#E1E1E1"
-    tools:context=".Trainings.ListTraining_Fragment">
+    tools:context=".Trainings.Training_Fragment_List">
 
     <include
         android:id="@+id/training_item"

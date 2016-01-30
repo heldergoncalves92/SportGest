@@ -20,10 +20,11 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Training;
 
-public class ListTraining_Fragment extends Fragment {
+public class Training_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_TRAINING_FRAGMENT";
     private List<Training> list;
+    private int tag = 0;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -55,7 +56,7 @@ public class ListTraining_Fragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Trainings_Adapter(list, getContext(), mListener);
+        mAdapter = new Trainings_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         View title = v.findViewById(R.id.exercise_item);
@@ -68,23 +69,51 @@ public class ListTraining_Fragment extends Fragment {
         return v;
     }
 
-    public void setTrainingList(List<Training> list){
-        this.list = list;
+    public void setTag(int tag){
+        this.tag = tag;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        mAdapter = new Trainings_Adapter(list, getContext(), mListener);
-        mRecyclerView.setAdapter(mAdapter);
+    public void setTrainingList(List<Training> list){
+        this.list = list;
     }
 
     public void updateList(){
         // Set the list adapter for the ListView
         if(list != null) {
-            mAdapter = new Trainings_Adapter(list, getContext(), mListener);
+            mAdapter = new Trainings_Adapter(list, mListener, tag);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
+
+    public Training removeItem(int position){
+        Training t = list.remove(position);
+        mAdapter.notifyItemRemoved(position);
+
+        return t;
+    }
+
+    public void selectFirstItem(){
+
+        Trainings_Adapter.ViewHolder v = (Trainings_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        Trainings_Adapter.ViewHolder v = (Trainings_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+    public void select_Item(int position){
+
+        Trainings_Adapter.ViewHolder v = (Trainings_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
+    public int has_Selection(){
+        return ((Trainings_Adapter) mAdapter).getCurrentPos();
+    }
+
 
     /************************************
      ****     Listener Functions     ****
@@ -92,6 +121,6 @@ public class ListTraining_Fragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 }

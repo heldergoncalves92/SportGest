@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
@@ -31,7 +29,7 @@ import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 import studentcompany.sportgest.domains.User;
 
-public class TrainingListActivity extends AppCompatActivity implements ListTraining_Fragment.OnItemSelected  {
+public class Training_Activity_ListView extends AppCompatActivity implements Training_Fragment_List.OnItemSelected  {
 
     private Training_DAO training_dao;
     private Training_Exercise_DAO training_exercise_dao;
@@ -42,8 +40,8 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListTraining_Fragment mListTrainings = new ListTraining_Fragment();
-    private DetailsTraining_Fragment mDetailsTraining = new DetailsTraining_Fragment();
+    private Training_Fragment_List mListTrainings = new Training_Fragment_List();
+    private Training_Fragment_Details mDetailsTraining = new Training_Fragment_Details();
     private static final String TAG = "TRAINING_ACTIVITY";
 
     private long trainingID;
@@ -54,6 +52,9 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_list);
+
+        if(savedInstanceState != null)
+            currentPos = savedInstanceState.getInt("currentPos");
 
         try {
             training_dao = new Training_DAO(getApplicationContext());
@@ -92,6 +93,12 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
+    }
+
+
     public List<String> getNamesList(List<Training> trainingList){
         ArrayList<String> list = new ArrayList<>();
 
@@ -119,8 +126,6 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
     }
 
     public void removeTraining(){
-        mDetailsTraining.clearDetails();
-        mListTrainings.removeItem(currentPos);
 
         try {
             Training training = training_dao.getById(trainingList.get(currentPos).getId());
@@ -138,7 +143,9 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
-        trainingList.remove(currentPos);
+
+        mDetailsTraining.clearDetails();
+        mListTrainings.removeItem(currentPos);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -148,7 +155,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Training training = trainingList.get(position);
 
         if(sEvaluation==null) {
@@ -156,6 +163,8 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                 if (currentPos == -1) {
                     mOptionsMenu.findItem(R.id.Delete).setVisible(true);
                     mOptionsMenu.findItem(R.id.Edit).setVisible(true);
+
+                    mDetailsTraining.showFirstElem();
                 }
 
                 currentPos = position;
@@ -213,7 +222,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TrainingListActivity activity = (TrainingListActivity) getActivity();
+                                    Training_Activity_ListView activity = (Training_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -221,7 +230,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TrainingListActivity activity = (TrainingListActivity) getActivity();
+                                    Training_Activity_ListView activity = (Training_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeTraining();
                                 }
@@ -250,6 +259,20 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
             menu.findItem(R.id.Add).setVisible(false);
             menu.findItem(R.id.Forward).setVisible(false);
         }
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1 && trainingList.size()>0) {
+            MenuItem item = mOptionsMenu.findItem(R.id.Delete);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.Edit);
+            item.setVisible(true);
+
+            mDetailsTraining.showFirstElem();
+            itemSelected(currentPos, 0);
+            mListTrainings.select_Item(currentPos);
+        }
+
         return true;
     }
 

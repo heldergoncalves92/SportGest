@@ -16,13 +16,13 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Training;
 
-public class DetailsTraining_Fragment extends Fragment {
+public class Training_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_TRAINING_FRAGMENT";
     private TextView tv_name, tv_date, tv_description, tv_duration;//, tv_team;
     private ListView lv_trainingExercises;
 
-    public DetailsTraining_Fragment() {
+    public Training_Fragment_Details() {
         // Required empty public constructor
     }
 
@@ -45,7 +45,7 @@ public class DetailsTraining_Fragment extends Fragment {
     }
 
     public void showTraining(Training training, List<String> trainingExercises){
-        clearDetails();
+
         tv_name.setText(training.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
@@ -58,9 +58,7 @@ public class DetailsTraining_Fragment extends Fragment {
         tv_duration.setText("" + training.getTotalDuration());
         tv_duration.setFocusable(false);
         tv_duration.setClickable(false);
-//        tv_team.setText(training.getTeam().getName());
-//        tv_team.setFocusable(false);
-//        tv_team.setClickable(false);
+
 
         if(lv_trainingExercises != null) {
             ArrayAdapter arrayAdapter = new ArrayAdapter(this.getContext(), R.layout.listview_style1, trainingExercises);
@@ -88,11 +86,26 @@ public class DetailsTraining_Fragment extends Fragment {
     }
 
     public void clearDetails(){
+
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.GONE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.VISIBLE);
+
         tv_name.setText("");
         tv_date.setText("");
         tv_description.setText("");
         tv_duration.setText("");
         //tv_team.setText("");
         lv_trainingExercises.setAdapter(new ArrayAdapter(this.getContext(), R.layout.listview_style1, new ArrayList<String>()));
+    }
+
+    public void showFirstElem() {
+        View v = getView().findViewById(R.id.frame_details);
+        v.setVisibility(View.VISIBLE);
+
+        v = getView().findViewById(R.id.no_Selection);
+        v.setVisibility(View.GONE);
     }
 }

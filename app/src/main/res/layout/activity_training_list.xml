@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="studentcompany.sportgest.Trainings.TrainingListActivity">
+    tools:context=".Trainings.Training_Activity_ListView">
 
     <FrameLayout
         android:id="@+id/training_list_fragment_container"

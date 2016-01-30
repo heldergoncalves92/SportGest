@@ -72,7 +72,7 @@
         <activity android:name=".Positions.Position_Activity_Edit" />
         <activity android:name=".Attributes.Attribute_Activity_ListView" />
         <activity android:name=".Exercises.Exercise_Activity_ListView" />
-        <activity android:name=".Trainings.TrainingListActivity" />
+        <activity android:name=".Trainings.Training_Activity_ListView" />
         <activity android:name=".Games.GamesListActivity" />
         <activity
             android:name=".Attributes.CreateAttributeActivity"
