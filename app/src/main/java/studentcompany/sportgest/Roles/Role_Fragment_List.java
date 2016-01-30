@@ -20,6 +20,7 @@ public class Role_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_USER_FRAGMENT";
     private List<Role> list;
+    private int tag=0;
     OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
@@ -52,13 +53,16 @@ public class Role_Fragment_List extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Role_List_Adapter(list, getContext(), mListener);
+        mAdapter = new Role_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
 
     }
 
+    public void setTag(int tag){
+        this.tag = tag;
+    }
 
     public void setList(List<Role> list){
         this.list = list;
@@ -67,7 +71,7 @@ public class Role_Fragment_List extends Fragment {
     public void updateList(List<Role> list){
         this.list = list;
 
-        mAdapter = new Role_List_Adapter(list, getContext(), mListener);
+        mAdapter = new Role_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -76,10 +80,33 @@ public class Role_Fragment_List extends Fragment {
         mAdapter.notifyItemChanged(position);
     }
 
+    public void selectFirstItem(){
 
+        Role_List_Adapter.ViewHolder v = (Role_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
 
-    public void removeItem(int position){
+    public void unselect_Item(int position){
+
+        Role_List_Adapter.ViewHolder v = (Role_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+    public void select_Item(int position){
+
+        Role_List_Adapter.ViewHolder v = (Role_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
+    public Role removeItem(int position){
+        Role p = list.remove(position);
         mAdapter.notifyItemRemoved(position);
+
+        return p;
+    }
+
+    public int has_Selection(){
+        return ((Role_List_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************
@@ -88,7 +115,7 @@ public class Role_Fragment_List extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 
 }

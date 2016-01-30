@@ -20,10 +20,11 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
 
-public class ListAttribute_Fragment extends Fragment {
+public class Attribute_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_ATTRIBUTE_FRAGMENT";
     private List<Attribute> list;
+    private int tag = 0;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -55,7 +56,7 @@ public class ListAttribute_Fragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Attributes_Adapter(list, getContext(), mListener);
+        mAdapter = new Attributes_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         View title = v.findViewById(R.id.exercise_item);
@@ -67,23 +68,59 @@ public class ListAttribute_Fragment extends Fragment {
         //textView.setText("CARD "+position);
         return v;
     }
-
-    public void setAttributeList(List<Attribute> list){
+    public void setList(List<Attribute> list){
         this.list = list;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        mAdapter = new Attributes_Adapter(list, getContext(), mListener);
+    public void setTag(int tag){
+        this.tag = tag;
+    }
+
+    public void updateList(List<Attribute> list){
+        this.list = list;
+
+        mAdapter = new Attributes_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updateList(){
-        // Set the list adapter for the ListView
-        if(list != null) {
-            mAdapter = new Attributes_Adapter(list, getContext(), mListener);
-            mRecyclerView.setAdapter(mAdapter);
-        }
+    public void updatePosition(Attribute attribute, int position){
+        this.list.set(position, attribute);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void insert_Item(Attribute attribute){
+        this.list.add(attribute);
+        mAdapter.notifyItemInserted(list.size() - 1);
+    }
+
+    public void selectFirstItem(){
+
+        Attributes_Adapter.ViewHolder v = (Attributes_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        Attributes_Adapter.ViewHolder v = (Attributes_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+    public void select_Item(int position){
+
+        Attributes_Adapter.ViewHolder v = (Attributes_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
+
+    public Attribute removeItem(int position){
+        Attribute a = list.remove(position);
+        mAdapter.notifyItemRemoved(position);
+
+        return a;
+    }
+
+    public int has_Selection(){
+        return ((Attributes_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************
@@ -92,6 +129,6 @@ public class ListAttribute_Fragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 }

@@ -151,7 +151,7 @@ public class CreateAttributeActivity extends AppCompatActivity {
     }
 
     private void goToAttributeListActivity(){
-        Intent intent = new Intent(this, AttributeListActivity.class);
+        Intent intent = new Intent(this, Attribute_Activity_ListView.class);
         startActivity(intent);
         finish();
     }

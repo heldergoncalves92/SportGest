@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -23,17 +22,17 @@ import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 
-public class AttributeListActivity extends AppCompatActivity implements ListAttribute_Fragment.OnItemSelected  {
+public class Attribute_Activity_ListView extends AppCompatActivity implements Attribute_Fragment_List.OnItemSelected  {
 
     private Attribute_DAO attribute_dao;
-    private List<Attribute> attributeList;
-    private int currentPos = -1;
+    private List<Attribute> attributeList = null;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListAttribute_Fragment mListAttributes = new ListAttribute_Fragment();
-    private DetailsAttribute_Fragment mDetailsAttribute = new DetailsAttribute_Fragment();
+    private Attribute_Fragment_List mListAttributes = new Attribute_Fragment_List();
+    private Attribute_Fragment_Details mDetailsAttribute = new Attribute_Fragment_Details();
     private static final String TAG = "ATTRIBUTE_ACTIVITY";
 
     @Override
@@ -41,14 +40,24 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attribute_list);
 
+        if(savedInstanceState != null){
+            currentPos = savedInstanceState.getInt("currentPos");
+        }
+
 
         try {
             attribute_dao = new Attribute_DAO(getApplicationContext());
             updateAttributeList();
-            mListAttributes.setAttributeList(attributeList);
+
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+
+        //Check if it is empty
+        if(attributeList == null)
+            attributeList = new ArrayList<Attribute>();
+
+        mListAttributes.setList(attributeList);
 
 
         // Get a reference to the FragmentManager
@@ -64,23 +73,17 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         fragmentTransaction.commit();
     }
 
-    public List<String> getNamesList(List<Attribute> attrList){
-        ArrayList<String> list = new ArrayList<>();
-
-        for(Attribute a: attrList)
-            list.add(a.getName());
-
-        Collections.sort(list);
-
-        return list;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
     }
 
     public void removeAttribute(){
         attribute_dao.deleteById(attributeList.get(currentPos).getId());
-        attributeList.remove(currentPos);
 
         mDetailsAttribute.clearDetails();
         mListAttributes.removeItem(currentPos);
+
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
         mOptionsMenu.findItem(R.id.Edit).setVisible(false);
@@ -97,13 +100,16 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Attribute attribute = attributeList.get(position);
 
         if(attribute != null){
             if(currentPos == -1) {
+
                 mOptionsMenu.findItem(R.id.Delete).setVisible(true);
                 mOptionsMenu.findItem(R.id.Edit).setVisible(true);
+
+                mDetailsAttribute.showFirstElem();
             }
 
             currentPos = position;
@@ -136,7 +142,7 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    AttributeListActivity activity = (AttributeListActivity) getActivity();
+                                    Attribute_Activity_ListView activity = (Attribute_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -144,7 +150,7 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    AttributeListActivity activity = (AttributeListActivity) getActivity();
+                                    Attribute_Activity_ListView activity = (Attribute_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeAttribute();
                                 }
@@ -164,6 +170,20 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         menu.findItem(R.id.Delete).setVisible(false);
         menu.findItem(R.id.Save).setVisible(false);
         menu.findItem(R.id.Forward).setVisible(false);
+
+        //To restore state on Layout Rotation
+        if(currentPos != -1 && attributeList.size()>0) {
+
+            MenuItem item = mOptionsMenu.findItem(R.id.Delete);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.Edit);
+            item.setVisible(true);
+
+            mDetailsAttribute.showAttribute(attributeList.get(currentPos));
+            mListAttributes.select_Item(currentPos);
+        }
+
         return true;
     }
 
@@ -176,10 +196,12 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
                 startActivity(intent);
                 finish();
                 return true;
+
             case R.id.Delete:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
+
             case R.id.Edit:
                 intent = new Intent(this, CreateAttributeActivity.class);
                 Bundle dataBundle = new Bundle();

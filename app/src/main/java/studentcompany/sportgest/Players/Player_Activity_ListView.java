@@ -132,6 +132,10 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
         if(players.isEmpty())
             noElems();
+        else{
+            mDetailsPlayer.showPlayer(players.get(0));
+            mListPlayer.selectFirstItem();
+        }
     }
 
     /************************************
@@ -166,17 +170,16 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
         inflater.inflate(R.menu.menu_users_view, menu);
 
         //To restore state on Layout Rotation
-        if(currentPos != -1) {
+        if(currentPos != -1 && players.size()>0) {
+
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
 
-            if(players.size()>0) {
-                mDetailsPlayer.showPlayer(players.get(currentPos));
-                mListPlayer.selectFirstItem();
-            }
+            mDetailsPlayer.showPlayer(players.get(currentPos));
+            mListPlayer.select_Item(currentPos);
         }
         return true;
     }

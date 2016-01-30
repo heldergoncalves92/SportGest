@@ -70,7 +70,7 @@
         <activity android:name=".Users.User_Activity_Edit" />
         <activity android:name=".Players.Player_Activity_Edit" />
         <activity android:name=".Positions.Position_Activity_Edit" />
-        <activity android:name=".Attributes.AttributeListActivity" />
+        <activity android:name=".Attributes.Attribute_Activity_ListView" />
         <activity android:name=".Exercises.ExerciseListActivity" />
         <activity android:name=".Trainings.TrainingListActivity" />
         <activity android:name=".Games.GamesListActivity" />

@@ -35,7 +35,7 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
     private Role_Permission_DAO role_permission_dao;
 
     private List<Role> roles;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
@@ -116,7 +116,6 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
 
         roleDao.deleteById(roles.get(currentPos).getId());
         mListRoles.removeItem(currentPos);
-        roles.remove(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
@@ -131,7 +130,7 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
      ************************************/
 
     @Override
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Role role = roles.get(position);
 
         if(role != null){
@@ -203,14 +202,17 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //To restore state on Layout Rotation
-        if(currentPos != -1) {
-            mDetailsRole.showRole(roles.get(currentPos));
+        if(currentPos != -1 && roles.size()>0) {
 
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
+
+            mDetailsRole.showRole(roles.get(currentPos));
+            mListRoles.select_Item(currentPos);
+
         }
         return true;
     }

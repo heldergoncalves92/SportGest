@@ -12,10 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import studentcompany.sportgest.Attributes.AttributeListActivity;
-import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
+import studentcompany.sportgest.Attributes.Attribute_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
-import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
@@ -181,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Attribute(View v){
-        Intent intent = new Intent(this, AttributeListActivity.class);
+        Intent intent = new Intent(this, Attribute_Activity_ListView.class);
         startActivity(intent);
     }
 

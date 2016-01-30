@@ -27,6 +27,7 @@ public class User_Fragment_List extends Fragment {
 
     private static final String TAG = "LIST_USER_FRAGMENT";
     private List<User> list;
+    private int tag=0;
     OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
@@ -60,7 +61,7 @@ public class User_Fragment_List extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new User_List_Adapter(list, mListener);
+        mAdapter = new User_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
@@ -70,9 +71,14 @@ public class User_Fragment_List extends Fragment {
         this.list = list;
     }
 
+    public void setTag(int tag){
+        this.tag = tag;
+    }
+
+
     public void updateList(User user){
         this.list.add(user);
-        mAdapter.notifyItemInserted(this.list.size()-1);
+        mAdapter.notifyItemInserted(this.list.size() - 1);
 
         //mAdapter = new User_List_Adapter(list, mListener);
         //mRecyclerView.setAdapter(mAdapter);
@@ -83,10 +89,34 @@ public class User_Fragment_List extends Fragment {
         mAdapter.notifyItemChanged(position);
     }
 
+    public void selectFirstItem(){
 
-    public void removeItem(int position){
-        this.list.remove(position);
+        User_List_Adapter.ViewHolder v = (User_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        User_List_Adapter.ViewHolder v = (User_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+    public void select_Item(int position){
+
+        User_List_Adapter.ViewHolder v = (User_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
+
+    public User removeItem(int position){
+        User u = list.remove(position);
         mAdapter.notifyItemRemoved(position);
+
+        return u;
+    }
+
+    public int has_Selection(){
+        return ((User_List_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************
@@ -95,7 +125,7 @@ public class User_Fragment_List extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 
 

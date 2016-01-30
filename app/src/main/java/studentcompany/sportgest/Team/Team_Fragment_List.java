@@ -24,6 +24,7 @@ public class Team_Fragment_List extends Fragment {
     private static final String TAG = "LIST_TEAM_FRAGMENT";
     private List<Team> list;
     OnItemSelected mListener;
+    private int tag = 0;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -60,10 +61,14 @@ public class Team_Fragment_List extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Team_List_Adapter(list, mListener);
+        mAdapter = new Team_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
+    }
+
+    public void setTag(int tag){
+        this.tag = tag;
     }
 
     public void setList(List<Team> list){
@@ -84,9 +89,34 @@ public class Team_Fragment_List extends Fragment {
     }
 
 
-    public void removeItem(int position){
-        this.list.remove(position);
+    public Team removeItem(int position){
+        Team t = list.remove(position);
         mAdapter.notifyItemRemoved(position);
+
+        return t;
+    }
+
+    public void selectFirstItem(){
+
+        Team_List_Adapter.ViewHolder v = (Team_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        Team_List_Adapter.ViewHolder v = (Team_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+    public void select_Item(int position){
+
+        Team_List_Adapter.ViewHolder v = (Team_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
+
+    public int has_Selection(){
+        return ((Team_List_Adapter) mAdapter).getCurrentPos();
     }
 
 
@@ -96,7 +126,7 @@ public class Team_Fragment_List extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
     }
 
 }

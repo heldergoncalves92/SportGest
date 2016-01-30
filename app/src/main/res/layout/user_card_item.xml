@@ -7,6 +7,7 @@
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
     android:paddingLeft="2dp"
+    android:layout_marginBottom="-3dp"
     app:cardCornerRadius="4dp">
 
     <android.support.v7.widget.AppCompatTextView

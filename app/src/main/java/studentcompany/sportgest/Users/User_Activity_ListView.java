@@ -35,7 +35,7 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
     private User_DAO userDao;
     private User_Team_DAO user_team_dao;
     private List<User> users;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private long user_id;
     private Menu mOptionsMenu;
 
@@ -90,13 +90,13 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
         fragmentTransaction.add(R.id.detail_fragment_container, mDetailsUser);
 
         fragmentTransaction.commit();
-        if(users.size()>0) {
+        /*if(users.size()>0) {
             currentPos=0;
             if(users.get(currentPos) != null)
                 user_id = users.get(currentPos).getId();
             //mDetailsUser.startActivity();
             //mDetailsUser.showUser(users.get(currentPos));
-        }
+        }*/
     }
 
     @Override
@@ -154,7 +154,7 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         User user = users.get(position);
 
         if(user != null){
@@ -164,8 +164,6 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
 
                 item = mOptionsMenu.findItem(R.id.action_edit);
                 item.setVisible(true);
-
-                mDetailsUser.showFirstElem();
             }
 
             currentPos = position;
@@ -226,36 +224,20 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
         inflater.inflate(R.menu.menu_users_view, menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MenuItem item;
-
-        if(users.size()==0)
-        {
-            item = mOptionsMenu.findItem(R.id.action_add);
-            item.setVisible(true);
-            item = mOptionsMenu.findItem(R.id.action_edit);
-            item.setVisible(false);
-            item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(false);
-            item = mOptionsMenu.findItem(R.id.action_settings);
-            item.setVisible(false);
-        }else {
-            item = mOptionsMenu.findItem(R.id.action_edit);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_del);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_add);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.action_settings);
-            item.setVisible(false);
-        }
-
         //To restore state on Layout Rotation
-        if(currentPos != -1) {
-            mDetailsUser.showUser(users.get(currentPos));
-            user_id = users.get(currentPos).getId();
+        if(currentPos != -1 && users.size()>0) {
+
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(true);
+
+            User u = users.get(currentPos);
+            user_id = u.getId();
+
+            mDetailsUser.showUser(u);
+            mListUsers.select_Item(currentPos);
         }
         return true;
     }

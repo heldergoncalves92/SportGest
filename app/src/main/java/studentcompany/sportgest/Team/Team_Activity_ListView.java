@@ -134,7 +134,7 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Team team = teams.get(position);
 
         if(team != null){
@@ -202,16 +202,19 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_users_view, menu);
+        inflater.inflate(R.menu.menu_teams_view, menu);
 
         //To restore state on Layout Rotation
         if(currentPos != -1) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
+
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
+
             if(teams.size()>0)
                 mDetailsTeam.showTeam(teams.get(currentPos));
+                mListTeams.select_Item(currentPos);
         }
         return true;
     }

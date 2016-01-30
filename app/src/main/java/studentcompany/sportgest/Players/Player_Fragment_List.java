@@ -101,6 +101,12 @@ public class Player_Fragment_List extends Fragment {
         v.focus_loss();
     }
 
+    public void select_Item(int position){
+
+        Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_gain();
+    }
+
 
     public Player removeItem(int position){
         Player p = list.remove(position);

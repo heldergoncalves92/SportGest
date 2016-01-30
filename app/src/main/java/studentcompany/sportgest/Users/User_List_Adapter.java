@@ -23,6 +23,7 @@ public class User_List_Adapter extends RecyclerView.Adapter<User_List_Adapter.Vi
     private static User_Fragment_List.OnItemSelected mListener;
     private List<User> mDataset;
 
+    private int tag;
     private int currentPos = -1;
     private ViewHolder currentVH = null;
 
@@ -47,23 +48,37 @@ public class User_List_Adapter extends RecyclerView.Adapter<User_List_Adapter.Vi
 
         @Override
         public void onClick(View v) {
-            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
-            su.itemSelected(this, getLayoutPosition());
+            int pos = getLayoutPosition();
 
-            mListener.itemSelected(getLayoutPosition());
+            if(su.currentPos != pos){
+                parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+                su.itemSelected(this, getLayoutPosition());
+                mListener.itemSelected(getLayoutPosition(), su.tag);
+
+            } else if(su.tag != 0){
+                focus_loss();
+            }
         }
-
 
         public void focus_loss() {
             parent.setCardBackgroundColor(Color.WHITE);
+            su.currentPos=-1;
+            su.currentVH=null;
+        }
+
+        public void focus_gain() {
+            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+            su.currentVH = this;
+            su.currentPos = getLayoutPosition();
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public User_List_Adapter(List<User> myDataset, User_Fragment_List.OnItemSelected mListener) {
+    public User_List_Adapter(List<User> myDataset, User_Fragment_List.OnItemSelected mListener, int tag) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
+        this.tag = tag;
     }
 
     // Create new views (invoked by the layout manager)
@@ -107,5 +122,16 @@ public class User_List_Adapter extends RecyclerView.Adapter<User_List_Adapter.Vi
 
         currentVH = vh;
         currentPos = position;
+    }
+
+    public int getCurrentPos(){
+        return currentPos;
+    }
+
+    public User getCurrentItem(){
+        if(currentPos>=0)
+            return mDataset.get(currentPos);
+        else
+            return null;
     }
 }
