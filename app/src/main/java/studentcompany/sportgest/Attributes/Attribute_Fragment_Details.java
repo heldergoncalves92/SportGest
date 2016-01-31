@@ -10,12 +10,12 @@ import android.widget.TextView;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
 
-public class DetailsAttribute_Fragment extends Fragment {
+public class Attribute_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_ATTRIBUTE_FRAGMENT";
     private TextView tv_name, tv_type;
 
-    public DetailsAttribute_Fragment() {
+    public Attribute_Fragment_Details() {
         // Required empty public constructor
     }
 

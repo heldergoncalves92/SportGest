@@ -1,47 +1,30 @@
 package studentcompany.sportgest.Evaluation;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.Trainings.TrainingTestData;
+import studentcompany.sportgest.Trainings.Training_TestData;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Record_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
@@ -52,8 +35,6 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Player;
-import studentcompany.sportgest.domains.PlayerPosition;
-import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Record;
 import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.Training;
@@ -114,7 +95,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         //TEST ONLY -> REMOVE
         try {
             if(training_dao.getAll().size() == 0) {
-                new TrainingTestData(getApplicationContext());
+                new Training_TestData(getApplicationContext());
             }
         } catch (GenericDAOException e) {
             e.printStackTrace();

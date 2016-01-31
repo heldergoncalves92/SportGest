@@ -38,7 +38,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 
-public class CreateTrainingActivity extends AppCompatActivity {
+public class Training_Activity_Create extends AppCompatActivity {
 
     private TextInputLayout inputLayoutName;
 
@@ -79,7 +79,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
         training_exercise_dao = new Training_Exercise_DAO(this);
 
         if(training_dao==null || exercise_dao==null || attribute_exercise_dao==null || training_exercise_dao==null){
-            System.err.println(CreateTrainingActivity.class.getName() + " [ERROR] DAOs not created");
+            System.err.println(Training_Activity_Create.class.getName() + " [ERROR] DAOs not created");
             return;
         }
 
@@ -147,8 +147,8 @@ public class CreateTrainingActivity extends AppCompatActivity {
                 try {
                     training = training_dao.getById(trainingID);
                 } catch (GenericDAOException ex){
-                    System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 //validation
@@ -209,8 +209,8 @@ public class CreateTrainingActivity extends AppCompatActivity {
                     try {
                         result = training_dao.update(training);
                     }catch (GenericDAOException ex){
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     if(result){
@@ -280,7 +280,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
             cal.set(Calendar.YEAR, year);
             cal.set(Calendar.MONTH, month);
             cal.set(Calendar.DAY_OF_MONTH, day);
-            et_date.setText(CreateTrainingActivity.DATE_FORMAT.format(cal.getTime()));
+            et_date.setText(Training_Activity_Create.DATE_FORMAT.format(cal.getTime()));
         }
     }
 
@@ -304,7 +304,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
             cal.set(Calendar.MINUTE, minute);
-            et_time.setText(CreateTrainingActivity.TIME_FORMAT.format(cal.getTime()));
+            et_time.setText(Training_Activity_Create.TIME_FORMAT.format(cal.getTime()));
         }
     }
 
@@ -314,7 +314,7 @@ public class CreateTrainingActivity extends AppCompatActivity {
         trainingDateInMillis = cal.getTimeInMillis();
 
         Intent intent;
-        intent = new Intent(this, CreateTrainingExerciseActivity.class);
+        intent = new Intent(this, Training_Activity_Create_Exercises.class);
         //put current training info in extras
         Bundle dataBundle = new Bundle();
         dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, trainingID);

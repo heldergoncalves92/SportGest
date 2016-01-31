@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +26,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Exercises.DetailsExercise_Fragment;
+import studentcompany.sportgest.Attributes.Attribute_Fragment_List;
+import studentcompany.sportgest.Exercises.Exercise_Fragment_Details;
+import studentcompany.sportgest.Exercises.Exercise_Fragment_List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -40,14 +41,15 @@ import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 
-public class CreateTrainingExerciseActivity extends AppCompatActivity {
+public class Training_Activity_Create_Exercises extends AppCompatActivity implements Exercise_Fragment_List.OnItemSelected  {
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private DetailsExercise_Fragment mDetailsExercise = new DetailsExercise_Fragment();
+    private Exercise_Fragment_Details mDetailsExercise = new Exercise_Fragment_Details();
+    private Exercise_Fragment_List mListExercisesAvailable = new Exercise_Fragment_List();
+    private Exercise_Fragment_List mListExercisesSelected = new Exercise_Fragment_List();
 
     private static final String TAG = "CREATE_TRAINING_ACTIVITY";
     private TextView tv_repetitions, tv_duration;
-    private ListView lv_availableExercises, lv_trainingExercise;
     private ImageButton b_repMore, b_repLess;
 
     //DAOs
@@ -63,7 +65,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
     private TrainingExercise trainingExercise;
     private List<Exercise> exerciseList;
     private List<Attribute> exerciseAttributesList;
-    private ArrayList<Exercise> availableExercises;
+    private List<Exercise> availableExercises;
     private ArrayList<Exercise> trainingExercises;
     private Map<Long,Integer> repetitionsExercises; //Map para associar a cada exercídio o seu número de repetições
 
@@ -76,6 +78,9 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
     private Menu mOptionsMenu;
     private int positionaux;
     private int passing;
+
+    private static final int AVAILABLE = 0;
+    private static final int SELECTED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +95,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         training_exercise_dao = new Training_Exercise_DAO(this);
 
         if(training_dao==null || exercise_dao==null || attribute_exercise_dao==null || training_exercise_dao==null){
-            System.err.println(CreateTrainingActivity.class.getName() + " [ERROR] DAOs not created");
+            System.err.println(Training_Activity_Create.class.getName() + " [ERROR] DAOs not created");
             return;
         }
 
@@ -99,8 +104,6 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         b_repLess = (ImageButton) findViewById(R.id.selected_exercise_repetitions_less);
         b_repMore = (ImageButton) findViewById(R.id.selected_exercise_repetitions_more);
         tv_duration = (TextView) findViewById(R.id.training_total_duration);
-        lv_availableExercises = (ListView) findViewById(R.id.training_available_exercises_list);
-        lv_trainingExercise = (ListView) findViewById(R.id.training_selected_exercises_list);
 
         //initialize variables
         training = null;
@@ -131,124 +134,32 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                 tv_repetitions.setText(Integer.toString(repetitions));
             }
         });
-        b_repLess.setOnClickListener(new ImageButton.OnClickListener(){
+        b_repLess.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String currentRep = tv_repetitions.getText().toString();
                 int repetitions = 1;
-                if(!currentRep.isEmpty()){
+                if (!currentRep.isEmpty()) {
                     repetitions = Integer.parseInt(currentRep);
-                    if(repetitions < 1) repetitions = 1;
+                    if (repetitions < 1) repetitions = 1;
                 }
-                if(repetitions > 1) {
-                    repetitions -=1;
+                if (repetitions > 1) {
+                    repetitions -= 1;
                 }
                 tv_repetitions.setText(Integer.toString(repetitions));
             }
         });
-        lv_availableExercises.setFocusable(true);
-        lv_trainingExercise.setFocusable(true);
-        lv_availableExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //Add the attribute to the selected ones
-                if (positionaux!=position) {
-                    positionaux = position;
-                    printExercise(position, 1);
-
-                } else {
-                    long id_To_Search = availableExercises.get(position).getId();
-                    try {
-                        Exercise ex = exercise_dao.getById(id_To_Search);
-                        if (ex != null) {
-                            int reps=Integer.parseInt(tv_repetitions.getText().toString());
-
-                            if(reps<1)  reps=1;
-
-                            availableExercises.remove(ex);
-                            trainingExercises.add(ex);
-                            repetitionsExercises.put(id_To_Search,reps);
-
-                            Collections.sort(trainingExercises, new Comparator<Exercise>() {
-                                @Override
-                                public int compare(Exercise lhs, Exercise rhs) {
-                                    return lhs.getTitle().compareTo(rhs.getTitle());
-                                }
-                            });
-
-                            //update ListViews
-                            lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
-                            lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
-
-                            //update duration
-
-                            updateDuration(ex.getDuration(), reps ,1);
-                        }
-                    } catch (GenericDAOException ex) {
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
-                    }
-                    positionaux=-1;
-                    mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
-
-                }//onItemClick
-            }
-        });//setOnItemClickListener
-        lv_trainingExercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (passing != position) {
-                    passing=position;
-                    printExercise(position,0);
-                    long id_To_Search = trainingExercises.get(position).getId();
-                    int reps= repetitionsExercises.get(id_To_Search);
-                    tv_repetitions.setText(Integer.toString(reps));
-                } else {
-                    long id_To_Search = trainingExercises.get(position).getId();
-                    try {
-                        Exercise ex = exercise_dao.getById(id_To_Search);
-                        if (ex != null) {
-                            trainingExercises.remove(ex);
-                            availableExercises.add(ex);
-
-                            int reps= repetitionsExercises.get(id_To_Search);
-
-                            Collections.sort(availableExercises, new Comparator<Exercise>() {
-                                @Override
-                                public int compare(Exercise lhs, Exercise rhs) {
-                                    return lhs.getTitle().compareTo(rhs.getTitle());
-                                }
-                            });
-
-                            //update ListViews
-                            lv_availableExercises.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
-                            lv_trainingExercise.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
-
-                            //update duration
-                            updateDuration(ex.getDuration(), reps,0);
-
-                            //remover do map o exercicio que foi eliminado
-                            repetitionsExercises.remove(id_To_Search);
-                        }
-                    } catch (GenericDAOException ex) {
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
-                    }
-                    passing=-1;
-                    mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
-                }//onItemClick
-            }
-        });//setOnItemClickListener
+        mListExercisesAvailable.setTag(AVAILABLE);
+        mListExercisesSelected.setTag(SELECTED);
+        mListExercisesAvailable.setExerciseList(availableExercises);
+        mListExercisesSelected.setExerciseList(trainingExercises);
 
         //get a list of available exercises
         try {
-            availableExercises = exercise_dao.getAll();
+            availableExercises = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
         } catch (GenericDAOException ex){
-            System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+            System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
         }
 
         //if update -> get object id
@@ -266,8 +177,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                 try {
                     training = training_dao.getById(trainingID);
                 } catch (GenericDAOException ex){
-                    System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 //validation
@@ -285,8 +196,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                             }
                         }
                     } catch (GenericDAOException ex){
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     //subtract from available already selected attributes
@@ -295,7 +206,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                     }
 
                     //set list in layout ListView
-                    lv_trainingExercise.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exerciseNamesFromList(trainingExercises)));
+                    mListExercisesSelected.setExerciseList(trainingExercises);
 
                 }//if(training != null)
 
@@ -304,7 +215,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         }//if(extras != null)
 
         //set available attributes ListView
-        lv_availableExercises.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, exerciseNamesFromList(availableExercises)));
+        mListExercisesAvailable.setExerciseList(availableExercises);
 
         // Get a reference to the FragmentManager
         mFragmentManager = getSupportFragmentManager();
@@ -313,6 +224,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
+        fragmentTransaction.add(R.id.training_available_exercises_list_fragment_container , mListExercisesAvailable);
+        fragmentTransaction.add(R.id.training_selected_exercises_list_fragment_container,   mListExercisesSelected);
         fragmentTransaction.add(R.id.exercise_detail_fragment_container, mDetailsExercise);
 
         fragmentTransaction.commit();
@@ -325,6 +238,106 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
         }
         Collections.sort(res);
         return res;
+    }
+
+    /************************************
+     ****     Listener Functions     ****
+     ************************************/
+
+    public void itemSelected(int position, int tag) {
+        long id_To_Search;
+        Exercise ex;
+        switch (tag) {
+            case AVAILABLE:
+                //Add the attribute to the selected ones
+                System.err.println("#################Previous: " + positionaux + " new: " + position);
+                if (positionaux!=position) {
+                    System.err.println("Falta 1");
+                    positionaux = position;
+                    printExercise(position, 1);
+
+                } else {
+                    System.err.println("Passou" );
+                    id_To_Search = availableExercises.get(position).getId();
+                    try {
+                        ex = exercise_dao.getById(id_To_Search);
+                        if (ex != null) {
+                            int reps=Integer.parseInt(tv_repetitions.getText().toString());
+
+                            if(reps<1)  reps=1;
+
+                            availableExercises.remove(ex);
+                            trainingExercises.add(ex);
+                            repetitionsExercises.put(id_To_Search, reps);
+
+                            Collections.sort(trainingExercises, new Comparator<Exercise>() {
+                                @Override
+                                public int compare(Exercise lhs, Exercise rhs) {
+                                    return lhs.getTitle().compareTo(rhs.getTitle());
+                                }
+                            });
+
+                            //update ListViews
+                            mListExercisesAvailable.updateList(availableExercises);
+                            mListExercisesSelected.updateList(trainingExercises);
+
+                            //update duration
+                            updateDuration(ex.getDuration(), reps ,1);
+                        }
+                    } catch (GenericDAOException e) {
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, e);
+                    }
+                    positionaux=-1;
+                    mDetailsExercise.clearDetails();
+                    tv_repetitions.setText("1");
+
+                }//onItemClick
+                break;
+            case SELECTED:
+                if (passing != position) {
+                    passing=position;
+                    printExercise(position,0);
+                    id_To_Search = trainingExercises.get(position).getId();
+                    int reps= repetitionsExercises.get(id_To_Search);
+                    tv_repetitions.setText(Integer.toString(reps));
+                } else {
+                    id_To_Search = trainingExercises.get(position).getId();
+                    try {
+                        ex = exercise_dao.getById(id_To_Search);
+                        if (ex != null) {
+                            trainingExercises.remove(ex);
+                            availableExercises.add(ex);
+
+                            int reps= repetitionsExercises.get(id_To_Search);
+
+                            Collections.sort(availableExercises, new Comparator<Exercise>() {
+                                @Override
+                                public int compare(Exercise lhs, Exercise rhs) {
+                                    return lhs.getTitle().compareTo(rhs.getTitle());
+                                }
+                            });
+
+                            //update ListViews
+                            mListExercisesAvailable.updateList(availableExercises);
+                            mListExercisesSelected.updateList(trainingExercises);
+
+                            //update duration
+                            updateDuration(ex.getDuration(), reps,0);
+
+                            //remover do map o exercicio que foi eliminado
+                            repetitionsExercises.remove(id_To_Search);
+                        }
+                    } catch (GenericDAOException e) {
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, e);
+                    }
+                    passing=-1;
+                    mDetailsExercise.clearDetails();
+                    tv_repetitions.setText("1");
+                }//onItemClick
+                break;
+        }
     }
 
     @Override
@@ -442,8 +455,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                             }
                         }
                     }catch (GenericDAOException ex){
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     if(result){
@@ -459,7 +472,7 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                                 trainingDescription,
                                 trainingDateInMilis,
                                 trainingDuration,
-                                team_dao.getById(1)); //TODO what team is selected???
+                                team_dao.getById(1),0); //TODO what team is selected???
                         training.setId(training_dao.insert(training));
                         result = training.getId() > 0;
                         if(result){
@@ -470,8 +483,8 @@ public class CreateTrainingExerciseActivity extends AppCompatActivity {
                             }
                         }
                     }catch (GenericDAOException ex){
-                        System.err.println(CreateTrainingActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateTrainingActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     if(result){

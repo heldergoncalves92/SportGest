@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -21,13 +20,12 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
-import studentcompany.sportgest.daos.GenericDAO;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
-public class ExerciseListActivity extends AppCompatActivity implements ListExercise_Fragment.OnItemSelected  {
+public class Exercise_Activity_List extends AppCompatActivity implements Exercise_Fragment_List.OnItemSelected  {
 
     private Exercise_DAO exercise_dao;
     private Attribute_Exercise_DAO attribute_exercise_dao;
@@ -38,8 +36,8 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListExercise_Fragment mListExercises = new ListExercise_Fragment();
-    private DetailsExercise_Fragment mDetailsExercise = new DetailsExercise_Fragment();
+    private Exercise_Fragment_List mListExercises = new Exercise_Fragment_List();
+    private Exercise_Fragment_Details mDetailsExercise = new Exercise_Fragment_Details();
     private static final String TAG = "EXERCISE_ACTIVITY";
 
     @Override
@@ -51,11 +49,10 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
             exercise_dao = new Exercise_DAO(getApplicationContext());
             attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
 
-            exerciseList = exercise_dao.getAll();
-            if(exerciseList.isEmpty()) {
-                new ExerciseTestData(getApplicationContext());
-                exerciseList = exercise_dao.getAll();
+            if(exercise_dao.numberOfRows() == 0) {
+                new Exercise_TestData(getApplicationContext());
             }
+            exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
             mListExercises.setExerciseList(exerciseList);
 
         } catch (GenericDAOException e) {
@@ -87,6 +84,10 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
     public List<String> getNamesList(List<Exercise> exerciseList){
         ArrayList<String> list = new ArrayList<>();
 
@@ -107,23 +108,19 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
     public void removeExercise(){
         mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
 
         try {
             Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
             if(exercise != null) {
-                //remove list of attributes
-                ArrayList<Attribute> previousExerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exercise.getId());
-                for (Attribute a : previousExerciseAttributes) {
-                    attribute_exercise_dao.delete(new Pair<>(a, exercise));
-                }
                 //remove exercise
-                exercise_dao.deleteById(exerciseList.get(currentPos).getId());
+                exercise.setDeleted(1);
+                exercise_dao.update(exercise);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
         exerciseList.remove(currentPos);
+        mListExercises.updateList(exerciseList);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -133,8 +130,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
      ****     Listener Functions     ****
      ************************************/
 
-    @Override
-     public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Exercise exercise = exerciseList.get(position);
 
         if(exercise != null){
@@ -144,6 +140,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
             }
 
             currentPos = position;
+
             try {
                 exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
             } catch (GenericDAOException ex){
@@ -179,7 +176,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseListActivity activity = (ExerciseListActivity) getActivity();
+                                    Exercise_Activity_List activity = (Exercise_Activity_List) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -187,7 +184,7 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ExerciseListActivity activity = (ExerciseListActivity) getActivity();
+                                    Exercise_Activity_List activity = (Exercise_Activity_List) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeExercise();
                                 }
@@ -215,12 +212,12 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 startActivityForResult(intent, 0);
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateExerciseActivity.class);
+                intent = new Intent(this, Exercise_Activity_Create.class);
                 //put current exercise ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Exercise_DAO.TABLE_NAME + Exercise_DAO.COLUMN_ID, exerciseList.get(currentPos).getId());
@@ -244,9 +241,9 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
 
         if (requestCode == 0) {
             try {
-                exerciseList = exercise_dao.getAll();
+                exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
                 mListExercises.setExerciseList(exerciseList);
-                mListExercises.updateList();
+                mListExercises.updateList(exerciseList);
 
             } catch (GenericDAOException e) {
                 e.printStackTrace();

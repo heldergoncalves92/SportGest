@@ -16,13 +16,13 @@ import java.util.List;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Training;
 
-public class DetailsTraining_Fragment extends Fragment {
+public class Training_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_TRAINING_FRAGMENT";
     private TextView tv_name, tv_date, tv_description, tv_duration;//, tv_team;
     private ListView lv_trainingExercises;
 
-    public DetailsTraining_Fragment() {
+    public Training_Fragment_Details() {
         // Required empty public constructor
     }
 

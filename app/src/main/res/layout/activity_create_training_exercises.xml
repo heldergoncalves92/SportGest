@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="studentcompany.sportgest.Trainings.CreateTrainingExerciseActivity"
+    tools:context="studentcompany.sportgest.Trainings.Training_Activity_Create_Exercises"
     android:gravity="top|left">
 
     <LinearLayout
@@ -30,11 +30,16 @@
                 android:textSize="@dimen/text_size_default"
                 android:hint="Available Exercises" />
 
-            <ListView
+            <FrameLayout
+                android:id="@+id/training_available_exercises_list_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--ListView
                 android:id="@+id/training_available_exercises_list"
                 android:textSize="@dimen/text_size_default"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" /-->
 
         </android.support.design.widget.TextInputLayout>
 
@@ -163,11 +168,16 @@
                 android:textSize="@dimen/text_size_default"
                 android:hint="Selected Exercises" />
 
-            <ListView
+            <FrameLayout
+                android:id="@+id/training_selected_exercises_list_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--ListView
                 android:id="@+id/training_selected_exercises_list"
                 android:textSize="@dimen/text_size_default"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" /-->
 
         </android.support.design.widget.TextInputLayout>
 

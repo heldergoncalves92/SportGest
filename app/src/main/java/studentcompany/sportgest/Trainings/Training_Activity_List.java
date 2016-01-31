@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.Training_Exercise_DAO;
@@ -31,7 +29,7 @@ import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 import studentcompany.sportgest.domains.User;
 
-public class TrainingListActivity extends AppCompatActivity implements ListTraining_Fragment.OnItemSelected  {
+public class Training_Activity_List extends AppCompatActivity implements Training_Fragment_List.OnItemSelected  {
 
     private Training_DAO training_dao;
     private Training_Exercise_DAO training_exercise_dao;
@@ -42,8 +40,8 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private ListTraining_Fragment mListTrainings = new ListTraining_Fragment();
-    private DetailsTraining_Fragment mDetailsTraining = new DetailsTraining_Fragment();
+    private Training_Fragment_List mListTrainings = new Training_Fragment_List();
+    private Training_Fragment_Details mDetailsTraining = new Training_Fragment_Details();
     private static final String TAG = "TRAINING_ACTIVITY";
 
     private long trainingID;
@@ -59,11 +57,10 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
             training_dao = new Training_DAO(getApplicationContext());
             training_exercise_dao = new Training_Exercise_DAO(getApplicationContext());
 
-            trainingList = training_dao.getAll();
-            if(trainingList.isEmpty()) {
-                new TrainingTestData(getApplicationContext());
-                trainingList = training_dao.getAll();
+            if(training_dao.numberOfRows() == 0) {
+                new Training_TestData(getApplicationContext());
             }
+            trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
             mListTrainings.setTrainingList(trainingList);
 
         } catch (GenericDAOException e) {
@@ -90,6 +87,10 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         fragmentTransaction.add(R.id.training_detail_fragment_container, mDetailsTraining);
 
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
     }
 
     public List<String> getNamesList(List<Training> trainingList){
@@ -120,25 +121,18 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
     public void removeTraining(){
         mDetailsTraining.clearDetails();
-        mListTrainings.removeItem(currentPos);
 
         try {
             Training training = training_dao.getById(trainingList.get(currentPos).getId());
             if(training != null) {
-                //search by training id
-                TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
-                //remove list of exercises
-                ArrayList<TrainingExercise> previousTrainingExercises = (ArrayList) training_exercise_dao.getByCriteria(trainingExercise);
-                for (TrainingExercise te : previousTrainingExercises) {
-                    training_exercise_dao.delete(te);
-                }
-                //remove training
-                training_dao.deleteById(trainingList.get(currentPos).getId());
+                training.setDeleted(1);
+                training_dao.update(training);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
         trainingList.remove(currentPos);
+        mListTrainings.updateList(trainingList);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -148,7 +142,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
      ****     Listener Functions     ****
      ************************************/
 
-    public void itemSelected(int position) {
+    public void itemSelected(int position, int tag) {
         Training training = trainingList.get(position);
 
         if(sEvaluation==null) {
@@ -213,7 +207,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TrainingListActivity activity = (TrainingListActivity) getActivity();
+                                    Training_Activity_List activity = (Training_Activity_List) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -221,7 +215,7 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TrainingListActivity activity = (TrainingListActivity) getActivity();
+                                    Training_Activity_List activity = (Training_Activity_List) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeTraining();
                                 }
@@ -259,12 +253,12 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, CreateTrainingActivity.class);
+                intent = new Intent(this, Training_Activity_Create.class);
                 startActivityForResult(intent, 0);
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateTrainingActivity.class);
+                intent = new Intent(this, Training_Activity_Create.class);
                 //put current training ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, trainingList.get(currentPos).getId());
@@ -314,9 +308,9 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
 
         if (requestCode == 0) {
             try {
-                trainingList = training_dao.getAll();
+                trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
                 mListTrainings.setTrainingList(trainingList);
-                mListTrainings.updateList();
+                mListTrainings.updateList(trainingList);
 
             } catch (GenericDAOException e) {
                 e.printStackTrace();
