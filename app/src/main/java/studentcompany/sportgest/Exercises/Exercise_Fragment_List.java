@@ -64,8 +64,6 @@ public class Exercise_Fragment_List extends Fragment {
         this.tag = tag;
     }
 
-    /////////////////////
-
     public void updateList(List<Exercise> list){
         this.list = list;
 

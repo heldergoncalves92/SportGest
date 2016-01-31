@@ -48,12 +48,12 @@ public class Exercise_List_Adapter extends RecyclerView.Adapter<Exercise_List_Ad
         public void onClick(View v) {
             int pos = getLayoutPosition();
 
-            if(su.currentPos != pos){
-                parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
-                su.itemSelected(this, getLayoutPosition());
-                mListener.itemSelected(getLayoutPosition(), su.tag);
-
-            } else if(su.tag != 0){
+            //if(su.currentPos != pos){ //->Training Create exercise needs two clicks
+            parent.setCardBackgroundColor(Color.parseColor("#ccebff"));
+            su.itemSelected(this, getLayoutPosition());
+            mListener.itemSelected(getLayoutPosition(), su.tag);
+            //} else
+            if(su.currentPos == pos && su.tag != 0){
                 focus_loss();
             }
         }
