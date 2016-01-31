@@ -1,19 +1,12 @@
 package studentcompany.sportgest.Exercises;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -25,11 +18,11 @@ public class Exercise_Fragment_List extends Fragment {
     private static final String TAG = "LIST_EXERCISE_FRAGMENT";
     private List<Exercise> list;
     private int tag = 0;
+    OnItemSelected mListener;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    OnItemSelected mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +43,7 @@ public class Exercise_Fragment_List extends Fragment {
         View v = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.exercise_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -132,5 +126,6 @@ public class Exercise_Fragment_List extends Fragment {
     // Container Activity must implement this interface
     public interface OnItemSelected{
         void itemSelected(int position, int tag);
+
     }
 }

@@ -6,6 +6,7 @@ android:layout_height="match_parent"
 android:orientation="horizontal"
 tools:context=".Attributes.Attribute_Activity_ListView">
 
+
 <FrameLayout
     android:id="@+id/attribute_list_fragment_container"
     android:layout_width="0dp"

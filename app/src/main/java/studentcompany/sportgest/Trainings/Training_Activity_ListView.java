@@ -60,11 +60,14 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             training_dao = new Training_DAO(getApplicationContext());
             training_exercise_dao = new Training_Exercise_DAO(getApplicationContext());
 
-            trainingList = training_dao.getAll();
-            if(trainingList.isEmpty()) {
-                new TrainingTestData(getApplicationContext());
-                trainingList = training_dao.getAll();
+            if(training_dao.numberOfRows() == 0) {
+                new Training_TestData(getApplicationContext());
             }
+            trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
+
+            //Check if it is empty
+            if(trainingList == null)
+                trainingList = new ArrayList<Training>();
             mListTrainings.setTrainingList(trainingList);
 
         } catch (GenericDAOException e) {
@@ -128,29 +131,23 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
     public void removeTraining(){
 
         try {
-            Training training = training_dao.getById(trainingList.get(currentPos).getId());
+            Training training = mListTrainings.removeItem(currentPos);
+            mDetailsTraining.clearDetails();
+
             if(training != null) {
-                //search by training id
-                TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
-                //remove list of exercises
-                ArrayList<TrainingExercise> previousTrainingExercises = (ArrayList) training_exercise_dao.getByCriteria(trainingExercise);
-                for (TrainingExercise te : previousTrainingExercises) {
-                    training_exercise_dao.delete(te);
-                }
-                //remove training
-                training_dao.deleteById(trainingList.get(currentPos).getId());
+                training.setDeleted(1);
+                training_dao.update(training);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
 
-        mDetailsTraining.clearDetails();
-        mListTrainings.removeItem(currentPos);
-
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
         mOptionsMenu.findItem(R.id.Edit).setVisible(false);
     }
+
+
     /************************************
      ****     Listener Functions     ****
      ************************************/
@@ -282,12 +279,12 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, CreateTrainingActivity.class);
+                intent = new Intent(this, Training_Activity_Create.class);
                 startActivityForResult(intent, 0);
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateTrainingActivity.class);
+                intent = new Intent(this, Training_Activity_Create.class);
                 //put current training ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Training_DAO.TABLE_NAME + Training_DAO.COLUMN_ID, trainingList.get(currentPos).getId());
@@ -337,7 +334,7 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
 
         if (requestCode == 0) {
             try {
-                trainingList = training_dao.getAll();
+                trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
                 mListTrainings.setTrainingList(trainingList);
                 mListTrainings.updateList();
 

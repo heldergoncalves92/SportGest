@@ -36,6 +36,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private Game_Fragment_list mListExercises = new Game_Fragment_list();
+
     private static final String TAG = "EXERCISE_ACTIVITY";
 
     @Override

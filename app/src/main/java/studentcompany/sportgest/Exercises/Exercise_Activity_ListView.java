@@ -52,11 +52,15 @@ public class Exercise_Activity_ListView extends AppCompatActivity implements Exe
             exercise_dao = new Exercise_DAO(getApplicationContext());
             attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
 
-            exerciseList = exercise_dao.getAll();
-            if(exerciseList.isEmpty()) {
-                new ExerciseTestData(getApplicationContext());
-                exerciseList = exercise_dao.getAll();
+            if(exercise_dao.numberOfRows() == 0) {
+                new Exercise_TestData(getApplicationContext());
             }
+            exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
+
+            //Check if it is empty
+            if(exerciseList == null)
+                exerciseList = new ArrayList<Exercise>();
+
             mListExercises.setExerciseList(exerciseList);
 
         } catch (GenericDAOException e) {
@@ -103,22 +107,19 @@ public class Exercise_Activity_ListView extends AppCompatActivity implements Exe
     public void removeExercise(){
 
         try {
-            Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
+            Exercise exercise = mListExercises.removeItem(currentPos);
+            mDetailsExercise.clearDetails();
+
             if(exercise != null) {
-                //remove list of attributes
-                ArrayList<Attribute> previousExerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exercise.getId());
-                for (Attribute a : previousExerciseAttributes) {
-                    attribute_exercise_dao.delete(new Pair<>(a, exercise));
-                }
+
                 //remove exercise
-                exercise_dao.deleteById(exerciseList.get(currentPos).getId());
+                exercise.setDeleted(1);
+                exercise_dao.update(exercise);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
         }
 
-        mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -264,7 +265,7 @@ public class Exercise_Activity_ListView extends AppCompatActivity implements Exe
 
         if (requestCode == 0) {
             try {
-                exerciseList = exercise_dao.getAll();
+                exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
                 mListExercises.setExerciseList(exerciseList);
                 mListExercises.updateList();
 
