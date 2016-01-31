@@ -64,6 +64,10 @@ public class AttributeListActivity extends AppCompatActivity implements ListAttr
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
     public List<String> getNamesList(List<Attribute> attrList){
         ArrayList<String> list = new ArrayList<>();
 

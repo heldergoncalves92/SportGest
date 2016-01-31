@@ -87,6 +87,10 @@ public class ExerciseListActivity extends AppCompatActivity implements ListExerc
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
     public List<String> getNamesList(List<Exercise> exerciseList){
         ArrayList<String> list = new ArrayList<>();
 

@@ -92,6 +92,10 @@ public class TrainingListActivity extends AppCompatActivity implements ListTrain
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
     public List<String> getNamesList(List<Training> trainingList){
         ArrayList<String> list = new ArrayList<>();
 
