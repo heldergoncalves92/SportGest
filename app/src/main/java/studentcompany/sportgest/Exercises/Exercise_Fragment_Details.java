@@ -21,7 +21,7 @@ import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 
-public class DetailsExercise_Fragment extends Fragment {
+public class Exercise_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_EXERCISE_FRAGMENT";
     private TextView tv_name, tv_duration;
@@ -29,7 +29,7 @@ public class DetailsExercise_Fragment extends Fragment {
     private ImageView iv_image;
     private ListView lv_exerciseAttributes;
 
-    public DetailsExercise_Fragment() {
+    public Exercise_Fragment_Details() {
         // Required empty public constructor
     }
 

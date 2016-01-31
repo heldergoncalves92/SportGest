@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Exercises.ExerciseTestData;
+import studentcompany.sportgest.Exercises.Exercise_TestData;
 import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
@@ -15,14 +15,14 @@ import studentcompany.sportgest.domains.Team;
 import studentcompany.sportgest.domains.Training;
 import studentcompany.sportgest.domains.TrainingExercise;
 
-public class TrainingTestData {
+public class Training_TestData {
 
     Exercise_DAO exercise_dao;
     Training_DAO training_dao;
     Team_DAO team_dao;
     Training_Exercise_DAO training_exercise_dao;
 
-    public TrainingTestData(Context context) {
+    public Training_TestData(Context context) {
         exercise_dao = new Exercise_DAO(context);
         training_dao = new Training_DAO(context);
         team_dao = new Team_DAO(context);
@@ -61,7 +61,7 @@ public class TrainingTestData {
             training_dao.insert(new Training(-1, "Training 16", lorem, 201512, 85, team_dao.getById(1)));
             training_dao.insert(new Training(-1, "Training 17", lorem, 201512, 84, team_dao.getById(1)));
             if(exercise_dao.numberOfRows() == 0){
-                new ExerciseTestData(context);
+                new Exercise_TestData(context);
             }
             training_exercise_dao.insert(new TrainingExercise(-1, training_dao.getById(1), exercise_dao.getById(1), 10));
             training_exercise_dao.insert(new TrainingExercise(-1, training_dao.getById(2), exercise_dao.getById(1), 10));
@@ -81,8 +81,8 @@ public class TrainingTestData {
             training_exercise_dao.insert(new TrainingExercise(-1, training_dao.getById(4), exercise_dao.getById(8), 10));
             training_exercise_dao.insert(new TrainingExercise(-1, training_dao.getById(5), exercise_dao.getById(9), 10));
         }catch (GenericDAOException ex){
-            System.err.println(TrainingTestData.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(TrainingTestData.class.getName()).log(Level.WARNING, null, ex);
+            System.err.println(Training_TestData.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(Training_TestData.class.getName()).log(Level.WARNING, null, ex);
             ex.printStackTrace();
         }
     }

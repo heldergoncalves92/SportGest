@@ -23,7 +23,7 @@ import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 
-public class CreateAttributeActivity extends AppCompatActivity {
+public class Attribute_Activity_Create extends AppCompatActivity {
 
     private Attribute_DAO dao;
 
@@ -151,7 +151,7 @@ public class CreateAttributeActivity extends AppCompatActivity {
     }
 
     private void goToAttributeListActivity(){
-        Intent intent = new Intent(this, AttributeListActivity.class);
+        Intent intent = new Intent(this, Attribute_Activity_List.class);
         startActivity(intent);
         finish();
     }

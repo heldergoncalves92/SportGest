@@ -12,11 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import studentcompany.sportgest.Attributes.AttributeListActivity;
-import studentcompany.sportgest.Evaluation.ExerciseAttributesActivity;
+import studentcompany.sportgest.Attributes.Attribute_Activity_List;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
-import studentcompany.sportgest.EventCategories.EventCategory_List_Adapter;
-import studentcompany.sportgest.Exercises.ExerciseListActivity;
+import studentcompany.sportgest.Exercises.Exercise_Activity_List;
 import studentcompany.sportgest.Games.CallSquad_Activity;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GameTest_Activity;
@@ -27,7 +25,7 @@ import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Team.Team_Activity_ListView;
-import studentcompany.sportgest.Trainings.TrainingListActivity;
+import studentcompany.sportgest.Trainings.Training_Activity_List;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String sEvaluation="Evaluation";
-                Intent intent = new Intent(getApplicationContext(), TrainingListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Training_Activity_List.class);
                 System.out.println("BRAGA");
 
                 //put current team ID and training ID in extras
@@ -181,17 +179,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Attribute(View v){
-        Intent intent = new Intent(this, AttributeListActivity.class);
+        Intent intent = new Intent(this, Attribute_Activity_List.class);
         startActivity(intent);
     }
 
     public void goTo_Exercise(View v){
-        Intent intent = new Intent(this, ExerciseListActivity.class);
+        Intent intent = new Intent(this, Exercise_Activity_List.class);
         startActivity(intent);
     }
 
     public void goTo_Training(View v){
-        Intent intent = new Intent(this, TrainingListActivity.class);
+        Intent intent = new Intent(this, Training_Activity_List.class);
         startActivity(intent);
     }
 
@@ -266,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.drawer_Exercise:
                                 if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
+                                intent = new Intent(getApplicationContext(), Exercise_Activity_List.class);
                                 startActivity(intent);
                                 return true;
                         }

@@ -5,15 +5,8 @@ import android.content.Context;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Attributes.AttributeTestData;
-import studentcompany.sportgest.daos.Attribute_DAO;
-import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
-import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
-import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Attribute;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Team;
 

@@ -1,29 +1,26 @@
-package studentcompany.sportgest.Attributes;
+package studentcompany.sportgest.Trainings;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Training;
 
-public class ListAttribute_Fragment extends Fragment {
+public class Training_Fragment_List extends Fragment {
 
-    private static final String TAG = "LIST_ATTRIBUTE_FRAGMENT";
-    private List<Attribute> list;
+    private static final String TAG = "LIST_TRAINING_FRAGMENT";
+    private List<Training> list;
+    private int tag = 0;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -49,13 +46,14 @@ public class ListAttribute_Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.exercise_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Attributes_Adapter(list, getContext(), mListener);
+        mAdapter = new Training_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
         View title = v.findViewById(R.id.exercise_item);
@@ -63,27 +61,56 @@ public class ListAttribute_Fragment extends Fragment {
         tv.setTypeface(null, Typeface.BOLD_ITALIC);
         tv.setTextColor(Color.BLACK);
 
-        //textView = (TextView)v.findViewById(R.id.text_view);
-        //textView.setText("CARD "+position);
         return v;
     }
 
-    public void setAttributeList(List<Attribute> list){
+    public void setTrainingList(List<Training> list){
         this.list = list;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        mAdapter = new Attributes_Adapter(list, getContext(), mListener);
+    public void setTag(int tag){
+        this.tag = tag;
+    }
+
+    public void updateList(List<Training> list){
+        this.list = list;
+
+        mAdapter = new Training_List_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updateList(){
-        // Set the list adapter for the ListView
-        if(list != null) {
-            mAdapter = new Attributes_Adapter(list, getContext(), mListener);
-            mRecyclerView.setAdapter(mAdapter);
-        }
+    public void updatePosition(Training training, int position){
+        this.list.set(position, training);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void insert_Item(Training training){
+        this.list.add(training);
+        mAdapter.notifyItemInserted(list.size() - 1);
+    }
+
+    public void selectFirstItem(){
+
+        Training_List_Adapter.ViewHolder v = (Training_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
+        v.focus_gain();
+    }
+
+    public void unselect_Item(int position){
+
+        Training_List_Adapter.ViewHolder v = (Training_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        v.focus_loss();
+    }
+
+
+    public Training removeItem(int position){
+        Training t = list.remove(position);
+        mAdapter.notifyItemRemoved(position);
+
+        return t;
+    }
+
+    public int has_Selection(){
+        return ((Training_List_Adapter) mAdapter).getCurrentPos();
     }
 
     /************************************
@@ -92,6 +119,13 @@ public class ListAttribute_Fragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnItemSelected{
-        void itemSelected(int position);
+        void itemSelected(int position, int tag);
+    }
+
+    public Training getCurrentItem(){
+        if(mAdapter == null)
+            return null;
+        else
+            return ((Training_List_Adapter) mAdapter).getCurrentItem();
     }
 }

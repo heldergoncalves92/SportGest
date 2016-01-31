@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="horizontal"
-tools:context="studentcompany.sportgest.Attributes.AttributeListActivity">
+tools:context="studentcompany.sportgest.Attributes.Attribute_Activity_List">
 
 <FrameLayout
     android:id="@+id/attribute_list_fragment_container"

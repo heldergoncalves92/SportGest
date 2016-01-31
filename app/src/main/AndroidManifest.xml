@@ -47,7 +47,7 @@
             android:name=".Games.GameTest_Activity"
             android:label="@string/app_gameTest" />
         <activity
-            android:name=".Exercises.CreateExerciseActivity" />
+            android:name=".Exercises.Exercise_Activity_Create" />
 
         <activity
             android:name=".Games.CallSquad_Activity"
@@ -70,16 +70,16 @@
         <activity android:name=".Users.User_Activity_Edit" />
         <activity android:name=".Players.Player_Activity_Edit" />
         <activity android:name=".Positions.Position_Activity_Edit" />
-        <activity android:name=".Attributes.AttributeListActivity" />
-        <activity android:name=".Exercises.ExerciseListActivity" />
-        <activity android:name=".Trainings.TrainingListActivity" />
+        <activity android:name=".Attributes.Attribute_Activity_List" />
+        <activity android:name=".Exercises.Exercise_Activity_List" />
+        <activity android:name=".Trainings.Training_Activity_List" />
         <activity android:name=".Games.GamesListActivity" />
         <activity
-            android:name=".Attributes.CreateAttributeActivity"
+            android:name=".Attributes.Attribute_Activity_Create"
             android:label="@string/app_newAttribute" />
 
         <activity
-            android:name=".Trainings.CreateTrainingActivity"
+            android:name=".Trainings.Training_Activity_Create"
             android:label="@string/app_newTraining" />
 
         <activity android:name=".Evaluation.ExerciseAttributesActivity"
@@ -88,7 +88,7 @@
             android:label="SportGest - Player Evaluation" />
         
         <activity
-            android:name=".Trainings.CreateTrainingExerciseActivity"
+            android:name=".Trainings.Training_Activity_Create_Exercises"
             android:label="@string/app_newTraining" />
         <activity android:name=".Roles.Role_Activity_ListView"></activity>
         <activity android:name=".Roles.Role_Activity_Create"></activity>

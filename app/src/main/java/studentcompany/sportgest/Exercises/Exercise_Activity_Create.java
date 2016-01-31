@@ -1,12 +1,10 @@
 package studentcompany.sportgest.Exercises;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,7 +31,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Exercise;
 
-public class CreateExerciseActivity extends AppCompatActivity {
+public class Exercise_Activity_Create extends AppCompatActivity {
 
     private static final String TAG = "CREATE_EXERCISE_ACTIVITY";
     private TextView tv_name, tv_duration;
@@ -62,7 +60,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
         attribute_exercise_dao = new Attribute_Exercise_DAO(this);
 
         if(exercise_dao==null || attribute_dao==null || attribute_exercise_dao==null){
-            System.err.println(CreateExerciseActivity.class.getName() + " [ERROR] DAOs not created");
+            System.err.println(Exercise_Activity_Create.class.getName() + " [ERROR] DAOs not created");
             return;
         }
 
@@ -116,8 +114,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                         lv_exerciseAttributes.setAdapter(new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, attributeNamesFromList(exerciseAttributes)));
                     }
                 } catch (GenericDAOException ex){
-                    System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
             }//onItemClick
 
@@ -144,8 +142,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                         lv_exerciseAttributes.setAdapter(new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, attributeNamesFromList(exerciseAttributes)));
                     }
                 } catch (GenericDAOException ex){
-                    System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
             }//onItemClick
 
@@ -155,8 +153,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
         try {
             availableAttributes = (ArrayList) attribute_dao.getAll();
         } catch (GenericDAOException ex){
-            System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+            System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
         }
 
         //if update -> get object id
@@ -171,8 +169,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                 try {
                     exercise = exercise_dao.getById(exerciseID);
                 } catch (GenericDAOException ex){
-                    System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                    Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                    System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                    Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
                 //validation
@@ -186,8 +184,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                     try {
                         exerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exerciseID);
                     } catch (GenericDAOException ex){
-                        System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     //subtract from available already selected attributes
@@ -264,8 +262,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                             }
                         }
                     }catch (GenericDAOException ex){
-                        System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     if(result){
@@ -288,8 +286,8 @@ public class CreateExerciseActivity extends AppCompatActivity {
                             }
                         }
                     }catch (GenericDAOException ex){
-                        System.err.println(CreateExerciseActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(CreateExerciseActivity.class.getName()).log(Level.WARNING, null, ex);
+                        System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
+                        Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                     }
 
                     if(result){
