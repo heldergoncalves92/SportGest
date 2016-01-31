@@ -80,8 +80,8 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
     private int positionaux;
     private int passing;
 
-    private static final int AVAILABLE = 0;
-    private static final int SELECTED = 1;
+    private static final int AVAILABLE = 1;
+    private static final int SELECTED = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,6 +248,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
     public void itemSelected(int position, int tag) {
         long id_To_Search;
         Exercise ex;
+
         switch (tag) {
             case AVAILABLE:
                 //Add the attribute to the selected ones

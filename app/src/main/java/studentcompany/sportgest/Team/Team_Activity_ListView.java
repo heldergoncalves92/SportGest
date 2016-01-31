@@ -58,6 +58,7 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
             if(teams.isEmpty()) {
 
                 noElems();
+                teams = new ArrayList<Team>();
                 //insertTest(teamDao);
                 //teams = teamDao.getAll();
             }
@@ -205,16 +206,15 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
         inflater.inflate(R.menu.menu_teams_view, menu);
 
         //To restore state on Layout Rotation
-        if(currentPos != -1) {
+        if(currentPos != -1 && teams.size()>0) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_del);
             item.setVisible(true);
 
             item = mOptionsMenu.findItem(R.id.action_edit);
             item.setVisible(true);
 
-            if(teams.size()>0)
-                mDetailsTeam.showTeam(teams.get(currentPos));
-                mListTeams.select_Item(currentPos);
+            mDetailsTeam.showTeam(teams.get(currentPos));
+            mListTeams.select_Item(currentPos);
         }
         return true;
     }

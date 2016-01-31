@@ -35,7 +35,7 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
     private Training_Exercise_DAO training_exercise_dao;
     private List<Training> trainingList;
     private List<TrainingExercise> trainingExercisesList;
-    private int currentPos = -1;
+    private int currentPos = 0;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;

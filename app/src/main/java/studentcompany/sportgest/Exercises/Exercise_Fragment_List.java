@@ -89,6 +89,11 @@ public class Exercise_Fragment_List extends Fragment {
         mAdapter.notifyItemInserted(list.size() - 1);
     }
 
+    public void insert_Item(Exercise exercise, int position){
+        this.list.add(position, exercise);
+        mAdapter.notifyItemInserted(position);
+    }
+
     public void selectFirstItem(){
 
         Exercises_Adapter.ViewHolder v = (Exercises_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);

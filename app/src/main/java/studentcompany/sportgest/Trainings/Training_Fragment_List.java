@@ -56,11 +56,6 @@ public class Training_Fragment_List extends Fragment {
         mAdapter = new Trainings_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
-        View title = v.findViewById(R.id.exercise_item);
-        TextView tv = (TextView)title.findViewById(R.id.text_view);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
         return v;
     }
 

@@ -56,13 +56,6 @@ public class Attribute_Fragment_List extends Fragment {
         mAdapter = new Attributes_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
-        View title = v.findViewById(R.id.exercise_item);
-        TextView tv = (TextView)title.findViewById(R.id.text_view);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
-        //textView = (TextView)v.findViewById(R.id.text_view);
-        //textView.setText("CARD "+position);
         return v;
     }
     public void setList(List<Attribute> list){
