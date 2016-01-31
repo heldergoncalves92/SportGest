@@ -53,14 +53,20 @@
                     android:password="false" />
 
 
-                <Button
-                    android:id="@+id/btnChangeColorEventCatEdit"
-                    android:layout_width="36dp"
-                    android:layout_height="27dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/colorPrimary"
-                    android:text="-----"
-                    android:textSize="@dimen/text_size_default" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:background="@color/black_300"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp">
+                    <Button
+                        android:id="@+id/btnChangeColorEventCatEdit"
+                        android:layout_width="36dp"
+                        android:layout_height="27dp"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:text="-----"
+                        android:textSize="@dimen/text_size_default" />
+                    </LinearLayout>
 
             </LinearLayout>
 
