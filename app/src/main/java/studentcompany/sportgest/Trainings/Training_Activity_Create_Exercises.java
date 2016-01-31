@@ -62,7 +62,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity {
     private TrainingExercise trainingExercise;
     private List<Exercise> exerciseList;
     private List<Attribute> exerciseAttributesList;
-    private ArrayList<Exercise> availableExercises;
+    private List<Exercise> availableExercises;
     private ArrayList<Exercise> trainingExercises;
     private Map<Long,Integer> repetitionsExercises; //Map para associar a cada exercídio o seu número de repetições
 
@@ -244,7 +244,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity {
 
         //get a list of available exercises
         try {
-            availableExercises = exercise_dao.getAll();
+            availableExercises = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
         } catch (GenericDAOException ex){
             System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
@@ -458,7 +458,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity {
                                 trainingDescription,
                                 trainingDateInMilis,
                                 trainingDuration,
-                                team_dao.getById(1)); //TODO what team is selected???
+                                team_dao.getById(1),0); //TODO what team is selected???
                         training.setId(training_dao.insert(training));
                         result = training.getId() > 0;
                         if(result){

@@ -46,8 +46,8 @@ public class Exercise_Activity_Create extends AppCompatActivity {
 
     //Id of current exercise displayed
     private Exercise exercise;
-    ArrayList<Attribute> availableAttributes;
-    ArrayList<Attribute> exerciseAttributes;
+    private List<Attribute> availableAttributes;
+    private ArrayList<Attribute> exerciseAttributes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +151,7 @@ public class Exercise_Activity_Create extends AppCompatActivity {
 
         //get a list of available attributes
         try {
-            availableAttributes = (ArrayList) attribute_dao.getAll();
+            availableAttributes = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
         } catch (GenericDAOException ex){
             System.err.println(Exercise_Activity_Create.class.getName() + " [WARNING] " + ex.toString());
             Logger.getLogger(Exercise_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
@@ -276,7 +276,7 @@ public class Exercise_Activity_Create extends AppCompatActivity {
                             -1,
                             tv_name.getText().toString(),
                             et_description.getText().toString(),
-                            Integer.parseInt(tv_duration.getText().toString()));
+                            Integer.parseInt(tv_duration.getText().toString()), 0);
                     try {
                         exercise.setId(exercise_dao.insert(exercise));
                         result = exercise.getId() > 0;

@@ -16,15 +16,19 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Attribute_DAO;
+import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Exercise;
 
 public class Attribute_Activity_List extends AppCompatActivity implements Attribute_Fragment_List.OnItemSelected  {
-
+    //DAOs
     private Attribute_DAO attribute_dao;
+
     private List<Attribute> attributeList;
     private int currentPos = -1;
     private Menu mOptionsMenu;
@@ -79,7 +83,14 @@ public class Attribute_Activity_List extends AppCompatActivity implements Attrib
     }
 
     public void removeAttribute(){
-        attribute_dao.deleteById(attributeList.get(currentPos).getId());
+        Attribute attribute = attributeList.get(currentPos);
+        attribute.setDeleted(1);
+
+        try {
+            attribute_dao.update(attribute);
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
 
         mDetailsAttribute.clearDetails();
         mListAttributes.removeItem(currentPos);
@@ -89,11 +100,10 @@ public class Attribute_Activity_List extends AppCompatActivity implements Attrib
     }
 
     public void updateAttributeList() throws GenericDAOException {
-        attributeList = attribute_dao.getAll();
-        if(attributeList.isEmpty()) {
+        if(attribute_dao.numberOfRows() == 0) {
             new Attribute_TestData(getApplicationContext());
-            attributeList = attribute_dao.getAll();
         }
+        attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
     }
     /************************************
      ****     Listener Functions     ****
@@ -175,7 +185,7 @@ public class Attribute_Activity_List extends AppCompatActivity implements Attrib
         switch (item.getItemId()) {
             case R.id.Add:
                 Intent intent = new Intent(this, Attribute_Activity_Create.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 finish();
                 return true;
             case R.id.Delete:
@@ -187,11 +197,30 @@ public class Attribute_Activity_List extends AppCompatActivity implements Attrib
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Attribute_DAO.TABLE_NAME + Attribute_DAO.COLUMN_ID, attributeList.get(currentPos).getId());
                 intent.putExtras(dataBundle);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 finish();
                 return true;
             default:
                 return false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 0) {
+            try {
+                attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
+                mListAttributes.setAttributeList(attributeList);
+                mListAttributes.updateList(attributeList);
+
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
+            mDetailsAttribute.clearDetails();
+            currentPos = -1;
+            mOptionsMenu.findItem(R.id.Delete).setVisible(false);
+            mOptionsMenu.findItem(R.id.Edit).setVisible(false);
         }
     }
 }

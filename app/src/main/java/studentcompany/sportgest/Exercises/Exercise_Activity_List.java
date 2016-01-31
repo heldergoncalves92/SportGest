@@ -49,11 +49,10 @@ public class Exercise_Activity_List extends AppCompatActivity implements Exercis
             exercise_dao = new Exercise_DAO(getApplicationContext());
             attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
 
-            exerciseList = exercise_dao.getAll();
-            if(exerciseList.isEmpty()) {
+            if(exercise_dao.numberOfRows() == 0) {
                 new Exercise_TestData(getApplicationContext());
-                exerciseList = exercise_dao.getAll();
             }
+            exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
             mListExercises.setExerciseList(exerciseList);
 
         } catch (GenericDAOException e) {
@@ -113,13 +112,9 @@ public class Exercise_Activity_List extends AppCompatActivity implements Exercis
         try {
             Exercise exercise = exercise_dao.getById(exerciseList.get(currentPos).getId());
             if(exercise != null) {
-                //remove list of attributes
-                ArrayList<Attribute> previousExerciseAttributes = (ArrayList) attribute_exercise_dao.getBySecondId(exercise.getId());
-                for (Attribute a : previousExerciseAttributes) {
-                    attribute_exercise_dao.delete(new Pair<>(a, exercise));
-                }
                 //remove exercise
-                exercise_dao.deleteById(exerciseList.get(currentPos).getId());
+                exercise.setDeleted(1);
+                exercise_dao.update(exercise);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
@@ -246,7 +241,7 @@ public class Exercise_Activity_List extends AppCompatActivity implements Exercis
 
         if (requestCode == 0) {
             try {
-                exerciseList = exercise_dao.getAll();
+                exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
                 mListExercises.setExerciseList(exerciseList);
                 mListExercises.updateList(exerciseList);
 

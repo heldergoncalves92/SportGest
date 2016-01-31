@@ -34,21 +34,21 @@ public class Exercise_TestData {
                 "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. " +
                 "Mauris eget neque at sem venenatis eleifend. Ut nonummy.";
         try {
-            exercise_dao.insert(new Exercise(-1, "Corrida", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Lances sem bola", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Ataques de ala", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Defesa cerrada", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 1", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 2", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 3", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Marcacao ao homem", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Passes longos", lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Passes curtos",lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Marcacoes de penalties",lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Remates de fora de area",lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Defesa em desvantagem numerica 3 para 2",lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Ataque em profundidade",lorem, 10));
-            exercise_dao.insert(new Exercise(-1, "Ataque em largura de campo",lorem, 10));
+            exercise_dao.insert(new Exercise(-1, "Corrida", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Lances sem bola", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Ataques de ala", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Defesa cerrada", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 1", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 2", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Marcacao de cantos 3", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Marcacao ao homem", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Passes longos", lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Passes curtos",lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Marcacoes de penalties",lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Remates de fora de area",lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Defesa em desvantagem numerica 3 para 2",lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Ataque em profundidade",lorem, 10, 0));
+            exercise_dao.insert(new Exercise(-1, "Ataque em largura de campo",lorem, 10, 0));
             if(attribute_dao.numberOfRows() == 0){
                 new Attribute_TestData(context);
             }

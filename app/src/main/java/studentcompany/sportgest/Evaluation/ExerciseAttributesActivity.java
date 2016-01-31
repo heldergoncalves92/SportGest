@@ -88,12 +88,8 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Exe
         player_dao = new Player_DAO(this);
 
         //TEST ONLY -> REMOVE
-        try {
-            if(training_dao.getAll().size() == 0) {
-                new Training_TestData(getApplicationContext());
-            }
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
+        if(training_dao.numberOfRows() == 0) {
+            new Training_TestData(getApplicationContext());
         }
 
         //get trainingID

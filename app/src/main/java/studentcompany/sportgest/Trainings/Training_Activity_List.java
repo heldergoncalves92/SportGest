@@ -57,11 +57,10 @@ public class Training_Activity_List extends AppCompatActivity implements Trainin
             training_dao = new Training_DAO(getApplicationContext());
             training_exercise_dao = new Training_Exercise_DAO(getApplicationContext());
 
-            trainingList = training_dao.getAll();
-            if(trainingList.isEmpty()) {
+            if(training_dao.numberOfRows() == 0) {
                 new Training_TestData(getApplicationContext());
-                trainingList = training_dao.getAll();
             }
+            trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
             mListTrainings.setTrainingList(trainingList);
 
         } catch (GenericDAOException e) {
@@ -126,15 +125,8 @@ public class Training_Activity_List extends AppCompatActivity implements Trainin
         try {
             Training training = training_dao.getById(trainingList.get(currentPos).getId());
             if(training != null) {
-                //search by training id
-                TrainingExercise trainingExercise = new TrainingExercise(-1, training, null, -1);
-                //remove list of exercises
-                ArrayList<TrainingExercise> previousTrainingExercises = (ArrayList) training_exercise_dao.getByCriteria(trainingExercise);
-                for (TrainingExercise te : previousTrainingExercises) {
-                    training_exercise_dao.delete(te);
-                }
-                //remove training
-                training_dao.deleteById(trainingList.get(currentPos).getId());
+                training.setDeleted(1);
+                training_dao.update(training);
             }
         }catch (GenericDAOException ex){
             ex.printStackTrace();
@@ -316,7 +308,7 @@ public class Training_Activity_List extends AppCompatActivity implements Trainin
 
         if (requestCode == 0) {
             try {
-                trainingList = training_dao.getAll();
+                trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
                 mListTrainings.setTrainingList(trainingList);
                 mListTrainings.updateList(trainingList);
 

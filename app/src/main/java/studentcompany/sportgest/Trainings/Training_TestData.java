@@ -43,23 +43,23 @@ public class Training_TestData {
                 team_dao.insert(new Team(-1, "Best Team C", lorem, "logoC.jpg", 2015, 0));
                 team_dao.insert(new Team(-1, "Best Team D", lorem, "logoD.jpg", 2015, 0));
             }
-            training_dao.insert(new Training(-1, "Training 1", lorem, 201512, 100, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 2", lorem, 201512, 99, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 3", lorem, 201512, 98, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 4", lorem, 201512, 97, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 5", lorem, 201512, 96, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 6", lorem, 201512, 95, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 7", lorem, 201512, 94, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 8", lorem, 201512, 93, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 9", lorem, 201512, 92, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 10", lorem, 201512, 91, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 11", lorem, 201512, 90, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 12", lorem, 201512, 89, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 13", lorem, 201512, 88, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 14", lorem, 201512, 87, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 15", lorem, 201512, 86, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 16", lorem, 201512, 85, team_dao.getById(1)));
-            training_dao.insert(new Training(-1, "Training 17", lorem, 201512, 84, team_dao.getById(1)));
+            training_dao.insert(new Training(-1, "Training 1", lorem, 201512, 100, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 2", lorem, 201512, 99, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 3", lorem, 201512, 98, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 4", lorem, 201512, 97, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 5", lorem, 201512, 96, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 6", lorem, 201512, 95, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 7", lorem, 201512, 94, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 8", lorem, 201512, 93, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 9", lorem, 201512, 92, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 10", lorem, 201512, 91, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 11", lorem, 201512, 90, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 12", lorem, 201512, 89, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 13", lorem, 201512, 88, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 14", lorem, 201512, 87, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 15", lorem, 201512, 86, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 16", lorem, 201512, 85, team_dao.getById(1), 0));
+            training_dao.insert(new Training(-1, "Training 17", lorem, 201512, 84, team_dao.getById(1), 0));
             if(exercise_dao.numberOfRows() == 0){
                 new Exercise_TestData(context);
             }
