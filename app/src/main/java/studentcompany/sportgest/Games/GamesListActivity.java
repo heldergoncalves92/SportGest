@@ -27,9 +27,8 @@ import studentcompany.sportgest.domains.Game;
 public class GamesListActivity extends AppCompatActivity implements Game_Fragment_list.OnItemSelected  {
 
     private Game_DAO game_dao;
-    //private Attribute_Exercise_DAO attribute_exercise_dao;
     private List<Game> gameList;
-    //private List<Attribute> exerciseAttributesList;
+
     private int currentPos = -1;
     private Menu mOptionsMenu;
 
@@ -46,12 +45,13 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
         try {
             game_dao = new Game_DAO(getApplicationContext());
-            //attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
 
             gameList = game_dao.getAll();
             if(gameList.isEmpty()) {
                 new GameTestData(getApplicationContext());
                 gameList = game_dao.getAll();
+
+                //gameList = new ArrayList<>();
             }
             mListExercises.setGameList(gameList);
 
@@ -71,6 +71,12 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentPos", currentPos);
+    }
+
 
     public List<String> getNamesList(List<Exercise> exerciseList){
         ArrayList<String> list = new ArrayList<>();
@@ -117,15 +123,6 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
             }
 
             currentPos = position;
-            /*
-            try {
-                exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
-            } catch (GenericDAOException ex){
-                ex.printStackTrace();
-                exerciseAttributesList = new ArrayList<>();
-            }
-            */
-            //mDetailsExercise.showExercise(exercise, getAttributesNamesList(exerciseAttributesList));
         }
     }
 
