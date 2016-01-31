@@ -260,16 +260,16 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             long gameID = game_dao.insert(game);
             game.setId(gameID);
 
-            EventCategory event = new EventCategory("Goal");
+            EventCategory event = new EventCategory("Goal",1,true);
             gameID = event_category_dao.insert(event);
 
-            event = new EventCategory("Yellow Card");
+            event = new EventCategory("Substitution",2,true);
             event_category_dao.insert(event);
 
-            event = new EventCategory("Foul");
+            event = new EventCategory("Yellow Card",3,true);
             event_category_dao.insert(event);
 
-            event = new EventCategory("Explosion");
+            event = new EventCategory("Foul",4,true);
             event_category_dao.insert(event);
 
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);

@@ -66,11 +66,8 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         try {
             ecDAO = new Event_Category_DAO(getApplicationContext());
             ecs = ecDAO.getAll();
-            //players = playerDao.getAll();
             if(ecs.isEmpty()) {
-
-                //noElems();
-                //players = playerDao.getAll();
+                noElems();
             }
             mListEventCategory.setList(ecs);
 
@@ -117,6 +114,15 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         t.setVisibility(View.VISIBLE);
     }
 
+    public void showElems(){
+
+        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        TextView t= (TextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
+    }
+
     public void removePosition(){
         mDetailsEventCategory.clearDetails();
         mListEventCategory.removeItem(currentPos);
@@ -125,7 +131,7 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         ecs.remove(currentPos);
 
         currentPos = -1;
-        MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+        MenuItem item = mOptionsMenu.findItem(R.id.Event_Category_Delete);
         item.setVisible(false);
 
         if(ecs.isEmpty())
@@ -141,10 +147,10 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
 
         if(positionObj != null){
             if(currentPos == -1) {
-                MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+                MenuItem item = mOptionsMenu.findItem(R.id.Event_Category_Delete);
                 item.setVisible(true);
 
-                item = mOptionsMenu.findItem(R.id.action_edit);
+                item = mOptionsMenu.findItem(R.id.Event_Category_Edit);
                 item.setVisible(true);
             }
 
@@ -161,18 +167,46 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_users_view, menu);
+        inflater.inflate(R.menu.menu_event_category, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //To restore state on Layout Rotation
         if(currentPos != -1) {
-            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            MenuItem item = mOptionsMenu.findItem(R.id.Event_Category_Delete);
             item.setVisible(true);
 
-            item = mOptionsMenu.findItem(R.id.action_edit);
+            item = mOptionsMenu.findItem(R.id.Event_Category_Edit);
             item.setVisible(true);
             if(ecs.size()>0)
                 mDetailsEventCategory.showEventCategory(ecs.get(currentPos));
         }
+
+
+
+        MenuItem item;
+
+        if(ecs.size()==0)
+        {
+            item = mOptionsMenu.findItem(R.id.Event_Category_Add);
+            item.setVisible(true);
+            item = mOptionsMenu.findItem(R.id.Event_Category_Edit);
+            item.setVisible(false);
+            item = mOptionsMenu.findItem(R.id.Event_Category_Delete);
+            item.setVisible(false);
+        }else {
+            item = mOptionsMenu.findItem(R.id.Event_Category_Edit);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.Event_Category_Delete);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.Event_Category_Add);
+            item.setVisible(true);
+
+        }
+
+
+
         return true;
     }
 
@@ -180,17 +214,17 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_add:
+            case R.id.Event_Category_Add:
                 Intent intent = new Intent(this, EventCategory_Activity_Create.class);
                 startActivityForResult(intent, CREATE_TAG);
                 return true;
 
-            case R.id.action_del:
+            case R.id.Event_Category_Delete:
                 mDialog = AlertToDelete_DialogFragment.newInstance();
                 mDialog.show(mFragmentManager, "Alert");
                 return true;
 
-            case R.id.action_edit:
+            case R.id.Event_Category_Edit:
                 Intent intent2 = new Intent(this, EventCategory_Activity_Edit.class);
                 intent2.putExtra("id", ecs.get(currentPos).getId());
                 startActivityForResult(intent2, EDIT_TAG);
@@ -246,19 +280,6 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
      ****        Test Functions      ****
      ************************************/
 
-    private void testEventCategories(){
-
-        EventCategory p1 = new EventCategory("aaaaa");
-        EventCategory p2 = new EventCategory("bbbbb");
-        EventCategory p3 = new EventCategory("ccccc");
-
-        ecs = new ArrayList<EventCategory>();
-        ecs.add(p1);
-        ecs.add(p2);
-        ecs.add(p3);
-
-        mListEventCategory.setList(ecs);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -270,6 +291,8 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
                     ecs.set(currentPos,eventCategort);
                     mListEventCategory.updateEventCategory(eventCategort, currentPos);
                     mDetailsEventCategory.showEventCategory(eventCategort);
+
+                    showElems();
 
                     Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {
@@ -283,17 +306,11 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
                 try {
-                    /*Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    player=playerDao.getById(idToSearch);
-                    System.out.println(player);
-                    players.add(player);
-                    mDetailsPlayer.showPlayer(player);
-                    */
 
                     ecs = ecDAO.getAll();
                     mListEventCategory.updateList(ecs);
+
+                    showElems();
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

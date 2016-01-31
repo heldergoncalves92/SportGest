@@ -44,6 +44,9 @@
             android:name=".Team.Team_Activity_Create"
             android:label="@string/app_newTeam" />
         <activity
+            android:name=".EventCategories.Color_Picker_Activity"
+            android:label="@string/app_eventcat" />
+        <activity
             android:name=".Exercises.CreateExerciseActivity" />
 
         <activity
@@ -98,10 +101,10 @@
 
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
-            android:label="@string/app_teamView" />
+            android:label="@string/app_add_eventView" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Edit"
-            android:label="@string/app_newTeam" />
+            android:label="@string/app_edit_eventView" />
         <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
