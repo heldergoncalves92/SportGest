@@ -27,13 +27,15 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
     public static final String COLUMN_TITLE       = "TITLE";
     public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
     public static final String COLUMN_DURATION    = "DURATION";
+    public static final String COLUMN_DELETED     = "DELETED";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID          + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +
             COLUMN_TITLE       + " TEXT NOT NULL, " +
             COLUMN_DESCRIPTION + " TEXT, " +
-            COLUMN_DURATION    + " INTEGER);";
+            COLUMN_DURATION    + " INTEGER, " +
+            COLUMN_DELETED     + " INTEGER NOT NULL);";
 
     //Drop table
     public static  final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + "; ";
@@ -50,6 +52,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         String title;
         String description;
         int duration;
+        int deleted;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME, null );
@@ -61,7 +64,8 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
             description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
             duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));
-            resExercise.add(new Exercise(id, title, description, duration));
+            deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
+            resExercise.add(new Exercise(id, title, description, duration, deleted));
             res.moveToNext();
         }
 
@@ -84,6 +88,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         String title;
         String description;
         int duration;
+        int deleted;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_ID+"="+id, null );
@@ -93,7 +98,8 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
         description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
         duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));
-        resExercise = new Exercise(id, title, description, duration);
+        deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
+        resExercise = new Exercise(id, title, description, duration, deleted);
 
         return resExercise;
     }
@@ -104,6 +110,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DURATION, object.getDuration());
+        contentValues.put(COLUMN_DELETED, object.getDeleted());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -130,6 +137,7 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
         contentValues.put(COLUMN_TITLE, object.getTitle());
         contentValues.put(COLUMN_DESCRIPTION, object.getDescription());
         contentValues.put(COLUMN_DURATION, object.getDuration());
+        contentValues.put(COLUMN_DELETED, object.getDeleted());
         db.update(TABLE_NAME,
                 contentValues,
                 COLUMN_ID + " = ? ",
@@ -170,6 +178,10 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpInt );
             fields++;
         }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt);
+            fields++;
+        }
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
@@ -208,6 +220,10 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DURATION + " = " + tmpInt );
             fields++;
         }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt);
+            fields++;
+        }
 
         if (fields > 0) {
 
@@ -215,16 +231,18 @@ public class Exercise_DAO extends GenericDAO<Exercise> implements IGenericDAO<Ex
             String title;
             String description;
             int duration;
+            int deleted;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
 
-                while(res.isAfterLast() == false) {
+                while (res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndexOrThrow(COLUMN_ID));
                     title = res.getString(res.getColumnIndexOrThrow(COLUMN_TITLE));
                     description = res.getString(res.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
                     duration = res.getInt(res.getColumnIndexOrThrow(COLUMN_DURATION));
-                    resExercise.add(new Exercise(id, title, description, duration));
+                    deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
+                    resExercise.add(new Exercise(id, title, description, duration, deleted));
                     res.moveToNext();
                 }
         }

@@ -20,12 +20,13 @@ import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
 import studentcompany.sportgest.Games.GamesListActivity;
-//import studentcompany.sportgest.Games.GamesList_Activity;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
 import studentcompany.sportgest.Team.Team_Activity_ListView;
 import studentcompany.sportgest.Trainings.Training_Activity_ListView;
+
+
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String sEvaluation="Evaluation";
                 Intent intent = new Intent(getApplicationContext(), Training_Activity_ListView.class);
+
                 System.out.println("BRAGA");
 
                 //put current team ID and training ID in extras
@@ -180,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Attribute(View v){
         Intent intent = new Intent(this, Attribute_Activity_ListView.class);
+
         startActivity(intent);
     }
 
@@ -264,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.drawer_Exercise:
                                 if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
+
                                 intent = new Intent(getApplicationContext(), Exercise_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
