@@ -1,8 +1,7 @@
 package studentcompany.sportgest.Games;
 
-import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -23,25 +21,24 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.concurrent.SynchronousQueue;
+import java.util.TimerTask;
 
 import studentcompany.sportgest.Exercises.ExerciseListActivity;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Players.Player_Fragment_List;
 import studentcompany.sportgest.R;
+import studentcompany.sportgest.Users.CreateRole_Activity;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Event_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
-import studentcompany.sportgest.daos.GenericDAO;
 import studentcompany.sportgest.daos.Pair;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Squad_Call_DAO;
@@ -76,16 +73,98 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
     private SurfaceView field;
     private SurfaceHolder holder;
-    private Paint paint = new Paint(Paint.DITHER_FLAG);
+    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint paintborder = new Paint(Paint.DITHER_FLAG);
 
-    private int posx=0,posy=0;
+    private int posx=0,posy=0, height=1,width=1;
+    private float x=0, y=0;
     private long event_id=-1, player_id=-1;
+    private int minutes = 0; // For the Events
     private EventCategory eventCategory=null;
     private Player player=null;
 
     private int tag = -1;
 
     private DrawerLayout mDrawerLayout;
+
+    TimePickerDialog.OnTimeSetListener myCallBack = new TimePickerDialog.OnTimeSetListener(){
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            minutes = minute;
+            drawAndInsert();
+        }
+    };
+
+    java.util.TimerTask task = new ClearScreenTask();
+
+    public class ClearScreenTask extends TimerTask{
+
+        public ClearScreenTask(){};
+        @Override
+        public void run() {
+            Canvas canvas = holder.lockCanvas();
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            holder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+
+    private void drawAndInsert() {
+
+        if(eventCategory == null)
+            return;
+
+        try {
+
+            long ts = eventCategory.hasTimestamp() ? minutes : 0;
+            posx = (int) ((x*1000) / width);
+            posy = (int) ((y*1000) / height);
+            Event eventz = new Event(eventCategory.getName() == null ? "" : eventCategory.getName(),ts,posx,posy,eventCategory,new Game(baseGameID),player);
+
+            long idz = event_dao.insert(eventz);
+            if(idz<0)
+                throw new GenericDAOException();
+
+            // Inserted? let's draw!
+            // Draw the event with special border
+            Canvas canvas = holder.lockCanvas();
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            paintborder.setColor((0xFFFFFF - eventCategory.getColor()) | 0xFF000000); // invert the color for the border
+            paintborder.setStrokeWidth(3.0f);
+            paintborder.setStyle(Paint.Style.STROKE);
+            paint.setColor(eventCategory.getColor());
+            canvas.drawCircle(x, y, 18, paintborder);
+            canvas.drawCircle(x, y, 15, paint);
+
+
+            // Draw all the previous events of this type
+            for(Event ev : historyEvents)
+                if (ev.getEventCategory().getId() == eventCategory.getId())
+                    canvas.drawCircle((ev.getPosx() * width)/1000, (ev.getPosy() * height)/1000, 15, paint);
+
+            holder.unlockCanvasAndPost(canvas);
+
+            eventCategory = null;
+
+            //historyEvents.add(eventz);
+            eventz.setId(idz);
+            mHistoryEvents.insert_Item(eventz);
+
+            mList_Events.unselect_Item();
+
+            //Call to clear the screen after 4s
+            if(task!=null)
+                task.cancel();
+            task = new ClearScreenTask();
+            new java.util.Timer().schedule(task,4000);
+
+            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
+        } catch (GenericDAOException e) {
+            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,43 +215,32 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         field.setZOrderOnTop(true); //necessary
         holder.setFormat(PixelFormat.TRANSPARENT);
 
+
         field.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     eventCategory = mList_Events.getCurrentItem();
+                    x = event.getX();
+                    y = event.getY();
+                    width = v.getWidth();
+                    height = v.getHeight();
                     player = mList_inGame.getCurrentItem();
                     if (holder.getSurface().isValid() && player != null && eventCategory != null) {
-                        Canvas canvas = holder.lockCanvas();
-                        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                        canvas.drawCircle(event.getX(), event.getY(), 30, paint);
-                        posx = (int) ((event.getX()*1000) / v.getWidth());
-                        posy = (int) ((event.getY()*1000) / v.getWidth());
-                        holder.unlockCanvasAndPost(canvas);
 
-                        try {
+                        if (eventCategory.hasTimestamp()) {
+                            TimePickerDialog rt = new TimePickerDialog(Game_Activity_GameMode.this, myCallBack, 0, 0, true);
+                            rt.setTitle(R.string.minute);
+                            rt.show();
 
-                            Event eventz = new Event(eventCategory.getName() == null ? "" : eventCategory.getName(),20,posx,posy,eventCategory,new Game(baseGameID),player);
-
-                            long idz = event_dao.insert(eventz);
-                            if(idz<0)
-                                throw new GenericDAOException();
-
-                            eventz.setId(idz);
-                            mHistoryEvents.insert_Item(eventz);
-
-                            mList_Events.unselect_Item();
-                            eventCategory = null;
-                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
-                        } catch (GenericDAOException e) {
-                            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
+                        } else
+                            drawAndInsert();
                     }
                 }
                 return true;
             }
         });
+
 
         try {
             //Initializations
@@ -185,7 +253,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
             events = event_category_dao.getAll();
-            if(inGame == null){
+            if(inGame == null || inGame.size()==0){
                 insertTest();
                 inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
                 events = event_category_dao.getAll();
@@ -260,13 +328,13 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             long gameID = game_dao.insert(game);
             game.setId(gameID);
 
-            EventCategory event = new EventCategory("Goal",1,true);
+            EventCategory event = new EventCategory("Goal",R.color.yellow_300,true);
             gameID = event_category_dao.insert(event);
 
-            event = new EventCategory("Substitution",2,true);
+            event = new EventCategory("Substitution",R.color.blue_300,true);
             event_category_dao.insert(event);
 
-            event = new EventCategory("Yellow Card",3,true);
+            event = new EventCategory("Yellow Card",R.color.orange_300,true);
             event_category_dao.insert(event);
 
             event = new EventCategory("Foul",4,true);
