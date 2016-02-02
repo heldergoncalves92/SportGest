@@ -275,7 +275,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
                 return true;
 
             case R.id.Details:
-                intent = new Intent(this, CallSquad_Activity.class);
+                intent = new Intent(this, GameGeneralView_Activity.class);
                 //put current exercise ID in extras
                 Bundle dataBundle2 = new Bundle();
                 dataBundle2.putLong(Game_DAO.TABLE_NAME + Game_DAO.COLUMN_ID, gameList.get(currentPos).getId());

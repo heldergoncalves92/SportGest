@@ -49,9 +49,7 @@
         <activity
             android:name=".Exercises.Exercise_Activity_Create" />
 
-        <activity
-            android:name=".Games.CallSquad_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Games.CallSquad_Activity" />
         <activity
             android:name=".Users.RolesListActivity"
             android:theme="@style/AppTheme.NoActionBar" />

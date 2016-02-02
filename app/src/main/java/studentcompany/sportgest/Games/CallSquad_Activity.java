@@ -1,6 +1,7 @@
 package studentcompany.sportgest.Games;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -92,21 +94,29 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
             game_dao = new Game_DAO(getApplicationContext());
             playerDao = new Player_DAO(getApplicationContext());
-            onBench = new ArrayList<Player>();
-            inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
-            if (inGame == null) {
+
+            List<Game> listgames =game_dao.getAll();
+
+            if (listgames.size() == 0) {
+
                 insertTest();
-                inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
+                //inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
                 //finish();
                 //return;
             }
+            baseGameID = game_dao.getAll().get(0).getId();
+            onBench = playerDao.getByCriteria(new Player(game_dao.getAll().get(0).getHome_team()));//take players of 1º game home team
+            inGame = squadCallDao.getPlayersBy_GameID(baseGameID);//take squad of 1º game
 
-            if (inGame.size() > 5) {
-                while (inGame.size() != 5) {
-                    onBench.add(inGame.get(5));
-                    inGame.remove(5);
-                }
+            if (inGame==null) {
+                inGame = new ArrayList<Player>();
+            }
+            else{
+                for(int i=0; i<inGame.size();i++)
+                    for(int j=0; j<onBench.size(); j++)
+                        if(inGame.get(i).getId()==onBench.get(j).getId())
+                            onBench.remove(j);
             }
 
             mList_inGame.setList(inGame);
@@ -145,6 +155,8 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
     }
 
 
+
+
     private void insertTest() {
         Team_DAO team_dao = new Team_DAO(getApplicationContext());
         Player_DAO player_dao = new Player_DAO(getApplicationContext());
@@ -166,22 +178,18 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176, 70.4f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
             id = player_dao.insert(p);
             p.setId(id);
-            id = squad_call_dao.insert(new Pair<>(p, game));
 
             p = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170, 83, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, team, null);
             id = player_dao.insert(p);
             p.setId(id);
-            id = squad_call_dao.insert(new Pair<>(p, game));
 
             p = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180, 73.6f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, team, null);
             id = player_dao.insert(p);
             p.setId(id);
-            id = squad_call_dao.insert(new Pair<>(p, game));
 
             p = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194, 69.69f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, team, null);
             id = player_dao.insert(p);
             p.setId(id);
-            id = squad_call_dao.insert(new Pair<>(p, game));
 
 
         } catch (GenericDAOException e) {
@@ -191,7 +199,11 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
     }
 
     public void itemSelected(int position, int tag) {
-        Player player = onBench.get(position);
+        Player player;
+        if(tag==1)
+             player = onBench.get(position);
+        else
+             player = inGame.get(position);
 
         if(player != null){
             if(currentPos == -1) {
@@ -203,9 +215,6 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
         }
     }
 
-
-    public void itemSelected(int position) {
-    }
 
     public void swapP(View v) {
         Player p, p2;
@@ -242,4 +251,60 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
 
         }
     }
+
+    /************************************
+     ****       Menu Functions       ****
+     ************************************/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_users_view, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        MenuItem item;
+
+        item = menu.findItem(R.id.action_edit);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_del);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_add);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_save);
+        item.setVisible(true);
+        item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        // Handle item selection
+        switch (item.getItemId()) {
+
+            case R.id.action_save:
+                /*
+                try {
+                    for(int i=0; i<squadCallDao.getAll().size(); i++)
+                        squadCallDao.delete(new Pair<>(inGame.get(i),game_dao.getById(baseGameID)));
+                    for(int i=0; i<inGame.size(); i++)
+                        squadCallDao.insert(new Pair<>(inGame.get(i),game_dao.getById(baseGameID)));
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+                */
+                finish();
+                return true;
+
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
