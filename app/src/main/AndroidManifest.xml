@@ -64,7 +64,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
-        <activity android:name=".Games.GamesList_Activity" />
         <activity android:name=".Games.GameGeneralView_Activity" />
         <activity android:name=".Team.Team_Activity_Edit" />
         <activity android:name=".Users.User_Activity_Edit" />

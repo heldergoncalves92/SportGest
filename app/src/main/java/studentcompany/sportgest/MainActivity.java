@@ -74,16 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //gameButton
-        gamebutton = (Button)findViewById(R.id.game_squadCall_button);
-        gamebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CallSquad_Activity.class);
-
-                startActivity(intent);
-            }
-        });
 
         //gameTestButton
         gametestbutton = (Button)findViewById(R.id.game_test_button);
@@ -231,6 +221,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_GameModeView(View v){
         Intent intent = new Intent(this, Game_Activity_GameMode.class);
+        intent.putExtra("GAME",(long)1);
+        startActivity(intent);
+    }
+
+    public void goTo_squadcall(View v){
+        Intent intent = new Intent(this, CallSquad_Activity.class);
         intent.putExtra("GAME",(long)1);
         startActivity(intent);
     }

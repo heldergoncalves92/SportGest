@@ -3,22 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Exercises.Exercise_Activity_ListView">
+    tools:context=".Team.Team_Activity_ListView">
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/without_elems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="@string/no_teams"
+        android:gravity="center"
+        android:textSize="24dp"
+        android:visibility="invisible"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/without_elems2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="There are no games"
+        android:gravity="center"
+        android:textSize="24dp"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <!-- TODO: colocar o textview para quando nao tiver nenhum exercicio -->
-
 
         <FrameLayout
-            android:id="@+id/exercise_list_fragment_container"
+            android:id="@+id/detail_fragment_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"/>
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </RelativeLayout>

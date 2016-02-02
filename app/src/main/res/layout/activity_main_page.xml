@@ -101,7 +101,8 @@
                     android:layout_weight="1"
                     android:textSize="@dimen/text_size_default"
                     android:text="@string/goTo_squadCall_button"
-                    android:id="@+id/game_squadCall_button"/>
+                    android:id="@+id/game_squadCall_button"
+                    android:onClick="goTo_squadcall"/>
 
                 <Button
                     android:layout_width="0dp"

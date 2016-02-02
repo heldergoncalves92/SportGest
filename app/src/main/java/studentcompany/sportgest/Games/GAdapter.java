@@ -96,7 +96,7 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
 
         if (game != null) {
             holder.mTextView.setText(game.getHome_team().getName());
-           holder.mTextView2.setText(game.getVisitor_team().getName());
+            holder.mTextView2.setText(game.getVisitor_team().getName());
             holder.score1.setText(String.valueOf(game.getHome_score()));
             holder.score2.setText(String.valueOf(game.getVisitor_score()));
         }

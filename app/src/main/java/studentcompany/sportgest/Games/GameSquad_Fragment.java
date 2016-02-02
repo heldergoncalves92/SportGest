@@ -27,7 +27,8 @@ public class GameSquad_Fragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
 
-    private static List<Player> players;
+    private static List<Player> playersh;
+    private static List<Player> playersv;
     private TextView textView;
     private int position;
 
@@ -36,12 +37,13 @@ public class GameSquad_Fragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    public static GameSquad_Fragment newInstance(int position, List<Player> playersgames) {
+    public static GameSquad_Fragment newInstance(int position, List<Player> playershome, List<Player> playersvisitor) {
         GameSquad_Fragment f = new GameSquad_Fragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
-        //players=playersgames;
+        playersh=playershome;
+        playersv=playersvisitor;
         return f;
     }
 
@@ -66,8 +68,9 @@ public class GameSquad_Fragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        players = playersToTest();
-        mAdapter = new Game_SquadPlayer_Adapter(players);
+        if(playersh==null)
+            playersh = playersToTest();
+        mAdapter = new Game_SquadPlayer_Adapter(playersh);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -79,8 +82,9 @@ public class GameSquad_Fragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        players = playersToTestadvr();
-        mAdapter = new Game_SquadPlayer_Adapter(players);
+        if(playersv==null)
+            playersv = playersToTestadvr();
+        mAdapter = new Game_SquadPlayer_Adapter(playersv);
         mRecyclerView.setAdapter(mAdapter);
 
 

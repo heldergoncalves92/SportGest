@@ -46,7 +46,9 @@ public class GameGeneralView_Activity extends AppCompatActivity {
     private Player_DAO playerDao;
 
     private List<Player> players;
-    private List<Player> playersgames;
+    private List<Player> playershome;
+    private List<Player> playersvisitor;
+
 
 
     private int baseTeamID;
@@ -57,6 +59,9 @@ public class GameGeneralView_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_general_view);
+
+        //initialize required DAOs
+        game_dao = new Game_DAO(this);
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -76,21 +81,7 @@ public class GameGeneralView_Activity extends AppCompatActivity {
         });
 
         //get all player
-        try {
-            playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-            //players = playerDao.getAll();
-            if(players.isEmpty()) {
 
-                //noElems();
-                insertUserTest(playerDao);
-                //players = playerDao.getAll();
-            }
-            //mListPlayer.setList(players);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
 
         //get all events
         try {
@@ -128,13 +119,38 @@ public class GameGeneralView_Activity extends AppCompatActivity {
                 //validation
                 if(game != null) {
                     Team teamhome =game.getHome_team();
-                    for(int i=0; i<players.size();i++)
-                    {
-                        Player player =players.get(i);
-                        if(player.getTeam()==teamhome)
-                            playersgames.add(player);
-                    }
+                    Team teamhome2 =game.getVisitor_team();
+                    //for(int i=0; i<players.size();i++)
+                    try {
+                        playerDao = new Player_DAO(getApplicationContext());
+                        playershome = playerDao.getByCriteria(new Player(teamhome));
+                        //playershome = playerDao.getAll();
+                        if(playershome.isEmpty()) {
 
+                            //noElems();
+                            insertUserTest(playerDao);
+                            //players = playerDao.getAll();
+                        }
+                        //mListPlayer.setList(players);
+
+                    } catch (GenericDAOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        playerDao = new Player_DAO(getApplicationContext());
+                        playersvisitor = playerDao.getByCriteria(new Player(teamhome2));
+
+                        if(playersvisitor.isEmpty()) {
+
+                            //noElems();
+                            insertUserTest(playerDao);
+                            //players = playerDao.getAll();
+                        }
+                        //mListPlayer.setList(players);
+
+                    } catch (GenericDAOException e) {
+                        e.printStackTrace();
+                    }
                     for(int i=0; i<listevents.size();i++)
                     {
                         Event ev = listevents.get(i);
@@ -177,7 +193,7 @@ public class GameGeneralView_Activity extends AppCompatActivity {
             else if(position==1)
                 return GameStatistics_Fragment.newInstance(position);
             else
-                return GameSquad_Fragment.newInstance(position, playersgames);
+                return GameSquad_Fragment.newInstance(position, playershome, playersvisitor);
         }
     }
 
