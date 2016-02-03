@@ -57,6 +57,9 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
     private Game_DAO game_dao;
     private int currentPos = 0;
 
+  //  private int listcurrentin[] = new int[10];
+   // private int listcurrenton[] = new int[10];
+
     private long baseGameID;
 
     private FragmentManager mFragmentManager;
@@ -73,7 +76,7 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_squal_call);
 
-
+/*
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
@@ -87,8 +90,7 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
             baseGameID = savedInstanceState.getLong("baseGameID");
             currentPos = savedInstanceState.getInt("currentPos");
         }
-
-
+*/
         try {
             //Initializations
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
@@ -200,10 +202,14 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
 
     public void itemSelected(int position, int tag) {
         Player player;
-        if(tag==1)
-             player = onBench.get(position);
-        else
-             player = inGame.get(position);
+        if(tag==1) {
+            //istcurrenton[position]=1;
+            player = onBench.get(position);
+        }
+        else {
+            //listcurrentin[position]=1;
+            player = inGame.get(position);
+        }
 
         if(player != null){
             if(currentPos == -1) {
@@ -285,16 +291,24 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                /*
+
+
                 try {
-                    for(int i=0; i<squadCallDao.getAll().size(); i++)
-                        squadCallDao.delete(new Pair<>(inGame.get(i),game_dao.getById(baseGameID)));
-                    for(int i=0; i<inGame.size(); i++)
-                        squadCallDao.insert(new Pair<>(inGame.get(i),game_dao.getById(baseGameID)));
+                    /*
+                    List<Player> inGameactual = squadCallDao.getPlayersBy_GameID(baseGameID);
+                    if(inGameactual!=null)
+                        for(int i=0; i<inGameactual.size(); i++)
+                            squadCallDao.delete(new Pair<>(inGameactual.get(i),game_dao.getById(baseGameID)));
+                   for(int i=0; i<inGame.size(); i++)
+                  */
+                       squadCallDao.insert(new Pair<>(onBench.get(0), game_dao.getById(baseGameID)));
+                       //testei este codigo para adicionar apenas o primeiro elemento do onBench mas ele adiciona todos os elementos
+
+
                 } catch (GenericDAOException e) {
                     e.printStackTrace();
                 }
-                */
+
                 finish();
                 return true;
 
