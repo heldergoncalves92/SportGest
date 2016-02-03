@@ -1,12 +1,18 @@
 package studentcompany.sportgest.Games;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +30,8 @@ import android.view.WindowManager;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +70,8 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private Event_Category_DAO event_category_dao;
 
     private long baseGameID;
+    private Team home,away;
+    private Game game;
 
     private FragmentManager mFragmentManager;
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
@@ -71,9 +81,10 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private static final String TAG = "GAME_GAME_MODE_ACTIVITY";
     private static final int ON_BENCH = 1, IN_GAME = 2, EVENT = 3, HISTORY_GAME = 4;
 
-    private SurfaceView field;
-    private SurfaceHolder holder;
+    private SurfaceView field;//,field2;
+    private SurfaceHolder holder;//,holder2;
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint paint2 = new Paint(Paint.DITHER_FLAG);
     private Paint paintborder = new Paint(Paint.DITHER_FLAG);
 
     private int posx=0,posy=0, height=1,width=1;
@@ -103,9 +114,14 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         public ClearScreenTask(){};
         @Override
         public void run() {
-            Canvas canvas = holder.lockCanvas();
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            holder.unlockCanvasAndPost(canvas);
+            if(holder!=null) {
+                Canvas canvas = holder.lockCanvas();
+                if (canvas != null) {
+                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                    DrawLogos(canvas);
+                    holder.unlockCanvasAndPost(canvas);
+                }
+            }
         }
     }
 
@@ -130,7 +146,11 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             // Draw the event with special border
             Canvas canvas = holder.lockCanvas();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            paintborder.setColor((0xFFFFFF - eventCategory.getColor()) | 0xFF000000); // invert the color for the border
+
+            //Draw Logos
+            DrawLogos(canvas);
+
+            paintborder.setColor((eventCategory.getColor()) | 0xFF000000); // invert the color for the border
             paintborder.setStrokeWidth(3.0f);
             paintborder.setStyle(Paint.Style.STROKE);
             paint.setColor(eventCategory.getColor());
@@ -155,7 +175,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
             //Call to clear the screen after 4s
             if(task!=null)
-                task.cancel();
+                task.cancel();// Cancel the one running
             task = new ClearScreenTask();
             new java.util.Timer().schedule(task,4000);
 
@@ -204,16 +224,62 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
 
         field = (SurfaceView)findViewById(R.id.game_field);
+        //field2 = (SurfaceView)findViewById(R.id.game_field_2);
+        field.setBackgroundColor(Color.TRANSPARENT);
+        //field2.setBackgroundColor(Color.TRANSPARENT);
         holder = field.getHolder();
+        //holder2 = field2.getHolder();
+
+        //paint2.setAlpha(100);
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setStyle(Paint.Style.FILL);
 
 
-        field.setBackgroundColor(Color.TRANSPARENT);
+        paint2.setDither(true);
+        paint2.setAntiAlias(true);
+
         field.setZOrderOnTop(true); //necessary
+        //field2.setZOrderOnTop(false); //necessary
+        //field.setZOrderMediaOverlay(true);
         holder.setFormat(PixelFormat.TRANSPARENT);
+
+
+
+        // Draw the logos
+        holder.addCallback(new SurfaceHolder.Callback() {
+
+            public void surfaceChanged(SurfaceHolder holder, int format,
+                                       int width, int height) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void surfaceCreated(SurfaceHolder holderr) {
+
+                holder = holderr;
+
+
+                //field2.setZOrderOnTop(true); //necessary
+                holder.setFormat(PixelFormat.TRANSPARENT);
+
+                Canvas canvasTeams = holder.lockCanvas();
+                canvasTeams.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+                DrawLogos(canvasTeams);
+
+                holder.unlockCanvasAndPost(canvasTeams);
+
+            }
+
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                // TODO Auto-generated method stub
+
+            }
+
+
+        });
 
 
         field.setOnTouchListener(new View.OnTouchListener() {
@@ -249,6 +315,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             event_dao = new Event_DAO(getApplicationContext());
             game_dao = new Game_DAO(getApplicationContext());
             playerDao = new Player_DAO(getApplicationContext());
+
             onBench = new ArrayList<Player>();
             inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
 
@@ -260,6 +327,12 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
                 //finish();
                 //return;
             }
+
+            game = game_dao.getById(baseGameID);
+            home = game.getHome_team();
+            away = game.getVisitor_team();
+
+
 
             if(inGame.size() > 5) {
                 while(inGame.size() != 5){
@@ -304,6 +377,52 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
     }
 
+    private void DrawLogos(Canvas canvasTeams) {
+        // Draw team logos on the field
+        if (home.getLogo() == null) {
+            drawFromDrawable(true, canvasTeams);
+        } else {
+            Bitmap homebitmap = getImageBitmap(home.getLogo());
+            canvasTeams.drawBitmap(homebitmap, 0,0, paint2);
+        }
+
+        if (away.getLogo() == null) {
+            drawFromDrawable(false, canvasTeams);
+        } else {
+            Bitmap awaybitmap = getImageBitmap(away.getLogo());
+            canvasTeams.drawBitmap(awaybitmap, 0,0, paint2);
+        }
+
+    }
+
+    private void drawFromDrawable(boolean home, Canvas canvas) {
+
+        int wid = canvas.getWidth(), hei = canvas.getHeight();
+
+        Drawable myDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            myDrawable = getResources().getDrawable(home ? R.drawable.team1 : R.drawable.team2, this.getTheme());
+        } else {
+            myDrawable = getResources().getDrawable(home ? R.drawable.team1 : R.drawable.team2);
+        }
+
+        int centerX = home ? (int)((float)wid / 4.0f) : (int)((float)wid * (3.0f/4.0f));
+        int centerY = (int)((float)hei * (3.0f/4.0f));
+
+        float margin = 0.5f;
+
+        int left = centerX - (int)(margin * (float)wid / 8.0f);
+        int right = centerX + (int)(margin * (float)wid / 8.0f);
+
+        int top = centerY - (int)(margin * (float)wid / 8.0f);
+        int bottom = centerY + (int)(margin * (float)wid / 8.0f);
+
+        myDrawable.setBounds(left, top, right, bottom);
+        myDrawable.setAlpha(100);
+        myDrawable.draw(canvas);
+
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong("baseGameID", baseGameID);
@@ -320,7 +439,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         Player p;
 
         try {
-            Team team = new Team("Santa Maria","Uma equipa fantástica!!","default.jpg",2015,0);
+            Team team = new Team("Santa Maria","Uma equipa fantástica!!",null,2015,0);
             long teamID = team_dao.insert(team);
             team.setId(teamID);
 
@@ -328,16 +447,17 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             long gameID = game_dao.insert(game);
             game.setId(gameID);
 
-            EventCategory event = new EventCategory("Goal",R.color.yellow_300,true);
+
+            EventCategory event = new EventCategory("Goal",R.color.red_300,true);
             gameID = event_category_dao.insert(event);
 
             event = new EventCategory("Substitution",R.color.blue_300,true);
             event_category_dao.insert(event);
 
-            event = new EventCategory("Yellow Card",R.color.orange_300,true);
+            event = new EventCategory("Yellow Card",R.color.yellow_300,false);
             event_category_dao.insert(event);
 
-            event = new EventCategory("Foul",4,true);
+            event = new EventCategory("Foul",R.color.deep_orange_300,true);
             event_category_dao.insert(event);
 
             p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
@@ -482,5 +602,28 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     }
 
 
+    public Bitmap getImageBitmap(String name){
+        //name=name+"."+extension;
+        try{
+
+            ContextWrapper cw = new ContextWrapper(this);
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private static String colorToHexString(int color) {
+        return String.format("#%06X", 0xFFFFFFFF & color);
+    }
 
 }
