@@ -53,16 +53,9 @@ public class Game_Fragment_list extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GAdapter(list, mListener);
+        mAdapter = new Game_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
 
-        View title = v.findViewById(R.id.game_item);
-        TextView tv = (TextView)title.findViewById(R.id.text_view);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
-        //textView = (TextView)v.findViewById(R.id.text_view);
-        //textView.setText("CARD "+position);
         return v;
     }
 
@@ -72,14 +65,14 @@ public class Game_Fragment_list extends Fragment {
 
     public void removeItem(int position){
         list.remove(position);
-        mAdapter = new GAdapter(list, mListener);
+        mAdapter = new Game_List_Adapter(list, mListener);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void updateList(){
         // Set the list adapter for the ListView
         if(list != null) {
-            mAdapter = new GAdapter(list, mListener);
+            mAdapter = new Game_List_Adapter(list, mListener);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
