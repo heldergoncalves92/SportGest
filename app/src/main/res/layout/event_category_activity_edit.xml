@@ -64,7 +64,7 @@
                         android:layout_height="27dp"
                         android:background="@color/colorPrimary"
                         android:textColor="@color/colorPrimary"
-                        android:text="-----"
+                        android:text="    "
                         android:textSize="@dimen/text_size_default" />
                     </LinearLayout>
 

@@ -1,12 +1,14 @@
 package studentcompany.sportgest.Games;
 
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
         // each data item is just a string in this case
 
         private Game_GameMode_History_List_Adapter su = null;
-        public AppCompatTextView mTextView_name;
+        public AppCompatTextView mTextView_num,mTextView_name,mTextView_color;
         public CardView parent;
 
 
@@ -42,7 +44,9 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
 
             this.su = su;
             parent = (CardView) view;
-            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            mTextView_num = (AppCompatTextView)view.findViewById(R.id.event_number);
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.event_name);
+            mTextView_color = (AppCompatTextView)view.findViewById(R.id.event_color);
         }
 
         @Override
@@ -87,7 +91,7 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
                                                              int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_card_item, parent, false);
+                .inflate(R.layout.game_events_history_card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -105,7 +109,8 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
 
         if (event != null) {
             holder.mTextView_name.setText(event.getPlayer().getNickname());
-
+            holder.mTextView_num.setText(event.getPlayer().getNumber()+"");
+            holder.mTextView_color.setTextColor(event.getEventCategory().getColor());
         }
     }
 
