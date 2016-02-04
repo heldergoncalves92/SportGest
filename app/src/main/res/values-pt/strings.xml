@@ -74,7 +74,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_mismatch_passwords">Password não coincidem</string>
     <string name="error_incorrect_password">Password é incorreta</string>
     <string name="error_field_required">Este campo é obrigatório</string>
-    <string name="permission_rationale">"Permissões de contactos são precisas para enviar e-mails completos."
+    <string name="permission_rationale">"Permissões de contactos são precisas para obter e-mails completos."
     </string>
     <string name="title_activity_login">Ligue-se</string>
     <string name="login_button">Login</string>
