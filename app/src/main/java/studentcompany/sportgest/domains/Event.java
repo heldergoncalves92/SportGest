@@ -3,14 +3,14 @@ package studentcompany.sportgest.domains;
 public class Event extends DomainPojo{
     private long id=-1;
     private String description;
-    private long date;
+    private int date;
     private int posx;
     private int posy;
     private EventCategory eventCategory;
     private Game game;
     private Player player;
 
-    public Event(long id, String description, long date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
+    public Event(long id, String description, int date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
         this.id = id;
         this.description = description;
         this.date = date;
@@ -20,7 +20,7 @@ public class Event extends DomainPojo{
         this.game = game;
         this.player = player;
     }
-    public Event(String description, long date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
+    public Event(String description, int date, int posx, int posy, EventCategory eventCategory, Game game, Player player) {
         this.description = description;
         this.date = date;
         this.posx = posx;
@@ -38,7 +38,7 @@ public class Event extends DomainPojo{
         return description;
     }
 
-    public long getDate() {
+    public int getDate() {
         return date;
     }
 
@@ -70,7 +70,7 @@ public class Event extends DomainPojo{
         this.description = description;
     }
 
-    public void setDate(long date) {
+    public void setDate(int date) {
         this.date = date;
     }
 

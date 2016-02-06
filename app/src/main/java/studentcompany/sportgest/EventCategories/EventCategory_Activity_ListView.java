@@ -168,7 +168,7 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_event_category, menu);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //To restore state on Layout Rotation
         if(currentPos != -1) {

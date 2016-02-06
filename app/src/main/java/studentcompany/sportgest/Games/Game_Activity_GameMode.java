@@ -90,7 +90,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     private int posx=0,posy=0, height=1,width=1;
     private float x=0, y=0;
     private long event_id=-1, player_id=-1;
-    private int minutes = 0; // For the Events
+    private int seconds = 0; // For the Events
     private EventCategory eventCategory=null;
     private Player player=null;
 
@@ -101,9 +101,9 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     TimePickerDialog.OnTimeSetListener myCallBack = new TimePickerDialog.OnTimeSetListener(){
 
         @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            minutes = minute;
-            drawAndInsert();
+        public void onTimeSet(TimePicker view, int minute, int second) {
+            seconds = minute*60 + second;
+            drawAndInsert(true,true);
         }
     };
 
@@ -114,42 +114,54 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
         public ClearScreenTask(){};
         @Override
         public void run() {
-            if(holder!=null) {
-                Canvas canvas = holder.lockCanvas();
-                if (canvas != null) {
-                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                    DrawLogos(canvas);
-                    holder.unlockCanvasAndPost(canvas);
-                }
+            clearScreen();
+        }
+    }
+
+    private void clearScreen() {
+
+        if(holder!=null) {
+            Canvas canvas = holder.lockCanvas();
+            if (canvas != null) {
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                DrawLogos(canvas);
+                holder.unlockCanvasAndPost(canvas);
             }
         }
     }
 
 
-    private void drawAndInsert() {
+    private void drawAndInsert(boolean drawPrevious, boolean toInsert) {
 
         if(eventCategory == null)
             return;
 
         try {
 
-            long ts = eventCategory.hasTimestamp() ? minutes : 0;
-            posx = (int) ((x*1000) / width);
-            posy = (int) ((y*1000) / height);
-            Event eventz = new Event(eventCategory.getName() == null ? "" : eventCategory.getName(),ts,posx,posy,eventCategory,new Game(baseGameID),player);
+            if(toInsert) {
+                int ts = eventCategory.hasTimestamp() ? seconds : 0;
+                posx = (int) ((x * 1000) / width);
+                posy = (int) ((y * 1000) / height);
+                Event eventz = new Event(eventCategory.getName() == null ? "" : eventCategory.getName(), ts, posx, posy, eventCategory, new Game(baseGameID), player);
 
-            long idz = event_dao.insert(eventz);
-            if(idz<0)
-                throw new GenericDAOException();
+                long idz = event_dao.insert(eventz);
+                if (idz < 0)
+                    throw new GenericDAOException();
 
+                //historyEvents.add(eventz);
+                eventz.setId(idz);
+                mHistoryEvents.insert_Item(eventz);
+
+                mList_Events.unselect_Item();
+            }
             // Inserted? let's draw!
-            // Draw the event with special border
             Canvas canvas = holder.lockCanvas();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
             //Draw Logos
             DrawLogos(canvas);
 
+            // Draw the event with special border
             paintborder.setColor((eventCategory.getColor()) | 0xFF000000); // invert the color for the border
             paintborder.setStrokeWidth(3.0f);
             paintborder.setStyle(Paint.Style.STROKE);
@@ -158,30 +170,36 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             canvas.drawCircle(x, y, 15, paint);
 
 
-            // Draw all the previous events of this type
-            for(Event ev : historyEvents)
-                if (ev.getEventCategory().getId() == eventCategory.getId())
-                    canvas.drawCircle((ev.getPosx() * width)/1000, (ev.getPosy() * height)/1000, 15, paint);
-
+            if(drawPrevious) {
+                // Draw all the previous events of this type
+                for (Event ev : historyEvents)
+                    if (ev.getEventCategory().getId() == eventCategory.getId())
+                        canvas.drawCircle((ev.getPosx() * width) / 1000, (ev.getPosy() * height) / 1000, 15, paint);
+            }
             holder.unlockCanvasAndPost(canvas);
 
             eventCategory = null;
 
-            //historyEvents.add(eventz);
-            eventz.setId(idz);
-            mHistoryEvents.insert_Item(eventz);
 
-            mList_Events.unselect_Item();
 
-            //Call to clear the screen after 4s
-            if(task!=null)
-                task.cancel();// Cancel the one running
-            task = new ClearScreenTask();
-            new java.util.Timer().schedule(task,4000);
+            if (task != null)
+                task.cancel();// Cancel the running clear task
 
-            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
+            if(toInsert) {
+
+                int cur = mHistoryEvents.getCurrentPos();
+                if(cur >= 0)
+                    mHistoryEvents.unselect_Item(cur);
+                mHistoryEvents.hideButtons();
+                //Call to clear the screen after 4s
+                task = new ClearScreenTask();
+                new java.util.Timer().schedule(task, 4000);
+
+                Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
+            }
         } catch (GenericDAOException e) {
-            Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
+            if(toInsert)
+                Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_failed, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -295,12 +313,15 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
                     if (holder.getSurface().isValid() && player != null && eventCategory != null) {
 
                         if (eventCategory.hasTimestamp()) {
+                            DurationPicker dp = new DurationPicker(Game_Activity_GameMode.this, myCallBack, 0, 0);
+                            dp.setTitle(R.string.minutesAndseconds);
+                            dp.show();/*
                             TimePickerDialog rt = new TimePickerDialog(Game_Activity_GameMode.this, myCallBack, 0, 0, true);
                             rt.setTitle(R.string.minute);
-                            rt.show();
+                            rt.show();*/
 
                         } else
-                            drawAndInsert();
+                            drawAndInsert(true,true);
                     }
                 }
                 return true;
@@ -490,15 +511,23 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
     public void itemSelected(int position, int tag){
 
         //From HistoryGameMode
-        if(tag == HISTORY_GAME)
+        if(tag == HISTORY_GAME) {
             mHistoryEvents.showButtons();
+            Event ev = historyEvents.get(position);
+            eventCategory = ev.getEventCategory();
+            x = (ev.getPosx() * width) / 1000;
+            y = (ev.getPosy() * height) / 1000;
+            drawAndInsert(false,false);
+        }
     }
 
     public void itemDesselected(int position, int tag){
 
         //From HistoryGameMode
-        if(tag == HISTORY_GAME)
+        if(tag == HISTORY_GAME) {
             mHistoryEvents.hideButtons();
+            clearScreen();
+        }
     }
 
     public void itemSelected(int position){
@@ -553,6 +582,8 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
                 mHistoryEvents.unselect_Item(selected_Item);
                 e = mHistoryEvents.removeItem(selected_Item);
                 event_dao.delete(e);
+                clearScreen();
+                mHistoryEvents.hideButtons();
 
             } catch (GenericDAOException e1) {
                 e1.printStackTrace();
