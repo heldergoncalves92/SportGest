@@ -17,6 +17,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#E1E1E1"/>
+
         <FrameLayout
             android:id="@+id/exercise_attributes_players_evaluation_fragment_container"
             android:layout_width="0dp"

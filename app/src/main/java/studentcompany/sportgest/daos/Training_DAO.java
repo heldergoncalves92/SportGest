@@ -33,6 +33,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
     public static final String COLUMN_DATE           = "DATE";
     public static final String COLUMN_TOTAL_DURATION = "TOTAL_DURATION";
     public static final String COLUMN_TEAM_ID        = "TEAM_ID";
+    public static final String COLUMN_DELETED     = "DELETED";
 
     //Create table
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -42,6 +43,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             COLUMN_DATE           + " INTEGER NOT NULL, " +
             COLUMN_TOTAL_DURATION + " INTEGER, " +
             COLUMN_TEAM_ID        + " INTEGER NOT NULL, " +
+            COLUMN_DELETED        + " INTEGER NOT NULL, " +
             "FOREIGN KEY("+COLUMN_TEAM_ID+") REFERENCES "+Team_DAO.TABLE_NAME+"("+Team_DAO.COLUMN_ID+"));";
 
     //Drop table
@@ -63,6 +65,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         long date;
         int totalDuration;
         long teamId;
+        int deleted;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME, null );
@@ -76,8 +79,9 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             date = res.getLong(res.getColumnIndex(COLUMN_DATE));
             totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
             teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
+            deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
             resTraining.add(new Training(id, title, description, date, totalDuration,
-                    team_dao.getById(teamId)));
+                    team_dao.getById(teamId), deleted));
             res.moveToNext();
         }
         res.close();
@@ -95,6 +99,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         long date;
         int totalDuration;
         long teamId;
+        int deleted;
 
         //Query
         Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + id, null );
@@ -106,8 +111,9 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         date = res.getLong(res.getColumnIndex(COLUMN_DATE));
         totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
         teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
+        deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
         resTraining = new Training(id, title, description, date, totalDuration,
-                team_dao.getById(teamId));
+                team_dao.getById(teamId), deleted);
 
         res.close();
         return resTraining;
@@ -128,6 +134,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_TOTAL_DURATION, object.getTotalDuration());
         contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        contentValues.put(COLUMN_DELETED, object.getDeleted());
 
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -161,6 +168,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
         contentValues.put(COLUMN_DATE, object.getDate());
         contentValues.put(COLUMN_TOTAL_DURATION, object.getTotalDuration());
         contentValues.put(COLUMN_TEAM_ID, object.getTeam().getId());
+        contentValues.put(COLUMN_DELETED, object.getDeleted());
 
         db.update(TABLE_NAME,
                 contentValues,
@@ -212,6 +220,10 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                 fields++;
             }
         }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt);
+            fields++;
+        }
 
         if (fields > 0) {
             Cursor res = db.rawQuery(statement.toString(), null);
@@ -260,6 +272,10 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                 statement.append(((fields != 0) ? " AND " : "") + COLUMN_TEAM_ID + " = " + tmpLong );
                 fields++;
             }
+        if ((tmpInt = object.getDeleted()) >= 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DELETED + " = " + tmpInt);
+            fields++;
+        }
 
         if (fields > 0) {
 
@@ -269,6 +285,7 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
             long date;
             int totalDuration;
             long teamId;
+            int deleted;
 
             Cursor res = db.rawQuery( statement.toString(), null );
             if(res.moveToFirst())
@@ -280,8 +297,9 @@ public class Training_DAO extends GenericDAO<Training> implements IGenericDAO<Tr
                     date = res.getLong(res.getColumnIndex(COLUMN_DATE));
                     totalDuration = res.getInt(res.getColumnIndex(COLUMN_TOTAL_DURATION));
                     teamId = res.getLong(res.getColumnIndex(COLUMN_TEAM_ID));
+                    deleted = res.getInt(res.getColumnIndexOrThrow(COLUMN_DELETED));
                     resTraining.add(new Training(id, title, description, date, totalDuration,
-                            team_dao.getById(teamId)));
+                            team_dao.getById(teamId), deleted));
                     res.moveToNext();
                 }
             res.close();

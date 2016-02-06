@@ -72,11 +72,11 @@
         <activity android:name=".Trainings.Training_Activity_ListView" />
         <activity android:name=".Games.GamesListActivity" />
         <activity
-            android:name=".Attributes.CreateAttributeActivity"
+            android:name=".Attributes.Attribute_Activity_Create"
             android:label="@string/app_newAttribute" />
 
         <activity
-            android:name=".Trainings.CreateTrainingActivity"
+            android:name=".Trainings.Training_Activity_Create"
             android:label="@string/app_newTraining" />
 
         <activity android:name=".Evaluation.ExerciseAttributesActivity"
@@ -85,7 +85,7 @@
             android:label="SportGest - Player Evaluation" />
         
         <activity
-            android:name=".Trainings.CreateTrainingExerciseActivity"
+            android:name=".Trainings.Training_Activity_Create_Exercises"
             android:label="@string/app_newTraining" />
         <activity android:name=".Roles.Role_Activity_ListView"></activity>
         <activity android:name=".Roles.Role_Activity_Create"></activity>

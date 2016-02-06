@@ -4,15 +4,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -50,6 +46,7 @@ public class Training_Fragment_List extends Fragment {
         View v = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.exercise_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -59,13 +56,6 @@ public class Training_Fragment_List extends Fragment {
         mAdapter = new Trainings_Adapter(list, mListener, tag);
         mRecyclerView.setAdapter(mAdapter);
 
-        View title = v.findViewById(R.id.exercise_item);
-        TextView tv = (TextView)title.findViewById(R.id.text_view);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
-        //textView = (TextView)v.findViewById(R.id.text_view);
-        //textView.setText("CARD "+position);
         return v;
     }
 

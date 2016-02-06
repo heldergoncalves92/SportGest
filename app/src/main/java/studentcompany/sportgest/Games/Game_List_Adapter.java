@@ -7,19 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
-import studentcompany.sportgest.Games.Game_Fragment_list;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
-import studentcompany.sportgest.domains.Team;
 
 /**
  * Created by heldergoncalves on 05/01/16.
  */
-public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
+public class Game_List_Adapter extends RecyclerView.Adapter<Game_List_Adapter.ViewHolder> {
 
     private static Game_Fragment_list.OnItemSelected mListener;
     private List<Game> mDataset;
@@ -33,11 +31,12 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        private GAdapter su;
+        private Game_List_Adapter su;
         public AppCompatTextView mTextView, mTextView2, score1, score2;
+        public ImageView image_home, image_visitor;
         public CardView parent;
 
-        public ViewHolder(View view, GAdapter su) {
+        public ViewHolder(View view, Game_List_Adapter su) {
             super(view);
             view.setOnClickListener(this);
 
@@ -47,7 +46,8 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
             mTextView2 = (AppCompatTextView)view.findViewById(R.id.name_visitor);
             score1 = (AppCompatTextView)view.findViewById(R.id.score_home);
             score2 = (AppCompatTextView)view.findViewById(R.id.score_visitor);
-
+            image_home = (ImageView)view.findViewById(R.id.image_home);
+            image_visitor = (ImageView)view.findViewById(R.id.image_visitor);
 
         }
 
@@ -66,7 +66,7 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public GAdapter(List<Game> myDataset, Game_Fragment_list.OnItemSelected mListener) {
+    public Game_List_Adapter(List<Game> myDataset, Game_Fragment_list.OnItemSelected mListener) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
@@ -74,7 +74,7 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public GAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public Game_List_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -94,9 +94,13 @@ public class GAdapter extends RecyclerView.Adapter<GAdapter.ViewHolder> {
 
         Game game = mDataset.get(position);
 
+
         if (game != null) {
-            holder.mTextView.setText(game.getHome_team().getName());
-            holder.mTextView2.setText(game.getVisitor_team().getName());
+            if(game.getHome_team() != null)
+                holder.mTextView.setText(game.getHome_team().getName());
+            if(game.getVisitor_team() != null)
+                holder.mTextView2.setText(game.getVisitor_team().getName());
+            
             holder.score1.setText(String.valueOf(game.getHome_score()));
             holder.score2.setText(String.valueOf(game.getVisitor_score()));
         }

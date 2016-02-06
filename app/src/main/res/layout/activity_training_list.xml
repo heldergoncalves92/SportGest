@@ -7,11 +7,17 @@
     android:orientation="horizontal"
     tools:context=".Trainings.Training_Activity_ListView">
 
+
     <FrameLayout
         android:id="@+id/training_list_fragment_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#E1E1E1"/>
 
     <FrameLayout
         android:id="@+id/training_detail_fragment_container"

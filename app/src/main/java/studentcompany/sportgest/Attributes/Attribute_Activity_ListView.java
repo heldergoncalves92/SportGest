@@ -79,10 +79,17 @@ public class Attribute_Activity_ListView extends AppCompatActivity implements At
     }
 
     public void removeAttribute(){
-        attribute_dao.deleteById(attributeList.get(currentPos).getId());
+        Attribute attribute;
 
         mDetailsAttribute.clearDetails();
-        mListAttributes.removeItem(currentPos);
+        attribute = mListAttributes.removeItem(currentPos);
+        attribute.setDeleted(1);
+
+        try {
+            attribute_dao.update(attribute);
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -90,10 +97,10 @@ public class Attribute_Activity_ListView extends AppCompatActivity implements At
     }
 
     public void updateAttributeList() throws GenericDAOException {
-        attributeList = attribute_dao.getAll();
+        attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
         if(attributeList.isEmpty()) {
-            new AttributeTestData(getApplicationContext());
-            attributeList = attribute_dao.getAll();
+            new Attribute_TestData(getApplicationContext());
+            attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
         }
     }
     /************************************
@@ -192,7 +199,7 @@ public class Attribute_Activity_ListView extends AppCompatActivity implements At
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                Intent intent = new Intent(this, CreateAttributeActivity.class);
+                Intent intent = new Intent(this, Attribute_Activity_Create.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -203,7 +210,7 @@ public class Attribute_Activity_ListView extends AppCompatActivity implements At
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, CreateAttributeActivity.class);
+                intent = new Intent(this, Attribute_Activity_Create.class);
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Attribute_DAO.TABLE_NAME + Attribute_DAO.COLUMN_ID, attributeList.get(currentPos).getId());
                 intent.putExtras(dataBundle);

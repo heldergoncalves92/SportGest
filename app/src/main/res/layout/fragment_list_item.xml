@@ -5,11 +5,10 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    android:layout_marginBottom="-3dp"
-    card_view:cardBackgroundColor="@android:color/white"
-    card_view:cardCornerRadius="4dp">
+    card_view:contentPaddingTop="7dp"
+    card_view:contentPaddingBottom="7dp"
+    android:layout_marginBottom="1dp"
+    card_view:cardBackgroundColor="@android:color/white">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_view"

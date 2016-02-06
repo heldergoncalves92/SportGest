@@ -9,14 +9,16 @@ public class Training extends DomainPojo implements Comparator<Training>{
     private long date;
     private int totalDuration;
     private Team team;
+    private int deleted;
 
-    public Training(long id, String title, String description, long date, int totalDuration, Team team) {
+    public Training(long id, String title, String description, long date, int totalDuration, Team team, int deleted) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
         this.totalDuration = totalDuration;
         this.team = team;
+        this.deleted = deleted;
     }
 
     public Training(long id) {
@@ -48,6 +50,10 @@ public class Training extends DomainPojo implements Comparator<Training>{
         return team;
     }
 
+    public int getDeleted() {
+        return deleted;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -72,6 +78,10 @@ public class Training extends DomainPojo implements Comparator<Training>{
         this.team = team;
     }
 
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public String toString() {
         return "Training{" +
@@ -81,6 +91,7 @@ public class Training extends DomainPojo implements Comparator<Training>{
                 ", date=" + date +
                 ", totalDuration=" + totalDuration +
                 ", team=" + team +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -99,12 +110,12 @@ public class Training extends DomainPojo implements Comparator<Training>{
         if (id != training.id) return false;
         if (date != training.date) return false;
         if (totalDuration != training.totalDuration) return false;
+        if (deleted != training.deleted) return false;
         if (title != null ? !title.equals(training.title) : training.title != null) return false;
         if (description != null ? !description.equals(training.description) : training.description != null)
             return false;
-        if (team != null ? !team.equals(training.team) : training.team != null) return false;
+        return !(team != null ? !team.equals(training.team) : training.team != null);
 
-        return true;
     }
 
     @Override
@@ -115,6 +126,7 @@ public class Training extends DomainPojo implements Comparator<Training>{
         result = 31 * result + (int) (date ^ (date >>> 32));
         result = 31 * result + totalDuration;
         result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + deleted;
         return result;
     }
 }

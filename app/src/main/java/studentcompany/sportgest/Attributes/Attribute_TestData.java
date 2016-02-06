@@ -9,10 +9,10 @@ import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Attribute;
 
-public class AttributeTestData {
+public class Attribute_TestData {
     Attribute_DAO attribute_dao;
 
-    public AttributeTestData(Context context) {
+    public Attribute_TestData(Context context) {
         attribute_dao = new Attribute_DAO(context);
 
         try {
@@ -65,8 +65,8 @@ public class AttributeTestData {
             attribute_dao.insert(new Attribute(-1, Attribute.RATIO, "Remates de longe", 0));
             attribute_dao.insert(new Attribute(-1, Attribute.QUANTITATIVE, "Tecnica", 0));
         } catch (GenericDAOException ex){
-            System.err.println(AttributeTestData.class.getName() + " [WARNING] " + ex.toString());
-            Logger.getLogger(AttributeTestData.class.getName()).log(Level.WARNING, null, ex);
+            System.err.println(Attribute_TestData.class.getName() + " [WARNING] " + ex.toString());
+            Logger.getLogger(Attribute_TestData.class.getName()).log(Level.WARNING, null, ex);
             ex.printStackTrace();
         }
     }

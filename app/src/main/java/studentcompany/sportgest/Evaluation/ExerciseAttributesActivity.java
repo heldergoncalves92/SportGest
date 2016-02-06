@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import studentcompany.sportgest.Exercises.Exercise_Fragment_List;
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.Trainings.TrainingTestData;
+import studentcompany.sportgest.Trainings.Training_TestData;
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -88,12 +88,8 @@ public class ExerciseAttributesActivity extends AppCompatActivity implements Exe
         player_dao = new Player_DAO(this);
 
         //TEST ONLY -> REMOVE
-        try {
-            if(training_dao.getAll().size() == 0) {
-                new TrainingTestData(getApplicationContext());
-            }
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
+        if(training_dao.numberOfRows() == 0) {
+            new Training_TestData(getApplicationContext());
         }
 
         //get trainingID
