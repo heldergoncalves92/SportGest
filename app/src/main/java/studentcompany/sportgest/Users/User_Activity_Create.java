@@ -315,7 +315,7 @@ public class User_Activity_Create extends AppCompatActivity {
                     intent.putExtra("ID", userID);
                     //setResult(112);
                     setResult(112,intent);
-                    finish(); ;
+                    finish();
                     return true;
                 } catch (Exception e) {
                     MyDB.getInstance(this).db.endTransaction();

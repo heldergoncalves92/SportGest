@@ -1,126 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
-
-    </android.support.design.widget.AppBarLayout>
-
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/without_elems"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:weightSum="1">
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="@string/no_players"
+        android:gravity="center"
+        android:textSize="24dp"
+        android:visibility="invisible"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/text_jogadores"
-            android:layout_weight="0.3"
-            android:text="Jogadores"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:inputType="none" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:id="@+id/editText3"
-            android:textSize="@dimen/text_size_default"
-            android:layout_weight="0.40" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Equipa Convocada"
-            android:id="@+id/editText4"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_weight="0.3" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/linear"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="0.3">
 
-            <FrameLayout
-                android:id="@+id/game_OnBench_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5.5"/>
+        <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/text_jogadores"
+                android:layout_weight="0.25"
+                android:text="@string/players"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:inputType="none" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text=""
+                android:id="@+id/editText3"
+                android:textSize="@dimen/text_size_default"
+                android:layout_weight="0.50" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/convened_Team"
+                android:id="@+id/editText4"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_weight="0.25" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="0.4">
+            android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="0.25">
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:src="@drawable/ic_swap_horiz_black_18dp"
-                    android:id="@+id/bt_switch"
-                    android:onClick="swapP"/>
+                <FrameLayout
+                    android:id="@+id/game_OnBench_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5.5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:src="@drawable/ic_swap_horiz_black_18dp"
+                        android:id="@+id/bt_switch"
+                        android:onClick="swapP"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:id="@+id/detail_fragment_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
                 android:gravity="center"
                 android:layout_height="match_parent">
 
                 <FrameLayout
-                    android:id="@+id/detail_fragment_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"/>
+                    android:id="@+id/game_InGame_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4.5"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:layout_height="match_parent">
+    </android.support.v7.widget.LinearLayoutCompat>
+</RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/game_InGame_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4.5"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>

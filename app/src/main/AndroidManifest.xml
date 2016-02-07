@@ -46,10 +46,8 @@
         <activity
             android:name=".Games.GameTest_Activity"
             android:label="@string/app_gameTest" />
-        <activity
-            android:name=".Exercises.Exercise_Activity_Create" />
-
-        <activity android:name=".Games.CallSquad_Activity" />
+        <activity android:name=".Exercises.Exercise_Activity_Create" />
+        <activity android:name=".Games.Game_Activity_SquadCall" />
         <activity
             android:name=".Users.RolesListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,33 +68,31 @@
         <activity android:name=".Attributes.Attribute_Activity_ListView" />
         <activity android:name=".Exercises.Exercise_Activity_ListView" />
         <activity android:name=".Trainings.Training_Activity_ListView" />
-        <activity android:name=".Games.GamesListActivity" />
+        <activity android:name=".Games.Game_Activity_ListView" />
         <activity
             android:name=".Attributes.Attribute_Activity_Create"
             android:label="@string/app_newAttribute" />
-
         <activity
             android:name=".Trainings.Training_Activity_Create"
             android:label="@string/app_newTraining" />
-
-        <activity android:name=".Evaluation.ExerciseAttributesActivity"
+        <activity
+            android:name=".Evaluation.ExerciseAttributesActivity"
             android:label="SportGest - Exercise Evaluation" />
-        <activity android:name=".Evaluation.PlayerAttributesActivity"
+        <activity
+            android:name=".Evaluation.PlayerAttributesActivity"
             android:label="SportGest - Player Evaluation" />
-        
         <activity
             android:name=".Trainings.Training_Activity_Create_Exercises"
             android:label="@string/app_newTraining" />
-        <activity android:name=".Roles.Role_Activity_ListView"></activity>
-        <activity android:name=".Roles.Role_Activity_Create"></activity>
-        <activity android:name=".Team.Squad_Activity_Edit"></activity>
-        <activity android:name=".Players.EditPosition_Activity"/>
+        <activity android:name=".Roles.Role_Activity_ListView" />
+        <activity android:name=".Roles.Role_Activity_Create" />
+        <activity android:name=".Team.Squad_Activity_Edit" />
+        <activity android:name=".Players.EditPosition_Activity" />
         <activity
-            android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".Games.Game_Activity_GameMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
             android:label="@string/app_teamView" />
@@ -104,12 +100,15 @@
             android:name=".EventCategories.EventCategory_Activity_Edit"
             android:label="@string/app_newTeam" />
         <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".Games.Game_Activity_Create"></activity>
     </application>
 
 </manifest>

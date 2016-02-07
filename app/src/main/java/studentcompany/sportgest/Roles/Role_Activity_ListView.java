@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
@@ -61,8 +62,7 @@ public class Role_Activity_ListView extends AppCompatActivity implements Role_Fr
 
             if (roles.isEmpty()) {
                 noElems();
-                //insertUserTest(userDao);
-                //users = userDao.getAll();
+                roles = new ArrayList<Role>();
             }else{
 
                 //Get the permission list of each Role

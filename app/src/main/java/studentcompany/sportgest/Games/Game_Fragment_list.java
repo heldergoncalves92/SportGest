@@ -77,6 +77,16 @@ public class Game_Fragment_list extends Fragment {
         }
     }
 
+    public void updatePosition(Game game, int position){
+        this.list.set(position, game);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void insert_Item(Game game, int position){
+        this.list.add(position, game);
+        mAdapter.notifyItemInserted(position);
+    }
+
     // Container Activity must implement this interface
     public interface OnItemSelected{
         void itemSelected(int position);

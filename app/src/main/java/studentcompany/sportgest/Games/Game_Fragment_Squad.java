@@ -1,8 +1,6 @@
 package studentcompany.sportgest.Games;
 
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import studentcompany.sportgest.domains.Team;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GameSquad_Fragment extends Fragment {
+public class Game_Fragment_Squad extends Fragment {
 
     private static final String ARG_POSITION = "position";
 
@@ -37,8 +36,8 @@ public class GameSquad_Fragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    public static GameSquad_Fragment newInstance(int position, List<Player> playershome, List<Player> playersvisitor) {
-        GameSquad_Fragment f = new GameSquad_Fragment();
+    public static Game_Fragment_Squad newInstance(int position, List<Player> playershome, List<Player> playersvisitor) {
+        Game_Fragment_Squad f = new Game_Fragment_Squad();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
@@ -157,5 +156,6 @@ public class GameSquad_Fragment extends Fragment {
 
         return list;
     }
+
 
 }

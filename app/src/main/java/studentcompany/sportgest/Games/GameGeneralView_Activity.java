@@ -1,39 +1,37 @@
 package studentcompany.sportgest.Games;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.daos.Event_Category_DAO;
 import studentcompany.sportgest.daos.Event_DAO;
-import studentcompany.sportgest.daos.Exercise_DAO;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Attribute;
 import studentcompany.sportgest.domains.Event;
-import studentcompany.sportgest.domains.EventCategory;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Team;
 
-public class GameGeneralView_Activity extends AppCompatActivity {
+public class GameGeneralView_Activity extends AppCompatActivity{
 
 
     private Event_DAO eventDAO;
@@ -51,7 +49,9 @@ public class GameGeneralView_Activity extends AppCompatActivity {
 
 
 
-    private int baseTeamID;
+    private long baseTeamID = 0;
+    private long baseGameID = 0;
+
     //Id of current game displayed
     private Game game;
 
@@ -79,8 +79,6 @@ public class GameGeneralView_Activity extends AppCompatActivity {
                 Toast.makeText(GameGeneralView_Activity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
             }
         });
-
-        //get all player
 
 
         //get all events
@@ -193,11 +191,52 @@ public class GameGeneralView_Activity extends AppCompatActivity {
             else if(position==1)
                 return GameStatistics_Fragment.newInstance(position);
             else
-                return GameSquad_Fragment.newInstance(position, playershome, playersvisitor);
+                return Game_Fragment_Squad.newInstance(position, playershome, playersvisitor);
         }
     }
 
 
+    /************************************
+     ****       Menu Functions       ****
+     ************************************/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Menu mOptionsMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_game_view, menu);
+
+        //To restore state on Layout Rotation
+        /*if(currentPos != -1 && players.size()>0) {
+
+            MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+            item.setVisible(true);
+
+            item = mOptionsMenu.findItem(R.id.action_edit);
+            item.setVisible(true);
+
+            mDetailsPlayer.showPlayer(players.get(currentPos));
+            mListPlayer.select_Item(currentPos);
+        }*/
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_home_CallSquad:
+                Intent intent = new Intent(this, Game_Activity_SquadCall.class);
+                intent.putExtra("TEAM", baseTeamID);
+                intent.putExtra("GAME", baseGameID);
+                startActivity(intent);
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /************************************
      ****        Test Functions      ****

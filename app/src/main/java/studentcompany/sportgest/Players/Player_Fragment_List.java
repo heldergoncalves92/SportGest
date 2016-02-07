@@ -89,6 +89,11 @@ public class Player_Fragment_List extends Fragment {
         mAdapter.notifyItemInserted(list.size() - 1);
     }
 
+    public void insert_Item(Player player, int position){
+        this.list.add(position, player);
+        mAdapter.notifyItemInserted(position);
+    }
+
     public void selectFirstItem(){
 
         Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);

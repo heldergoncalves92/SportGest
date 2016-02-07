@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -71,9 +73,10 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
             //players = playerDao.getAll();
             if(players.isEmpty()) {
 
-                //noElems();
-                insertUserTest(playerDao);
-                //players = playerDao.getAll();
+                noElems();
+                players = new ArrayList<Player>();
+                //insertUserTest(playerDao);
+
             }
             mListPlayer.setList(players);
 
@@ -113,21 +116,32 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
     public void noElems(){
 
-        LinearLayout l = (LinearLayout)findViewById(R.id.linear);
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
         l.setVisibility(View.GONE);
 
-        TextView t= (TextView)findViewById(R.id.without_elems);
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
         t.setVisibility(View.VISIBLE);
+    }
+
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
     }
 
     public void removePlayer(){
         mDetailsPlayer.clearDetails();
-        mListPlayer.removeItem(currentPos);
-
         playerDao.deleteById(players.get(currentPos).getId());
+        mListPlayer.removeItem(currentPos);
 
         currentPos = -1;
         MenuItem item = mOptionsMenu.findItem(R.id.action_del);
+        item.setVisible(false);
+
+        item = mOptionsMenu.findItem(R.id.action_edit);
         item.setVisible(false);
 
         if(players.isEmpty())
@@ -324,23 +338,24 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                     long id = (long) bundle.get("id");
                     int idToSearch = (int) (id + 0);
                     player=playerDao.getById(idToSearch);
+
                     System.out.println(player);
-                    players.add(player);
+                    mListPlayer.insert_Item(player, 0);
                     mDetailsPlayer.showPlayer(player);
 
-                    /*
-                    Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    player=playerDao.getById(idToSearch);
-                    players.add(player);
-                    mDetailsPlayer.showPlayer(player);
-                    mListPlayer.addItem(player);
-                    */
+
+                    int selection = mListPlayer.has_Selection();
+                    if(selection != -1)
+                        mListPlayer.unselect_Item(selection);
+
+                    mListPlayer.select_Item(0);
 
 
-                    players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-                    mListPlayer.updateList(players);
+                    //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+                    //mListPlayer.updateList(players);
+
+                    if(players.size() == 1)
+                        withElems();
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

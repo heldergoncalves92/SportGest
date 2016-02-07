@@ -10,8 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +29,7 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
 
-public class GamesListActivity extends AppCompatActivity implements Game_Fragment_list.OnItemSelected  {
+public class Game_Activity_ListView extends AppCompatActivity implements Game_Fragment_list.OnItemSelected  {
 
     private Game_DAO game_dao;
     private List<Game> gameList;
@@ -34,9 +39,10 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
-    private Game_Fragment_list mListExercises = new Game_Fragment_list();
+    private Game_Fragment_list mListGames = new Game_Fragment_list();
 
     private static final String TAG = "EXERCISE_ACTIVITY";
+    private final int CREATE = 234, EDIT = 235;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +54,10 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
             gameList = game_dao.getAll();
             if(gameList.isEmpty()) {
-                new GameTestData(getApplicationContext());
-                gameList = game_dao.getAll();
-
-                //gameList = new ArrayList<>();
+                noElems();
+                gameList = new ArrayList<>();
             }
-            mListExercises.setGameList(gameList);
+            mListGames.setGameList(gameList);
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -66,7 +70,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the TitleFragment to the layout
-        fragmentTransaction.add(R.id.exercise_list_fragment_container , mListExercises);
+        fragmentTransaction.add(R.id.exercise_list_fragment_container , mListGames);
         //fragmentTransaction.add(R.id.exercise_detail_fragment_container, mDetailsExercise);
 
         fragmentTransaction.commit();
@@ -74,9 +78,26 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("currentPos", currentPos);
+
     }
 
+    public void noElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
+    }
+
+    private void withElems(){
+
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.VISIBLE);
+
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.GONE);
+    }
 
     public List<String> getNamesList(List<Exercise> exerciseList){
         ArrayList<String> list = new ArrayList<>();
@@ -90,7 +111,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
 
     public void removeExercise(){
         //mDetailsExercise.clearDetails();
-        mListExercises.removeItem(currentPos);
+        mListGames.removeItem(currentPos);
 
         try {
             Game game = game_dao.getById(gameList.get(currentPos).getId());
@@ -151,7 +172,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    GamesListActivity activity = (GamesListActivity) getActivity();
+                                    Game_Activity_ListView activity = (Game_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                 }
                             })
@@ -159,7 +180,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    GamesListActivity activity = (GamesListActivity) getActivity();
+                                    Game_Activity_ListView activity = (Game_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
                                     activity.removeExercise();
                                 }
@@ -187,8 +208,8 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Add:
-                intent = new Intent(this, Exercise_Activity_Create.class);
-                startActivityForResult(intent, 0);
+                intent = new Intent(this, Game_Activity_Create.class);
+                startActivityForResult(intent, CREATE);
                 return true;
 
             case R.id.Edit:
@@ -199,7 +220,7 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
                 //add data
                 intent.putExtras(dataBundle);
                 //start activity
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, EDIT);
                 return true;
 
 
@@ -227,20 +248,25 @@ public class GamesListActivity extends AppCompatActivity implements Game_Fragmen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 0) {
-            try {
-                gameList = game_dao.getAll();
-                mListExercises.setGameList(gameList);
-                mListExercises.updateList();
+        if (requestCode == CREATE) {
+            if(resultCode == 1){
+                try {
+                    long id = data.getExtras().getLong("ID");
+                    Game game = game_dao.getById(id);
+                    mListGames.insert_Item(game, 0);
 
-            } catch (GenericDAOException e) {
-                e.printStackTrace();
+                    if(gameList.size() == 1)
+                        withElems();
+
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
+                //mDetailsExercise.clearDetails();
+                currentPos = -1;
+                mOptionsMenu.findItem(R.id.Delete).setVisible(false);
+                mOptionsMenu.findItem(R.id.Edit).setVisible(false);
+                mOptionsMenu.findItem(R.id.Details).setVisible(false);
             }
-            //mDetailsExercise.clearDetails();
-            currentPos = -1;
-            mOptionsMenu.findItem(R.id.Delete).setVisible(false);
-            mOptionsMenu.findItem(R.id.Edit).setVisible(false);
-            mOptionsMenu.findItem(R.id.Details).setVisible(false);
         }
     }
 }

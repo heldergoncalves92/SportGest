@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#E1E1E1"
-    tools:context=".Games.GameSquad_Fragment">
+    tools:context=".Games.Game_Fragment_Squad">
 
     <TextView
         android:id="@+id/text_view"

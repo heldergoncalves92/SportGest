@@ -185,5 +185,17 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="NoSelected_Attribute">Select an Attribute!</string>
     <string name="NoSelected_Player">Select a Player!</string>
     <string name="NoSelected_Exercise">Select an Exercise!</string>
+    <string name="GameLocation">Game Location</string>
+    <string name="GameDate">Game date</string>
+    <string name="NoSelected_Date">Select a Date!</string>
+    <string name="HomeTeam">Home Team:</string>
+    <string name="visitorTeam">Visitor Team:</string>
+    <string name="NoSelected_Hour">Select a Hour!</string>
+    <string name="no_games">There are no games!</string>
+    <string name="players">Players</string>
+    <string name="convened_Team">Convened Team</string>
+    <string name="select_squad">Select squad!</string>
+    <string name="action_edit_HomeCallSquad">Edit Home\'s Squad</string>
+    <string name="action_edit_VisitorCallSquad">Edit Visitor Squad</string>
 
 </resources>

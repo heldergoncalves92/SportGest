@@ -13,6 +13,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,18 +51,17 @@ import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Team;
 
-public class CallSquad_Activity extends AppCompatActivity implements Player_Fragment_List.OnItemSelected {
+public class Game_Activity_SquadCall extends AppCompatActivity implements Player_Fragment_List.OnItemSelected {
 
-    private List<Player> inGame, onBench;
+    private List<Player> inGame, onBench, all_players;
     private Player_DAO playerDao;
     private Squad_Call_DAO squadCallDao;
     private Game_DAO game_dao;
     private int currentPos = 0;
 
-  //  private int listcurrentin[] = new int[10];
-   // private int listcurrenton[] = new int[10];
 
     private long baseGameID;
+    private long baseTeamID;
 
     private FragmentManager mFragmentManager;
     private Player_Fragment_List mList_inGame = new Player_Fragment_List();
@@ -76,49 +77,59 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_squal_call);
 
-/*
+
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) {
                 baseGameID = extras.getLong("GAME");
+                baseTeamID = extras.getLong("TEAM");
 
-            } else
-                baseGameID = -1;
-
+            } else {
+                baseGameID = 0;
+                baseTeamID = 0;
+            }
         } else {
             baseGameID = savedInstanceState.getLong("baseGameID");
+            baseTeamID = savedInstanceState.getLong("baseTeamID");
             currentPos = savedInstanceState.getInt("currentPos");
         }
-*/
+
+        //Some verifications
+        if(baseTeamID <=0 || baseGameID <= 0) {
+            Toast.makeText(this, "Invalid call!!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         try {
+
             //Initializations
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
-            game_dao = new Game_DAO(getApplicationContext());
             playerDao = new Player_DAO(getApplicationContext());
 
+            onBench = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
 
-            List<Game> listgames =game_dao.getAll();
-
-            if (listgames.size() == 0) {
-
-                insertTest();
-                //inGame = squadCallDao.getPlayersBy_GameID(baseGameID);
-                //finish();
-                //return;
-            }
-            baseGameID = game_dao.getAll().get(0).getId();
-            onBench = playerDao.getByCriteria(new Player(game_dao.getAll().get(0).getHome_team()));//take players of 1º game home team
-            inGame = squadCallDao.getPlayersBy_GameID(baseGameID);//take squad of 1º game
-
-            if (inGame==null) {
+            if (onBench.size() == 0) {
+                noElems();
                 inGame = new ArrayList<Player>();
-            }
-            else{
-                for(int i=0; i<inGame.size();i++)
-                    for(int j=0; j<onBench.size(); j++)
-                        if(inGame.get(i).getId()==onBench.get(j).getId())
-                            onBench.remove(j);
+
+            } else{
+                Long id;
+                all_players = squadCallDao.getPlayersBy_GameID(baseGameID);
+                for (Player p: onBench){
+                    id = p.getId();
+                    for (Player pa: all_players) {
+                        if (id == pa.getId()) {
+                            inGame.add(p);
+                            break;
+                        }
+                    }
+                }
+
+                //Remove repeted players
+                for (Player p: inGame)
+                    onBench.remove(p);
             }
 
             mList_inGame.setList(inGame);
@@ -126,8 +137,6 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
 
             mList_inGame.setTag(IN_GAME);
             mList_onBench.setTag(ON_BENCH);
-
-
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
@@ -150,63 +159,30 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
 
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong("baseGameID", baseGameID);
+        outState.putLong("baseTeamID", baseTeamID);
         outState.putInt("currentPos", currentPos);
     }
 
+    public void noElems(){
 
+        LinearLayoutCompat l = (LinearLayoutCompat)findViewById(R.id.linear);
+        l.setVisibility(View.GONE);
 
-
-    private void insertTest() {
-        Team_DAO team_dao = new Team_DAO(getApplicationContext());
-        Player_DAO player_dao = new Player_DAO(getApplicationContext());
-        Game_DAO game_dao = new Game_DAO(getApplicationContext());
-        Squad_Call_DAO squad_call_dao = new Squad_Call_DAO(getApplicationContext());
-        long id;
-        Player p;
-
-        try {
-            Team team = new Team("Santa Maria", "Uma equipa fantástica!!", "default.jpg", 2015, 0);
-            long teamID = team_dao.insert(team);
-            team.setId(teamID);
-
-            Game game = new Game(team, team, new Date().getTime(), "", -1, -1, 40.0f);
-            long gameID = game_dao.insert(game);
-            game.setId(gameID);
-
-
-            p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176, 70.4f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170, 83, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180, 73.6f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194, 69.69f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
+        AppCompatTextView t= (AppCompatTextView)findViewById(R.id.without_elems);
+        t.setVisibility(View.VISIBLE);
     }
 
     public void itemSelected(int position, int tag) {
-        Player player;
-        if(tag==1) {
+        Player player = null;
+        if(tag==ON_BENCH) {
             //istcurrenton[position]=1;
             player = onBench.get(position);
         }
-        else {
+        else if(tag == IN_GAME) {
             //listcurrentin[position]=1;
             player = inGame.get(position);
         }
@@ -294,15 +270,8 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
 
 
                 try {
-                    /*
-                    List<Player> inGameactual = squadCallDao.getPlayersBy_GameID(baseGameID);
-                    if(inGameactual!=null)
-                        for(int i=0; i<inGameactual.size(); i++)
-                            squadCallDao.delete(new Pair<>(inGameactual.get(i),game_dao.getById(baseGameID)));
-                   for(int i=0; i<inGame.size(); i++)
-                  */
-                       squadCallDao.insert(new Pair<>(onBench.get(0), game_dao.getById(baseGameID)));
-                       //testei este codigo para adicionar apenas o primeiro elemento do onBench mas ele adiciona todos os elementos
+                    squadCallDao.insert(new Pair<>(onBench.get(0), game_dao.getById(baseGameID)));
+                    //testei este codigo para adicionar apenas o primeiro elemento do onBench mas ele adiciona todos os elementos
 
 
                 } catch (GenericDAOException e) {
@@ -319,6 +288,47 @@ public class CallSquad_Activity extends AppCompatActivity implements Player_Frag
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void insertTest() {
+        Team_DAO team_dao = new Team_DAO(getApplicationContext());
+        Player_DAO player_dao = new Player_DAO(getApplicationContext());
+        Game_DAO game_dao = new Game_DAO(getApplicationContext());
+        Squad_Call_DAO squad_call_dao = new Squad_Call_DAO(getApplicationContext());
+        long id;
+        Player p;
+
+        try {
+            Team team = new Team("Santa Maria", "Uma equipa fantástica!!", "default.jpg", 2015, 0);
+            long teamID = team_dao.insert(team);
+            team.setId(teamID);
+
+            Game game = new Game(team, team, new Date().getTime(), "", -1, -1, 40.0f);
+            long gameID = game_dao.insert(game);
+            game.setId(gameID);
+
+
+            p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176, 70.4f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
+            id = player_dao.insert(p);
+            p.setId(id);
+
+            p = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170, 83, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, team, null);
+            id = player_dao.insert(p);
+            p.setId(id);
+
+            p = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180, 73.6f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, team, null);
+            id = player_dao.insert(p);
+            p.setId(id);
+
+            p = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194, 69.69f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, team, null);
+            id = player_dao.insert(p);
+            p.setId(id);
+
+
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

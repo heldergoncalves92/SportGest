@@ -15,11 +15,11 @@ import android.widget.Button;
 import studentcompany.sportgest.Attributes.Attribute_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
 import studentcompany.sportgest.Exercises.Exercise_Activity_ListView;
-import studentcompany.sportgest.Games.CallSquad_Activity;
+import studentcompany.sportgest.Games.Game_Activity_SquadCall;
 import studentcompany.sportgest.Games.GameGeneralView_Activity;
 import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
-import studentcompany.sportgest.Games.GamesListActivity;
+import studentcompany.sportgest.Games.Game_Activity_ListView;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
@@ -203,12 +203,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void goTo_Games_teste(View v){
         //insertGamesTest();
-        Intent intent = new Intent(this, GamesListActivity.class);
+        Intent intent = new Intent(this, Game_Activity_ListView.class);
         startActivity(intent);
     }
     public void goTo_Games(View v){
         //insertGamesTest();
-        Intent intent = new Intent(this, GamesListActivity.class);
+        Intent intent = new Intent(this, Game_Activity_ListView.class);
         startActivity(intent);
     }
 
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_squadcall(View v){
-        Intent intent = new Intent(this, CallSquad_Activity.class);
+        Intent intent = new Intent(this, Game_Activity_SquadCall.class);
         intent.putExtra("GAME",(long)1);
         startActivity(intent);
     }
