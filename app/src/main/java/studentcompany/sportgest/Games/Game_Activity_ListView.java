@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,19 +36,42 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
     private List<Game> gameList;
 
     private int currentPos = -1;
+    private long baseTeamID = 0;
     private Menu mOptionsMenu;
+
 
     private DialogFragment mDialog;
     private FragmentManager mFragmentManager;
     private Game_Fragment_list mListGames = new Game_Fragment_list();
 
     private static final String TAG = "EXERCISE_ACTIVITY";
-    private final int CREATE = 234, EDIT = 235;
+    private final int CREATE = 234, EDIT = 235, DETAILS = 236;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_list);
+
+        //Get Informations from the previous activity or rotation Layout
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null){
+                baseTeamID = extras.getLong("TEAM");
+
+            } else {
+                baseTeamID = 0;
+            }
+        } else {
+            baseTeamID = savedInstanceState.getInt("baseTeamID");
+        }
+
+        //Some verifications
+        if(baseTeamID <=0) {
+            Toast.makeText(this, "Invalid call!!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         try {
             game_dao = new Game_DAO(getApplicationContext());
@@ -78,7 +102,7 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
+        outState.putLong("baseTeamID", baseTeamID);
     }
 
     public void noElems(){
@@ -99,30 +123,17 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
         t.setVisibility(View.GONE);
     }
 
-    public List<String> getNamesList(List<Exercise> exerciseList){
-        ArrayList<String> list = new ArrayList<>();
-
-        for(Exercise e: exerciseList)
-            list.add(e.getTitle());
-        Collections.sort(list);
-        return list;
-    }
 
 
-    public void removeExercise(){
-        //mDetailsExercise.clearDetails();
-        mListGames.removeItem(currentPos);
-
+    public void removeGame(){
         try {
-            Game game = game_dao.getById(gameList.get(currentPos).getId());
-            if(game != null) {
-                //remove agme
-                game_dao.deleteById(gameList.get(currentPos).getId());
-            }
-        }catch (GenericDAOException ex){
-            ex.printStackTrace();
+
+            Game game = mListGames.removeItem(currentPos);
+            game_dao.deleteById(game.getId());
+
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
         }
-        gameList.remove(currentPos);
 
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
@@ -138,9 +149,14 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
 
         if(game != null){
             if(currentPos == -1) {
-                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
-                mOptionsMenu.findItem(R.id.Edit).setVisible(true);
+                //mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                //mOptionsMenu.findItem(R.id.Edit).setVisible(true);
                 mOptionsMenu.findItem(R.id.Details).setVisible(true);
+                Intent intent = new Intent(this, GameGeneralView_Activity.class);
+                intent.putExtra("TEAM", baseTeamID);
+                intent.putExtra("GAME", gameList.get(position).getId());
+
+                startActivityForResult(intent, DETAILS);
             }
 
             currentPos = position;
@@ -182,7 +198,7 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                                 public void onClick(DialogInterface dialog, int which) {
                                     Game_Activity_ListView activity = (Game_Activity_ListView) getActivity();
                                     activity.DialogDismiss();
-                                    activity.removeExercise();
+                                    activity.removeGame();
                                 }
                             }).create();
         }
@@ -213,13 +229,8 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                 return true;
 
             case R.id.Edit:
-                intent = new Intent(this, Exercise_Activity_Create.class);
-                //put current exercise ID in extras
-                Bundle dataBundle = new Bundle();
-                dataBundle.putLong(Game_DAO.TABLE_NAME + Game_DAO.COLUMN_ID, gameList.get(currentPos).getId());
-                //add data
-                intent.putExtras(dataBundle);
-                //start activity
+                intent = new Intent(this, Game_Activity_Create.class);
+                intent.putExtra("GAME", gameList.get(currentPos).getId());
                 startActivityForResult(intent, EDIT);
                 return true;
 
@@ -231,13 +242,12 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
 
             case R.id.Details:
                 intent = new Intent(this, GameGeneralView_Activity.class);
-                //put current exercise ID in extras
-                Bundle dataBundle2 = new Bundle();
-                dataBundle2.putLong(Game_DAO.TABLE_NAME + Game_DAO.COLUMN_ID, gameList.get(currentPos).getId());
+
                 //add data
-                intent.putExtras(dataBundle2);
-                //start activity
-                startActivityForResult(intent, 0);
+                intent.putExtra("TEAM", baseTeamID);
+                intent.putExtra("GAME", gameList.get(currentPos).getId());
+
+                startActivityForResult(intent, DETAILS);
                 return true;
 
             default:
@@ -266,6 +276,16 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                 mOptionsMenu.findItem(R.id.Delete).setVisible(false);
                 mOptionsMenu.findItem(R.id.Edit).setVisible(false);
                 mOptionsMenu.findItem(R.id.Details).setVisible(false);
+            }
+
+        } else if (requestCode == DETAILS) {
+            if(resultCode == 1){
+                int operation = data.getExtras().getInt("OPERATION");
+
+                //Delete a game
+                if(operation == 1) removeGame();
+            } else{
+                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
             }
         }
     }

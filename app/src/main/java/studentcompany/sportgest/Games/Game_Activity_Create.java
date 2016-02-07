@@ -43,13 +43,15 @@ public class Game_Activity_Create extends AppCompatActivity {
     private int mMinute;
     private int selectedYear=0, selectedMonth, selectedDay;
 
-    private EditText tv_location;
+    private EditText tv_report;
     private Spinner hometeam_Spinner, visitorTeam_Spinner;
 
     private Team_DAO team_dao;
     private Game_DAO game_dao;
 
     private ArrayList<Team> mListTeams;
+    private long baseGameID=0;
+    private Game game=null;
 
 
     @Override
@@ -57,11 +59,27 @@ public class Game_Activity_Create extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity_create);
 
+
+        //Get Informations from the previous activity or rotation Layout
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null){
+                baseGameID = extras.getLong("GAME");
+
+            }
+        } else {
+            baseGameID = savedInstanceState.getInt("baseGameID");
+        }
+
+
+
+
         btnCalendar = (ImageButton) findViewById(R.id.input_gameDate);
         txtDate = (TextView) findViewById(R.id.txtDate);
         txtHour = (TextView) findViewById(R.id.txtHour);
 
-        tv_location = (EditText) findViewById(R.id.input_gameLocation);
+        tv_report = (EditText) findViewById(R.id.input_gameReport);
 
         hometeam_Spinner = (Spinner)findViewById(R.id.input_spinner_homeTeam);
         visitorTeam_Spinner = (Spinner)findViewById(R.id.input_spinner_visitorTeam);
@@ -83,6 +101,19 @@ public class Game_Activity_Create extends AppCompatActivity {
 
         } catch (GenericDAOException e) {
             e.printStackTrace();
+        }
+
+        //For Edit Case
+        if(baseGameID != 0){
+            try {
+                game = game_dao.getById(baseGameID);
+
+                tv_report.setText(game.getReport());
+                
+
+            } catch (GenericDAOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -206,7 +237,7 @@ public class Game_Activity_Create extends AppCompatActivity {
 
                 try {
 
-                    Game game = new Game(home_team,visitor_team, date_game);
+                    Game game = new Game(home_team,visitor_team, date_game, tv_report.getText().toString());
                     long id = game_dao.insert(game);
 
                     Toast.makeText(getApplicationContext(), "Game inserted successfully!", Toast.LENGTH_SHORT).show();

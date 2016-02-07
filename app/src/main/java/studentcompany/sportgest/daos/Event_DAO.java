@@ -103,6 +103,44 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         return resEvent;
     }
 
+    public ArrayList<Event> getByGameID(long gameID) throws GenericDAOException {
+
+        //aux variables;
+        ArrayList<Event> resEvent = new ArrayList<>();
+        long id;
+        String description;
+        long date;
+        int posx;
+        int posy;
+        long eventCategoryId;
+        long gameId;
+        long playerId;
+
+        //Query
+        Cursor res = db.rawQuery( "SELECT * FROM " + TABLE_NAME + " WHERE " + this.COLUMN_GAMEID + "=" +gameID, null );
+        res.moveToFirst();
+
+        //Parse data
+        while(res.isAfterLast() == false) {
+            id = res.getLong(res.getColumnIndex(COLUMN_ID));
+            description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
+            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+            posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
+            posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
+            eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
+            gameId = res.getLong(res.getColumnIndex(COLUMN_GAMEID));
+            playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
+            resEvent.add(new Event(id, description, date, posx, posy,
+                    event_category_dao.getById(eventCategoryId),
+                    game_dao.getById(gameId),
+                    player_dao.getById(playerId)));
+            res.moveToNext();
+        }
+
+        return resEvent;
+    }
+
+
     @Override
     public Event getById(long id) throws GenericDAOException {
 

@@ -151,12 +151,12 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_gameLocation"
+                android:id="@+id/input_gameReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:textSize="@dimen/text_size_default"
-                android:hint="@string/GameLocation" />
+                android:hint="@string/Game_Report" />
 
         </android.support.design.widget.TextInputLayout>
 

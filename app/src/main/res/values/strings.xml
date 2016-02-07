@@ -197,5 +197,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="select_squad">Select squad!</string>
     <string name="action_edit_HomeCallSquad">Edit Home\'s Squad</string>
     <string name="action_edit_VisitorCallSquad">Edit Visitor Squad</string>
+    <string name="Game_Report">Report</string>
 
 </resources>

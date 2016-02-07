@@ -58,6 +58,7 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
     private Squad_Call_DAO squadCallDao;
     private Game_DAO game_dao;
     private int currentPos = 0;
+    private Menu mOptionsMenu;
 
 
     private long baseGameID;
@@ -113,6 +114,7 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
             if (onBench.size() == 0) {
                 noElems();
                 inGame = new ArrayList<Player>();
+
 
             } else{
                 Long id;
@@ -206,6 +208,9 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
         selected_InGame = mList_inGame.has_Selection();
         selectedOnBench = mList_onBench.has_Selection();
 
+        MenuItem item = mOptionsMenu.findItem(R.id.action_save);
+        item.setVisible(true);
+
         //Swap
         if (selected_InGame != -1 && selectedOnBench != -1) {
             mList_inGame.unselect_Item(selected_InGame);
@@ -240,7 +245,7 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_users_view, menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -254,7 +259,7 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
         item = menu.findItem(R.id.action_add);
         item.setVisible(false);
         item = menu.findItem(R.id.action_save);
-        item.setVisible(true);
+        item.setVisible(false);
         item = menu.findItem(R.id.action_settings);
         item.setVisible(false);
 

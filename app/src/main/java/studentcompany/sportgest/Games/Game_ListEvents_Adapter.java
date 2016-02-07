@@ -11,6 +11,7 @@ import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.domains.Attribute;
+import studentcompany.sportgest.domains.Event;
 import studentcompany.sportgest.domains.EventCategory;
 
 import static studentcompany.sportgest.R.id.event_count;
@@ -18,7 +19,7 @@ import static studentcompany.sportgest.R.id.event_name;
 
 
 public class Game_ListEvents_Adapter extends RecyclerView.Adapter<Game_ListEvents_Adapter.ViewHolder> {
-    private List<EventCategory> mDataset;
+    private List<Event> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,7 +39,7 @@ public class Game_ListEvents_Adapter extends RecyclerView.Adapter<Game_ListEvent
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Game_ListEvents_Adapter(List<EventCategory> myDataset) {
+    public Game_ListEvents_Adapter(List<Event> myDataset) {
         mDataset = myDataset;
     }
 
@@ -62,11 +63,11 @@ public class Game_ListEvents_Adapter extends RecyclerView.Adapter<Game_ListEvent
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        EventCategory eventcat = mDataset.get(position);
+        Event event = mDataset.get(position);
 
-        if (eventcat != null) {
-            holder.mTextView_num.setText(String.valueOf(eventcat.getId()));
-            holder.mTextView_name.setText(eventcat.getName());
+        if (event != null) {
+            holder.mTextView_num.setText(String.valueOf(event.getId()));
+            holder.mTextView_name.setText("Um nome!! Editar!");
 
             if (position%2 ==0)
                 holder.parent.setBackgroundColor(Color.LTGRAY);

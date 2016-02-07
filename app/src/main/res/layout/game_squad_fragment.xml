@@ -23,13 +23,6 @@
         card_view:cardBackgroundColor="@android:color/white"
         card_view:cardCornerRadius="8dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_default"
-            android:text="@string/select_squad"
-            android:layout_gravity="end"
-            android:onClick="callsquad"/>
 
         <ScrollView
             android:layout_width="match_parent"

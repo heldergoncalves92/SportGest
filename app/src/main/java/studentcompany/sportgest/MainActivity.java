@@ -207,8 +207,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void goTo_Games(View v){
-        //insertGamesTest();
+
         Intent intent = new Intent(this, Game_Activity_ListView.class);
+        intent.putExtra("TEAM",(long)1);
         startActivity(intent);
     }
 

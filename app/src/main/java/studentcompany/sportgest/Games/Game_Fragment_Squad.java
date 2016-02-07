@@ -28,7 +28,6 @@ public class Game_Fragment_Squad extends Fragment {
 
     private static List<Player> playersh;
     private static List<Player> playersv;
-    private TextView textView;
     private int position;
 
     private RecyclerView mRecyclerView;
