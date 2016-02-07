@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SportGest</string>
+    <string name="app_db_name">SportGest.db</string>
+    <string name="app_db_version">1</string>
+    <string name="action_settings">Definições</string>
+    <string name="are_you_sure">Tem a certeza?</string>
+    <string name="delete_confirmation">Tem a certeza, que pretende apagar isto?</string>
+    <string name="delete_sucessful">Removido com sucesso </string>
+    <string name="updated">Atualizado</string>
+    <string name="not_updated">Não atualizou</string>
+    <string name="inserted">Inserido</string>
+    <string name="not_inserted">Não inserido</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="done">Realizadp</string>
+    <string name="not_done">Não realizado</string>
+    <string name="add">Adicionar</string>
+    <string name="edit">Editar</string>
+    <string name="update">Atualizar</string>
+    <string name="delete">Remover</string>
+    <string name="date">Data</string>
+    <string name="event_category_button">Categoria de eventos</string>
+    <string name="event_category_add_menu">Adicionar categorias</string>
+    <string name="event_category_edit_menu">Editar categorias</string>
+    <string name="event_category_delete_menu">Remover categorias</string>
+    <string name="exercise_button">Exercício</string>
+    <string name="exercise_add_menu">Adicionar exercício</string>
+    <string name="exercise_edit_menu">Editar exercício</string>
+    <string name="exercise_delete_menu">Remover exercício</string>
+    <string name="roles_button">Papéis</string>
+    <string name="role_add_menu">Adiconar papéis</string>
+    <string name="role_edit_menu">Editar papéis</string>
+    <string name="role_delete_menu">Remover papéis</string>
+    <string name="category">Categoria</string>
+    <string name="save_button">Guardar</string>
+    <string name="next_button">Próximo</string>
+    <string name="deselectAttribute"><![CDATA[< <]]></string>
+    <string name="selectAttribute"><![CDATA[> >]]></string>
+    <string name="goTo_users_button">Gestão de utilizadores </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Olá página em branco!</string>
+    <string name="goTo_players_button">Gestão de jogadores </string>
+    <string name="action_add_user">Criar utilizador</string>
+    <string name="select_player">Selecione um jogador</string>
+    <string name="select_user">Selecione um utilizador</string>
+    <string name="app_newUser">SportGest - Novo utilizador</string>
+    <string name="app_newTeam">SportGest - Nova equipa</string>
+    <string name="app_gameTest">SportGest - Testar jogo</string>
+    <string name="app_newPlayer">SportGest - Novo jogador</string>
+    <string name="app_newPosition">SportGest - Nova posição</string>
+    <string name="action_del_user">Remover utilizador</string>
+    <string name="positive_answer">Sim</string>
+    <string name="negative_answer">Não</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
+Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.
+Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
+</string>
+    <string name="exerciseDurationUnit">min</string>
+    <string name="goTo_teams_button">Gestão de equipas</string>
+    <string name="title_activity_login_">Ligue-se</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Ligue-se ou registe-se </string>
+    <string name="action_sign_in_short">Ligue-se</string>
+    <string name="error_invalid_email">Este endereço de email é inválido</string>
+    <string name="error_invalid_username">Username é inválido</string>
+    <string name="error_invalid_password">Password é pequena</string>
+    <string name="error_mismatch_passwords">Password não coincidem</string>
+    <string name="error_incorrect_password">Password é incorreta</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="permission_rationale">"Permissões de contactos são precisas para enviar e-mails completos."
+    </string>
+    <string name="title_activity_login">Ligue-se</string>
+    <string name="login_button">Login</string>
+    <string name="prompt_username">Username</string>
+    <string name="error_field_login">Username ou password incorreto</string>
+    <string name="title_activity_login2">Sign in</string>
+
+    <string name="userName">Nome</string>
+    <string name="userUsername">Username</string>
+    <string name="userEmail">Email</string>
+    <string name="userPassword">Password</string>
+    <string name="userPasswordConfirmation">Password (confirmação)</string>
+
+
+    <string name="hint_name">Nome</string>
+    <string name="err_user_name_empty">Nome é vazio</string>
+    <string name="title_activity_create_role_">CreateRole_Activity</string>
+    <string name="hint_permissions">Permissões</string>
+    <string name="delete_unsucessful">Ocorreu um erro ao eliminar</string>
+    <string name="role_add_successful">Papel adicionado com sucesso</string>
+    <string name="role_add_unsuccessful">Papel não foi adicionado</string>
+    <string name="err_role_name">Nome do papel não pode ser nulo</string>
+    <string name="permissions_list_failed">Falhou ao obter lista de permissões</string>
+    <string name="err_role_name_exists">Já existe um papel com esse nome</string>
+    <string name="err_username_exists">Já existe um utilizador com esse nome</string>
+    <string name="role_save_successful">Papel guardado com sucesso</string>
+    <string name="role_save_unsuccessful">Papel não foi guardado com sucesso</string>
+    <string name="app_teamView">Equipas</string>
+    <string name="no_teams">Não existem equipas!</string>
+    <string name="no_users">Não existem utilizadores!</string>
+    <string name="no_players">Não existem jogadores!</string>
+    <string name="no_eventcategory">Não existem categorias de eventos!</string>
+    <string name="save">Guardar</string>
+    <string name="goTo_games_button">Gestão de jogos</string>
+    <string name="squad">Equipa convocada</string>
+    <string name="number">N&#186;</string>
+    <string name="playerNickname">Nickname</string>
+    <string name="playerName">Nome</string>
+    <string name="playerHeight">Altura</string>
+    <string name="playerWeight">Peso</string>
+    <string name="playerAddress">Morada</string>
+    <string name="playerEmail">Email</string>
+    <string name="playerNumber">Número</string>
+    <string name="teamDescription">Descrição</string>
+    <string name="teamSeason">Época</string>
+    <string name="userRole">Papel</string>
+    <string name="playerNationality">Nacionalidade</string>
+    <string name="maritalstatus">Estado civil</string>
+    <string name="playerBirthday">Data de nascimento</string>
+    <string name="playerGender">Género</string>
+    <string name="playerPreferredFoot">Pé preferido</string>
+    <string name="playerPosition">Posição</string>
+    <string name="userPasswordOriginal">Password original</string>
+    <string name="teamName">Nome</string>
+
+    <string name="err_password_match">Password não coincidem</string>
+    <string name="err_name_short">Nome curto</string>
+    <string name="err_username_short">Username curto</string>
+    <string name="err_valid_email">Email não é válido</string>
+    <string name="err_address_short">Morada é pequena</string>
+    <string name="err_number">Número inválido</string>
+    <string name="err_description_short">Descrição é pequena</string>
+    <string name="err_weight_invalid">Peso inválido</string>
+    <string name="err_height_invalid">Altura inválida</string>
+    <string name="err_nickname_short">Nickname é pequeno</string>
+    <string name="err_season">Época inválida</string>
+
+    <string name="userTeam">Equipa</string>
+    <string name="pickTeam">Escolha a equipa</string>
+    <string name="pickRole">Escolha o papel</string>
+    <string name="action_save_user">Guardar utilizador</string>
+    <string name="user_save_unsuccessful">Utilizador não foi guardado</string>
+    <string name="user_save_successful">Utilizador gravado com sucesso</string>
+    <string name="no_team">Não têm equipa</string>
+    <string name="no_role">Não têm papel</string>
+    <string name="err_username_empty">Username vazio </string>
+    <string name="error_occured">Ocorreu um erro</string>
+    <string name="goTo_gamesView_button">Ver jogo</string>
+    <string name="goTo_squadCall_button">Gestão de plantel</string>
+
+    <string name="goTo_gameTest_button">Testar jogo</string>
+    <string name="description_label"><b>Descrição</b></string>
+    <string name="attributes_evaluated"><b>Atributos avaliados</b></string>
+    <string name="exercise_name_label"><b>Nome</b></string>
+    <string name="duration_label"><b>Duração</b></string>
+    <string name="goTo_exercise_button">Gestão de exercícios</string>
+    <string name="goTo_training_button">Gestão de treinos</string>
+    <string name="goTo_attribute_button">Gestão de atributos</string>
+    <string name="app_newAttribute">SportGest - Novo atributo</string>
+    <string name="app_updateAttribute">SportGest - Atualizar atributo</string>
+    <string name="app_newExercise">SportGest - Novo exercício</string>
+    <string name="app_newTraining">SportGest - Novo treino</string>
+    <string name="training_name">Nome</string>
+    <string name="err_category_short">Categoria é muito pequena</string>
+    <string name="no_roles">Não existem papéis!</string>
+    <string name="something_wrong">Aconteceu algo errado!</string>
+    <string name="err_position_short">Posição é pequena</string>
+    <string name="teamSquad">Plantél</string>
+    <string name="goTo_position_button">Gestão de posições</string>
+    <string name="goTo_gameModeView_button">Vista modo jogo</string>
+    <string name="userPhoto">Foto</string>
+    <string name="NoSelected_Role">Selecione um papel!</string>
+    <string name="NoSelected_User">Selecione um utilizador!</string>
+    <string name="NoSelected_Team">Select uma equipa!</string>
+    <string name="game_mode_add_eventcategory_failed">Failhou ao adicionar o evento</string>
+    <string name="game_mode_add_eventcategory_success">Evento adicionado com sucesso</string>
+    <string name="NoSelected_Attribute">Selecione um atributo!</string>
+    <string name="NoSelected_Player">Selecione um jogador!</string>
+    <string name="NoSelected_Exercise">Selecione um atributo!</string>
+</resources>
