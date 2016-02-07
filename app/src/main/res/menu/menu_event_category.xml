@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Event_Category_Add"
+        android:icon="@drawable/ic_add_circle_white_24dp"
+        android:title="@string/event_category_add_menu"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+
+    <item
+        android:id="@+id/Event_Category_Save"
+        android:icon="@drawable/ic_done"
+        android:title="@string/event_category_save_menu"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/Event_Category_Edit"
+        android:icon="@drawable/ic_create_white_24dp"
+        android:title="@string/event_category_edit_menu"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/Event_Category_Delete"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="@string/event_category_delete_menu"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+</menu>

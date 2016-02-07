@@ -27,6 +27,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
             android:layout_weight="0.12">
 
 
@@ -39,7 +40,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingStart="5dp">
 
 
                     <TextView
@@ -61,6 +63,58 @@
                 </LinearLayout>
 
             </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Color"
+                    android:textSize="@dimen/text_size_default"
+                    android:id="@+id/eventcolor"
+                    android:paddingEnd="20dp"
+                    android:password="false" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:background="@color/black_300"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btnChangeColorEventCatDetails"
+                        android:layout_width="36dp"
+                        android:layout_height="27dp"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:text="    "
+                        android:textSize="@dimen/text_size_default" />
+                    </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="@string/hastimestamp"
+                    android:id="@+id/checkbox_event_details_hasTime" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

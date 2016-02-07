@@ -156,14 +156,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_default"
-                android:text="@string/goTo_gameTest_button"
-                android:id="@+id/game_test_button" />
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/login_button"
                 android:textSize="@dimen/text_size_default"
                 android:onClick="goTo_Login" />

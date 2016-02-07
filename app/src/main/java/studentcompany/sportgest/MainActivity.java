@@ -17,7 +17,7 @@ import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
 import studentcompany.sportgest.Exercises.Exercise_Activity_ListView;
 import studentcompany.sportgest.Games.Game_Activity_SquadCall;
 import studentcompany.sportgest.Games.Game_Activity_GeneralView;
-import studentcompany.sportgest.Games.GameTest_Activity;
+
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
 import studentcompany.sportgest.Games.Game_Activity_ListView;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
@@ -76,16 +76,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //gameTestButton
-        gametestbutton = (Button)findViewById(R.id.game_test_button);
-        gametestbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameTest_Activity.class);
-
-                startActivity(intent);
-            }
-        });
 
 
         //RoleButton
@@ -211,10 +201,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goTo_GameTest(View v){
-        Intent intent = new Intent(this, GameTest_Activity.class);
-        startActivity(intent);
-    }
 
     public void goTo_Game_GeneralView(View v){
         Intent intent = new Intent(this, Game_Activity_GeneralView.class);

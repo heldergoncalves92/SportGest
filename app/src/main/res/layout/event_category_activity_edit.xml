@@ -32,6 +32,57 @@
 
             </android.support.design.widget.TextInputLayout>
 
+
+
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Color"
+                    android:textSize="@dimen/text_size_default"
+                    android:id="@+id/eventcolor"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="5dp"
+                    android:password="false" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:background="@color/black_300"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp">
+                    <Button
+                        android:id="@+id/btnChangeColorEventCatEdit"
+                        android:layout_width="36dp"
+                        android:layout_height="27dp"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:text="    "
+                        android:textSize="@dimen/text_size_default" />
+                    </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hastimestamp"
+                    android:id="@+id/checkbox_event_edit_hasTime" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

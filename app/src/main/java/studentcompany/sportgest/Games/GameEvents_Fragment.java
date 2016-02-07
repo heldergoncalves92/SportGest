@@ -94,10 +94,10 @@ public class GameEvents_Fragment extends Fragment {
 
         ArrayList<EventCategory> list = new ArrayList<EventCategory>();
 
-        EventCategory a1 = new EventCategory(1,"passe");
-        EventCategory a2 = new EventCategory(3,"remate");
-        EventCategory a3 = new EventCategory(3,"corte");
-        EventCategory a4 = new EventCategory(4,"canto");
+        EventCategory a1 = new EventCategory(1,"passe",1,true);
+        EventCategory a2 = new EventCategory(3,"remate",2,true);
+        EventCategory a3 = new EventCategory(3,"corte",3,false);
+        EventCategory a4 = new EventCategory(4,"canto",4,false);
 
         list.add(a1);
         list.add(a2);
