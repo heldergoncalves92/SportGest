@@ -34,7 +34,7 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
         // each data item is just a string in this case
 
         private Game_GameMode_History_List_Adapter su = null;
-        public AppCompatTextView mTextView_num,mTextView_name,mTextView_color;
+        public AppCompatTextView mTextView_num,mTextView_name,mTextView_color,mTextView_time;
         public CardView parent;
 
 
@@ -47,6 +47,7 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
             mTextView_num = (AppCompatTextView)view.findViewById(R.id.event_number);
             mTextView_name = (AppCompatTextView)view.findViewById(R.id.event_name);
             mTextView_color = (AppCompatTextView)view.findViewById(R.id.event_color);
+            mTextView_time = (AppCompatTextView)view.findViewById(R.id.event_time);
         }
 
         @Override
@@ -108,8 +109,18 @@ public class Game_GameMode_History_List_Adapter extends RecyclerView.Adapter<Gam
         Event event = mDataset.get(position);
 
         if (event != null) {
+            int mins = 0, secs = event.getDate();
+            String time = "";
+            if(event.getEventCategory().hasTimestamp())
+            {
+                mins = secs / 60;
+                secs = secs % 60;
+                time = mins+":"+secs;
+            }
+
             holder.mTextView_name.setText(event.getPlayer().getNickname());
             holder.mTextView_num.setText(event.getPlayer().getNumber()+"");
+            holder.mTextView_time.setText(time);
             holder.mTextView_color.setTextColor(event.getEventCategory().getColor());
         }
     }
