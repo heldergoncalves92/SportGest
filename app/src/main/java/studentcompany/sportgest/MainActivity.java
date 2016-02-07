@@ -108,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 String sEvaluation="Evaluation";
                 Intent intent = new Intent(getApplicationContext(), Training_Activity_ListView.class);
 
-                System.out.println("BRAGA");
-
                 //put current team ID and training ID in extras
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong(Team_DAO.TABLE_NAME + Team_DAO.COLUMN_ID, 1);

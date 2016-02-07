@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="24dp"
-            android:text="@string/NoSelected_Team"/>
+            android:text="@string/NoSelected_Training"/>
 
     </RelativeLayout>
 

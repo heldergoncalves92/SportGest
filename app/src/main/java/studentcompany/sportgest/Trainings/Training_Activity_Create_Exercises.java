@@ -126,10 +126,10 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
             @Override
             public void onClick(View v) {
                 String currentRep = tv_repetitions.getText().toString();
-                int repetitions = 1;
+                int repetitions = 0;
                 if (!currentRep.isEmpty()) {
                     repetitions = Integer.parseInt(currentRep);
-                    if (repetitions < 1) repetitions = 1;
+                    if (repetitions < 0) repetitions = 0;
                 }
                 repetitions++;
                 tv_repetitions.setText(Integer.toString(repetitions));
@@ -139,12 +139,12 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
             @Override
             public void onClick(View v) {
                 String currentRep = tv_repetitions.getText().toString();
-                int repetitions = 1;
+                int repetitions = 0;
                 if (!currentRep.isEmpty()) {
                     repetitions = Integer.parseInt(currentRep);
-                    if (repetitions < 1) repetitions = 1;
+                    if (repetitions < 0) repetitions = 0;
                 }
-                if (repetitions > 1) {
+                if (repetitions > 0) {
                     repetitions -= 1;
                 }
                 tv_repetitions.setText(Integer.toString(repetitions));
@@ -251,6 +251,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
 
         switch (tag) {
             case AVAILABLE:
+                tv_repetitions.setError(null);
                 //Add the attribute to the selected ones
                 System.err.println("#################Previous: " + positionaux + " new: " + position);
                 if (positionaux!=position) {
@@ -264,27 +265,31 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                     try {
                         ex = exercise_dao.getById(id_To_Search);
                         if (ex != null) {
-                            int reps=Integer.parseInt(tv_repetitions.getText().toString());
+                            int reps = Integer.parseInt(tv_repetitions.getText().toString());
 
-                            if(reps<1)  reps=1;
+                            if (reps < 1) {
+                                tv_repetitions.setError("At least greater than 0");
+                            } else {
+                                availableExercises.remove(ex);
+                                trainingExercises.add(ex);
+                                repetitionsExercises.put(id_To_Search, reps);
 
-                            availableExercises.remove(ex);
-                            trainingExercises.add(ex);
-                            repetitionsExercises.put(id_To_Search, reps);
+                                Collections.sort(trainingExercises, new Comparator<Exercise>() {
+                                    @Override
+                                    public int compare(Exercise lhs, Exercise rhs) {
+                                        return lhs.getTitle().compareTo(rhs.getTitle());
+                                    }
 
-                            Collections.sort(trainingExercises, new Comparator<Exercise>() {
-                                @Override
-                                public int compare(Exercise lhs, Exercise rhs) {
-                                    return lhs.getTitle().compareTo(rhs.getTitle());
-                                }
-                            });
+                                });
 
-                            //update ListViews
-                            mListExercisesAvailable.updateList(availableExercises);
-                            mListExercisesSelected.updateList(trainingExercises);
 
-                            //update duration
-                            updateDuration(ex.getDuration(), reps ,1);
+                                //update ListViews
+                                mListExercisesAvailable.updateList(availableExercises);
+                                mListExercisesSelected.updateList(trainingExercises);
+
+                                //update duration
+                                updateDuration(ex.getDuration(), reps, 1);
+                            }
                         }
                     } catch (GenericDAOException e) {
                         System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
@@ -292,11 +297,12 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                     }
                     positionaux=-1;
                     mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
+                    tv_repetitions.setText("0");
 
                 }//onItemClick
                 break;
             case SELECTED:
+                tv_repetitions.setError(null);
                 if (passing != position) {
                     passing=position;
                     printExercise(position,0);
@@ -334,9 +340,9 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                         System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
                         Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, e);
                     }
-                    passing=-1;
+                    passing= -1;
                     mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
+                    tv_repetitions.setText("0");
                 }//onItemClick
                 break;
         }
