@@ -290,6 +290,9 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
                     e.printStackTrace();
                 }
 
+                Intent returnIntent = new Intent();
+                setResult(1, returnIntent);
+
                 finish();
                 return true;
 
@@ -300,6 +303,13 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onStop(){
+        super.onStop();
+
+        Intent returnIntent = new Intent();
+        setResult(0, returnIntent);
     }
 
     private void insertTest() {

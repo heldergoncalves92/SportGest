@@ -26,11 +26,11 @@ public class Game_Fragment_Squad extends Fragment {
 
     private static final String ARG_POSITION = "position";
 
-    private static List<Player> playersh;
-    private static List<Player> playersv;
+    private List<Player> home_squad;
+    private List<Player> visitor_squad;
     private int position;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView_home, mRecyclerView_visitor;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -40,8 +40,10 @@ public class Game_Fragment_Squad extends Fragment {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
-        playersh=playershome;
-        playersv=playersvisitor;
+
+        f.set_HomeSquad(playershome);
+        f.set_VisitorSquad(playersvisitor);
+
         return f;
     }
 
@@ -58,51 +60,55 @@ public class Game_Fragment_Squad extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.game_squad_fragment, container, false);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.squad_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView_home = (RecyclerView) v.findViewById(R.id.squad_recycler_view);
+        mRecyclerView_home.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView_home.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        if(playersh==null)
-            playersh = playersToTest();
-        mAdapter = new Game_SquadPlayer_Adapter(playersh);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
+        mRecyclerView_home.setAdapter(mAdapter);
 
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.advr_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView_visitor = (RecyclerView) v.findViewById(R.id.advr_recycler_view);
+        mRecyclerView_visitor.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView_visitor.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        if(playersv==null)
-            playersv = playersToTestadvr();
-        mAdapter = new Game_SquadPlayer_Adapter(playersv);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new Game_SquadPlayer_Adapter(visitor_squad);
+        mRecyclerView_visitor.setAdapter(mAdapter);
 
-
-        /*
-        View title = v.findViewById(R.id.game_squad_title);
-        TextView tv = (TextView)title.findViewById(R.id.player_num);
-
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
-        tv = (TextView)title.findViewById(R.id.player_name);
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);
-        tv.setTextColor(Color.BLACK);
-
-
-        //textView = (TextView)v.findViewById(R.id.text_view);
-        //textView.setText("CARD "+position);
-        */
         return v;
     }
+
+    private void set_HomeSquad(List<Player> list){
+        this.home_squad = list;
+    }
+
+    private void set_VisitorSquad(List<Player> list){
+        this.visitor_squad = list;
+    }
+
+
+    public void update_HomeSquad(List<Player> list){
+        set_HomeSquad(list);
+        // specify an adapter (see also next example)
+        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
+        mRecyclerView_home.setAdapter(mAdapter);
+    }
+
+    public void update_VisitorSquad(List<Player> list){
+        set_VisitorSquad(list);
+        // specify an adapter (see also next example)
+        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
+        mRecyclerView_visitor.setAdapter(mAdapter);
+    }
+
 
 
     public static List<Player> playersToTest(){

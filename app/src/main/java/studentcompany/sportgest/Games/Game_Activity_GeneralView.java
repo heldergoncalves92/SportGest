@@ -40,6 +40,9 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
 
     private List<Player> home_players, visitor_players;
     private List<Event> eventsList;
+    private final int SQUAD_HOME = 100, SQUAD_VISITOR = 101;
+
+    private Game_Fragment_Squad mSquads;
 
 
     private long baseTeamID = 0;
@@ -156,8 +159,10 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
                 return GameEvents_Fragment.newInstance(position, game, eventsList);
             else if(position==1)
                 return GameStatistics_Fragment.newInstance(position);
-            else
-                return Game_Fragment_Squad.newInstance(position, home_players, visitor_players);
+            else{
+                mSquads = Game_Fragment_Squad.newInstance(position, home_players, visitor_players);
+                return mSquads;
+            }
         }
     }
 
@@ -194,9 +199,16 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.action_home_CallSquad:
                 intent = new Intent(this, Game_Activity_SquadCall.class);
-                intent.putExtra("TEAM", baseTeamID);
+                intent.putExtra("TEAM", game.getHome_team().getId());
                 intent.putExtra("GAME", baseGameID);
-                startActivity(intent);
+                startActivityForResult(intent, SQUAD_HOME);
+                return true;
+
+            case R.id.action_visitor_CallSquad:
+                intent = new Intent(this, Game_Activity_SquadCall.class);
+                intent.putExtra("TEAM", game.getVisitor_team().getId());
+                intent.putExtra("GAME", baseGameID);
+                startActivityForResult(intent, SQUAD_VISITOR);
                 return true;
 
             case R.id.action_del:
@@ -216,6 +228,43 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
 
         Intent returnIntent = new Intent();
         setResult(0, returnIntent);
+    }
+
+    private List<Player> getSquad_By_TeamID(long teamID){
+
+        List<Player> list = null, squad = new ArrayList<Player>();
+
+        try {
+
+            list = squad_call_dao.getPlayersBy_GameID(baseGameID);
+            if(list != null)
+                for (Player p: list)
+                    if (p.getTeam().getId() == teamID)
+                        squad.add(p);
+
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
+        return squad;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == SQUAD_HOME) {
+            if(resultCode == 1){
+                home_players = getSquad_By_TeamID(game.getHome_team().getId());
+                mSquads.update_HomeSquad(home_players);
+            }
+
+        } else if (requestCode == SQUAD_VISITOR) {
+            if(resultCode == 1){
+                visitor_players = getSquad_By_TeamID(game.getVisitor_team().getId());
+                mSquads.update_VisitorSquad(visitor_players);
+            }
+
+        }
     }
 
     /************************************
