@@ -258,6 +258,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                     System.err.println("Falta 1");
                     positionaux = position;
                     printExercise(position, 1);
+                    tv_repetitions.setText("0");
 
                 } else {
                     System.err.println("Passou");
