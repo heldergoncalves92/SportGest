@@ -260,7 +260,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                     printExercise(position, 1);
 
                 } else {
-                    System.err.println("Passou" );
+                    System.err.println("Passou");
                     id_To_Search = availableExercises.get(position).getId();
                     try {
                         ex = exercise_dao.getById(id_To_Search);
@@ -397,7 +397,6 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
 
         if (v == 1) {
             Exercise exercise = availableExercises.get(position);
-            //System.out.println(exercise.getTitle());
             if(exercise!=null){
                 try {
                     exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
@@ -411,11 +410,10 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
         else{
 
             Exercise exercise =trainingExercises.get(position);
-            //System.out.println(exercise.getTitle());
             if(exercise!=null){
                 try {
                     exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
-                } catch (GenericDAOException ex){
+                } catch (GenericDAOException ex) {
                     ex.printStackTrace();
                     exerciseAttributesList = new ArrayList<>();
                 }

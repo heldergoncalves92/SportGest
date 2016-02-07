@@ -183,5 +183,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="game_mode_add_eventcategory_success">Evento adicionado com sucesso</string>
     <string name="NoSelected_Attribute">Selecione um atributo!</string>
     <string name="NoSelected_Player">Selecione um jogador!</string>
-    <string name="NoSelected_Exercise">Selecione um atributo!</string>
+    <string name="NoSelected_Exercise">Selecione um exercício!</string>
 </resources>

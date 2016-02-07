@@ -308,9 +308,12 @@ public class Training_Activity_Create extends AppCompatActivity {
         }
     }
 
+
     public void goto_NextActivity(View view){
         trainingName = tv_name.getText().toString();
         trainingDescription = tv_description.getText().toString();
+
+
         trainingDateInMillis = cal.getTimeInMillis();
 
         Intent intent;
