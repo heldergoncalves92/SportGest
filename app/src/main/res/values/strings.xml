@@ -195,8 +195,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="players">Players</string>
     <string name="convened_Team">Convened Team</string>
     <string name="select_squad">Select squad!</string>
-    <string name="action_edit_HomeCallSquad">Edit Home\'s Squad</string>
-    <string name="action_edit_VisitorCallSquad">Edit Visitor Squad</string>
+    <string name="action_edit_HomeCallSquad">Home Squad</string>
+    <string name="action_edit_VisitorCallSquad">Visitor Squad</string>
     <string name="Game_Report">Report</string>
+    <string name="action_del_game">Delete game</string>
+    <string name="action_save_game">Save game</string>
 
 </resources>

@@ -342,6 +342,31 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/input_create_user_team"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_default"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/userTeam" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/input_create_player_team_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/pickTeam"
+                    android:hint="@string/userTeam" />
+
+            </LinearLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

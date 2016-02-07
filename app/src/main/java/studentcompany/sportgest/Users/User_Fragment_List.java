@@ -76,12 +76,16 @@ public class User_Fragment_List extends Fragment {
     }
 
 
-    public void updateList(User user){
+    public void insertList(User user){
         this.list.add(user);
         mAdapter.notifyItemInserted(this.list.size() - 1);
 
-        //mAdapter = new User_List_Adapter(list, mListener);
-        //mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void updateList(List<User> list){
+        this.list = list;
+        mAdapter = new User_List_Adapter(list, mListener, tag);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void updatePosition(User user, int position){
@@ -92,7 +96,8 @@ public class User_Fragment_List extends Fragment {
     public void selectFirstItem(){
 
         User_List_Adapter.ViewHolder v = (User_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
-        v.focus_gain();
+        if (v != null)
+            v.focus_gain();
     }
 
     public void unselect_Item(int position){
@@ -104,7 +109,8 @@ public class User_Fragment_List extends Fragment {
     public void select_Item(int position){
 
         User_List_Adapter.ViewHolder v = (User_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-        v.focus_gain();
+        if (v != null)
+            v.focus_gain();
     }
 
 

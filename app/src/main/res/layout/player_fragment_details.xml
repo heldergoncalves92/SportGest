@@ -446,6 +446,37 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutTeam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/HomeTeam"
+                        android:textSize="@dimen/text_size_default" />
+
+                    <EditText
+                        android:id="@+id/team"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerNumber"
+                        android:textSize="@dimen/text_size_default"
+                        android:enabled="false"
+                        android:editable="false"/>
+
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
 <!--
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

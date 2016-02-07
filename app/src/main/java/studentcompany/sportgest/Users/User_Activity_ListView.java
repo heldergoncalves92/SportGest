@@ -321,10 +321,16 @@ public class User_Activity_ListView extends AppCompatActivity implements User_Fr
 
                     if(id>0){
                         User user = userDao.getById(id);
-                        mListUsers.updateList(user);
 
-                        if(users.size() == 1)
+                        if(users.size() == 0){
+                            users.add(user);
+                            mListUsers.updateList(users);
                             withElems();
+                        }else{
+                            mListUsers.insertList(user);
+                        }
+
+                        mDetailsUser.showUser(user);
                     }
                 }
             } catch (Exception e) {

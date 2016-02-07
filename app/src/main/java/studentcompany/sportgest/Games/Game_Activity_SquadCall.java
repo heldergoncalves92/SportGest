@@ -59,6 +59,7 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
     private Game_DAO game_dao;
     private int currentPos = 0;
     private Menu mOptionsMenu;
+    private Game game;
 
 
     private long baseGameID;
@@ -108,17 +109,21 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
             //Initializations
             squadCallDao = new Squad_Call_DAO(getApplicationContext());
             playerDao = new Player_DAO(getApplicationContext());
+            game_dao = new Game_DAO(getApplicationContext());
+
+            game = game_dao.getById(baseGameID);
 
             onBench = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            inGame = new ArrayList<Player>();
 
             if (onBench.size() == 0) {
                 noElems();
-                inGame = new ArrayList<Player>();
-
 
             } else{
                 Long id;
                 all_players = squadCallDao.getPlayersBy_GameID(baseGameID);
+                if(all_players == null) all_players = new ArrayList<Player>();
+
                 for (Player p: onBench){
                     id = p.getId();
                     for (Player pa: all_players) {
@@ -273,11 +278,13 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
 
             case R.id.action_save:
 
-
                 try {
-                    squadCallDao.insert(new Pair<>(onBench.get(0), game_dao.getById(baseGameID)));
-                    //testei este codigo para adicionar apenas o primeiro elemento do onBench mas ele adiciona todos os elementos
 
+                    for (Player p: onBench)
+                        squadCallDao.delete(new Pair<Player,Game>(p,game));
+
+                    for (Player p: inGame)
+                        squadCallDao.insert(new Pair<Player,Game>(p,game));
 
                 } catch (GenericDAOException e) {
                     e.printStackTrace();

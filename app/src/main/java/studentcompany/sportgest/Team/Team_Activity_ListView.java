@@ -312,11 +312,16 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
 
                     team=teamDao.getById(idToSearch);
 
-                    mListTeams.insert_Item(team);
-                    mDetailsTeam.showTeam(team);
-
-                    if(teams.size() == 1)
+                    if(teams.size() == 0) {
+                        teams.add(team);
+                        mListTeams.updateList(teams);
+                        mDetailsTeam.showTeam(team);
                         withElems();
+
+                    } else{
+                        mListTeams.insert_Item(team);
+                        mDetailsTeam.showTeam(team);
+                    }
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

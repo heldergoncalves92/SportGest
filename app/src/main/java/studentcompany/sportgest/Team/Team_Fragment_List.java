@@ -78,14 +78,18 @@ public class Team_Fragment_List extends Fragment {
     public void insert_Item(Team team){
         this.list.add(team);
         mAdapter.notifyItemInserted(this.list.size() - 1);
+    }
 
-        //mAdapter = new User_List_Adapter(list, mListener);
-        //mRecyclerView.setAdapter(mAdapter);
+    public void updateList(List<Team> list){
+        this.list = list;
+        mAdapter = new Team_List_Adapter(list, mListener, tag);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void updatePosition(Team team, int position){
         this.list.set(position, team);
         mAdapter.notifyItemChanged(position);
+
     }
 
 

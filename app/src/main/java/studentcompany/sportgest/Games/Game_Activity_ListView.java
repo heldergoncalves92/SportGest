@@ -15,19 +15,14 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import studentcompany.sportgest.Exercises.Exercise_Activity_Create;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
-import studentcompany.sportgest.domains.Exercise;
 import studentcompany.sportgest.domains.Game;
 
 public class Game_Activity_ListView extends AppCompatActivity implements Game_Fragment_list.OnItemSelected  {
@@ -127,7 +122,6 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
 
     public void removeGame(){
         try {
-
             Game game = mListGames.removeItem(currentPos);
             game_dao.deleteById(game.getId());
 
@@ -138,6 +132,7 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
         currentPos = -1;
         mOptionsMenu.findItem(R.id.Delete).setVisible(false);
         mOptionsMenu.findItem(R.id.Edit).setVisible(false);
+        mOptionsMenu.findItem(R.id.Details).setVisible(false);
     }
     /************************************
      ****     Listener Functions     ****
@@ -152,7 +147,7 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                 //mOptionsMenu.findItem(R.id.Delete).setVisible(true);
                 //mOptionsMenu.findItem(R.id.Edit).setVisible(true);
                 mOptionsMenu.findItem(R.id.Details).setVisible(true);
-                Intent intent = new Intent(this, GameGeneralView_Activity.class);
+                Intent intent = new Intent(this, Game_Activity_GeneralView.class);
                 intent.putExtra("TEAM", baseTeamID);
                 intent.putExtra("GAME", gameList.get(position).getId());
 
@@ -241,7 +236,7 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                 return true;
 
             case R.id.Details:
-                intent = new Intent(this, GameGeneralView_Activity.class);
+                intent = new Intent(this, Game_Activity_GeneralView.class);
 
                 //add data
                 intent.putExtra("TEAM", baseTeamID);

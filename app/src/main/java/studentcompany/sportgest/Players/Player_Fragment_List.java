@@ -109,7 +109,8 @@ public class Player_Fragment_List extends Fragment {
     public void select_Item(int position){
 
         Player_List_Adapter.ViewHolder v = (Player_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-        v.focus_gain();
+        if (v != null)
+            v.focus_gain();
     }
 
 

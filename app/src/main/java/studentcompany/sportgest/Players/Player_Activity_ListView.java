@@ -69,14 +69,12 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
         try {
             playerDao = new Player_DAO(getApplicationContext());
-            players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
-            //players = playerDao.getAll();
-            if(players.isEmpty()) {
+            //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
+            players = playerDao.getAll();
 
+            if(players.isEmpty()) {
                 noElems();
                 players = new ArrayList<Player>();
-                //insertUserTest(playerDao);
-
             }
             mListPlayer.setList(players);
 
@@ -135,6 +133,7 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
     public void removePlayer(){
         mDetailsPlayer.clearDetails();
         playerDao.deleteById(players.get(currentPos).getId());
+        mListPlayer.unselect_Item(currentPos);
         mListPlayer.removeItem(currentPos);
 
         currentPos = -1;
@@ -339,23 +338,28 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                     int idToSearch = (int) (id + 0);
                     player=playerDao.getById(idToSearch);
 
-                    System.out.println(player);
-                    mListPlayer.insert_Item(player, 0);
-                    mDetailsPlayer.showPlayer(player);
+                    if(players.size() == 0) {
+                        players.add(player);
+                        mListPlayer.updateList(players);
+                        mDetailsPlayer.showPlayer(player);
+                        withElems();
+
+                    }else{
+                        mListPlayer.insert_Item(player, 0);
+                        mDetailsPlayer.showPlayer(player);
+                        int selection = mListPlayer.has_Selection();
+                        if(selection != -1)
+                            mListPlayer.unselect_Item(selection);
 
 
-                    int selection = mListPlayer.has_Selection();
-                    if(selection != -1)
-                        mListPlayer.unselect_Item(selection);
+                    }
 
                     mListPlayer.select_Item(0);
-
 
                     //players = playerDao.getByCriteria(new Player(new Team(baseTeamID)));
                     //mListPlayer.updateList(players);
 
-                    if(players.size() == 1)
-                        withElems();
+
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

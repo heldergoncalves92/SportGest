@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,9 +19,11 @@ import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_Position_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
+import studentcompany.sportgest.domains.Team;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +35,10 @@ public class Player_Fragment_Details extends Fragment {
     private TextView tv_birthday;
     private ListView tv_position;
     private TextView tv_nationality,tv_gender,tv_preferredFoot, tv_maritalStatus,tv_number;
+    private EditText tv_team;
     private ImageView tv_photo;
+
+    private Team_DAO team_dao;
 
     public Player_Fragment_Details() {
         // Required empty public constructor
@@ -60,6 +66,7 @@ public class Player_Fragment_Details extends Fragment {
         tv_number = (TextView) view.findViewById(R.id.number);
         tv_photo = (ImageView) view.findViewById(R.id.photo);
         tv_position = (ListView) view.findViewById(R.id.position);
+        tv_team = (EditText) view.findViewById(R.id.team);
 
         tv_position.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -68,6 +75,8 @@ public class Player_Fragment_Details extends Fragment {
                 return false;
             }
         });
+
+        team_dao = new Team_DAO(getActivity());
 
         return view;
     }
@@ -147,6 +156,17 @@ public class Player_Fragment_Details extends Fragment {
                     R.layout.player_listview_for_positions, positionValue);
             tv_position.setAdapter(adapter);
         }
+
+        try {
+
+            if(player.getTeam() != null){
+                Team t = team_dao.getById(player.getTeam().getId());
+                tv_team.setText(t.getName());
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
         /*String position = "";
         if(player.getPosition()!=null)
             position=player.getPosition().getName();

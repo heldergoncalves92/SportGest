@@ -134,7 +134,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
             return false;
 
         return db.delete(TABLE_NAME,
-                COLUMN_PLAYER_ID + " = ? , " + COLUMN_GAME_ID + " = ? ",
+                COLUMN_PLAYER_ID + " = ? AND " + COLUMN_GAME_ID + " = ? ",
                 new String[] { Long.toString(object.getFirst().getId()), Long.toString(object.getSecond().getId()) })  > 0;
 
     }

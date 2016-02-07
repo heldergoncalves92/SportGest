@@ -16,7 +16,7 @@ import studentcompany.sportgest.Attributes.Attribute_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
 import studentcompany.sportgest.Exercises.Exercise_Activity_ListView;
 import studentcompany.sportgest.Games.Game_Activity_SquadCall;
-import studentcompany.sportgest.Games.GameGeneralView_Activity;
+import studentcompany.sportgest.Games.Game_Activity_GeneralView;
 import studentcompany.sportgest.Games.GameTest_Activity;
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
 import studentcompany.sportgest.Games.Game_Activity_ListView;
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTo_Game_GeneralView(View v){
-        Intent intent = new Intent(this, GameGeneralView_Activity.class);
+        Intent intent = new Intent(this, Game_Activity_GeneralView.class);
         startActivity(intent);
     }
 

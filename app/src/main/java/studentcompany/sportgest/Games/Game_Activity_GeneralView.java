@@ -10,15 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Event_DAO;
@@ -33,7 +30,7 @@ import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
 import studentcompany.sportgest.domains.Team;
 
-public class GameGeneralView_Activity extends AppCompatActivity{
+public class Game_Activity_GeneralView extends AppCompatActivity{
 
 
     //DAOs
@@ -96,7 +93,7 @@ public class GameGeneralView_Activity extends AppCompatActivity{
         tabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
             public void onTabReselected(int position) {
-                Toast.makeText(GameGeneralView_Activity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Game_Activity_GeneralView.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -122,7 +119,7 @@ public class GameGeneralView_Activity extends AppCompatActivity{
             //Remove repeted players
             for (Player p: home_players)
                 visitor_players.remove(p);
-            
+
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
@@ -206,6 +203,8 @@ public class GameGeneralView_Activity extends AppCompatActivity{
                 intent = new Intent();
                 setResult(1, intent);
                 intent.putExtra("OPERATION", 1); //To delete
+                finish();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

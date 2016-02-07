@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,15 +31,18 @@ import java.util.regex.Pattern;
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Position_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.Position;
+import studentcompany.sportgest.domains.Team;
 
 public class Player_Activity_Create extends AppCompatActivity implements View.OnClickListener {
 
     //DAOs
     private Player_DAO player_dao;
     private Position_DAO position_dao;
+    private Team_DAO team_dao;
 
     Player player = null;
     long playerID = -1;
@@ -53,6 +57,9 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
     private TextView txtDate;
     private int mYear, mMonth, mDay;
     private int selectedYear, selectedMonth, selectedDay;
+    private Spinner spinnerTeam;
+    private ArrayAdapter<Team> dataAdaptert;
+    private List<Team> listTeams;
 
     private EditText tv_nickname,tv_name,tv_height,tv_weight,tv_address,tv_email,tv_number;
     private TextInputLayout inputLayoutNickname,inputLayoutName,inputLayoutHeight,inputLayoutWeight,inputLayoutAddress,inputLayoutEmail,inputLayoutNumber;
@@ -64,6 +71,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
         player_dao = new Player_DAO(this);
         position_dao = new Position_DAO(this);
+        team_dao = new Team_DAO(getApplicationContext());
 
         btnCalendar = (ImageButton) findViewById(R.id.birthday);
         txtDate = (TextView) findViewById(R.id.txtDate);
@@ -83,6 +91,18 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
         tv_number = (EditText) findViewById(R.id.number);
         ImageView tv_photo = (ImageView) findViewById(R.id.photo);
         //Spinner tv_position = (Spinner) findViewById(R.id.position);
+        spinnerTeam = (Spinner) findViewById(R.id.input_create_player_team_spinner);
+
+        try {
+            listTeams = team_dao.getAll();
+            listTeams.add(0,new Team(-1,getResources().getString(R.string.no_team)));
+            dataAdaptert = new ArrayAdapter<Team>(this,android.R.layout.simple_list_item_1, listTeams);
+            spinnerTeam.setAdapter(dataAdaptert);
+
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
 
 
         ArrayList<String> gendersList = new ArrayList<>();
@@ -222,6 +242,14 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 if(tv_position.getSelectedItem()!=null)
                     positionStr = (String) tv_position.getSelectedItem();*/
 
+                Team selected_team = (Team)spinnerTeam.getSelectedItem();
+
+                if(selected_team == null || selected_team.getId() <= 0) {
+                    Toast.makeText(getApplicationContext(), "Selected team is not valid!!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+
                 boolean ok = false;
                 if (validateName())
                     if (validateNickname())
@@ -267,7 +295,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 */
                 //TODO: isto
 
-                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number,null,null);
+                player = new Player(nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, photo, email, preferredFoot, number, selected_team,null);
                 boolean corrected = false;
 
                 //insert

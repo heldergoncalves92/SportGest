@@ -15,14 +15,14 @@
         android:id="@+id/Details"
         android:orderInCategory="101"
         android:title="Details"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_content_paste_black_24dp"/>
 
     <item
         android:id="@+id/Delete"
         android:orderInCategory="102"
         android:title="@string/delete"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_delete_white_24dp"/>
 
 
@@ -30,7 +30,7 @@
         android:id="@+id/Edit"
         android:orderInCategory="103"
         android:title="@string/edit"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_create_white_24dp"/>
 
 

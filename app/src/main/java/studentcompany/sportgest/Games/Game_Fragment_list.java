@@ -78,6 +78,12 @@ public class Game_Fragment_list extends Fragment {
         }
     }
 
+    public void updateList(List<Game> list){
+        this.list = list;
+        mAdapter = new Game_List_Adapter(list, mListener);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     public void updatePosition(Game game, int position){
         this.list.set(position, game);
         mAdapter.notifyItemChanged(position);

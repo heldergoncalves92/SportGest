@@ -109,7 +109,7 @@ public class Game_Activity_Create extends AppCompatActivity {
                 game = game_dao.getById(baseGameID);
 
                 tv_report.setText(game.getReport());
-                
+
 
             } catch (GenericDAOException e) {
                 e.printStackTrace();

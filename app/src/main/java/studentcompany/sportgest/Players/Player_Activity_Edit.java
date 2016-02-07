@@ -39,10 +39,12 @@ import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Player_Position_DAO;
 import studentcompany.sportgest.daos.Position_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
+import studentcompany.sportgest.domains.Team;
 
 public class Player_Activity_Edit extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
@@ -50,6 +52,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private Player_DAO player_dao;
     private Position_DAO position_dao;
     private Player_Position_DAO playerPosition_dao;
+    private Team_DAO team_dao;
 
     private int EDIT_POSITION = 20;
 
@@ -71,6 +74,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private TextView txtDate;
     private int mYear, mMonth, mDay;
     private int selectedYear, selectedMonth, selectedDay;
+
+    private Spinner spinnerTeam;
+    private ArrayAdapter<Team> dataAdaptert;
+    private List<Team> listTeams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +118,22 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }
+
+
+        spinnerTeam = (Spinner) findViewById(R.id.input_create_player_team_spinner);
+
+        try {
+            team_dao = new Team_DAO(getApplicationContext());
+            listTeams = team_dao.getAll();
+            listTeams.add(0,new Team(-1,getResources().getString(R.string.no_team)));
+            dataAdaptert = new ArrayAdapter<Team>(this,android.R.layout.simple_list_item_1, listTeams);
+            spinnerTeam.setAdapter(dataAdaptert);
+
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
+
         if (playerFromDB!=null){
             if(playerFromDB.getNickname()!=null)
                 tv_nickname.setText(playerFromDB.getNickname());
@@ -361,6 +384,13 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     return false;
                 }*/
 
+                Team selected_team = (Team)spinnerTeam.getSelectedItem();
+
+                if(selected_team == null || selected_team.getId() <= 0) {
+                    Toast.makeText(getApplicationContext(), "Selected team is not valid!!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 if (!ok) {
                     //Intent intent = new Intent();
                     //setResult(2, intent);
@@ -368,7 +398,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     return false;
                 }
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,null,null);
+                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,selected_team,null);
                 boolean corrected = false;
                 //insert/update database
                 try {
