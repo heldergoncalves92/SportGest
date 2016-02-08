@@ -54,11 +54,9 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
             if (extras != null){
                 baseTeamID = extras.getLong("TEAM");
 
-            } else {
-                baseTeamID = 0;
             }
         } else {
-            baseTeamID = savedInstanceState.getInt("baseTeamID");
+            baseTeamID = savedInstanceState.getLong("baseTeamID");
         }
 
         //Some verifications

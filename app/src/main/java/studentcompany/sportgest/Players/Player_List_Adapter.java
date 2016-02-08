@@ -106,7 +106,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         Player player = mDataset.get(position);
 
         if (player != null) {
-            holder.mTextView_name.setText(player.getName());
+            holder.mTextView_name.setText(player.getNickname());
             holder.mTextView_num.setText(player.getNumber()+"");
 
         }
