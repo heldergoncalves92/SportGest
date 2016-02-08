@@ -31,7 +31,7 @@ public class Game_Fragment_Squad extends Fragment {
     private int position;
 
     private RecyclerView mRecyclerView_home, mRecyclerView_visitor;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mAdapter_Home, mAdapter_Visitor;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -68,8 +68,8 @@ public class Game_Fragment_Squad extends Fragment {
         mRecyclerView_home.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
-        mRecyclerView_home.setAdapter(mAdapter);
+        mAdapter_Home = new Game_SquadPlayer_Adapter(home_squad);
+        mRecyclerView_home.setAdapter(mAdapter_Home);
 
 
         mRecyclerView_visitor = (RecyclerView) v.findViewById(R.id.advr_recycler_view);
@@ -80,8 +80,8 @@ public class Game_Fragment_Squad extends Fragment {
         mRecyclerView_visitor.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Game_SquadPlayer_Adapter(visitor_squad);
-        mRecyclerView_visitor.setAdapter(mAdapter);
+        mAdapter_Visitor = new Game_SquadPlayer_Adapter(visitor_squad);
+        mRecyclerView_visitor.setAdapter(mAdapter_Visitor);
 
         return v;
     }
@@ -98,14 +98,16 @@ public class Game_Fragment_Squad extends Fragment {
     public void update_HomeSquad(List<Player> list){
         set_HomeSquad(list);
         // specify an adapter (see also next example)
-        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
-        mRecyclerView_home.setAdapter(mAdapter);
+        this.home_squad = list;
+        mAdapter_Home = new Game_SquadPlayer_Adapter(home_squad);
+        mRecyclerView_home.setAdapter(mAdapter_Home);
     }
 
     public void update_VisitorSquad(List<Player> list){
         set_VisitorSquad(list);
         // specify an adapter (see also next example)
-        mAdapter = new Game_SquadPlayer_Adapter(home_squad);
-        mRecyclerView_visitor.setAdapter(mAdapter);
+        this.visitor_squad = list;
+        mAdapter_Visitor = new Game_SquadPlayer_Adapter(visitor_squad);
+        mRecyclerView_visitor.setAdapter(mAdapter_Visitor);
     }
 }
