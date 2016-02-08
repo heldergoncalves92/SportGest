@@ -71,7 +71,8 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
                 baseGameID = 0;
             }
         } else {
-            baseTeamID = savedInstanceState.getInt("baseTeamID");
+            baseGameID = savedInstanceState.getLong("baseGameID");
+            baseTeamID = savedInstanceState.getLong("baseTeamID");
             current_tab = savedInstanceState.getInt("current_tab");
         }
 

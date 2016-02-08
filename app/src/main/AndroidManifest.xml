@@ -52,7 +52,8 @@
             android:label="@string/title_activity_create_role_" />
         <activity
             android:name=".LoginActivity"
-            android:label="SportGest">
+            android:label="SportGest"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -89,9 +90,9 @@
         <activity android:name=".Players.EditPosition_Activity" />
         <activity
             android:name=".Games.Game_Activity_GameMode"
+            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="landscape" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
             android:label="@string/app_add_eventView" />
