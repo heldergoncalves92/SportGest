@@ -66,12 +66,10 @@ public class Position_Activity_ListView extends AppCompatActivity implements Pos
         try {
             positionDAO = new Position_DAO(getApplicationContext());
             positions = positionDAO.getAll();
-            //players = playerDao.getAll();
             if(positions.isEmpty()) {
 
                 noElems();
-                //insertUserTest(playerDao);
-                //players = playerDao.getAll();
+
             }
             mListPosition.setList(positions);
 
@@ -243,42 +241,6 @@ public class Position_Activity_ListView extends AppCompatActivity implements Pos
         }
     }
 
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertUserTest(Position_DAO p_dao){
-
-        try {
-            Position p1 = new Position("Ala");
-            Position p2 = new Position("Fixo");
-            Position p3 = new Position("Pivot");
-
-            long id;
-
-            id = p_dao.insert(p1);
-            id = p_dao.insert(p2);
-            id = p_dao.insert(p3);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void testPositions(){
-
-        Position p1 = new Position("Ala");
-        Position p2 = new Position("Fixo");
-        Position p3 = new Position("Pivot");
-
-        positions = new ArrayList<Position>();
-        positions.add(p1);
-        positions.add(p2);
-        positions.add(p3);
-
-        mListPosition.setList(positions);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -303,14 +265,6 @@ public class Position_Activity_ListView extends AppCompatActivity implements Pos
         if (requestCode == CREATE_TAG) {
             if(resultCode == 1){
                 try {
-                    /*Bundle bundle = data.getExtras();
-                    long id = (long) bundle.get("id");
-                    int idToSearch = (int) (id + 0);
-                    player=playerDao.getById(idToSearch);
-                    System.out.println(player);
-                    players.add(player);
-                    mDetailsPlayer.showPlayer(player);
-                    */
 
                     positions = positionDAO.getAll();
                     mListPosition.updateList(positions);

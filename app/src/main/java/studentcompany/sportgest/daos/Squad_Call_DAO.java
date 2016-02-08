@@ -167,7 +167,7 @@ public  class Squad_Call_DAO extends GenericPairDAO<Player,Game> implements IGen
                 + " AND SQ." + Squad_Call_DAO.COLUMN_PLAYER_ID + "=PL." + Player_DAO.COLUMN_ID;
 */
         String sql = "SELECT PL.* FROM " + Player_DAO.TABLE_NAME + " AS PL INNER JOIN " + Squad_Call_DAO.TABLE_NAME
-                + " ON " + Squad_Call_DAO.COLUMN_GAME_ID + "=" + gameId;
+                + " ON " + Squad_Call_DAO.COLUMN_GAME_ID + "=" + gameId + " AND PL."+Player_DAO.COLUMN_ID +"=" +Squad_Call_DAO.TABLE_NAME+"."+Squad_Call_DAO.COLUMN_PLAYER_ID;
 
 
 

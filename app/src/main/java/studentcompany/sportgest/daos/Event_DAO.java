@@ -72,7 +72,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         ArrayList<Event> resEvent = new ArrayList<>();
         long id;
         String description;
-        long date;
+        int date;
         int posx;
         int posy;
         long eventCategoryId;
@@ -87,7 +87,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         while(res.isAfterLast() == false) {
             id = res.getLong(res.getColumnIndex(COLUMN_ID));
             description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-            date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+            date = res.getInt(res.getColumnIndex(COLUMN_DATE));
             posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
             posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
             eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
@@ -130,7 +130,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
             gameId = res.getLong(res.getColumnIndex(COLUMN_GAMEID));
             playerId = res.getLong(res.getColumnIndex(COLUMN_PLAYER_ID));
-            resEvent.add(new Event(id, description, date, posx, posy,
+            resEvent.add(new Event(id, description, (int)date, posx, posy,
                     event_category_dao.getById(eventCategoryId),
                     game_dao.getById(gameId),
                     player_dao.getById(playerId)));
@@ -147,7 +147,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
         //aux variables;
         Event resEvent;
         String description;
-        long date;
+        int date;
         int posx;
         int posy;
         long eventCategoryId;
@@ -160,7 +160,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
         //Parse data
         description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-        date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+        date = res.getInt(res.getColumnIndex(COLUMN_DATE));
         posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
         posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
         eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));
@@ -261,8 +261,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " = '" + tmpString + "'");
             fields++;
         }
-        if ((tmpLong = object.getDate()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
+        if ((tmpInt = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
             fields++;
         }
         if ((tmpInt = object.getPosx()) >= 0) {
@@ -322,8 +322,8 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
             statement.append(((fields != 0) ? " AND " : "") + COLUMN_DESCRIPTION + " LIKE '%" + tmpString + "%'");
             fields++;
         }
-        if ((tmpLong = object.getDate()) > 0) {
-            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpLong );
+        if ((tmpInt = object.getDate()) > 0) {
+            statement.append(((fields != 0) ? " AND " : "") + COLUMN_DATE + " = " + tmpInt );
             fields++;
         }
         if ((tmpFloat = object.getPosx()) >= 0) {
@@ -357,7 +357,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
 
             long id;
             String description;
-            long date;
+            int date;
             int posx;
             int posy;
             long eventCategoryId;
@@ -370,7 +370,7 @@ public class Event_DAO extends GenericDAO<Event> implements IGenericDAO<Event> {
                 while(res.isAfterLast() == false) {
                     id = res.getLong(res.getColumnIndex(COLUMN_ID));
                     description = res.getString(res.getColumnIndex(COLUMN_DESCRIPTION));
-                    date = res.getLong(res.getColumnIndex(COLUMN_DATE));
+                    date = res.getInt(res.getColumnIndex(COLUMN_DATE));
                     posx = res.getInt(res.getColumnIndex(COLUMN_POSX));
                     posy = res.getInt(res.getColumnIndex(COLUMN_POSY));
                     eventCategoryId = res.getLong(res.getColumnIndex(COLUMN_EVENT_CATEGORYID));

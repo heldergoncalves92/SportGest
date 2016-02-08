@@ -80,39 +80,9 @@
                     android:text="@string/goTo_games_button"
                     android:onClick="goTo_Games"/>
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_default"
-                    android:text="@string/goTo_gamesView_button"
-                    android:onClick="goTo_Game_GeneralView"/>
 
             </android.support.v7.widget.LinearLayoutCompat>
 
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_default"
-                    android:text="@string/goTo_squadCall_button"
-                    android:id="@+id/game_squadCall_button"
-                    android:onClick="goTo_squadcall"/>
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_default"
-                    android:text="@string/goTo_gameModeView_button"
-                    android:onClick="goTo_GameModeView"/>
-
-            </android.support.v7.widget.LinearLayoutCompat>
 
             <Button
                 android:layout_width="match_parent"
@@ -152,14 +122,6 @@
                 android:id="@+id/positions_button"
                 android:textSize="@dimen/text_size_default"
                 android:onClick="goTo_Positions"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_default"
-                android:text="@string/goTo_gameTest_button"
-                android:id="@+id/game_test_button" />
-
 
             <Button
                 android:layout_width="match_parent"

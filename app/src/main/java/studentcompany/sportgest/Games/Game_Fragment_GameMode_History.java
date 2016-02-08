@@ -101,13 +101,15 @@ public class Game_Fragment_GameMode_History extends Fragment {
     public void selectFirstItem(){
 
         Game_GameMode_History_List_Adapter.ViewHolder v = (Game_GameMode_History_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(0);
-        v.focus_gain();
+        if(v!=null)
+            v.focus_gain();
     }
 
     public void unselect_Item(int position){
 
         Game_GameMode_History_List_Adapter.ViewHolder v = (Game_GameMode_History_List_Adapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-        v.focus_loss();
+        if(v!=null)
+            v.focus_loss();
     }
 
 
@@ -145,6 +147,12 @@ public class Game_Fragment_GameMode_History extends Fragment {
             return null;
         else
             return ((Game_GameMode_History_List_Adapter) mAdapter).getCurrentItem();
+    }
+    public int getCurrentPos(){
+        if(mAdapter == null)
+            return -1;
+        else
+            return ((Game_GameMode_History_List_Adapter) mAdapter).getCurrentPos();
     }
 
 }

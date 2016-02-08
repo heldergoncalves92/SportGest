@@ -36,10 +36,6 @@ public class RolesListActivity extends AppCompatActivity {
         role_dao = new Role_DAO(this);
 
         try {
-            int numRows = role_dao.numberOfRows();
-            if(numRows == 0){
-                RoleTestData data = new RoleTestData(this);
-            }
             roleList = role_dao.getAll();
         } catch (GenericDAOException ex) {
             Logger.getLogger(RolesListActivity.class.getName()).log(Level.WARNING, null, ex);

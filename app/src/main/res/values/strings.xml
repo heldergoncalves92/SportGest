@@ -21,8 +21,9 @@
     <string name="delete">Delete</string>
     <string name="date">Date</string>
     <string name="event_category_button">Event Categories</string>
-    <string name="event_category_add_menu">Add Categories</string>
-    <string name="event_category_edit_menu">Edit Categories</string>
+    <string name="event_category_add_menu">Add Category</string>
+    <string name="event_category_edit_menu">Edit Category</string>
+    <string name="event_category_save_menu">Save Category</string>
     <string name="event_category_delete_menu">Delete Category</string>
     <string name="exercise_button">Exercise</string>
     <string name="exercise_add_menu">Add Exercise</string>
@@ -47,7 +48,7 @@
     <string name="select_user">Select a user</string>
     <string name="app_newUser">SportGest - New User</string>
     <string name="app_newTeam">SportGest - New Team</string>
-    <string name="app_gameTest">SportGest - Game Test</string>
+    <string name="app_eventcat">SportGest - Event Categories</string>
     <string name="app_newPlayer">SportGest - New Player</string>
     <string name="app_newPosition">SportGest - New Position</string>
     <string name="action_del_user">Delete User</string>
@@ -104,10 +105,12 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="role_save_successful">Role saved sucessfully</string>
     <string name="role_save_unsuccessful">Role was not saved</string>
     <string name="app_teamView">Teams</string>
+    <string name="app_add_eventView">Add an Event Category</string>
+    <string name="app_edit_eventView">Edit an Event Category</string>
     <string name="no_teams">There are no teams!</string>
     <string name="no_users">There are no users!</string>
     <string name="no_players">There are no players!</string>
-    <string name="no_eventcategory">There are no event categories!</string>
+    <string name="no_eventcategory">There are no Event Categories!</string>
     <string name="save">Save</string>
     <string name="goTo_games_button">Manage Games</string>
     <string name="squad">Convened squad</string>
@@ -170,6 +173,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="app_newTraining">SportGest - New Training</string>
     <string name="training_name">Name</string>
     <string name="err_category_short">Category is short</string>
+    <string name="err_event_category_short">Event Category is short</string>
     <string name="no_roles">There are no Roles!</string>
     <string name="something_wrong">Something went wrong!</string>
     <string name="err_position_short">Position is short</string>
@@ -201,5 +205,9 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="Game_Report">Report</string>
     <string name="action_del_game">Delete game</string>
     <string name="action_save_game">Save game</string>
+    <string name="changecolor">Change Color</string>
+    <string name="hastimestamp">Has Timestamp</string>
+    <string name="minutesAndseconds">Minutes and Seconds</string>
+    <string name="action_gameMode">Game Mode</string>
 
 </resources>

@@ -43,11 +43,10 @@
         <activity
             android:name=".Team.Team_Activity_Create"
             android:label="@string/app_newTeam" />
-        <activity
-            android:name=".Games.GameTest_Activity"
-            android:label="@string/app_gameTest" />
+
         <activity android:name=".Exercises.Exercise_Activity_Create" />
         <activity android:name=".Games.Game_Activity_SquadCall" />
+
         <activity
             android:name=".Users.RolesListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -61,6 +60,7 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
         <activity android:name=".Games.Game_Activity_GeneralView" />
+
         <activity android:name=".Team.Team_Activity_Edit" />
         <activity android:name=".Users.User_Activity_Edit" />
         <activity android:name=".Players.Player_Activity_Edit" />
@@ -95,10 +95,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
-            android:label="@string/app_teamView" />
+            android:label="@string/app_add_eventView" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Edit"
-            android:label="@string/app_newTeam" />
+            android:label="@string/app_edit_eventView" />
         <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for

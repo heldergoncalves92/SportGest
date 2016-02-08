@@ -311,46 +311,4 @@ public class Game_Activity_SquadCall extends AppCompatActivity implements Player
         Intent returnIntent = new Intent();
         setResult(0, returnIntent);
     }
-
-    private void insertTest() {
-        Team_DAO team_dao = new Team_DAO(getApplicationContext());
-        Player_DAO player_dao = new Player_DAO(getApplicationContext());
-        Game_DAO game_dao = new Game_DAO(getApplicationContext());
-        Squad_Call_DAO squad_call_dao = new Squad_Call_DAO(getApplicationContext());
-        long id;
-        Player p;
-
-        try {
-            Team team = new Team("Santa Maria", "Uma equipa fantástica!!", "default.jpg", 2015, 0);
-            long teamID = team_dao.insert(team);
-            team.setId(teamID);
-
-            Game game = new Game(team, team, new Date().getTime(), "", -1, -1, 40.0f);
-            long gameID = game_dao.insert(game);
-            game.setId(gameID);
-
-
-            p = new Player("Jocka", "João Alberto", "Portuguesa", "Solteiro", "1222-1-23", 176, 70.4f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 2, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Fabinho", "Fábio Gomes", "Portuguesa", "Solteiro", "1222-1-23", 170, 83, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 4, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Jorge D.", "Jorge Duarte", "Portuguesa", "Solteiro", "1231-2-3", 180, 73.6f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Esquerdo", 3, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-            p = new Player("Nel", "Manuel Arouca", "Portuguesa", "Solteiro", "1231-2-3", 194, 69.69f, "Travessa do Morro", "Masculino", "default.jpg", "player1@email.com", "Direito", 1, team, null);
-            id = player_dao.insert(p);
-            p.setId(id);
-
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }

@@ -34,7 +34,7 @@ public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_E
         // each data item is just a string in this case
 
         private GameMode_Event_List_Adapter su = null;
-        public AppCompatTextView mTextView_name;
+        public AppCompatTextView mTextView_name,mTextView_color;
         public CardView parent;
 
 
@@ -44,7 +44,8 @@ public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_E
 
             this.su = su;
             parent = (CardView) view;
-            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.eventcategory_name);
+            mTextView_color = (AppCompatTextView)view.findViewById(R.id.eventcategory_color);
         }
 
         @Override
@@ -75,7 +76,7 @@ public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_E
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_card_item, parent, false);
+                .inflate(R.layout.eventcategory_card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -94,6 +95,7 @@ public class GameMode_Event_List_Adapter extends RecyclerView.Adapter<GameMode_E
         if (event != null) {
             //holder.mTextView_num.setText(String.valueOf(event.getNumber()));
             holder.mTextView_name.setText(event.getName());
+            holder.mTextView_color.setTextColor(event.getColor());
 
         }
     }

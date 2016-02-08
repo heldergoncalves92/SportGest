@@ -22,7 +22,7 @@ public class EventCategory_List_Adapter extends RecyclerView.Adapter<EventCatego
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        public AppCompatTextView mTextView_name;
+        public AppCompatTextView mTextView_name,mTextView_color;
         public View parent;
 
         public ViewHolder(View view) {
@@ -30,7 +30,8 @@ public class EventCategory_List_Adapter extends RecyclerView.Adapter<EventCatego
             view.setOnClickListener(this);
 
             parent = view;
-            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.eventcategory_name);
+            mTextView_color = (AppCompatTextView)view.findViewById(R.id.eventcategory_color);
         }
 
         @Override
@@ -52,7 +53,7 @@ public class EventCategory_List_Adapter extends RecyclerView.Adapter<EventCatego
                                                                int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_card_item, parent, false);
+                .inflate(R.layout.eventcategory_card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -70,6 +71,7 @@ public class EventCategory_List_Adapter extends RecyclerView.Adapter<EventCatego
 
         if (positionObj != null) {
             holder.mTextView_name.setText(positionObj.getName());
+            holder.mTextView_color.setTextColor(positionObj.getColor());
 
         }
     }

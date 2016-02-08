@@ -145,10 +145,6 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
 
         if(players.isEmpty())
             noElems();
-        /*else{
-            mDetailsPlayer.showPlayer(players.get(0));
-            mListPlayer.selectFirstItem();
-        }*/
     }
 
     /************************************
@@ -264,50 +260,6 @@ public class Player_Activity_ListView extends AppCompatActivity implements stude
                                 }
                             }).create();
         }
-    }
-
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertUserTest(Player_DAO p_dao){
-
-        try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portugal", "Single", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portugal", "Married", "1222-1-23", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portugal", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
-            Position po1 = new Position("Ala");
-            PlayerPosition pp1 = new PlayerPosition(1,p1,po1,5);
-
-            long id;
-
-            id = p_dao.insert(p1);
-            id = p_dao.insert(p2);
-            id = p_dao.insert(p3);
-            id = p_dao.insert(p4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void testPlayers(){
-
-        Player p1 = new Player(1,"Jocka", "João Alberto", "Portugual", "Single", "1231-2-3", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-        Player p2 = new Player(2,"Fabinho", "Fábio Gomes", "Portugual", "Married", "1231-2-3", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-        Player p3 = new Player(3,"Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-        Player p4 = new Player(4,"Nel", "Manuel Arouca", "Portugual", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
-        players = new ArrayList<Player>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
-
-        mListPlayer.setList(players);
     }
 
     @Override

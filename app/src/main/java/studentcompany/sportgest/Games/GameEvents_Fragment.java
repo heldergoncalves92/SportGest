@@ -90,21 +90,5 @@ public class GameEvents_Fragment extends Fragment {
         this.game = game;
     }
 
-    public static List<EventCategory> EventsTeste(){
-
-        ArrayList<EventCategory> list = new ArrayList<EventCategory>();
-
-        EventCategory a1 = new EventCategory(1,"passe");
-        EventCategory a2 = new EventCategory(3,"remate");
-        EventCategory a3 = new EventCategory(3,"corte");
-        EventCategory a4 = new EventCategory(4,"canto");
-
-        list.add(a1);
-        list.add(a2);
-        list.add(a3);
-        list.add(a4);
-
-        return list;
-    }
 
 }
