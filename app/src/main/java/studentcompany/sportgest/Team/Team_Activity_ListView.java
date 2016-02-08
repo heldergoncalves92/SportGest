@@ -59,8 +59,6 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
 
                 noElems();
                 teams = new ArrayList<Team>();
-                //insertTest(teamDao);
-                //teams = teamDao.getAll();
             }
             mListTeams.setList(teams);
 
@@ -242,45 +240,6 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertTest(Team_DAO t_dao){
-
-        try {
-            Team u1 = new Team("Santa Maria","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u2 = new Team("Braga","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u3 = new Team("Gualtar","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u4 = new Team("Fafe","Uma equipa fantástica!!","default.jpg",2015,0);
-
-            t_dao.insert(u1);
-            t_dao.insert(u2);
-            t_dao.insert(u3);
-            t_dao.insert(u4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void testUsers(){
-
-        Team u1 = new Team("Santa Maria","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u2 = new Team("Braga","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u3 = new Team("Gualtar","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u4 = new Team("Fafe","Uma equipa fantástica!!","default.jpg",2015,0);
-
-
-        teams = new ArrayList<Team>();
-        teams.add(u1);
-        teams.add(u2);
-        teams.add(u3);
-        teams.add(u4);
-
-        mListTeams.setList(teams);
     }
 
     @Override

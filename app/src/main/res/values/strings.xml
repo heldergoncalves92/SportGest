@@ -208,5 +208,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="changecolor">Change Color</string>
     <string name="hastimestamp">Has Timestamp</string>
     <string name="minutesAndseconds">Minutes and Seconds</string>
+    <string name="action_gameMode">Game Mode</string>
 
 </resources>

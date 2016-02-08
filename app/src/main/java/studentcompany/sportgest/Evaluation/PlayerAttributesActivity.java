@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
-import studentcompany.sportgest.Trainings.Training_TestData;
+
 import studentcompany.sportgest.daos.Attribute_DAO;
 import studentcompany.sportgest.daos.Attribute_Exercise_DAO;
 import studentcompany.sportgest.daos.Exercise_DAO;
@@ -92,14 +92,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         record_dao = new Record_DAO(this);
         player_dao = new Player_DAO(this);
 
-        //TEST ONLY -> REMOVE
-        try {
-            if(training_dao.getAll().size() == 0) {
-                new Training_TestData(getApplicationContext());
-            }
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
 
         //get trainingID
         Bundle extras = getIntent().getExtras();

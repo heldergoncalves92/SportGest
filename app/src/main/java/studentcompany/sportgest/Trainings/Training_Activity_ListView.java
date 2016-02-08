@@ -60,9 +60,6 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             training_dao = new Training_DAO(getApplicationContext());
             training_exercise_dao = new Training_Exercise_DAO(getApplicationContext());
 
-            if(training_dao.numberOfRows() == 0) {
-                new Training_TestData(getApplicationContext());
-            }
             trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
 
             //Check if it is empty

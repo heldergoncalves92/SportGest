@@ -276,10 +276,6 @@ public class EventCategory_Activity_ListView extends AppCompatActivity implement
         }
     }
 
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

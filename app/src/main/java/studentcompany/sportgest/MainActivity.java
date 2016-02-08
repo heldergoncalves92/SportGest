@@ -184,38 +184,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goTo_Roles(View v){
-        Intent intent = new Intent(this, Role_Activity_ListView.class);
-        startActivity(intent);
-    }
 
-    public void goTo_Games_teste(View v){
-        //insertGamesTest();
-        Intent intent = new Intent(this, Game_Activity_ListView.class);
-        startActivity(intent);
-    }
     public void goTo_Games(View v){
 
         Intent intent = new Intent(this, Game_Activity_ListView.class);
         intent.putExtra("TEAM",(long)1);
-        startActivity(intent);
-    }
-
-
-    public void goTo_Game_GeneralView(View v){
-        Intent intent = new Intent(this, Game_Activity_GeneralView.class);
-        startActivity(intent);
-    }
-
-    public void goTo_GameModeView(View v){
-        Intent intent = new Intent(this, Game_Activity_GameMode.class);
-        intent.putExtra("GAME",(long)1);
-        startActivity(intent);
-    }
-
-    public void goTo_squadcall(View v){
-        Intent intent = new Intent(this, Game_Activity_SquadCall.class);
-        intent.putExtra("GAME",(long)1);
         startActivity(intent);
     }
 
@@ -261,20 +234,4 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
-    private void insertGamesTest(){
-
-        try {
-            Game_DAO gameDao = new Game_DAO(getApplicationContext());
-            if(gameDao.getAll() == null) {
-
-                gameDao.insert(new Game(new Team(1), new Team(2), 0, "O jogo foi muito competitivo!!", 3, 1, 40f));
-                gameDao.insert(new Game(new Team(3), new Team(4), 0, "O jogo foi muito competitivo!!", 1, 1, 50f));
-                gameDao.insert(new Game(new Team(1), new Team(3), 0, "O jogo foi muito competitivo!!", 2, 3, 40f));
-                gameDao.insert(new Game(new Team(2), new Team(4), 0, "O jogo foi muito competitivo!!", 3, 2, 40f));
-            }
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-    }
 }

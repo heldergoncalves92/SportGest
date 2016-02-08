@@ -28,6 +28,12 @@
         android:title="@string/action_del_game"
         android:visible="true" />
 
+    <item
+        android:id="@+id/action_gameMode"
+        android:icon="@drawable/ic_content_paste_white_24dp"
+        android:title="@string/action_gameMode"
+        android:visible="true" />
+
 
     <item
         android:id="@+id/action_save"

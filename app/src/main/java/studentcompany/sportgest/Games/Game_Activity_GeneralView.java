@@ -40,7 +40,7 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
 
     private List<Player> home_players, visitor_players;
     private List<Event> eventsList;
-    private final int SQUAD_HOME = 100, SQUAD_VISITOR = 101;
+    private final int SQUAD_HOME = 100, SQUAD_VISITOR = 101, GAME_MODE = 102;
 
     private Game_Fragment_Squad mSquads;
 
@@ -118,6 +118,7 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
             for (Player p: visitor_players)
                 if (p.getTeam().getId() == baseTeamID)
                     home_players.add(p);
+
 
             //Remove repeted players
             for (Player p: home_players)
@@ -211,6 +212,13 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
                 startActivityForResult(intent, SQUAD_VISITOR);
                 return true;
 
+            case R.id.action_gameMode:
+                intent = new Intent(this, Game_Activity_GameMode.class);
+                intent.putExtra("TEAM", baseTeamID);
+                intent.putExtra("GAME", baseGameID);
+                startActivityForResult(intent, GAME_MODE);
+                return true;
+
             case R.id.action_del:
                 intent = new Intent();
                 setResult(1, intent);
@@ -264,35 +272,12 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
                 mSquads.update_VisitorSquad(visitor_players);
             }
 
+        } else if (requestCode == GAME_MODE) {
+            if(resultCode == 1){
+                //Do Something
+                baseGameID = baseGameID;
+            }
+
         }
     }
-
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertUserTest(Player_DAO p_dao){
-
-        try {
-            Player p1 = new Player("Jocka", "João Alberto", "Portugal", "Single", "1222-1-23", 176 ,70.4f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 2, new Team(1), null);
-            Player p2 = new Player("Fabinho", "Fábio Gomes", "Portugal", "Married", "1222-1-23", 170 ,83 , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 4, new Team(1), null);
-            Player p3 = new Player("Jorge D.", "Jorge Duarte", "Spain", "Single", "1231-2-3", 180 ,73.6f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player p4 = new Player("Nel", "Manuel Arouca", "Portugal", "Married", "1231-2-3", 194 ,69.69f , "Travessa do Morro", "Male", "default.jpg", "player1@email.com", "Direito", 1, new Team(2), null);
-
-            Position po1 = new Position("Ala");
-            PlayerPosition pp1 = new PlayerPosition(1,p1,po1,5);
-
-            long id;
-
-            id = p_dao.insert(p1);
-            id = p_dao.insert(p2);
-            id = p_dao.insert(p3);
-            id = p_dao.insert(p4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }
