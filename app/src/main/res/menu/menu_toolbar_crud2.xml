@@ -16,7 +16,7 @@
         android:orderInCategory="101"
         android:title="Details"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_content_paste_black_24dp"/>
+        android:icon="@drawable/ic_content_paste_white_24dp"/>
 
     <item
         android:id="@+id/Delete"

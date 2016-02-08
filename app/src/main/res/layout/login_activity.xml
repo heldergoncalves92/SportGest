@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/logo"
-                android:maxHeight="30dp"/>
+                android:maxHeight="0dp"/>
 
 
 

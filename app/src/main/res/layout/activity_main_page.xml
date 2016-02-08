@@ -12,14 +12,27 @@
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
 
-            <Button
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo"
+                android:maxHeight="0dp"/>
+
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/event_category_button"
-                android:textSize="@dimen/text_size_default"
-                android:id="@+id/event_category_button" />
+                android:textColor="@color/colorPrimary"
+                android:paddingTop="10dp"
+                android:textSize="24dp"
+                android:text="@string/Games"
+                android:gravity="center_horizontal"/>
 
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -44,28 +57,7 @@
 
             </android.support.v7.widget.LinearLayoutCompat >
 
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_default"
-                    android:text="@string/goTo_users_button"
-                    android:onClick="goTo_Users"/>
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_default"
-                    android:text="@string/roles_button"
-                    android:id="@+id/roles_button"/>
-
-            </android.support.v7.widget.LinearLayoutCompat >
 
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -84,12 +76,14 @@
             </android.support.v7.widget.LinearLayoutCompat>
 
 
-            <Button
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login_button"
-                android:textSize="@dimen/text_size_default"
-                android:onClick="goTo_Login" />
+                android:textColor="@color/colorPrimary"
+                android:paddingTop="10dp"
+                android:textSize="24dp"
+                android:text="@string/Trainnings"
+                android:gravity="center_horizontal"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -118,25 +112,25 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/goTo_position_button"
-                android:id="@+id/positions_button"
-                android:textSize="@dimen/text_size_default"
-                android:onClick="goTo_Positions"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_button"
-                android:textSize="@dimen/text_size_default"
-                android:onClick="goTo_Login" />
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Evaluate Players"
                 android:textSize="@dimen/text_size_default"
                 android:id="@+id/exercise_attributes_evaluation" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:paddingTop="10dp"
+                android:textSize="24dp"
+                android:text="@string/Other"
+                android:gravity="center_horizontal"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="generalSettings" />
 
         </android.support.v7.widget.LinearLayoutCompat>
     </ScrollView>
