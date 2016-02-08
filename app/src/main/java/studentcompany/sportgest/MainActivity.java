@@ -32,6 +32,8 @@ import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
+import studentcompany.sportgest.daos.User_DAO;
+import studentcompany.sportgest.daos.db.TestData;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Team;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        User_DAO user_dao = new User_DAO(this.getApplicationContext());
+        if(user_dao.numberOfRows()==0) {
+            TestData td = new TestData(this.getApplicationContext());
+        }
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -231,25 +237,25 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent;
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), RolesListActivity.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Users:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), User_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Players:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), Player_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Exercise:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
                                 startActivity(intent);
