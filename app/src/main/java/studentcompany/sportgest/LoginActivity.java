@@ -33,7 +33,6 @@ import studentcompany.sportgest.domains.User;
  */
 public class LoginActivity extends AppCompatActivity {
 
-
     //Keep track of the login task to ensure we can cancel it if requested.
     private UserLoginTask mAuthTask = null;
 
@@ -41,13 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatAutoCompleteTextView mUsernameView;
     private AppCompatEditText mPasswordView;
 
-
     private String TAG = "LOGIN_ACTIVITY";
     private String[] prevAttempts = {"admin"};
     private DialogFragment mDialog;
 
     private User_DAO userDao;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +94,6 @@ public class LoginActivity extends AppCompatActivity {
             addUsernamesToAutoComplete(list);
         }
     }
-    
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -162,7 +157,6 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() > 4;
     }
 
-
     private void addUsernamesToAutoComplete(List<String> usernameCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -171,8 +165,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameView.setAdapter(adapter);
     }
-
-
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
