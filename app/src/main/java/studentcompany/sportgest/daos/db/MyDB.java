@@ -36,6 +36,7 @@ public class MyDB extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "SportGest.db";
     public static final int DATABASE_VERSION = 1;
     public static MyDB _Instance;
+    public Context contextx;
 
     public MyDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -95,4 +96,7 @@ public class MyDB extends SQLiteOpenHelper {
         // No upgrade available
         onCreate(db);
     }
+
+
+
 }
