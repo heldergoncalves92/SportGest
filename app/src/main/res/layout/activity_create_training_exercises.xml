@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="studentcompany.sportgest.Trainings.Training_Activity_Create_Exercises"
+    android:gravity="top|left">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_training_available_exercises"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/training_available_exercises_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
+                android:hint="Available Exercises" />
+
+            <FrameLayout
+                android:id="@+id/training_available_exercises_list_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--ListView
+                android:id="@+id/training_available_exercises_list"
+                android:textSize="@dimen/text_size_default"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" /-->
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_training_selected_exercise_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="2"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/exercise_repetitions_label"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:text="Repetitions:"
+                    android:textSize="@dimen/text_size_default"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center" />
+
+                <EditText
+                    android:id="@+id/exercise_repetitions"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="0"
+                    android:ems="2"
+                    android:gravity="center_horizontal|bottom"/>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_remove_black_18dp"
+                    android:id="@+id/selected_exercise_repetitions_less"/>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_add_black_18dp"
+                    android:id="@+id/selected_exercise_repetitions_more"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="2"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/training_total_duration_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="Total:"
+                    android:gravity="center" />
+
+                <EditText
+                    android:id="@+id/training_total_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:editable="false"
+                    android:text="0"
+                    android:textSize="@dimen/text_size_default"
+                    android:ems="2"
+                    android:gravity="center_horizontal|bottom"/>
+
+                <TextView
+                    android:id="@+id/exercise_time_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="min"
+                    android:textSize="@dimen/text_size_default"
+                    android:gravity="left|center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/exercise_detail_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_training_selected_exercises"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/training_selected_exercises_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
+                android:hint="Selected Exercises" />
+
+            <FrameLayout
+                android:id="@+id/training_selected_exercises_list_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--ListView
+                android:id="@+id/training_selected_exercises_list"
+                android:textSize="@dimen/text_size_default"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" /-->
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

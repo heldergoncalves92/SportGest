@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="4px"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_create_permission_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_create_permission_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:textSize="@dimen/text_size_default"
+                android:hint="@string/hint_name" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="4px"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_layout_Permissions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/text_permissions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_permissions"
+                android:textSize="@dimen/text_size_default"
+                android:paddingLeft="3dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="3dp"
+            android:nestedScrollingEnabled="false">
+
+            <GridView
+                android:id="@+id/roleCreatePermissions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:horizontalSpacing="2dp"
+                android:isScrollContainer="false"
+                android:scrollbars="vertical"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="3dp" />
+
+        </RelativeLayout>
+</LinearLayout>

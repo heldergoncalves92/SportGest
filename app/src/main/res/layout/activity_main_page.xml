@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="studentcompany.sportgest.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/event_category_button"
+                android:textSize="@dimen/text_size_default"
+                android:id="@+id/event_category_button" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="@string/goTo_teams_button"
+                    android:onClick="goTo_Teams"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="@string/goTo_players_button"
+                    android:onClick="goTo_Players"/>
+
+            </android.support.v7.widget.LinearLayoutCompat >
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="@string/goTo_users_button"
+                    android:onClick="goTo_Users"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="@string/roles_button"
+                    android:id="@+id/roles_button"/>
+
+            </android.support.v7.widget.LinearLayoutCompat >
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_default"
+                    android:text="@string/goTo_games_button"
+                    android:onClick="goTo_Games"/>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Login" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_attribute_button"
+                android:id="@+id/attribute_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Attribute"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_exercise_button"
+                android:id="@+id/exercise_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Exercise"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_training_button"
+                android:id="@+id/training_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Training"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goTo_position_button"
+                android:id="@+id/positions_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Positions"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                android:textSize="@dimen/text_size_default"
+                android:onClick="goTo_Login" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Evaluate Players"
+                android:textSize="@dimen/text_size_default"
+                android:id="@+id/exercise_attributes_evaluation" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </ScrollView>
+</RelativeLayout>
+

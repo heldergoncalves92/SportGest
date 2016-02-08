@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Add"
+        android:orderInCategory="100"
+        android:title="@string/add"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_add_white_24dp"/>
+
+    <item
+        android:id="@+id/Edit"
+        android:orderInCategory="101"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_create_white_24dp"/>
+
+    <item
+        android:id="@+id/Delete"
+        android:orderInCategory="102"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_delete_white_24dp"/>
+
+    <item
+        android:id="@+id/Save"
+        android:orderInCategory="103"
+        android:title="@string/save_button"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_done"/>
+
+    <item
+        android:id="@+id/Forward"
+        android:orderInCategory="104"
+        android:title="@string/next_button"
+        android:visible="false"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_forward_white_24dp"/>
+
+
+</menu>
