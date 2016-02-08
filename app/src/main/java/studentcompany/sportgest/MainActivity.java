@@ -30,6 +30,7 @@ import studentcompany.sportgest.Trainings.Training_Activity_ListView;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
+import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
 import studentcompany.sportgest.daos.User_DAO;
@@ -49,9 +50,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        User_DAO user_dao = new User_DAO(this.getApplicationContext());
-        if(user_dao.numberOfRows()==0) {
+        Player_DAO player_dao = new Player_DAO(this.getApplicationContext());
+        if(player_dao.numberOfRows()==0) {
             TestData td = new TestData(this.getApplicationContext());
         }
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

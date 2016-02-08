@@ -340,16 +340,16 @@ public class TestData {
 
             // Exercises
 
-            Exercise e1 = new Exercise(1,"Shooting","Outside the box",2);
+            Exercise e1 = new Exercise(1,"Shooting","Outside the box",2,0);
             exercise_dao.insert(e1);
-            exercise_dao.insert(new Exercise(2, "Sprinting", "Around the field", 5));
-            exercise_dao.insert(new Exercise(3, "Passing", "On center of the field", 4));
-            exercise_dao.insert(new Exercise(4, "Side Attacks", "Wingers", 10));
-            exercise_dao.insert(new Exercise(5, "Park the bus", "Increase the defensive system", 7));
-            exercise_dao.insert(new Exercise(6, "Corner Kicks Left", "Left side", 10));
-            exercise_dao.insert(new Exercise(7, "Corner Kicks Right", "Right side", 10));
-            exercise_dao.insert(new Exercise(8, "Standing Tackles", "Standing Tackles", 4));
-            exercise_dao.insert(new Exercise(9, "Sliding Tackles", "Sliding Tackles", 4));
+            exercise_dao.insert(new Exercise(2, "Sprinting", "Around the field", 5,0));
+            exercise_dao.insert(new Exercise(3, "Passing", "On center of the field", 4,0));
+            exercise_dao.insert(new Exercise(4, "Side Attacks", "Wingers", 10,0));
+            exercise_dao.insert(new Exercise(5, "Park the bus", "Increase the defensive system", 7,0));
+            exercise_dao.insert(new Exercise(6, "Corner Kicks Left", "Left side", 10,0));
+            exercise_dao.insert(new Exercise(7, "Corner Kicks Right", "Right side", 10,0));
+            exercise_dao.insert(new Exercise(8, "Standing Tackles", "Standing Tackles", 4,0));
+            exercise_dao.insert(new Exercise(9, "Sliding Tackles", "Sliding Tackles", 4,0));
 
 
             attribute_exercise_dao.insert(new Pair<Attribute, Exercise>(attribute_dao.getById(1), e1));
@@ -382,10 +382,10 @@ public class TestData {
 
             // Training
 
-            Training tr1 = new Training(1,"Monday","Stamina improvement",20150123,60,team5);
-            Training tr2 = new Training(2,"Pre-Match","Stamina improvement",20150123,60,team5);
-            Training tr3 = new Training(3,"Relax","Stamina improvement",20150123,60,team5);
-            Training tr4 = new Training(4,"Finishing","Stamina improvement",20150123,60,team5);
+            Training tr1 = new Training(1,"Monday","Stamina improvement",20150123,60,team5,0);
+            Training tr2 = new Training(2,"Pre-Match","Stamina improvement",20150123,60,team5,0);
+            Training tr3 = new Training(3,"Relax","Stamina improvement",20150123,60,team5,0);
+            Training tr4 = new Training(4,"Finishing","Stamina improvement",20150123,60,team5,0);
 
             training_dao.insert(tr1);
             training_dao.insert(tr2);
