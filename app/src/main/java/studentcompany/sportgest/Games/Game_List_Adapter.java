@@ -1,7 +1,13 @@
 package studentcompany.sportgest.Games;
 
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 import studentcompany.sportgest.R;
@@ -106,6 +114,23 @@ public class Game_List_Adapter extends RecyclerView.Adapter<Game_List_Adapter.Vi
             
             holder.score1.setText(String.valueOf(game.getHome_score()));
             holder.score2.setText(String.valueOf(game.getVisitor_score()));
+
+
+            if (game.getHome_team().getLogo() == null || game.getHome_team().getLogo().equals("")) {
+                holder.image_home.setImageDrawable(getDrawable(true));
+            } else {
+                Bitmap homebitmap = getImageBitmap(game.getHome_team().getLogo());
+                holder.image_home.setImageBitmap(homebitmap);
+            }
+
+            if (game.getVisitor_team().getLogo() == null || game.getVisitor_team().getLogo().equals("")) {
+                holder.image_visitor.setImageDrawable(getDrawable(false));
+            } else {
+                Bitmap awaybitmap = getImageBitmap(game.getVisitor_team().getLogo());
+                holder.image_visitor.setImageBitmap(awaybitmap);
+            }
+
+
         }
     }
 
@@ -123,5 +148,38 @@ public class Game_List_Adapter extends RecyclerView.Adapter<Game_List_Adapter.Vi
 
         currentVH = vh;
         currentPos = position;
+    }
+
+
+    public Bitmap getImageBitmap(String name){
+        //name=name+"."+extension;
+        try{
+
+            ContextWrapper cw = new ContextWrapper(context);
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private Drawable getDrawable(boolean home) {
+
+        Drawable myDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            myDrawable = context.getResources().getDrawable(home ? R.drawable.team1 : R.drawable.team2, context.getTheme());
+        } else {
+            myDrawable = context.getResources().getDrawable(home ? R.drawable.team1 : R.drawable.team2);
+        }
+        return myDrawable;
+
     }
 }

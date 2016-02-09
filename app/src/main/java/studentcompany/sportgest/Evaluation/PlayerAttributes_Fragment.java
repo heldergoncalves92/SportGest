@@ -44,16 +44,16 @@ public class PlayerAttributes_Fragment extends Fragment {
     private List<Attribute> attributes;
 
     //LayoutElems
-    private HashMap<Long, Integer> quantitativeHashMap = new HashMap<>();
-    private HashMap<Long, Integer> qualitativeHashMap = new HashMap<>();
-    private HashMap<Long, Float> ratioPartialHashMap = new HashMap<>();
-    private HashMap<Long, Float> ratioTotalHashMap = new HashMap<>();
+    private HashMap<Long, Integer>  quantitativeHashMap;
+    private HashMap<Long, Integer>  qualitativeHashMap;
+    private HashMap<Long, Float>    ratioPartialHashMap;
+    private HashMap<Long, Float>    ratioTotalHashMap;
 
     //DEFINES
     private static final int SEEKBAR_MAX = 20;
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    private static final String TOTAL = "Total";        //TODO: put in String.xml
-    private static final String PARTIAL = "Partial";    //TODO: put in String.xml
+    private static String TOTAL = "TOTAL";
+    private static String PARTIAL = "PARTIAL";
 
     public PlayerAttributes_Fragment() {
         // Required empty public constructor
@@ -62,6 +62,9 @@ public class PlayerAttributes_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        TOTAL = getString(R.string.total);
+        PARTIAL = getString(R.string.partial);
 
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
@@ -73,12 +76,20 @@ public class PlayerAttributes_Fragment extends Fragment {
         return view;
     }
 
-    public void showEvaluations(List<Attribute> attributeList, List<Record> evaluations, Player player){
+    public void showEvaluations(List<Attribute> attributeList, Player player,
+                                HashMap<Long, Integer> quantitativeHashMapParam,
+                                HashMap<Long, Integer> qualitativeHashMapParam,
+                                HashMap<Long, Float> ratioPartialHashMapParam,
+                                HashMap<Long, Float> ratioTotalHashMapParam){
         clearDetails();
-        attributes = attributeList;
+        this.attributes = attributeList;
+        this.quantitativeHashMap = quantitativeHashMapParam;
+        this.qualitativeHashMap = qualitativeHashMapParam;
+        this.ratioPartialHashMap = ratioPartialHashMapParam;
+        this.ratioTotalHashMap = ratioTotalHashMapParam;
+
 
         FragmentActivity fa = getActivity();
-        boolean recordFound;
 
         //TODO: initialize variables with current evaluations (if applicable)
         for(Attribute a:attributeList){
@@ -110,17 +121,10 @@ public class PlayerAttributes_Fragment extends Fragment {
                     //SeekBar
                     SeekBar sb = new SeekBar(fa);
                     sb.setMax(SEEKBAR_MAX);
-                    //TODO: Optimize this!
-                    recordFound = false;
-                    for(Record r: evaluations){
-                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
-                            sb.setProgress((int) r.getValue());
-                            quantitativeHashMap.put(attribute_id, (int) r.getValue());
-                            recordFound = true;
-                            break;
-                        }
-                    }
-                    if(!recordFound) {
+                    if(quantitativeHashMap.containsKey(attribute_id) && quantitativeHashMap.get(attribute_id) >= 0){
+                        tv_progress.setText(quantitativeHashMap.get(attribute_id)+ "/" + SEEKBAR_MAX);
+                        sb.setProgress(quantitativeHashMap.get(attribute_id));
+                    }else{
                         sb.setProgress(SEEKBAR_MAX / 2);
                         quantitativeHashMap.put(attribute_id, SEEKBAR_MAX / 2);
                     }
@@ -158,20 +162,14 @@ public class PlayerAttributes_Fragment extends Fragment {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
                     spinner.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2.5f));
-                    //TODO: Optimize this!
-                    recordFound = false;
-                    for(Record r: evaluations){
-                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
-                            spinner.setSelection((int) r.getValue());
-                            qualitativeHashMap.put(attribute_id, (int) r.getValue());
-                            recordFound = true;
-                            break;
-                        }
+
+                    if(qualitativeHashMap.containsKey(attribute_id) && qualitativeHashMap.get(attribute_id) >= 0){
+                        spinner.setSelection(qualitativeHashMap.get(attribute_id));
+                    } else {
+                        spinner.setSelection(typeList.size() / 2);
+                        qualitativeHashMap.put(attribute_id, typeList.size() / 2);
                     }
-                    if(!recordFound) {
-                        spinner.setSelection(typeList.size()/2);
-                        qualitativeHashMap.put(attribute_id, typeList.size()/2);
-                    }
+
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -207,7 +205,9 @@ public class PlayerAttributes_Fragment extends Fragment {
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            ratioPartialHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                            if(s.length() != 0) {
+                                ratioPartialHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                            }
                         }
                     });
                     til_partial.addView(et_partial);
@@ -234,20 +234,18 @@ public class PlayerAttributes_Fragment extends Fragment {
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            ratioTotalHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                            if(s.length() != 0) {
+                                ratioTotalHashMap.put(attribute_id, Float.parseFloat(s.toString()));
+                            }
                         }
                     });
                     til_total.addView(et_total);
 
                     //TODO: Optimize this!
-                    for(Record r: evaluations){
-                        if(r.getPlayer().getId() == player.getId() && a.getId()==r.getAttribute().getId()){
-                            et_partial.setText(String.valueOf((int)(r.getValue()*100)));
-                            ratioPartialHashMap.put(attribute_id, r.getValue());
-                            et_total.setText("100");
-                            ratioTotalHashMap.put(attribute_id, 1f);
-                            break;
-                        }
+                    if(ratioPartialHashMap.containsKey(attribute_id) && ratioPartialHashMap.get(attribute_id)>=0){
+                        et_partial.setText(String.valueOf(ratioPartialHashMap.get(attribute_id)));
+                        et_total.setText("100");
+                        ratioTotalHashMap.put(attribute_id, 1f);
                     }
 
                     //Add to the layout

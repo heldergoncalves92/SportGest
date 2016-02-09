@@ -73,14 +73,14 @@ public class Game_Fragment_list extends Fragment {
     public void updateList(){
         // Set the list adapter for the ListView
         if(list != null) {
-            mAdapter = new Game_List_Adapter(list, mListener);
+            mAdapter = new Game_List_Adapter(list, mListener,getContext());
             mRecyclerView.setAdapter(mAdapter);
         }
     }
 
     public void updateList(List<Game> list){
         this.list = list;
-        mAdapter = new Game_List_Adapter(list, mListener);
+        mAdapter = new Game_List_Adapter(list, mListener,getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -48,6 +48,9 @@
             android:name=".Users.RoleDisplayActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".EventCategories.Color_Picker_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Users.CreateRole_Activity"
             android:label="@string/title_activity_create_role_" />
         <activity

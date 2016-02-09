@@ -39,7 +39,6 @@
     <string name="goTo_users_button">Manage Users</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="goTo_players_button">Manage Players</string>
     <string name="action_add_user">Create User</string>
     <string name="select_player">Select a Player</string>
@@ -73,9 +72,6 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="error_mismatch_passwords">Passwords do not match</string>
     <string name="error_incorrect_password">Password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="title_activity_login">Sign in</string>
     <string name="login_button">Login</string>
     <string name="prompt_username">Username</string>
@@ -259,8 +255,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="availableattributes">Available Attributes</string>
     <string name="exerciseillustration">Exercise illustration</string>
     <string name="partial">Partial</string>
+    <string name="total">Total</string>
     <string name="evaluateplayers">Evaluate Players</string>
-
 
 
 </resources>
