@@ -139,7 +139,7 @@ public class Game_Activity_GeneralView extends AppCompatActivity{
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = {"Overview", "Statistics", "Squad"};
+        private final String[] TITLES = {getString(R.string.overview), getString(R.string.Statistics), getString(R.string.teams)};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

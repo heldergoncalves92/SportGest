@@ -181,20 +181,20 @@ public class TestData {
             PlayerPosition p18_gk = new PlayerPosition(3,new Player(7),pos_piv,10);
             ArrayList<PlayerPosition> ppar2 = new ArrayList<>(); ppar.add(p17_gk); ppar.add(p18_gk);
 
-            Player pl1 = new Player(1,"André", "André Alberto", "Cape Verde", "Single", "1990-2-3", 176 ,70.4f , "Travessa do Rossio", "Male", null, "player1@email.com", "Direito", 2, new Team(1), null);
-            Player pl2 = new Player(2,"Miguel", "Givanildo Miguel", "Cape Verde", "Married", "1990-2-3", 170 ,83 , "Rua de Avintes", "Male", null, "player1@email.com", "Direito", 4, new Team(1), null);
-            Player pl3 = new Player(3,"Jorge D.", "Jorge Davide Ramirez", "Cape Verde", "Single", "1990-2-3", 180 ,73.6f , "Avenida dos Amigos", "Male", null, "player1@email.com", "Esquerdo", 3, new Team(1), null);
-            Player pl4 = new Player(4,"Nel", "Manuel Arouca", "Cape Verde", "Married", "1990-2-3", 194 ,69.69f , "Centro", "Male", null, "player1@email.com", "Direito", 1, new Team(1), null);
-            Player pl5 = new Player(5,"Mário S.", "Mário Silva Soares", "Cape Verde", "Married", "1990-2-3", 194 ,69.69f , "Oito Fontes", "Male", null, "player1@email.com", "Direito", 6, new Team(1), null);
+            Player pl1 = new Player(1,"André", "André Alberto", "Cape Verde", context.getString(R.string.Single), "1990-2-3", 176 ,70.4f , "Travessa do Rossio", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 2, new Team(1), null);
+            Player pl2 = new Player(2,"Miguel", "Givanildo Miguel", "Cape Verde", context.getString(R.string.Married), "1990-2-3", 170 ,83 , "Rua de Avintes", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 4, new Team(1), null);
+            Player pl3 = new Player(3,"Jorge D.", "Jorge Davide Ramirez", "Cape Verde", context.getString(R.string.Single), "1990-2-3", 180 ,73.6f , "Avenida dos Amigos", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Left), 3, new Team(1), null);
+            Player pl4 = new Player(4,"Nel", "Manuel Arouca", "Cape Verde", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Centro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 1, new Team(1), null);
+            Player pl5 = new Player(5,"Mário S.", "Mário Silva Soares", "Cape Verde", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Oito Fontes", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 6, new Team(1), null);
 
-            Player pl6 = new Player(6,"Bebé", "Euclides Gomes Vaz", "Portugal", "Single", "1983-05-19", 173 ,66.00f , "Lisboa", "Male", null, "bebe@slbenfica.pt", "Esquerdo", 1, team5, ppar);
-            Player pl7 = new Player(7,"Ricardinho", "Ricardo Filipe Silva Duarte Braga", "Portugal", "Married", "1985-09-03", 165 ,68.00f , "Gondomar", "Male", null, "player1@email.com", "Esquerdo", 10, team5, ppar2);
-            Player pl8 = new Player(8,"Fábio C.", "Fábio Miguel Valadares Cecílio", "Portugal", "Single", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 22, team5, null);
-            Player pl9 = new Player(9,"Pedro Cary", "Pedro Cary", "Portugal", "Married", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 6, team5, null);
-            Player pl10 = new Player(10,"T. Brito", "Tiago Brito", "Portugal", "Married", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 13, team5, null);
-            Player pl11 = new Player(11,"Paulinho", "Paulinho", "Portugal", "Married", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 2, team5, null);
-            Player pl12 = new Player(12,"Djô", "Manuel Arouca", "Portugal", "Married", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 8, team5, null);
-            Player pl13 = new Player(13,"Cardinal", "Cardinal", "Portugal", "Married", "1990-2-3", 194 ,69.69f , "Travessa do Morro", "Male", null, "player1@email.com", "Direito", 7, team5, null);
+            Player pl6 = new Player(6,"Bebé", "Euclides Gomes Vaz", "Portugal", context.getString(R.string.Single), "1983-05-19", 173 ,66.00f , "Lisboa", context.getString(R.string.Male), null, "bebe@slbenfica.pt", context.getString(R.string.Left), 1, team5, ppar);
+            Player pl7 = new Player(7,"Ricardinho", "Ricardo Filipe Silva Duarte Braga", "Portugal", context.getString(R.string.Married), "1985-09-03", 165 ,68.00f , "Gondomar", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Left), 10, team5, ppar2);
+            Player pl8 = new Player(8,"Fábio C.", "Fábio Miguel Valadares Cecílio", "Portugal", context.getString(R.string.Single), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 22, team5, null);
+            Player pl9 = new Player(9,"Pedro Cary", "Pedro Cary", "Portugal", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 6, team5, null);
+            Player pl10 = new Player(10,"T. Brito", "Tiago Brito", "Portugal", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 13, team5, null);
+            Player pl11 = new Player(11,"Paulinho", "Paulinho", "Portugal", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 2, team5, null);
+            Player pl12 = new Player(12,"Djô", "Manuel Arouca", "Portugal", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 8, team5, null);
+            Player pl13 = new Player(13,"Cardinal", "Cardinal", "Portugal", context.getString(R.string.Married), "1990-2-3", 194 ,69.69f , "Travessa do Morro", context.getString(R.string.Male), null, "player1@email.com", context.getString(R.string.Right), 7, team5, null);
 
             player_dao.insert(pl1);
             player_dao.insert(pl2);

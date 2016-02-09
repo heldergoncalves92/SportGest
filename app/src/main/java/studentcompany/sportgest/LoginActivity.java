@@ -215,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
                     User u = userDao.getByUsername(username);
 
                     if(u == null)
-                        Toast.makeText(getApplicationContext(), "Something wrong on your username!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
                     else {
                         Intent intent = new Intent(getApplication(), MainActivity.class);
                         intent.putExtra("USER",u.getId());
@@ -257,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
             final ProgressDialog dialog = new ProgressDialog(getActivity());
 
             // Set Dialog message
-            dialog.setMessage("Verifying Data");
+            dialog.setMessage(getString(R.string.verifying_data));
 
             // Dialog will be displayed for an unknown amount of time
             dialog.setIndeterminate(true);
@@ -285,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void insertUserTest(User_DAO u_dao) throws GenericDAOException {
 
-        u_dao.insert(new User("admin","password","default.jpg","Admnistrador","admin@example.com",null));
+        u_dao.insert(new User("admin","password",null,"Administrador","admin@example.com",null));
     }
 }
 

@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +23,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Attributes.Attribute_Fragment_List;
 import studentcompany.sportgest.Exercises.Exercise_Fragment_Details;
 import studentcompany.sportgest.Exercises.Exercise_Fragment_List;
 import studentcompany.sportgest.R;
@@ -520,7 +516,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                                 } catch (GenericDAOException ex){
                                     ex.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })
