@@ -1,5 +1,6 @@
 package studentcompany.sportgest.Games;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
@@ -21,6 +22,7 @@ public class Game_List_Adapter extends RecyclerView.Adapter<Game_List_Adapter.Vi
 
     private static Game_Fragment_list.OnItemSelected mListener;
     private List<Game> mDataset;
+    private Context context;
 
     private int currentPos = -1;
     private ViewHolder currentVH = null;
@@ -66,10 +68,11 @@ public class Game_List_Adapter extends RecyclerView.Adapter<Game_List_Adapter.Vi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Game_List_Adapter(List<Game> myDataset, Game_Fragment_list.OnItemSelected mListener) {
+    public Game_List_Adapter(List<Game> myDataset, Game_Fragment_list.OnItemSelected mListener, Context context) {
 
         this.mDataset = myDataset;
         this.mListener = mListener;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)

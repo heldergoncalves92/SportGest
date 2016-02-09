@@ -53,7 +53,7 @@ public class Game_Fragment_list extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new Game_List_Adapter(list, mListener);
+        mAdapter = new Game_List_Adapter(list, mListener, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
