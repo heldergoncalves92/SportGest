@@ -9,18 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_DAO;
@@ -31,8 +25,6 @@ import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
 import studentcompany.sportgest.domains.Position;
-import studentcompany.sportgest.domains.Role;
-import studentcompany.sportgest.domains.Team;
 
 public class EditPosition_Activity extends AppCompatActivity{
 
@@ -64,7 +56,7 @@ public class EditPosition_Activity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.position_chose);
+        setContentView(R.layout.position_choose);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){

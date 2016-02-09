@@ -106,16 +106,18 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
 
         ArrayList<String> gendersList = new ArrayList<>();
-        gendersList.add("Male");
-        gendersList.add("Female");
+        gendersList.add(getString(R.string.Male));
+        gendersList.add(getString(R.string.Female));
 
         Resources res = getResources();
         String[] countries_array = res.getStringArray(R.array.countries_array);
         String[] marital_array = res.getStringArray(R.array.marital_status);
 
         ArrayList<String> preferredList = new ArrayList<>();
-        preferredList.add("Right");
-        preferredList.add("Left");
+        preferredList.add(getString(R.string.Right));
+        preferredList.add(getString(R.string.Left));
+        preferredList.add(getString(R.string.None));
+        preferredList.add(getString(R.string.Both));
 
         ArrayList<String> positionsList = new ArrayList<>();
         try {
@@ -204,7 +206,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
 
                 String nickname = tv_nickname.getText().toString();
                 String name = tv_name.getText().toString();
-                String nationality = tv_nationality.getSelectedItem()!=null ? tv_nationality.getSelectedItem().toString() : "TUGA";
+                String nationality = tv_nationality.getSelectedItem()!=null ? tv_nationality.getSelectedItem().toString() : "Portugal";
                 String maritalStatus = "";
                 if(tv_maritalStatus.getSelectedItem()!=null)
                     maritalStatus=tv_maritalStatus.getSelectedItem().toString();
@@ -245,7 +247,7 @@ public class Player_Activity_Create extends AppCompatActivity implements View.On
                 Team selected_team = (Team)spinnerTeam.getSelectedItem();
 
                 if(selected_team == null || selected_team.getId() <= 0) {
-                    Toast.makeText(getApplicationContext(), "Selected team is not valid!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.err_team_invalid), Toast.LENGTH_SHORT).show();
                     return true;
                 }
 

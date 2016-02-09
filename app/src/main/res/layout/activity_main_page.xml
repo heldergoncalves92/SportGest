@@ -82,7 +82,7 @@
                 android:textColor="@color/colorPrimary"
                 android:paddingTop="10dp"
                 android:textSize="24dp"
-                android:text="@string/Trainnings"
+                android:text="@string/Trainings"
                 android:gravity="center_horizontal"/>
 
             <Button
@@ -112,7 +112,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Evaluate Players"
+                android:text="@string/goTo_eval_players"
                 android:textSize="@dimen/text_size_default"
                 android:id="@+id/exercise_attributes_evaluation" />
 
@@ -128,7 +128,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textSize="@dimen/text_size_default"
                 android:onClick="generalSettings" />
 

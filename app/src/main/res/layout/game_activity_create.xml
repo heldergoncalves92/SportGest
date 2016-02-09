@@ -154,7 +154,7 @@
                 android:id="@+id/input_gameReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
+                android:inputType="textMultiLine"
                 android:textSize="@dimen/text_size_default"
                 android:hint="@string/Game_Report" />
 

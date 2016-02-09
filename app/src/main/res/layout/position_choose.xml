@@ -30,9 +30,9 @@
                 android:id="@+id/x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_permissions"
+                android:hint="@string/playerPosition"
                 android:textSize="@dimen/text_size_default"
-                android:text="Position Name" />
+                android:text="@string/playerPosition" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -71,14 +71,14 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
-            android:text="Add Selected" />
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/btnRemoveSelected"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
-            android:text="Remove Selected" />
+            android:text="@string/delete" />
 
 
     </LinearLayout>
@@ -98,9 +98,9 @@
             android:id="@+id/text_positions_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_permissions"
+            android:hint="@string/Positions"
             android:textSize="@dimen/text_size_default"
-            android:text="Positions" />
+            android:text="@string/Positions" />
 
     </android.support.design.widget.TextInputLayout>
 

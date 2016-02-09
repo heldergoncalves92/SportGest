@@ -34,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
-                        android:text="Home Team"/>
+                        android:text="@string/HomeTeamN"/>
 
                     <ImageView
                         android:id="@+id/image_home"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_default"
                 android:paddingLeft="10dp"
-                android:text="Visitor Team"/>
+                android:text="@string/VisitorTeamN"/>
         </LinearLayout>
 
 

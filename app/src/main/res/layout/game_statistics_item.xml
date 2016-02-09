@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="35"
         android:paddingLeft="10dp"
-        android:text="Team 1"/>
+        android:text="@string/HomeTeamN"/>
 
     <View
         android:layout_width="1dp"
@@ -26,7 +26,7 @@
         android:layout_weight="30"
         android:paddingLeft="10dp"
         android:textAlignment="center"
-        android:text="Name"/>
+        android:text="@string/hint_name"/>
 
     <View
         android:layout_width="1dp"
@@ -41,6 +41,6 @@
         android:paddingLeft="10dp"
         android:gravity="right"
         android:textAlignment="gravity"
-        android:text="Team 2"/>
+        android:text="@string/VisitorTeamN"/>
 
 </LinearLayout>

@@ -95,12 +95,11 @@
 
                 <CheckBox
                     android:id="@+id/isCom"
-                    android:text="isCom"
+                    android:text="@string/isCom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/userEmail" />
+                    android:hint="@string/isCom" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -114,7 +113,7 @@
                     android:id="@+id/btnSelectPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Select Photo"
+                    android:text="@string/select_photo"
                     android:textSize="@dimen/text_size_default"/>
 
             </LinearLayout>
