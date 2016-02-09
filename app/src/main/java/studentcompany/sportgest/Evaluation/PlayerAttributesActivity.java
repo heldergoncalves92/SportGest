@@ -63,12 +63,19 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     private User user;
     private Exercise exercise;
     private Training training;
-    private Player player;
+    private Player player = null;
     private List<Player> playerList = new ArrayList<>();
     private List<Attribute> exerciseAttributesList = new ArrayList<>();
     private List<Record> evaluations = new ArrayList<>();
 
-    private int currentPos = 0;
+    //Get inserted values
+    HashMap<Long, HashMap<Long, Integer>> quantitativeHashMap = new HashMap<>();
+    HashMap<Long, HashMap<Long, Integer>> qualitativeHashMap = new HashMap<>();
+    HashMap<Long, HashMap<Long, Float>> ratioPartialHashMap = new HashMap<>();
+    HashMap<Long, HashMap<Long, Float>> ratioTotalHashMap = new HashMap<>();
+
+
+    private int currentPos = -1;
     private Menu mOptionsMenu;
 
     private DialogFragment mDialog;
@@ -129,6 +136,62 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
             training_id = 0;
             exercise_id = 0;
         }
+        //create a list of evaluations for each player (accordingly t)
+        for(Player p: playerList){
+            quantitativeHashMap.put(p.getId(), new HashMap<Long, Integer>());
+            qualitativeHashMap.put(p.getId(), new HashMap<Long, Integer>());
+            ratioPartialHashMap.put(p.getId(), new HashMap<Long, Float>());
+            ratioTotalHashMap.put(p.getId(), new HashMap<Long, Float>());
+        }
+        HashMap<Long, Integer> quantitativeHashMapParam;
+        HashMap<Long, Integer> qualitativeHashMapParam;
+        HashMap<Long, Float> ratioPartialHashMapParam;
+        HashMap<Long, Float> ratioTotalHashMapParam;
+        long player_id, attribute_id;
+        if(playerList != null && playerList.size() > 0) {
+            for (Record r : evaluations) {
+                System.out.println("################# RECORD ################");
+                if(r.getPlayer() != null){
+                    player_id = r.getPlayer().getId();
+                } else{
+                    player_id = -1;
+                }
+                if(r.getAttribute() != null){
+                    attribute_id = r.getAttribute().getId();
+                } else{
+                    attribute_id = -1;
+                }
+                System.out.println("################# ENTREI ################");
+                switch (r.getAttribute().getType()) {
+                    case Attribute.QUANTITATIVE:
+                        quantitativeHashMapParam = quantitativeHashMap.get(player_id);
+                        if(quantitativeHashMapParam != null) {
+                            quantitativeHashMapParam.put(attribute_id, (int) r.getValue());
+                            quantitativeHashMap.put(player_id, quantitativeHashMapParam);
+                        }
+                        break;
+                    case Attribute.QUALITATIVE:
+                        qualitativeHashMapParam = qualitativeHashMap.get(player_id);
+                        if(qualitativeHashMapParam != null) {
+                            qualitativeHashMapParam.put(attribute_id, (int) r.getValue());
+                            qualitativeHashMap.put(player_id, qualitativeHashMapParam);
+                        }
+                        break;
+                    case Attribute.RATIO:
+                        ratioPartialHashMapParam = ratioPartialHashMap.get(player_id);
+                        if(ratioPartialHashMapParam != null) {
+                            ratioPartialHashMapParam.put(attribute_id, r.getValue() * 100);
+                            ratioPartialHashMap.put(player_id, ratioPartialHashMapParam);
+                        }
+                        ratioTotalHashMapParam = ratioTotalHashMap.get(player_id);
+                        if(ratioTotalHashMapParam != null) {
+                            ratioTotalHashMapParam.put(attribute_id, 100f);
+                            ratioTotalHashMap.put(player_id, ratioTotalHashMapParam);
+                        }
+                        break;
+                }
+            }
+        }
 
         mListPlayer.setList(playerList);
 
@@ -167,9 +230,16 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
     @Override
     public void itemSelected(int position, int tag) {
+        //if a player was presented before, save his state
+        if(player != null && currentPos >= 0){
+            System.out.println("######################### ENTROU!!!");
+            quantitativeHashMap.put(player.getId(), mPlayerAttributes.getQuantitativeHashMap());
+            qualitativeHashMap  .put(player.getId(), mPlayerAttributes.getQualitativeHashMap());
+            ratioPartialHashMap .put(player.getId(), mPlayerAttributes.getRatioPartialHashMap());
+            ratioTotalHashMap   .put(player.getId(), mPlayerAttributes.getRatioTotalHashMap());
+        }
+
         player = playerList.get(position);
-        List<TrainingExercise> trainingExerciseList;
-        TrainingExercise trainingExercise = null;
 
         if(player != null){
             if(currentPos == -1) {
@@ -179,8 +249,10 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
             currentPos = position;
 
-            mPlayerAttributes.showEvaluations(exerciseAttributesList, evaluations, player);
-            //showExercise(exercise, trainingExercise, exerciseAttributesList, playerList, evaluations);
+            System.out.println("######################### PlayerID:" + player.getId()+"Size:" + quantitativeHashMap.get(player.getId()).size());
+            mPlayerAttributes.showEvaluations(exerciseAttributesList, player,
+                    quantitativeHashMap.get(player.getId()), qualitativeHashMap.get(player.getId()),
+                    ratioPartialHashMap.get(player.getId()), ratioTotalHashMap.get(player.getId()));
         }
     }
 
@@ -220,65 +292,70 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
         boolean result = false;
 
-
         switch(item.getItemId())
         {
             //add action
             case R.id.Save:
                 //Get inserted values
-                HashMap<Long, Integer> quantitativeHashMap = mPlayerAttributes.getQuantitativeHashMap();
-                HashMap<Long, Integer> qualitativeHashMap = mPlayerAttributes.getQualitativeHashMap();
-                HashMap<Long, Float> ratioPartialHashMap = mPlayerAttributes.getRatioPartialHashMap();
-                HashMap<Long, Float> ratioTotalHashMap = mPlayerAttributes.getRatioTotalHashMap();
-                // validate inputs
-                Attribute missingEvaluation;
-                for(Attribute a:exerciseAttributesList){
-                    missingEvaluation = null;
-                    switch (a.getType()){
-                        case Attribute.QUANTITATIVE:
-                            if(!quantitativeHashMap.containsKey(a.getId())){
-                                missingEvaluation = a;
-                            }
-                            break;
-                        case Attribute.QUALITATIVE:
-                            if(!qualitativeHashMap.containsKey(a.getId())){
-                                missingEvaluation = a;
-                            }
-                            break;
-                        case Attribute.RATIO:
-                            if(!ratioPartialHashMap.containsKey(a.getId()) || !ratioTotalHashMap.containsKey(a.getId())){
-                                missingEvaluation = a;
-                            }
-                            break;
-                    }
+                quantitativeHashMap .put(player.getId(), mPlayerAttributes.getQuantitativeHashMap());
+                qualitativeHashMap  .put(player.getId(), mPlayerAttributes.getQualitativeHashMap());
+                ratioPartialHashMap .put(player.getId(), mPlayerAttributes.getRatioPartialHashMap());
+                ratioTotalHashMap   .put(player.getId(), mPlayerAttributes.getRatioTotalHashMap());
 
-                    //if some attribute was not evaluated -> break and dialog
-                    if(missingEvaluation != null){
-                        Toast.makeText(getApplicationContext(),"Failed: "+ missingEvaluation.getName() + " not evaluated", Toast.LENGTH_SHORT).show();
-                        return false;
+                // validate inputs
+                for(Attribute a:exerciseAttributesList){
+                    //check if there are any invalid entry
+                    if(a.getType().equals(Attribute.RATIO)) {
+                        for (Player p : playerList) {
+                            if (!ratioPartialHashMap.get(p.getId()).containsKey(a.getId()) || !ratioTotalHashMap.get(p.getId()).containsKey(a.getId())) {
+                                ratioPartialHashMap.get(p.getId()).remove(a.getId());
+                                ratioTotalHashMap.get(p.getId()).remove(a.getId());
+                            }
+                        }
                     }
                 }
 
                 //only reach this space if it was validated
+                HashMap<Long, Integer> auxEvalInteger;
+                HashMap<Long, Float> auxEvalFloatPartial, auxEvalFloatTotal;
+                Record newRecord;
+                boolean valid;
                 for(Attribute att:exerciseAttributesList) {
-                    Record newRecord = new Record(-1,1111/*TODO set time*/,0/*modified bellow*/,1,training,exercise,att,player,user);
+                    valid = false;
+                    for(Player p: playerList) {
+                        newRecord = new Record(-1, 1111/*TODO set time*/, 0/*modified bellow*/, 1, training, exercise, att, p, user);
 
-                    switch (att.getType()) {
-                        case Attribute.QUANTITATIVE:
-                            newRecord.setValue(quantitativeHashMap.get(att.getId()));
-                            break;
-                        case Attribute.QUALITATIVE:
-                            newRecord.setValue(qualitativeHashMap.get(att.getId()));
-                            break;
-                        case Attribute.RATIO:
-                            newRecord.setValue(ratioPartialHashMap.get(att.getId())/ratioTotalHashMap.get(att.getId()));
-                            break;
-                    }
-                    try {
-                        record_dao.insert(newRecord);
-                    } catch (GenericDAOException ex) {
-                        System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
-                        Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
+                        switch (att.getType()) {
+                            case Attribute.QUANTITATIVE:
+                            case Attribute.QUALITATIVE:
+                                if(att.getType().equals(Attribute.QUANTITATIVE)){
+                                    auxEvalInteger = quantitativeHashMap.get(p.getId());
+                                } else {
+                                    auxEvalInteger = qualitativeHashMap.get(p.getId());
+                                }
+                                if(auxEvalInteger != null && auxEvalInteger.get(att.getId()) >= 0) {
+                                    newRecord.setValue(auxEvalInteger.get(att.getId()));
+                                    valid = true;
+                                }
+                                break;
+                            case Attribute.RATIO:
+                                auxEvalFloatPartial = ratioPartialHashMap.get(p.getId());
+                                auxEvalFloatTotal = ratioTotalHashMap.get(p.getId());
+                                if(auxEvalFloatPartial != null && auxEvalFloatPartial.get(att.getId()) != null &&
+                                        auxEvalFloatTotal != null && auxEvalFloatTotal.get(att.getId()) != null) {
+                                    newRecord.setValue(auxEvalFloatPartial.get(att.getId())/auxEvalFloatTotal.get(att.getId()));
+                                    valid = true;
+                                }
+                                break;
+                        }
+                        if(valid) {
+                            try {
+                                record_dao.insert(newRecord);
+                            } catch (GenericDAOException ex) {
+                                System.err.println(ExerciseAttributesActivity.class.getName() + " [WARNING] " + ex.toString());
+                                Logger.getLogger(ExerciseAttributesActivity.class.getName()).log(Level.WARNING, null, ex);
+                            }
+                        }
                     }
                 }
 
