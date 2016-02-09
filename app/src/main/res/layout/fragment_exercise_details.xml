@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="Name" />
+                    android:hint="@string/hint_name" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -68,7 +68,7 @@
                     android:inputType="number"
                     android:ems="5"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="Duration" />
+                    android:hint="@string/duration_label" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="min"
+                android:text="@string/exerciseDurationUnit"
                 android:textSize="@dimen/text_size_default"
                 android:gravity="left|center" />
 
@@ -107,7 +107,7 @@
                         android:layout_height="match_parent"
                         android:inputType="textMultiLine"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="Description" />
+                        android:hint="@string/description_label" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -128,7 +128,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_default"
-                            android:hint="Exercise illustration" />
+                            android:hint="@string/exerciseillustration" />
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="Selected Attributes" />
+                    android:hint="@string/selectedattributes" />
 
                 <ListView
                     android:id="@+id/selected_attributes_list"

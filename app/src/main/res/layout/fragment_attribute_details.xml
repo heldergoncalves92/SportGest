@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:textSize="@dimen/text_size_default"
-                android:hint="Attribute Name" />
+                android:hint="@string/attributename" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="Category" />
+                    android:hint="@string/category" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 

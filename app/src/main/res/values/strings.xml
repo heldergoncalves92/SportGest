@@ -251,5 +251,18 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="select_team">Select a Team</string>
     <string name="overview">Overview</string>
     <string name="teams">Teams</string>
+    <string name="hour">Hour</string>
+    <string name="repetitions">Repetitions:</string>
+    <string name="selectedexercises">Selected Exercises</string>
+    <string name="availableexercises">Available Exercises</string>
+    <string name="attributename">Attribute Name</string>
+    <string name="exerciseattributes">Exercise Attributes</string>
+    <string name="selectedattributes">Selected Attributes</string>
+    <string name="availableattributes">Available Attributes</string>
+    <string name="exerciseillustration">Exercise illustration</string>
+    <string name="partial">Partial</string>
+    <string name="evaluateplayers">Evaluate Players</string>
+
+
 
 </resources>

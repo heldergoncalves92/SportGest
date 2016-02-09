@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="number"
-            android:hint="Partial" />
+            android:hint="@string/partial" />
 
     </android.support.design.widget.TextInputLayout>
 
