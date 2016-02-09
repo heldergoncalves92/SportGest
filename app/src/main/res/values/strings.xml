@@ -260,7 +260,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="exerciseillustration">Exercise illustration</string>
     <string name="partial">Partial</string>
     <string name="evaluateplayers">Evaluate Players</string>
-
+    <string name="squad">Squad Call</string>
+    <string name="convened_Team">Convened Team</string>
+    <string name="Trainning">Trainning</string>
+    <string name="Trainnings">Trainnings</string>
 
 
 </resources>
