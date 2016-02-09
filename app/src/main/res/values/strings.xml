@@ -36,8 +36,6 @@
     <string name="category">Category</string>
     <string name="save_button">Save</string>
     <string name="next_button">Next</string>
-    <string name="deselectAttribute"><![CDATA[< <]]></string>
-    <string name="selectAttribute"><![CDATA[> >]]></string>
     <string name="goTo_users_button">Manage Users</string>
 
     <!-- TODO: Remove or change this placeholder text -->
