@@ -278,7 +278,8 @@ public class Game_Activity_ListView extends AppCompatActivity implements Game_Fr
                 //Delete a game
                 if(operation == 1) removeGame();
             } else{
-                mOptionsMenu.findItem(R.id.Delete).setVisible(true);
+                if(mOptionsMenu!=null)
+                    mOptionsMenu.findItem(R.id.Delete).setVisible(true);
             }
         }
     }

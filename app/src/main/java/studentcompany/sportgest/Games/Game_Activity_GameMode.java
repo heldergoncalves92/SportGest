@@ -8,9 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -267,6 +269,7 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
 
         paint2.setDither(true);
         paint2.setAntiAlias(true);
+        paint2.setAlpha(100);
 
         field.setZOrderOnTop(true); //necessary
         //field2.setZOrderOnTop(false); //necessary
@@ -408,15 +411,50 @@ public class Game_Activity_GameMode extends AppCompatActivity implements Player_
             drawFromDrawable(true, canvasTeams);
         } else {
             Bitmap homebitmap = getImageBitmap(home.getLogo());
-            canvasTeams.drawBitmap(homebitmap, 0,0, paint2);
+            drawBitmap(true, canvasTeams, homebitmap);
         }
 
         if (away.getLogo() == null || away.getLogo().equals("")) {
             drawFromDrawable(false, canvasTeams);
         } else {
             Bitmap awaybitmap = getImageBitmap(away.getLogo());
-            canvasTeams.drawBitmap(awaybitmap, 0,0, paint2);
+            drawBitmap(false, canvasTeams, awaybitmap);
         }
+
+    }
+
+    private void drawBitmap(boolean home, Canvas canvas, Bitmap bitmap) {
+
+        int wid = canvas.getWidth(), hei = canvas.getHeight();
+
+        int centerX = home ? (int)((float)wid / 4.0f) : (int)((float)wid * (3.0f/4.0f));
+        int centerY = (int)((float)hei * (3.0f/4.0f));
+
+        float margin = 0.5f;
+
+        int left = centerX - (int)(margin * (float)wid / 8.0f);
+        int right = centerX + (int)(margin * (float)wid / 8.0f);
+
+        int top = centerY - (int)(margin * (float)wid / 8.0f);
+        int bottom = centerY + (int)(margin * (float)wid / 8.0f);
+
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+
+
+        Matrix matrix = new Matrix();
+        //matrix.postScale(scaleWidth, scaleHeight);
+        matrix.setRectToRect(new RectF(0, 0, width, height), new RectF(0, 0, right-left, bottom-top), Matrix.ScaleToFit.CENTER);
+
+
+
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
+        newBitmap.setHasAlpha(true);
+
+
+        canvas.drawBitmap(newBitmap, left, top, paint2);
 
     }
 

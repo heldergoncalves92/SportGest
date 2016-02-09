@@ -191,7 +191,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
                 //String logo = tv_photo.get
                 String photo="";
 
-                photo = bitmap == null ? null: name.concat(".jpg");
+                photo = bitmap == null ? null: name.concat(".png");
 
                 boolean ok = false;
                 if (validateName())
@@ -424,7 +424,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -448,7 +448,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
                 try {
                     if (options[item].equals("Take Photo")) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.png");
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                         startActivityForResult(intent, 1);
                     } else if (options[item].equals("Choose from Gallery")) {

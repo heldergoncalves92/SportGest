@@ -131,7 +131,7 @@ public class User_Activity_Edit extends AppCompatActivity {
                         }
                         //ups vai estar a imagem em bitmap ou o path para ela?
                         //String photo = tv_photo.get
-                        String photo = "";
+                        String photo = null;
                         //corrigir isto
                         Role role = new Role(null, null);
 
