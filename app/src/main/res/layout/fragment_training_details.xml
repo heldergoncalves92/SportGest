@@ -66,7 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
-                        android:hint="Name"
+                        android:hint="@string/hint_name"
                         android:text="Training Name"
                         android:textSize="@dimen/text_size_default"/>
 
@@ -81,7 +81,7 @@
                         android:id="@+id/training_date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Date"
+                        android:hint="@string/date"
                         android:text="12/12/2015 21:00"
                         android:textSize="@dimen/text_size_default"/>
 
@@ -107,7 +107,7 @@
                         android:inputType="number"
                         android:ems="5"
                         android:text="65"
-                        android:hint="Duration"
+                        android:hint="@string/duration_label"
                         android:textSize="@dimen/text_size_default"/>
 
                 </android.support.design.widget.TextInputLayout>
@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:hint="Description"
+                    android:hint="@string/description_label"
                     android:text="@string/lorem"
                     android:textSize="@dimen/text_size_default"/>
 
@@ -150,7 +150,7 @@
                     android:id="@+id/text_selected_exercises"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Selected Exercises"
+                    android:hint="@string/selectedexercises"
                     android:textSize="@dimen/text_size_default"/>
 
                 <android.support.v7.internal.widget.ListViewCompat

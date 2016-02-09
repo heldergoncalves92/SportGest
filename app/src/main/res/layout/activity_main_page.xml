@@ -112,7 +112,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Evaluate Players"
+                android:text="@string/evaluateplayers"
                 android:textSize="@dimen/text_size_default"
                 android:id="@+id/exercise_attributes_evaluation" />
 
@@ -128,7 +128,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="@string/action_settings"
                 android:textSize="@dimen/text_size_default"
                 android:onClick="generalSettings" />
 

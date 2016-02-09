@@ -42,7 +42,7 @@
                 android:id="@+id/pick_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Date"
+                android:hint="@string/date"
                 android:textSize="@dimen/text_size_default"
                 android:text="2015/12/12"
                 android:ems="5"/>
@@ -58,7 +58,7 @@
                 android:id="@+id/pick_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Time"
+                android:hint="@string/hour"
                 android:textSize="@dimen/text_size_default"
                 android:text="12:00"
                 android:ems="3"/>

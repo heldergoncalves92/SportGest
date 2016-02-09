@@ -210,8 +210,21 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="minutesAndseconds">Minutes and Seconds</string>
     <string name="action_gameMode">Game Mode</string>
     <string name="Other">Others</string>
-    <string name="Trainning">Trainning</string>
+    <string name="Trainning">Training</string>
     <string name="Games">Games</string>
-    <string name="Trainnings">Trainnings</string>
+    <string name="Trainnings">Trainings</string>
+    <string name="hour">Hour</string>
+    <string name="repetitions">Repetitions:</string>
+    <string name="selectedexercises">Selected Exercises</string>
+    <string name="availableexercises">Available Exercises</string>
+    <string name="attributename">Attribute Name</string>
+    <string name="exerciseattributes">Exercise Attributes</string>
+    <string name="selectedattributes">Selected Attributes</string>
+    <string name="availableattributes">Available Attributes</string>
+    <string name="exerciseillustration">Exercise illustration</string>
+    <string name="partial">Partial</string>
+    <string name="evaluateplayers">Evaluate Players</string>
+
+
 
 </resources>

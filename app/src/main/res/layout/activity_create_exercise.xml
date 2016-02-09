@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_default"
                 android:inputType="textNoSuggestions"
-                android:hint="Name" />
+                android:hint="@string/hint_name" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -49,7 +49,7 @@
                 android:inputType="number"
                 android:textSize="@dimen/text_size_default"
                 android:ems="5"
-                android:hint="Duration" />
+                android:hint="@string/duration_label" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size_default"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="min"
+            android:text="@string/exerciseDurationUnit"
             android:gravity="left|center" />
 
     </LinearLayout>
@@ -88,7 +88,7 @@
                         android:layout_height="match_parent"
                         android:textSize="@dimen/text_size_default"
                         android:inputType="textMultiLine"
-                        android:hint="Description" />
+                        android:hint="@string/description_label" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -109,7 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="Exercise illustration" />
+                        android:hint="@string/exerciseillustration" />
 
                     <ImageButton
                         android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="Available Attributes" />
+                        android:hint="@string/availableattributes" />
 
                     <FrameLayout
                         android:id="@+id/available_attribute_list_fragment_container"
@@ -180,7 +180,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="Selected Attributes" />
+                        android:hint="@string/selectedattributes" />
 
                     <FrameLayout
                         android:id="@+id/selected_attribute_list_fragment_container"

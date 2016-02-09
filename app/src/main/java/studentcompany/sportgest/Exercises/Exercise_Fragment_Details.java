@@ -51,7 +51,7 @@ public class Exercise_Fragment_Details extends Fragment {
     }
 
     public void showExercise(Exercise exercise, List<String> exerciseAttributes){
-        //clearDetails();
+        clearDetails();
         tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
