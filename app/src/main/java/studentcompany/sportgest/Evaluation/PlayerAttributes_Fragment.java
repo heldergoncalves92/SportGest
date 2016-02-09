@@ -52,8 +52,8 @@ public class PlayerAttributes_Fragment extends Fragment {
     //DEFINES
     private static final int SEEKBAR_MAX = 20;
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    private static final String TOTAL = "Total";        //TODO: put in String.xml
-    private static final String PARTIAL = "Partial";    //TODO: put in String.xml
+    private static String TOTAL = "TOTAL";
+    private static String PARTIAL = "PARTIAL";
 
     public PlayerAttributes_Fragment() {
         // Required empty public constructor
@@ -62,6 +62,9 @@ public class PlayerAttributes_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        TOTAL = getString(R.string.total);
+        PARTIAL = getString(R.string.partial);
 
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
@@ -85,7 +88,6 @@ public class PlayerAttributes_Fragment extends Fragment {
         this.ratioPartialHashMap = ratioPartialHashMapParam;
         this.ratioTotalHashMap = ratioTotalHashMapParam;
 
-        System.out.println("######################### DENTRO: PlayerID:" + player.getId()+"Size:" + quantitativeHashMap.size());
 
         FragmentActivity fa = getActivity();
 

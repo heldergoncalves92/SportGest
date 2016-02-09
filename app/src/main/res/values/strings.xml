@@ -255,6 +255,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="availableattributes">Available Attributes</string>
     <string name="exerciseillustration">Exercise illustration</string>
     <string name="partial">Partial</string>
+    <string name="total">Total</string>
     <string name="evaluateplayers">Evaluate Players</string>
 
 

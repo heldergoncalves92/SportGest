@@ -255,4 +255,5 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="overview">Resumo</string>
     <string name="select_team">Selecione uma Equipa</string>
     <string name="teams">Equipas</string>
+    <string name="total">Total</string>
 </resources>
