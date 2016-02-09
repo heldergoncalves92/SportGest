@@ -99,6 +99,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     Button bt;
     Bitmap bitmap = null;
 
+    boolean editImage = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -448,7 +450,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
                 photo = bitmap == null ? null: nickname.concat(".jpg");
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,selected_team,null);
+                if(editImage)
+                    player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,selected_team,null);
+                else {
+                    String origImage = player.getPhoto();
+                    player = new Player(playerID, nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, origImage, email, preferredFoot, number, selected_team, null);
+                }
                 boolean corrected = false;
                 //insert/update database
                 try {
@@ -812,7 +819,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private void selectImage() {
 
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Set to default" };
-
+        boolean editImage = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a Photo to the Player");
         builder.setItems(options, new DialogInterface.OnClickListener() {

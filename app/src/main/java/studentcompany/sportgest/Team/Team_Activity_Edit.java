@@ -58,6 +58,8 @@ public class Team_Activity_Edit extends AppCompatActivity {
     Button bt;
     Bitmap bitmap = null;
 
+    boolean editImage = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,8 +207,12 @@ public class Team_Activity_Edit extends AppCompatActivity {
                     //finish();
                     return false;
                 }
-
-                team=new Team(teamID, name, description, photo, season, isCom);
+                if(editImage)
+                    team=new Team(teamID, name, description, photo, season, isCom);
+                else{
+                    String origImage = team.getLogo();
+                    team=new Team(teamID, name, description, origImage, season, isCom);
+                }
                 boolean corrected = false;
                 //insert/update database
                 try {
@@ -439,7 +445,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
     private void selectImage() {
 
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Set to default" };
-
+        boolean editImage = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a Photo to the User");
         builder.setItems(options, new DialogInterface.OnClickListener() {
