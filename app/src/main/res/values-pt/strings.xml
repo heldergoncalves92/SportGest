@@ -20,7 +20,7 @@
     <string name="update">Atualizar</string>
     <string name="delete">Remover</string>
     <string name="date">Data</string>
-    <string name="event_category_button">Categoria de Eventos</string>
+    <string name="event_category_button">Categorias de Eventos</string>
     <string name="event_category_add_menu">Adicionar Categoria</string>
     <string name="event_category_edit_menu">Editar Categoria</string>
     <string name="event_category_delete_menu">Remover Categoria</string>
