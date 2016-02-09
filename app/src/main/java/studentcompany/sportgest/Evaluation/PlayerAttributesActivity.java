@@ -150,7 +150,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
         long player_id, attribute_id;
         if(playerList != null && playerList.size() > 0) {
             for (Record r : evaluations) {
-                System.out.println("################# RECORD ################");
                 if(r.getPlayer() != null){
                     player_id = r.getPlayer().getId();
                 } else{
@@ -161,7 +160,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
                 } else{
                     attribute_id = -1;
                 }
-                System.out.println("################# ENTREI ################");
                 switch (r.getAttribute().getType()) {
                     case Attribute.QUANTITATIVE:
                         quantitativeHashMapParam = quantitativeHashMap.get(player_id);
@@ -232,7 +230,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
     public void itemSelected(int position, int tag) {
         //if a player was presented before, save his state
         if(player != null && currentPos >= 0){
-            System.out.println("######################### ENTROU!!!");
             quantitativeHashMap.put(player.getId(), mPlayerAttributes.getQuantitativeHashMap());
             qualitativeHashMap  .put(player.getId(), mPlayerAttributes.getQualitativeHashMap());
             ratioPartialHashMap .put(player.getId(), mPlayerAttributes.getRatioPartialHashMap());
@@ -249,7 +246,6 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
 
             currentPos = position;
 
-            System.out.println("######################### PlayerID:" + player.getId()+"Size:" + quantitativeHashMap.get(player.getId()).size());
             mPlayerAttributes.showEvaluations(exerciseAttributesList, player,
                     quantitativeHashMap.get(player.getId()), qualitativeHashMap.get(player.getId()),
                     ratioPartialHashMap.get(player.getId()), ratioTotalHashMap.get(player.getId()));
