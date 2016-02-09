@@ -47,18 +47,26 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7.5"
-            android:background="@drawable/futsal_field">
 
-            <SurfaceView
-                android:id="@+id/game_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7.5"
+                    android:background="@drawable/futsal_field">
 
-        </LinearLayout>
+                    <SurfaceView
+                        android:id="@+id/game_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <!--SurfaceView
+                        android:id="@+id/game_field_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="100" /-->
+
+                </FrameLayout>
+
 
         <View
             android:layout_width="match_parent"

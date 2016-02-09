@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="studentcompany.sportgest">
+    package="studentcompany.sportgest" >
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -12,18 +12,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/app_name" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Users.User_Activity_ListView" />
         <activity android:name=".Players.Player_Activity_ListView" />
@@ -43,15 +39,8 @@
         <activity
             android:name=".Team.Team_Activity_Create"
             android:label="@string/app_newTeam" />
-        <activity
-            android:name=".Games.GameTest_Activity"
-            android:label="@string/app_gameTest" />
-        <activity
-            android:name=".Exercises.Exercise_Activity_Create" />
-
-        <activity
-            android:name=".Games.CallSquad_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Exercises.Exercise_Activity_Create" />
+        <activity android:name=".Games.Game_Activity_SquadCall" />
         <activity
             android:name=".Users.RolesListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -63,8 +52,15 @@
             android:label="@string/title_activity_create_role_" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login2" />
-        <activity android:name=".Games.GameGeneralView_Activity" />
+            android:label="SportGest"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".Games.Game_Activity_GeneralView" />
         <activity android:name=".Team.Team_Activity_Edit" />
         <activity android:name=".Users.User_Activity_Edit" />
         <activity android:name=".Players.Player_Activity_Edit" />
@@ -72,46 +68,49 @@
         <activity android:name=".Attributes.Attribute_Activity_ListView" />
         <activity android:name=".Exercises.Exercise_Activity_ListView" />
         <activity android:name=".Trainings.Training_Activity_ListView" />
-        <activity android:name=".Games.GamesListActivity" />
+        <activity android:name=".Games.Game_Activity_ListView" />
         <activity
             android:name=".Attributes.Attribute_Activity_Create"
             android:label="@string/app_newAttribute" />
-
         <activity
             android:name=".Trainings.Training_Activity_Create"
             android:label="@string/app_newTraining" />
-
-        <activity android:name=".Evaluation.ExerciseAttributesActivity"
+        <activity
+            android:name=".Evaluation.ExerciseAttributesActivity"
             android:label="SportGest - Exercise Evaluation" />
-        <activity android:name=".Evaluation.PlayerAttributesActivity"
+        <activity
+            android:name=".Evaluation.PlayerAttributesActivity"
             android:label="SportGest - Player Evaluation" />
-        
         <activity
             android:name=".Trainings.Training_Activity_Create_Exercises"
             android:label="@string/app_newTraining" />
-        <activity android:name=".Roles.Role_Activity_ListView"></activity>
-        <activity android:name=".Roles.Role_Activity_Create"></activity>
-        <activity android:name=".Team.Squad_Activity_Edit"></activity>
-        <activity android:name=".Players.EditPosition_Activity"/>
+        <activity android:name=".Roles.Role_Activity_ListView" />
+        <activity android:name=".Roles.Role_Activity_Create" />
+        <activity android:name=".Team.Squad_Activity_Edit" />
+        <activity android:name=".Players.EditPosition_Activity" />
         <activity
-            android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".Games.Game_Activity_GameMode"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Create"
-            android:label="@string/app_teamView" />
+            android:label="@string/app_add_eventView" />
         <activity
             android:name=".EventCategories.EventCategory_Activity_Edit"
-            android:label="@string/app_newTeam" />
+            android:label="@string/app_edit_eventView" />
         <activity android:name=".EventCategories.EventCategory_Activity_ListView" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".Games.Game_Activity_Create" />
+        <activity android:name=".Main_Activity_Settings" >
+        </activity>
     </application>
 
 </manifest>

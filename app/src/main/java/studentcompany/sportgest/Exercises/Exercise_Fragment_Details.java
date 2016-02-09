@@ -51,7 +51,7 @@ public class Exercise_Fragment_Details extends Fragment {
     }
 
     public void showExercise(Exercise exercise, List<String> exerciseAttributes){
-        //clearDetails();
+        clearDetails();
         tv_name.setText(exercise.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
@@ -83,11 +83,11 @@ public class Exercise_Fragment_Details extends Fragment {
 
     public void clearDetails(){
 
-        View v = getView().findViewById(R.id.frame_details);
+        /*View v = getView().findViewById(R.id.frame_details);
         v.setVisibility(View.GONE);
 
         v = getView().findViewById(R.id.no_Selection);
-        v.setVisibility(View.VISIBLE);
+        v.setVisibility(View.VISIBLE);*/
 
         tv_name.setText("");
         et_description.setText("");

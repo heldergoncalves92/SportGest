@@ -98,10 +98,7 @@ public class Attribute_Activity_ListView extends AppCompatActivity implements At
 
     public void updateAttributeList() throws GenericDAOException {
         attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
-        if(attributeList.isEmpty()) {
-            new Attribute_TestData(getApplicationContext());
-            attributeList = attribute_dao.getByCriteria(new Attribute(-1, null, null, 0));
-        }
+
     }
     /************************************
      ****     Listener Functions     ****

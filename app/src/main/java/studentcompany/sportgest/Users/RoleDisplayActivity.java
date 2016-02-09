@@ -156,9 +156,9 @@ public class RoleDisplayActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if(role_dao.deleteById(roleID))
-                                    Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 else
-                                    Toast.makeText(getApplicationContext(), R.string.delete_unsucessful, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), R.string.delete_unsuccessful, Toast.LENGTH_SHORT).show();
                                 finish();
                                 //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                 //startActivity(intent);

@@ -59,8 +59,6 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
 
                 noElems();
                 teams = new ArrayList<Team>();
-                //insertTest(teamDao);
-                //teams = teamDao.getAll();
             }
             mListTeams.setList(teams);
 
@@ -244,45 +242,6 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
         }
     }
 
-    /************************************
-     ****        Test Functions      ****
-     ************************************/
-
-    private void insertTest(Team_DAO t_dao){
-
-        try {
-            Team u1 = new Team("Santa Maria","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u2 = new Team("Braga","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u3 = new Team("Gualtar","Uma equipa fantástica!!","default.jpg",2015,0);
-            Team u4 = new Team("Fafe","Uma equipa fantástica!!","default.jpg",2015,0);
-
-            t_dao.insert(u1);
-            t_dao.insert(u2);
-            t_dao.insert(u3);
-            t_dao.insert(u4);
-
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void testUsers(){
-
-        Team u1 = new Team("Santa Maria","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u2 = new Team("Braga","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u3 = new Team("Gualtar","Uma equipa fantástica!!","default.jpg",2015,0);
-        Team u4 = new Team("Fafe","Uma equipa fantástica!!","default.jpg",2015,0);
-
-
-        teams = new ArrayList<Team>();
-        teams.add(u1);
-        teams.add(u2);
-        teams.add(u3);
-        teams.add(u4);
-
-        mListTeams.setList(teams);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Team team = null;
@@ -312,11 +271,16 @@ public class Team_Activity_ListView extends AppCompatActivity implements Team_Fr
 
                     team=teamDao.getById(idToSearch);
 
-                    mListTeams.insert_Item(team);
-                    mDetailsTeam.showTeam(team);
-
-                    if(teams.size() == 1)
+                    if(teams.size() == 0) {
+                        teams.add(team);
+                        mListTeams.updateList(teams);
+                        mDetailsTeam.showTeam(team);
                         withElems();
+
+                    } else{
+                        mListTeams.insert_Item(team);
+                        mDetailsTeam.showTeam(team);
+                    }
 
                     Toast.makeText(getApplicationContext(), R.string.inserted, Toast.LENGTH_SHORT).show();
                 } catch (GenericDAOException e) {

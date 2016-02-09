@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_home_CallSquad"
+        android:icon="@drawable/ic_person_add_white_24dp"
+        android:title="@string/action_edit_HomeCallSquad"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/action_visitor_CallSquad"
+        android:icon="@drawable/ic_person_add_white_24dp"
+        android:title="@string/action_edit_VisitorCallSquad"
+        app:showAsAction="ifRoom"/>
+
+
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_create_white_24dp"
+        android:title="@string/edit"
+        android:visible="true"/>
+
+    <item
+        android:id="@+id/action_del"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="@string/action_del_game"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/action_gameMode"
+        android:icon="@drawable/ic_content_paste_white_24dp"
+        android:title="@string/action_gameMode"
+        android:visible="true" />
+
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_done"
+        android:title="@string/action_save_game"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
+</menu>

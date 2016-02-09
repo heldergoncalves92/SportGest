@@ -164,7 +164,7 @@ public class User_Activity_Create extends AppCompatActivity {
                 spinnerTeam.setSelection(dataAdaptert.getPosition(user.getTeam()));
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -315,7 +315,7 @@ public class User_Activity_Create extends AppCompatActivity {
                     intent.putExtra("ID", userID);
                     //setResult(112);
                     setResult(112,intent);
-                    finish(); ;
+                    finish();
                     return true;
                 } catch (Exception e) {
                     MyDB.getInstance(this).db.endTransaction();
@@ -488,7 +488,7 @@ public class User_Activity_Create extends AppCompatActivity {
                             bitmapOptions);
 
                     if(bitmap==null)
-                        Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
                     else
                         viewImage.setImageBitmap(bitmap);
                     f.delete();
@@ -513,7 +513,7 @@ public class User_Activity_Create extends AppCompatActivity {
                         e.printStackTrace();
                     }*/
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == 2) {
                 try {
@@ -526,13 +526,13 @@ public class User_Activity_Create extends AppCompatActivity {
                     c.close();
                     bitmap = BitmapFactory.decodeFile(picturePath);
                     if (bitmap == null)
-                        Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
                     else {
                         bitmap = resize(bitmap,200,200);
                         viewImage.setImageBitmap(bitmap);
                     }
                 }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), R.string.error_occured, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
                 }
             }
         }

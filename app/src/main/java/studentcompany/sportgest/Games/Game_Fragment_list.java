@@ -63,10 +63,11 @@ public class Game_Fragment_list extends Fragment {
         this.list = list;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        mAdapter = new Game_List_Adapter(list, mListener);
-        mRecyclerView.setAdapter(mAdapter);
+    public Game removeItem(int position){
+        Game g = list.remove(position);
+        mAdapter.notifyItemRemoved(position);
+
+        return g;
     }
 
     public void updateList(){
@@ -75,6 +76,22 @@ public class Game_Fragment_list extends Fragment {
             mAdapter = new Game_List_Adapter(list, mListener);
             mRecyclerView.setAdapter(mAdapter);
         }
+    }
+
+    public void updateList(List<Game> list){
+        this.list = list;
+        mAdapter = new Game_List_Adapter(list, mListener);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void updatePosition(Game game, int position){
+        this.list.set(position, game);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void insert_Item(Game game, int position){
+        this.list.add(position, game);
+        mAdapter.notifyItemInserted(position);
     }
 
     // Container Activity must implement this interface

@@ -158,7 +158,7 @@ public class Game_DAO extends GenericDAO<Game> implements IGenericDAO<Game>{
         return deleteById(object.getId());
     }
 
-    public boolean deleteById(long id) {
+    public boolean deleteById(long id) throws GenericDAOException  {
         return db.delete(TABLE_NAME,
                 COLUMN_ID + " = ? ",
                 new String[]{Long.toString(id)}) > 0;

@@ -37,9 +37,10 @@
             android:layout_weight="0.11">
 
             <ImageView
-                android:id="@+id/photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/input_details_user_photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
                 android:layout_gravity="center"
                 android:src="@drawable/lego_face"/>
         </FrameLayout>
@@ -67,7 +68,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nickname"
+                        android:text="@string/playerNickname"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView30" />
 
@@ -101,7 +102,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/playerName"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView31" />
 
@@ -134,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nationality"
+                        android:text="@string/playerNationality"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView3" />
 
@@ -167,7 +168,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Marital Status"
+                        android:text="@string/maritalstatus"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView4" />
 
@@ -200,7 +201,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Birthday Date"
+                        android:text="@string/playerBirthday"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView20" />
 
@@ -234,7 +235,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Height"
+                        android:text="@string/playerHeight"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView32" />
 
@@ -267,7 +268,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Weight"
+                        android:text="@string/playerWeight"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView33" />
 
@@ -300,7 +301,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Address"
+                        android:text="@string/playerAddress"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView34" />
 
@@ -333,7 +334,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_default"
-                        android:text="Gender"
+                        android:text="@string/playerGender"
                         android:id="@+id/textView5" />
 
                     <EditText
@@ -364,7 +365,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/playerEmail"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView35" />
 
@@ -396,7 +397,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Preferred Foot"
+                        android:text="@string/playerPreferredFoot"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView6" />
 
@@ -428,7 +429,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Number"
+                        android:text="@string/playerNumber"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView36" />
 
@@ -446,8 +447,8 @@
 
             </android.support.design.widget.TextInputLayout>
 
-<!--
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutTeam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -456,24 +457,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Position"
-                        android:id="@+id/textView7" />
+                        android:text="@string/team"
+                        android:textSize="@dimen/text_size_default" />
 
                     <EditText
-                        android:id="@+id/position"
+                        android:id="@+id/team"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/playerPosition"
+                        android:inputType="textNoSuggestions"
+                        android:hint="@string/playerNumber"
+                        android:textSize="@dimen/text_size_default"
+                        android:enabled="false"
                         android:editable="false"/>
 
                 </LinearLayout>
 
-
             </android.support.design.widget.TextInputLayout>
--->
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -486,7 +490,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Positions"
+                        android:text="@string/playerPosition"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView71" />
 

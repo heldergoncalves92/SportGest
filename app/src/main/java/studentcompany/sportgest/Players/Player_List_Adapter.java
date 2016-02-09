@@ -34,7 +34,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         // each data item is just a string in this case
 
         private Player_List_Adapter su = null;
-        public AppCompatTextView mTextView_name;
+        public AppCompatTextView mTextView_name,mTextView_num;
         public CardView parent;
 
 
@@ -44,7 +44,8 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
 
             this.su = su;
             parent = (CardView) view;
-            mTextView_name = (AppCompatTextView)view.findViewById(R.id.role_name);
+            mTextView_name = (AppCompatTextView)view.findViewById(R.id.player_name);
+            mTextView_num = (AppCompatTextView)view.findViewById(R.id.player_number);
         }
 
         @Override
@@ -88,7 +89,7 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_card_item, parent, false);
+                .inflate(R.layout.game_players_card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
 
@@ -105,7 +106,8 @@ public class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapte
         Player player = mDataset.get(position);
 
         if (player != null) {
-            holder.mTextView_name.setText(player.getName());
+            holder.mTextView_name.setText(player.getNickname());
+            holder.mTextView_num.setText(player.getNumber()+"");
 
         }
     }

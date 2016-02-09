@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import studentcompany.sportgest.R;
@@ -49,7 +50,7 @@ public class Training_Fragment_Details extends Fragment {
         tv_name.setText(training.getTitle());
         tv_name.setFocusable(false);
         tv_name.setClickable(false);
-        tv_date.setText("" + training.getDate());
+        tv_date.setText("" + getDate(training.getDate()));
         tv_date.setFocusable(false);
         tv_date.setClickable(false);
         tv_description.setText(training.getDescription());
@@ -99,6 +100,35 @@ public class Training_Fragment_Details extends Fragment {
         tv_duration.setText("");
         //tv_team.setText("");
         lv_trainingExercises.setAdapter(new ArrayAdapter(this.getContext(), R.layout.listview_style1, new ArrayList<String>()));
+    }
+
+    private String getDate(long time){
+        String res="";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mMonth++;
+
+
+        if(mDay<10){
+            res="0"+mDay;
+        }
+        else{
+            res=""+mDay;
+        }
+        if (mMonth<10){
+            res=res+"/0"+mMonth;
+        }
+        else{
+            res=res+"/"+mMonth;
+        }
+
+        res=res+"/"+mYear;
+        return res;
     }
 
     public void showFirstElem() {

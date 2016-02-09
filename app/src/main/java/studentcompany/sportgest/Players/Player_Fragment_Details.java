@@ -1,7 +1,13 @@
 package studentcompany.sportgest.Players;
 
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,18 +15,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import studentcompany.sportgest.R;
 import studentcompany.sportgest.daos.Player_Position_DAO;
+import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Player;
 import studentcompany.sportgest.domains.PlayerPosition;
+import studentcompany.sportgest.domains.Team;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +43,10 @@ public class Player_Fragment_Details extends Fragment {
     private TextView tv_birthday;
     private ListView tv_position;
     private TextView tv_nationality,tv_gender,tv_preferredFoot, tv_maritalStatus,tv_number;
-    private ImageView tv_photo;
+    private EditText tv_team;
+    private ImageView et_photo;
+
+    private Team_DAO team_dao;
 
     public Player_Fragment_Details() {
         // Required empty public constructor
@@ -58,8 +72,9 @@ public class Player_Fragment_Details extends Fragment {
         tv_email = (TextView) view.findViewById(R.id.email);
         tv_preferredFoot = (TextView) view.findViewById(R.id.preferredfoot);
         tv_number = (TextView) view.findViewById(R.id.number);
-        tv_photo = (ImageView) view.findViewById(R.id.photo);
+        et_photo = (ImageView) view.findViewById(R.id.input_details_user_photo);
         tv_position = (ListView) view.findViewById(R.id.position);
+        tv_team = (EditText) view.findViewById(R.id.team);
 
         tv_position.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -68,6 +83,8 @@ public class Player_Fragment_Details extends Fragment {
                 return false;
             }
         });
+
+        team_dao = new Team_DAO(getActivity());
 
         return view;
     }
@@ -123,10 +140,19 @@ public class Player_Fragment_Details extends Fragment {
 
         tv_number.setText(String.valueOf(player.getNumber()));
 
-        if(player.getPhoto()!=null)
-            tv_photo.setImageURI(Uri.parse(player.getPhoto()));
+        String pho = player.getPhoto();
+        if(pho == null)
+        {
+            Drawable myDrawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                myDrawable = getResources().getDrawable(R.drawable.lego_face, getContext().getTheme());
+            } else {
+                myDrawable = getResources().getDrawable(R.drawable.lego_face);
+            }
+            et_photo.setImageDrawable(myDrawable);
+        }
         else
-            tv_photo.setImageURI(Uri.parse(""));
+            et_photo.setImageBitmap(getImageBitmap(this.getContext(), pho));
 
         ArrayList<String> positionValue = new ArrayList<>();
 
@@ -147,6 +173,17 @@ public class Player_Fragment_Details extends Fragment {
                     R.layout.player_listview_for_positions, positionValue);
             tv_position.setAdapter(adapter);
         }
+
+        try {
+
+            if(player.getTeam() != null){
+                Team t = team_dao.getById(player.getTeam().getId());
+                tv_team.setText(t.getName());
+            }
+        } catch (GenericDAOException e) {
+            e.printStackTrace();
+        }
+
         /*String position = "";
         if(player.getPosition()!=null)
             position=player.getPosition().getName();
@@ -178,7 +215,7 @@ public class Player_Fragment_Details extends Fragment {
         tv_email.setText("");
         tv_preferredFoot.setText("");
         tv_number.setText("");
-        tv_photo.setImageURI(Uri.parse("lego_face"));
+        //tv_photo.setImageURI(Uri.parse("lego_face"));
 
         ArrayList<String> emp = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
@@ -193,5 +230,23 @@ public class Player_Fragment_Details extends Fragment {
 
         v = getView().findViewById(R.id.no_Selection);
         v.setVisibility(View.GONE);
+    }
+
+    public Bitmap getImageBitmap(Context context,String name){
+        //name=name+"."+extension;
+        try{
+            ContextWrapper cw = new ContextWrapper(this.getContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

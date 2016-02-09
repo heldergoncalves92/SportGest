@@ -16,7 +16,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.12">
 
+            <FrameLayout
+                android:layout_width="145dp"
+                android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/lego_face"/>
+            </FrameLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/inputLayoutNickname"
@@ -103,7 +113,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Marital Status"
+                        android:text="@string/maritalstatus"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView4" />
 
@@ -133,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Birthday Date"
+                        android:text="@string/playerBirthday"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView32" />
 
@@ -149,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="date"
+                        android:text="@string/playerBirthday"
                         android:id="@+id/txtDate"
                         android:textSize="@dimen/text_size_default"
                         android:layout_marginLeft="10dp" />
@@ -245,7 +255,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gender"
+                        android:text="@string/playerGender"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView5" />
 
@@ -274,7 +284,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/playerEmail"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView34" />
 
@@ -305,7 +315,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Preferred Foot"
+                        android:text="@string/playerPreferredFoot"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView6" />
 
@@ -342,6 +352,31 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/input_create_user_team"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_default"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/userTeam" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/input_create_player_team_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/pickTeam"
+                    android:hint="@string/userTeam" />
+
+            </LinearLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -355,7 +390,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Positions"
+                        android:text="@string/selectPositions"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView7" />
 
@@ -363,7 +398,7 @@
                         android:id="@+id/btnPositionOpen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Positions"
+                        android:text="@string/selectPositions"
                         android:textSize="@dimen/text_size_default"/>
 
                 </LinearLayout>
@@ -382,7 +417,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
-                    android:text="Select Photo" />
+                    android:text="@string/select_photo" />
 
             </LinearLayout>
 

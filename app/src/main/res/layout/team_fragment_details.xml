@@ -36,9 +36,10 @@
                 android:layout_weight="0.11">
 
                 <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/input_details_user_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
                     android:layout_gravity="center"
                     android:src="@drawable/lego_face"/>
             </FrameLayout>
@@ -68,7 +69,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Name"
+                            android:text="@string/teamName"
                             android:textSize="@dimen/text_size_default"
                             android:id="@+id/textView52" />
 
@@ -101,7 +102,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"
+                        android:text="@string/teamDescription"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView53" />
 
@@ -136,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_default"
-                            android:text="Season"
+                            android:text="@string/teamSeason"
                             android:id="@+id/textView54" />
 
                         <EditText
@@ -169,7 +170,7 @@
 
                     <CheckBox
                         android:id="@+id/isCom"
-                        android:text="isCom"
+                        android:text="@string/isCom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
@@ -196,7 +197,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Squad"
+                            android:text="@string/teamSquad"
                             android:textSize="@dimen/text_size_default"
                             android:id="@+id/text_squad" />
 

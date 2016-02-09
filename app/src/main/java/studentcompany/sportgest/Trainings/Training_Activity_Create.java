@@ -239,7 +239,7 @@ public class Training_Activity_Create extends AppCompatActivity {
                                 } catch (GenericDAOException ex){
                                     ex.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })
@@ -308,9 +308,12 @@ public class Training_Activity_Create extends AppCompatActivity {
         }
     }
 
+
     public void goto_NextActivity(View view){
         trainingName = tv_name.getText().toString();
         trainingDescription = tv_description.getText().toString();
+
+
         trainingDateInMillis = cal.getTimeInMillis();
 
         Intent intent;

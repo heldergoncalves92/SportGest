@@ -3,6 +3,7 @@ package studentcompany.sportgest;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +35,19 @@ import studentcompany.sportgest.domains.User;
  */
 public class LoginActivity extends AppCompatActivity {
 
-
     //Keep track of the login task to ensure we can cancel it if requested.
     private UserLoginTask mAuthTask = null;
+    private String username;
 
     // UI references.
     private AppCompatAutoCompleteTextView mUsernameView;
     private AppCompatEditText mPasswordView;
-
 
     private String TAG = "LOGIN_ACTIVITY";
     private String[] prevAttempts = {"admin"};
     private DialogFragment mDialog;
 
     private User_DAO userDao;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             addUsernamesToAutoComplete(list);
         }
     }
-    
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String username = mUsernameView.getText().toString();
+        username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -162,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() > 4;
     }
 
-
     private void addUsernamesToAutoComplete(List<String> usernameCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -171,8 +168,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameView.setAdapter(adapter);
     }
-
-
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -194,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 try {
                     return userDao.login(mUsername,mPassword)!=null;
                 } catch (GenericDAOException e) {
@@ -216,7 +211,21 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                finish();
+                try {
+                    User u = userDao.getByUsername(username);
+
+                    if(u == null)
+                        Toast.makeText(getApplicationContext(), R.string.game_mode_add_eventcategory_success, Toast.LENGTH_SHORT).show();
+                    else {
+                        Intent intent = new Intent(getApplication(), MainActivity.class);
+                        intent.putExtra("USER",u.getId());
+                        intent.putExtra("TEAM",u.getId());
+                        startActivity(intent);
+                        finish();
+                    }
+                } catch (GenericDAOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -248,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
             final ProgressDialog dialog = new ProgressDialog(getActivity());
 
             // Set Dialog message
-            dialog.setMessage("Verifying Data");
+            dialog.setMessage(getString(R.string.verifying_data));
 
             // Dialog will be displayed for an unknown amount of time
             dialog.setIndeterminate(true);
@@ -276,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void insertUserTest(User_DAO u_dao) throws GenericDAOException {
 
-        u_dao.insert(new User("admin","password","default.jpg","António Abreu","admin@email.com",null));
+        u_dao.insert(new User("admin","password",null,"Administrador","admin@example.com",null));
     }
 }
 

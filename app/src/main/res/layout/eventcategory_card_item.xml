@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingTop="7dp"
+    app:contentPaddingBottom="7dp"
+    android:layout_marginBottom="1dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/eventcategory_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="|"
+        android:textSize="@dimen/text_size_default"
+        android:textColor="#ff0000"
+        android:paddingLeft="1dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/eventcategory_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="     "
+        android:textSize="@dimen/text_size_default"
+        android:paddingLeft="5dp" />
+
+</android.support.v7.widget.CardView>
+

@@ -52,9 +52,6 @@ public class Exercise_Activity_ListView extends AppCompatActivity implements Exe
             exercise_dao = new Exercise_DAO(getApplicationContext());
             attribute_exercise_dao = new Attribute_Exercise_DAO(getApplicationContext());
 
-            if(exercise_dao.numberOfRows() == 0) {
-                new Exercise_TestData(getApplicationContext());
-            }
             exerciseList = exercise_dao.getByCriteria(new Exercise(-1, null, null, -1, 0));
 
             //Check if it is empty

@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +23,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import studentcompany.sportgest.Attributes.Attribute_Fragment_List;
 import studentcompany.sportgest.Exercises.Exercise_Fragment_Details;
 import studentcompany.sportgest.Exercises.Exercise_Fragment_List;
 import studentcompany.sportgest.R;
@@ -126,10 +122,10 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
             @Override
             public void onClick(View v) {
                 String currentRep = tv_repetitions.getText().toString();
-                int repetitions = 1;
+                int repetitions = 0;
                 if (!currentRep.isEmpty()) {
                     repetitions = Integer.parseInt(currentRep);
-                    if (repetitions < 1) repetitions = 1;
+                    if (repetitions < 0) repetitions = 0;
                 }
                 repetitions++;
                 tv_repetitions.setText(Integer.toString(repetitions));
@@ -139,12 +135,12 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
             @Override
             public void onClick(View v) {
                 String currentRep = tv_repetitions.getText().toString();
-                int repetitions = 1;
+                int repetitions = 0;
                 if (!currentRep.isEmpty()) {
                     repetitions = Integer.parseInt(currentRep);
-                    if (repetitions < 1) repetitions = 1;
+                    if (repetitions < 0) repetitions = 0;
                 }
-                if (repetitions > 1) {
+                if (repetitions > 0) {
                     repetitions -= 1;
                 }
                 tv_repetitions.setText(Integer.toString(repetitions));
@@ -251,40 +247,46 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
 
         switch (tag) {
             case AVAILABLE:
+                tv_repetitions.setError(null);
                 //Add the attribute to the selected ones
                 System.err.println("#################Previous: " + positionaux + " new: " + position);
                 if (positionaux!=position) {
                     System.err.println("Falta 1");
                     positionaux = position;
                     printExercise(position, 1);
+                    tv_repetitions.setText("0");
 
                 } else {
-                    System.err.println("Passou" );
+                    System.err.println("Passou");
                     id_To_Search = availableExercises.get(position).getId();
                     try {
                         ex = exercise_dao.getById(id_To_Search);
                         if (ex != null) {
-                            int reps=Integer.parseInt(tv_repetitions.getText().toString());
+                            int reps = Integer.parseInt(tv_repetitions.getText().toString());
 
-                            if(reps<1)  reps=1;
+                            if (reps < 1) {
+                                tv_repetitions.setError("At least greater than 0");
+                            } else {
+                                availableExercises.remove(ex);
+                                trainingExercises.add(ex);
+                                repetitionsExercises.put(id_To_Search, reps);
 
-                            availableExercises.remove(ex);
-                            trainingExercises.add(ex);
-                            repetitionsExercises.put(id_To_Search, reps);
+                                Collections.sort(trainingExercises, new Comparator<Exercise>() {
+                                    @Override
+                                    public int compare(Exercise lhs, Exercise rhs) {
+                                        return lhs.getTitle().compareTo(rhs.getTitle());
+                                    }
 
-                            Collections.sort(trainingExercises, new Comparator<Exercise>() {
-                                @Override
-                                public int compare(Exercise lhs, Exercise rhs) {
-                                    return lhs.getTitle().compareTo(rhs.getTitle());
-                                }
-                            });
+                                });
 
-                            //update ListViews
-                            mListExercisesAvailable.updateList(availableExercises);
-                            mListExercisesSelected.updateList(trainingExercises);
 
-                            //update duration
-                            updateDuration(ex.getDuration(), reps ,1);
+                                //update ListViews
+                                mListExercisesAvailable.updateList(availableExercises);
+                                mListExercisesSelected.updateList(trainingExercises);
+
+                                //update duration
+                                updateDuration(ex.getDuration(), reps, 1);
+                            }
                         }
                     } catch (GenericDAOException e) {
                         System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
@@ -292,11 +294,12 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                     }
                     positionaux=-1;
                     mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
+                    tv_repetitions.setText("0");
 
                 }//onItemClick
                 break;
             case SELECTED:
+                tv_repetitions.setError(null);
                 if (passing != position) {
                     passing=position;
                     printExercise(position,0);
@@ -334,9 +337,9 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                         System.err.println(Training_Activity_Create.class.getName() + " [WARNING] " + e.toString());
                         Logger.getLogger(Training_Activity_Create.class.getName()).log(Level.WARNING, null, e);
                     }
-                    passing=-1;
+                    passing= -1;
                     mDetailsExercise.clearDetails();
-                    tv_repetitions.setText("1");
+                    tv_repetitions.setText("0");
                 }//onItemClick
                 break;
         }
@@ -391,7 +394,6 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
 
         if (v == 1) {
             Exercise exercise = availableExercises.get(position);
-            //System.out.println(exercise.getTitle());
             if(exercise!=null){
                 try {
                     exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
@@ -405,11 +407,10 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
         else{
 
             Exercise exercise =trainingExercises.get(position);
-            //System.out.println(exercise.getTitle());
             if(exercise!=null){
                 try {
                     exerciseAttributesList = attribute_exercise_dao.getBySecondId(exercise.getId());
-                } catch (GenericDAOException ex){
+                } catch (GenericDAOException ex) {
                     ex.printStackTrace();
                     exerciseAttributesList = new ArrayList<>();
                 }
@@ -515,7 +516,7 @@ public class Training_Activity_Create_Exercises extends AppCompatActivity implem
                                 } catch (GenericDAOException ex){
                                     ex.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })

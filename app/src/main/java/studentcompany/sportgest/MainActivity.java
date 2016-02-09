@@ -15,11 +15,11 @@ import android.widget.Button;
 import studentcompany.sportgest.Attributes.Attribute_Activity_ListView;
 import studentcompany.sportgest.EventCategories.EventCategory_Activity_ListView;
 import studentcompany.sportgest.Exercises.Exercise_Activity_ListView;
-import studentcompany.sportgest.Games.CallSquad_Activity;
-import studentcompany.sportgest.Games.GameGeneralView_Activity;
-import studentcompany.sportgest.Games.GameTest_Activity;
+import studentcompany.sportgest.Games.Game_Activity_SquadCall;
+import studentcompany.sportgest.Games.Game_Activity_GeneralView;
+
 import studentcompany.sportgest.Games.Game_Activity_GameMode;
-import studentcompany.sportgest.Games.GamesListActivity;
+import studentcompany.sportgest.Games.Game_Activity_ListView;
 import studentcompany.sportgest.Players.Player_Activity_ListView;
 import studentcompany.sportgest.Positions.Position_Activity_ListView;
 import studentcompany.sportgest.Roles.Role_Activity_ListView;
@@ -30,16 +30,19 @@ import studentcompany.sportgest.Trainings.Training_Activity_ListView;
 import studentcompany.sportgest.Users.RolesListActivity;
 import studentcompany.sportgest.Users.User_Activity_ListView;
 import studentcompany.sportgest.daos.Game_DAO;
+import studentcompany.sportgest.daos.Player_DAO;
 import studentcompany.sportgest.daos.Team_DAO;
 import studentcompany.sportgest.daos.Training_DAO;
+import studentcompany.sportgest.daos.User_DAO;
+import studentcompany.sportgest.daos.db.TestData;
 import studentcompany.sportgest.daos.exceptions.GenericDAOException;
 import studentcompany.sportgest.domains.Game;
 import studentcompany.sportgest.domains.Team;
 
 public class MainActivity extends AppCompatActivity {
     //Interface
-    private Button eventCategoiesButton, exerciseButton, rolesButton, gamebutton, gametestbutton;
-    private MenuItem menuItem;
+
+    private long baseTeamID, baseUserID;
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -47,9 +50,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Player_DAO player_dao = new Player_DAO(this.getApplicationContext());
+        if(player_dao.numberOfRows()==0) {
+            TestData td = new TestData(this.getApplicationContext());
+        }
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
+        //Get Informations from the previous activity or rotation Layout
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null){
+                baseTeamID = extras.getLong("TEAM");
+                baseUserID = extras.getLong("USER");
+            }
+        } else {
+            baseTeamID = savedInstanceState.getInt("baseTeamID");
+            baseUserID = savedInstanceState.getInt("baseUserID");
+        }
 
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -62,54 +81,6 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-
-        //EventCategoryButton
-        eventCategoiesButton = (Button)findViewById(R.id.event_category_button);
-        eventCategoiesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), EventCategory_Activity_ListView.class);
-
-                startActivity(intent);
-            }
-        });
-
-        //gameButton
-        gamebutton = (Button)findViewById(R.id.game_squadCall_button);
-        gamebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CallSquad_Activity.class);
-
-                startActivity(intent);
-            }
-        });
-
-        //gameTestButton
-        gametestbutton = (Button)findViewById(R.id.game_test_button);
-        gametestbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameTest_Activity.class);
-
-                startActivity(intent);
-            }
-        });
-
-
-        //RoleButton
-        rolesButton = (Button)findViewById(R.id.roles_button);
-        rolesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Role_Activity_ListView.class);
-                //Intent intent = new Intent(getApplicationContext(), RolesListActivity.class);
-
-                startActivity(intent);
-            }
-        });
-
         //Evaluation Button
         Button exerEval  = (Button)findViewById(R.id.exercise_attributes_evaluation);
         exerEval.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String sEvaluation="Evaluation";
                 Intent intent = new Intent(getApplicationContext(), Training_Activity_ListView.class);
-
-                System.out.println("BRAGA");
 
                 //put current team ID and training ID in extras
                 Bundle dataBundle = new Bundle();
@@ -141,6 +110,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        outState.putLong("baseTeamID", baseTeamID);
+        outState.putLong("baseUserID", baseUserID);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -157,32 +134,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             default:
-                //mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
-
-        //return super.onOptionsItemSelected(item);
     }
 
-    public void goTo_Positions(View v){
-        Intent intent = new Intent(this, Position_Activity_ListView.class);
-        startActivity(intent);
-    }
-
-    public void goTo_Users(View v){
-        Intent intent = new Intent(this, User_Activity_ListView.class);
-        startActivity(intent);
-    }
 
     public void goTo_Players(View v){
         Intent intent = new Intent(this, Player_Activity_ListView.class);
-        intent.putExtra("TEAM",1);
         startActivity(intent);
     }
 
     public void goTo_Attribute(View v){
         Intent intent = new Intent(this, Attribute_Activity_ListView.class);
-
         startActivity(intent);
     }
 
@@ -196,45 +159,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goTo_Games(View v){
+        Intent intent = new Intent(this, Game_Activity_ListView.class);
+        intent.putExtra("TEAM", baseTeamID);
+        startActivity(intent);
+    }
+
     public void goTo_Teams(View v){
         Intent intent = new Intent(this, Team_Activity_ListView.class);
         startActivity(intent);
     }
 
-    public void goTo_Login(View v){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+    public void generalSettings(View v){
 
-    public void goTo_Roles(View v){
-        Intent intent = new Intent(this, Role_Activity_ListView.class);
-        startActivity(intent);
-    }
-
-    public void goTo_Games_teste(View v){
-        //insertGamesTest();
-        Intent intent = new Intent(this, GamesListActivity.class);
-        startActivity(intent);
-    }
-    public void goTo_Games(View v){
-        //insertGamesTest();
-        Intent intent = new Intent(this, GamesListActivity.class);
-        startActivity(intent);
-    }
-
-    public void goTo_GameTest(View v){
-        Intent intent = new Intent(this, GameTest_Activity.class);
-        startActivity(intent);
-    }
-
-    public void goTo_Game_GeneralView(View v){
-        Intent intent = new Intent(this, GameGeneralView_Activity.class);
-        startActivity(intent);
-    }
-
-    public void goTo_GameModeView(View v){
-        Intent intent = new Intent(this, Game_Activity_GameMode.class);
-        intent.putExtra("GAME",(long)1);
+        Intent intent = new Intent(this, Main_Activity_Settings.class);
         startActivity(intent);
     }
 
@@ -247,25 +185,25 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent;
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_roles:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), RolesListActivity.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Users:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), User_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Players:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                 intent = new Intent(getApplicationContext(), Player_Activity_ListView.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.drawer_Exercise:
-                                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
 
                                 intent = new Intent(getApplicationContext(), Exercise_Activity_ListView.class);
@@ -280,20 +218,4 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
-    private void insertGamesTest(){
-
-        try {
-            Game_DAO gameDao = new Game_DAO(getApplicationContext());
-            if(gameDao.getAll() == null) {
-
-                gameDao.insert(new Game(new Team(1), new Team(2), 0, "O jogo foi muito competitivo!!", 3, 1, 40f));
-                gameDao.insert(new Game(new Team(3), new Team(4), 0, "O jogo foi muito competitivo!!", 1, 1, 50f));
-                gameDao.insert(new Game(new Team(1), new Team(3), 0, "O jogo foi muito competitivo!!", 2, 3, 40f));
-                gameDao.insert(new Game(new Team(2), new Team(4), 0, "O jogo foi muito competitivo!!", 3, 2, 40f));
-            }
-        } catch (GenericDAOException e) {
-            e.printStackTrace();
-        }
-    }
 }

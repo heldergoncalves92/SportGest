@@ -60,9 +60,6 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             training_dao = new Training_DAO(getApplicationContext());
             training_exercise_dao = new Training_Exercise_DAO(getApplicationContext());
 
-            if(training_dao.numberOfRows() == 0) {
-                new Training_TestData(getApplicationContext());
-            }
             trainingList = training_dao.getByCriteria(new Training(-1, null, null, -1, -1, null, 0));
 
             //Check if it is empty
@@ -179,6 +176,8 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             if (training != null) {
                 if (currentPos == -1) {
                     mOptionsMenu.findItem(R.id.Forward).setVisible(true);
+
+                    mDetailsTraining.showFirstElem();
                 }
 
                 currentPos = position;
@@ -248,6 +247,19 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             menu.findItem(R.id.Delete).setVisible(false);
             menu.findItem(R.id.Save).setVisible(false);
             menu.findItem(R.id.Forward).setVisible(false);
+
+            //To restore state on Layout Rotation
+            if(currentPos != -1 && trainingList.size()>0) {
+                MenuItem item = mOptionsMenu.findItem(R.id.Delete);
+                item.setVisible(true);
+
+                item = mOptionsMenu.findItem(R.id.Edit);
+                item.setVisible(true);
+
+                mDetailsTraining.showFirstElem();
+                itemSelected(currentPos, 0);
+                mListTrainings.select_Item(currentPos);
+            }
         }
         else{
             menu.findItem(R.id.Edit).setVisible(false);
@@ -255,20 +267,18 @@ public class Training_Activity_ListView extends AppCompatActivity implements Tra
             menu.findItem(R.id.Save).setVisible(false);
             menu.findItem(R.id.Add).setVisible(false);
             menu.findItem(R.id.Forward).setVisible(false);
+
+            //To restore state on Layout Rotation
+            if(currentPos != -1 && trainingList.size()>0) {
+                MenuItem item = mOptionsMenu.findItem(R.id.Forward);
+                item.setVisible(true);
+
+                mDetailsTraining.showFirstElem();
+                itemSelected(currentPos, 0);
+                mListTrainings.select_Item(currentPos);
+            }
         }
 
-        //To restore state on Layout Rotation
-        if(currentPos != -1 && trainingList.size()>0) {
-            MenuItem item = mOptionsMenu.findItem(R.id.Delete);
-            item.setVisible(true);
-
-            item = mOptionsMenu.findItem(R.id.Edit);
-            item.setVisible(true);
-
-            mDetailsTraining.showFirstElem();
-            itemSelected(currentPos, 0);
-            mListTrainings.select_Item(currentPos);
-        }
 
         return true;
     }
