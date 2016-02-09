@@ -60,7 +60,7 @@ public class Team_Fragment_Details extends Fragment {
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_description = (TextView) view.findViewById(R.id.description);
         tv_season = (TextView) view.findViewById(R.id.season);
-        et_photo = (ImageView) view.findViewById(R.id.logo);
+        et_photo = (ImageView) view.findViewById(R.id.input_details_user_photo);
         tv_isCom = (CheckBox) view.findViewById(R.id.isCom);
         tv_squad = (ListView) view.findViewById(R.id.squad);
         text_squad = (TextView) view.findViewById(R.id.text_squad);
@@ -88,9 +88,9 @@ public class Team_Fragment_Details extends Fragment {
         {
             Drawable myDrawable;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                myDrawable = getResources().getDrawable(R.drawable.lego_face, getContext().getTheme());
+                myDrawable = getResources().getDrawable(R.drawable.team_default, getContext().getTheme());
             } else {
-                myDrawable = getResources().getDrawable(R.drawable.lego_face);
+                myDrawable = getResources().getDrawable(R.drawable.team_default);
             }
             et_photo.setImageDrawable(myDrawable);
         }

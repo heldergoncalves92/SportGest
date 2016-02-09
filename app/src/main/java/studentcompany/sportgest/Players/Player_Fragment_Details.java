@@ -72,7 +72,7 @@ public class Player_Fragment_Details extends Fragment {
         tv_email = (TextView) view.findViewById(R.id.email);
         tv_preferredFoot = (TextView) view.findViewById(R.id.preferredfoot);
         tv_number = (TextView) view.findViewById(R.id.number);
-        et_photo = (ImageView) view.findViewById(R.id.photo);
+        et_photo = (ImageView) view.findViewById(R.id.input_details_user_photo);
         tv_position = (ListView) view.findViewById(R.id.position);
         tv_team = (EditText) view.findViewById(R.id.team);
 

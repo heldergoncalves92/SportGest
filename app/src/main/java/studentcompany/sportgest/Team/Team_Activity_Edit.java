@@ -83,7 +83,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
         tv_isCon = (CheckBox) findViewById(R.id.isCom);
 
         //CheckBox tv_iscon = (CheckBox) findViewById(R.id.isCom);
-        ImageView tv_logo = (ImageView) findViewById(R.id.logo);
+        ImageView tv_logo = (ImageView) findViewById(R.id.viewImage);
 
         Team teamFromDB=null;
         team_dao = new Team_DAO(this);
@@ -138,7 +138,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
             }
         });
 
-        String pho = team.getLogo();
+        String pho = teamFromDB.getLogo();
 
         if(pho == null)
         {
@@ -152,9 +152,9 @@ public class Team_Activity_Edit extends AppCompatActivity {
     private Drawable getDefaultBitmap() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return getResources().getDrawable(R.drawable.lego_face, this.getTheme());
+            return getResources().getDrawable(R.drawable.team_default, this.getTheme());
         } else {
-            return getResources().getDrawable(R.drawable.lego_face);
+            return getResources().getDrawable(R.drawable.team_default);
         }
     }
 
