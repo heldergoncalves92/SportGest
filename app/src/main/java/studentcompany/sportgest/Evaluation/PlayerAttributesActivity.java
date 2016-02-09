@@ -301,7 +301,7 @@ public class PlayerAttributesActivity extends AppCompatActivity implements stude
                                 } catch (GenericDAOException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })

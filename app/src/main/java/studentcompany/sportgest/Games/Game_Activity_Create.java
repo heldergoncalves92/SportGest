@@ -94,8 +94,8 @@ public class Game_Activity_Create extends AppCompatActivity {
             if(mListTeams == null)
                 mListTeams = new ArrayList<Team>();
 
-            mListTeams.add(0, new Team (-1, "Select a Team"));
-            ArrayAdapter<Team> adapter = new ArrayAdapter<Team>(this,android.R.layout.simple_spinner_item, mListTeams);
+            mListTeams.add(0, new Team (-1, getString(R.string.select_team)));
+            ArrayAdapter<Team> adapter = new ArrayAdapter<Team>(this,android.R.layout.simple_list_item_1, mListTeams);
             hometeam_Spinner.setAdapter(adapter);
             visitorTeam_Spinner.setAdapter(adapter);
 

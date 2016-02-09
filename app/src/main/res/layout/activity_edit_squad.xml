@@ -30,9 +30,9 @@
                 android:id="@+id/x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_permissions"
+                android:hint="@string/playerName"
                 android:textSize="@dimen/text_size_default"
-                android:text="Player Name" />
+                android:text="@string/playerName" />
 
             <Spinner
                 android:layout_width="wrap_content"
@@ -56,14 +56,14 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
-            android:text="Add Selected" />
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/btnRemoveSelected"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_default"
-            android:text="Remove Selected" />
+            android:text="@string/delete" />
 
 
     </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_permissions"
             android:textSize="@dimen/text_size_default"
-            android:text="Squad" />
+            android:text="@string/teamSquad" />
 
     </android.support.design.widget.TextInputLayout>
 

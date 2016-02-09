@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/squad"
+                    android:text="@string/homeLineup"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_default"
                     android:paddingBottom="5dp"/>
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimaryDark"
-                    android:text="Adversary squad"
+                    android:text="@string/visitorLineup"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_default"
                     android:paddingBottom="5dp" />

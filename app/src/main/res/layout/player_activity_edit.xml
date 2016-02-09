@@ -103,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Marital Status"
+                        android:text="@string/maritalstatus"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView4" />
 
@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Birthday Date"
+                        android:text="@string/playerBirthday"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView32" />
 
@@ -149,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="date"
+                        android:text="@string/playerBirthday"
                         android:id="@+id/txtDate"
                         android:textSize="@dimen/text_size_default"
                         android:layout_marginLeft="10dp" />
@@ -245,7 +245,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gender"
+                        android:text="@string/playerGender"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView5" />
 
@@ -274,7 +274,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/playerEmail"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView34" />
 
@@ -305,7 +305,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Preferred Foot"
+                        android:text="@string/playerPreferredFoot"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView6" />
 
@@ -380,7 +380,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Positions"
+                        android:text="@string/selectPositions"
                         android:textSize="@dimen/text_size_default"
                         android:id="@+id/textView7" />
 
@@ -388,7 +388,7 @@
                         android:id="@+id/btnPositionOpen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Positions"
+                        android:text="@string/selectPositions"
                         android:textSize="@dimen/text_size_default"/>
 
                 </LinearLayout>
@@ -407,7 +407,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
-                    android:text="Select Photo" />
+                    android:text="@string/select_photo" />
 
             </LinearLayout>
 

@@ -239,7 +239,7 @@ public class Training_Activity_Create extends AppCompatActivity {
                                 } catch (GenericDAOException ex){
                                     ex.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.delete_sucessful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.delete_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })
