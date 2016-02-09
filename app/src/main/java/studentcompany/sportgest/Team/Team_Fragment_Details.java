@@ -1,7 +1,13 @@
 package studentcompany.sportgest.Team;
 
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +38,7 @@ public class Team_Fragment_Details extends Fragment {
 
     private static final String TAG = "DETAILS_TEAM_FRAGMENT";
     private TextView tv_name, tv_description,tv_season;
-    private ImageView tv_logo;
+    private ImageView et_photo;
     private CheckBox tv_isCom;
     private ListView tv_squad;
     private TextView text_squad;
@@ -52,7 +60,7 @@ public class Team_Fragment_Details extends Fragment {
         tv_name = (TextView) view.findViewById(R.id.name);
         tv_description = (TextView) view.findViewById(R.id.description);
         tv_season = (TextView) view.findViewById(R.id.season);
-        tv_logo = (ImageView) view.findViewById(R.id.logo);
+        et_photo = (ImageView) view.findViewById(R.id.input_details_user_photo);
         tv_isCom = (CheckBox) view.findViewById(R.id.isCom);
         tv_squad = (ListView) view.findViewById(R.id.squad);
         text_squad = (TextView) view.findViewById(R.id.text_squad);
@@ -75,10 +83,19 @@ public class Team_Fragment_Details extends Fragment {
 
         tv_season.setText(Integer.toString(team.getSeason()));
 
-        if(team.getLogo()!=null)
-            tv_logo.setImageURI(Uri.parse(team.getLogo()));
+        String pho = team.getLogo();
+        if(pho == null)
+        {
+            Drawable myDrawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                myDrawable = getResources().getDrawable(R.drawable.team_default, getContext().getTheme());
+            } else {
+                myDrawable = getResources().getDrawable(R.drawable.team_default);
+            }
+            et_photo.setImageDrawable(myDrawable);
+        }
         else
-            tv_logo.setImageURI(Uri.parse(""));
+            et_photo.setImageBitmap(getImageBitmap(this.getContext(), pho));
 
         boolean selected = team.getIs_com()==1;
         tv_isCom.setChecked(selected);
@@ -92,7 +109,7 @@ public class Team_Fragment_Details extends Fragment {
             e.printStackTrace();
         }
         if(teamSquad.size()>0){
-            text_squad.setText("Squad");
+            text_squad.setText(getString(R.string.teamSquad));
             ArrayList<String> squadNames = new ArrayList<>();
             for(Player p : teamSquad)
                 squadNames.add(p.getName());
@@ -119,7 +136,6 @@ public class Team_Fragment_Details extends Fragment {
         tv_description.setText("");
         tv_season.setText("");
         tv_isCom.setChecked(false);
-        tv_logo.setImageURI(Uri.parse("lego_face"));
         tv_squad.setAdapter(null);
         text_squad.setText("");
     }
@@ -130,5 +146,23 @@ public class Team_Fragment_Details extends Fragment {
 
         v = getView().findViewById(R.id.no_Selection);
         v.setVisibility(View.GONE);
+    }
+
+    public Bitmap getImageBitmap(Context context,String name){
+        //name=name+"."+extension;
+        try{
+            ContextWrapper cw = new ContextWrapper(this.getContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,name);
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap b = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return b;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
