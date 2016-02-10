@@ -14,11 +14,11 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/photo"
+                android:id="@+id/viewImage"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
-                android:src="@drawable/lego_face"/>
+                android:src="@drawable/team_default"/>
         </FrameLayout>
 
         <LinearLayout
@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="@string/teamName" />
+                    android:hint="@string/teamName"
+                    android:paddingLeft="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -57,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="@string/teamDescription" />
+                    android:hint="@string/teamDescription"
+                    android:paddingLeft="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/teamSeason"
                     android:textSize="@dimen/text_size_default"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:paddingLeft="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -105,7 +108,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
-                    android:hint="@string/isCom" />
+                    android:hint="@string/isCom"
+                    android:paddingLeft="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -121,19 +125,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
                     android:text="@string/select_photo" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp" >
-
-                <ImageView
-                    android:id="@+id/viewImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

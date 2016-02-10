@@ -139,8 +139,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <string name="action_save_user">Guardar Utilizador</string>
     <string name="user_save_unsuccessful">Utilizador não foi guardado</string>
     <string name="user_save_successful">Utilizador gravado com sucesso</string>
-    <string name="no_team">Não têm equipa</string>
-    <string name="no_role">Não têm perfil</string>
+    <string name="no_team">Não tem equipa</string>
+    <string name="no_role">Não tem perfil</string>
     <string name="err_username_empty">O Username está vazio</string>
     <string name="error_occurred">Ocorreu um erro</string>
     <string name="goTo_gamesView_button">Ver Jogo</string>

@@ -99,6 +99,8 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     Button bt;
     Bitmap bitmap = null;
 
+    boolean editImage = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -293,10 +295,27 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
             else
                 tv_preferredFoot.setSelection(0);
 
+
+            int posteam = 0; counter = 0;
+
+
+            if (playerFromDB.getTeam()!=null)
+                for(Team s : listTeams){
+                    if(playerFromDB.getTeam().getId() == s.getId())
+                        posteam=counter;
+                    else
+                        counter++;
+                }
+/*
             if(playerFromDB.getNumber()!=-1)
+                tv_number.setText(playerFromDB.getNumber());
+            else*/
                 tv_number.setText(Integer.toString(playerFromDB.getNumber()));
+
+            if(playerFromDB.getTeam()!=null)
+                spinnerTeam.setSelection(posteam);
             else
-                tv_number.setText("");
+                spinnerTeam.setSelection(0);
 
             String pho = player.getPhoto();
             if(pho == null)
@@ -434,10 +453,10 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
                 Team selected_team = (Team)spinnerTeam.getSelectedItem();
 
-                if(selected_team == null || selected_team.getId() <= 0) {
+                /*if(selected_team == null || selected_team.getId() <= 0) {
                     Toast.makeText(getApplicationContext(), getString(R.string.err_team_invalid), Toast.LENGTH_SHORT).show();
                     return true;
-                }
+                }*/
 
                 if (!ok) {
                     //Intent intent = new Intent();
@@ -448,7 +467,12 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
 
                 photo = bitmap == null ? null: nickname.concat(".jpg");
 
-                player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,selected_team,null);
+                if(editImage)
+                    player=new Player(playerID,nickname,name,nationality,maritalStatus,birthday,height,weight,address,gender,photo,email,preferredFoot,number,selected_team,null);
+                else {
+                    String origImage = player.getPhoto();
+                    player = new Player(playerID, nickname, name, nationality, maritalStatus, birthday, height, weight, address, gender, origImage, email, preferredFoot, number, selected_team, null);
+                }
                 boolean corrected = false;
                 //insert/update database
                 try {
@@ -464,7 +488,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     Logger.getLogger(studentcompany.sportgest.Players.Player_Activity_Create.class.getName()).log(Level.WARNING, null, ex);
                 }
 
-                if(bitmap!=null)
+                if(bitmap!=null && player.getPhoto()!=null)
                     try {
                         saveToInternalSorage(bitmap, player.getPhoto());
                     } catch (IOException e) {
@@ -525,7 +549,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
         if(inputLayoutNickname==null)
             inputLayoutNickname = (TextInputLayout) findViewById(R.id.inputLayoutNickname);
         String pw = tv_nickname.getText().toString().trim();
-        if (pw.isEmpty() || pw.length() < 5) {
+        if (pw.isEmpty() || pw.length() < 3) {
             inputLayoutNickname.setError(getString(R.string.err_nickname_short));
             return false;
         }
@@ -737,6 +761,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                         Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
                     else
                         viewImage.setImageBitmap(bitmap);
+                    editImage = true;
                     f.delete();
                     /*
                     String path = android.os.Environment
@@ -776,6 +801,7 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
                     else {
                         bitmap = resize(bitmap,200,200);
                         viewImage.setImageBitmap(bitmap);
+                        editImage = true;
                     }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
@@ -812,7 +838,6 @@ public class Player_Activity_Edit extends AppCompatActivity implements View.OnCl
     private void selectImage() {
 
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Set to default" };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a Photo to the Player");
         builder.setItems(options, new DialogInterface.OnClickListener() {

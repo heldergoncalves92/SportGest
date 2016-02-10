@@ -180,6 +180,8 @@ public class Player_Fragment_Details extends Fragment {
                 Team t = team_dao.getById(player.getTeam().getId());
                 tv_team.setText(t.getName());
             }
+            else
+                tv_team.setText(getString(R.string.no_team));
         } catch (GenericDAOException e) {
             e.printStackTrace();
         }

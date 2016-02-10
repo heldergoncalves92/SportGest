@@ -21,7 +21,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/photo"
+                    android:id="@+id/viewImage"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
@@ -45,7 +45,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerNickname" />
+                        android:hint="@string/playerNickname"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -69,7 +70,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerName" />
+                        android:hint="@string/playerName"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -92,7 +94,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
-                        android:hint="@string/playerNationality" />
+                        android:hint="@string/playerNationality"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -107,7 +110,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp">
 
 
                     <TextView
@@ -138,7 +142,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -186,7 +191,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerHeight" />
+                        android:hint="@string/playerHeight"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -210,7 +216,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerWeight" />
+                        android:hint="@string/playerWeight"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -234,7 +241,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textNoSuggestions"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerAddress" />
+                        android:hint="@string/playerAddress"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -249,7 +257,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp">
 
 
                     <TextView
@@ -278,7 +287,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp">
 
 
                     <TextView
@@ -309,7 +319,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp">
 
 
                     <TextView
@@ -346,7 +357,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:textSize="@dimen/text_size_default"
-                        android:hint="@string/playerNumber" />
+                        android:hint="@string/playerNumber"
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -357,7 +369,8 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
 
                 <TextView
                     android:id="@+id/input_create_user_team"
@@ -385,7 +398,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -418,19 +432,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_default"
                     android:text="@string/select_photo" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp" >
-
-                <ImageView
-                    android:id="@+id/viewImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

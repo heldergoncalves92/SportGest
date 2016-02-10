@@ -71,7 +71,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/teamName"
                             android:textSize="@dimen/text_size_default"
-                            android:id="@+id/textView52" />
+                            android:id="@+id/textView52"
+                            android:paddingLeft="10dp" />
 
                         <EditText
                             android:id="@+id/name"
@@ -96,7 +97,8 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp">
 
 
                     <TextView
@@ -130,7 +132,8 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp">
 
 
                         <TextView
@@ -176,7 +179,8 @@
                         android:inputType="textEmailAddress"
                         android:textSize="@dimen/text_size_default"
                         android:enabled="false"
-                        android:hint="@string/userEmail" />
+                        android:hint="@string/userEmail"
+                        android:paddingLeft="10dp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -191,7 +195,8 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp">
 
 
                         <TextView

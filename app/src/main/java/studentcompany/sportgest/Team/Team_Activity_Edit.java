@@ -58,6 +58,8 @@ public class Team_Activity_Edit extends AppCompatActivity {
     Button bt;
     Bitmap bitmap = null;
 
+    boolean editImage = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +142,8 @@ public class Team_Activity_Edit extends AppCompatActivity {
 
         String pho = teamFromDB.getLogo();
 
+        team = teamFromDB;
+
         if(pho == null)
         {
             viewImage.setImageDrawable(getDefaultBitmap());
@@ -205,14 +209,18 @@ public class Team_Activity_Edit extends AppCompatActivity {
                     //finish();
                     return false;
                 }
-
-                team=new Team(teamID, name, description, photo, season, isCom);
+                if(editImage)
+                    team=new Team(teamID, name, description, photo, season, isCom);
+                else{
+                    String origImage = team.getLogo();
+                    team=new Team(teamID, name, description, origImage, season, isCom);
+                }
                 boolean corrected = false;
                 //insert/update database
                 try {
                     if(teamID > 0){
                         team_dao.update(team);
-                        if(bitmap!=null)
+                        if(bitmap!=null && team.getLogo()!=null)
                             try {
                                 saveToInternalSorage(bitmap, team.getLogo());
                             } catch (IOException e) {
@@ -354,7 +362,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
             if (requestCode == 1) {
                 try {
 
-                    File f = new File(Environment.getExternalStorageDirectory().toString(),"temp.jpg");
+                    File f = new File(Environment.getExternalStorageDirectory().toString(),"temp.png");
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
@@ -365,6 +373,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
                     else
                         viewImage.setImageBitmap(bitmap);
                     f.delete();
+                    editImage = true;
                     /*
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
@@ -403,6 +412,7 @@ public class Team_Activity_Edit extends AppCompatActivity {
                     else {
                         bitmap = resize(bitmap,200,200);
                         viewImage.setImageBitmap(bitmap);
+                        editImage = true;
                     }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), R.string.error_occurred, Toast.LENGTH_SHORT).show();
