@@ -52,8 +52,8 @@ public class PlayerAttributes_Fragment extends Fragment {
     //DEFINES
     private static final int SEEKBAR_MAX = 20;
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    private static String TOTAL = "TOTAL";
-    private static String PARTIAL = "PARTIAL";
+    private static String TOTAL;
+    private static String PARTIAL;
 
     public PlayerAttributes_Fragment() {
         // Required empty public constructor
@@ -63,8 +63,8 @@ public class PlayerAttributes_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        TOTAL = getString(R.string.total);
-        PARTIAL = getString(R.string.partial);
+        TOTAL = getResources().getString(R.string.total);
+        PARTIAL = getResources().getString(R.string.partial);
 
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
@@ -87,7 +87,6 @@ public class PlayerAttributes_Fragment extends Fragment {
         this.qualitativeHashMap = qualitativeHashMapParam;
         this.ratioPartialHashMap = ratioPartialHashMapParam;
         this.ratioTotalHashMap = ratioTotalHashMapParam;
-
 
         FragmentActivity fa = getActivity();
 
@@ -198,14 +197,16 @@ public class PlayerAttributes_Fragment extends Fragment {
                     et_partial.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
                     et_partial.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
 
                         @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            if(s.length() != 0) {
+                            if (s.length() != 0) {
                                 ratioPartialHashMap.put(attribute_id, Float.parseFloat(s.toString()));
                             }
                         }
@@ -227,14 +228,16 @@ public class PlayerAttributes_Fragment extends Fragment {
                     et_total.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
                     et_total.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
 
                         @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
 
                         @Override
                         public void afterTextChanged(Editable s) {
-                            if(s.length() != 0) {
+                            if (s.length() != 0) {
                                 ratioTotalHashMap.put(attribute_id, Float.parseFloat(s.toString()));
                             }
                         }
